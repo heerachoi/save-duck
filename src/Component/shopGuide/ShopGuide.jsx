@@ -46,21 +46,20 @@ function List() {
     );
 }
 
+
 export default List;
+
 
 const StShopGuidePostContainer = styled.div`
 margin : 25px 100px 15px 100px;
 `;
-
 const StShopGuideTop = styled.div`
 height : 20px;
 display: flex;
 flex-direction: row;
-
 `;
 const StShopGuidePostNumbering = styled.div`
 width : 50px;
-
 font-size : 12px;
 `;
 const StShopGuidePostTitle = styled.div`
@@ -68,35 +67,33 @@ height : 20px;
 width : 700px;
 font-size : 12px;
 font-weight : 600;
-  `;
-
+`;
 const StShopGuidePostInfo = styled.div`
-height : 20px;
+height: 20px;
 display: flex;
 flex-direction: row;
 margin-left : 55px;
-  `;
-
+`;
 const StShopGuidePostUserPicture = styled.div`
-width : 20px;
-height : 20px;
-  `;
+width: 20px;
+height: 20px;
+`;
 const StShopGuidePostUserName = styled.div`
-width : 8rem;
-font-size : 11px;
+width: 8rem;
+font - size : 11px;
 display: flex;
-align-items: center;
-color : coral;
-  `;
+align - items: center;
+color: coral;
+`;
 const StShopGuidePostDate = styled.div`
-width : 8rem;
-font-size : 9px;
-color : gray;
+width: 8rem;
+font - size : 9px;
+color: gray;
 display: flex;
-align-items: center;
-  `;
+align - items: center;
+`;
 const StShopGuidePostDescription = styled.div`
-font-size : 11px;
-color : gray;
-margin-left : 50px;
-  `;
+font - size : 11px;
+color: gray;
+margin - left : 50px;
+`;
