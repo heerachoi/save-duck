@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 
 const ShopGuide = () => {
@@ -13,8 +14,6 @@ const ShopGuide = () => {
         </StShopGuideHeaderRight>
       </StShopGuideHeader>
       <StShopGuideBody>
-        <StWirtePostButton>Write</StWirtePostButton>
-        <StMoveTopButton>︿</StMoveTopButton>
 
 
         <StShopGuidePostContainer>
@@ -66,6 +65,9 @@ const ShopGuide = () => {
             <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vulputate diam in nisl lobortis, at elementum purus consectetur. Aliquam sodales pellentesque neque eu mollis. Mauris justo magna, pretium non risus dapibu...</span>
           </StShopGuidePostDescription>
         </StShopGuidePostContainer>
+
+        <StWirtePostButton>Write</StWirtePostButton>
+        <StMoveTopButton>︿</StMoveTopButton>
 
       </StShopGuideBody>
     </StShopGuideContainer >
