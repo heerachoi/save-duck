@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import nextId from "react-id-generator";
+// import nextId from "react-id-generator";
 
 
 const ShopGuide = () => {

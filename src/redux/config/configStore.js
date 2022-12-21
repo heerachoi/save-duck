@@ -1,8 +1,8 @@
 import { createStore, combineReducers } from 'redux';
-import list from '../modules/list';
+import lists from '../modules/list';
 
 const rootReducer = combineReducers({
-  list,
+  lists,
 });
 
 const store = createStore(rootReducer);
