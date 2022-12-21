@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
+import nextId from "react-id-generator";
+
+
 const ShopGuide = () => {
   return (
     <StShopGuideContainer>
@@ -10,12 +13,11 @@ const ShopGuide = () => {
           <span> 쇼핑가이드</span>
         </StShopGuideHeaderLeft>
         <StShopGuideHeaderRight>
-          <span>가성비 좋았던 쇼핑 기록을 공유하여 주세요. 다른 사람의 쇼핑 목록도 살짝 참고하면 더욱 좋습니다. </span>
+          <span> 가성비 좋았던 쇼핑 기록을 공유하여 주세요. 다른 사람의 쇼핑 목록도 살짝 참고하면 더욱 좋습니다. </span>
         </StShopGuideHeaderRight>
       </StShopGuideHeader>
+
       <StShopGuideBody>
-
-
         <StShopGuidePostContainer>
           <StShopGuideTop>
             <StShopGuidePostNumbering>
@@ -27,7 +29,6 @@ const ShopGuide = () => {
           </StShopGuideTop>
           <StShopGuidePostInfo>
             <StShopGuidePostUserPicture>
-              <span className="dot"></span>
             </StShopGuidePostUserPicture>
             <StShopGuidePostUserName>
               <span>닉네임1189</span>
@@ -52,7 +53,6 @@ const ShopGuide = () => {
           </StShopGuideTop>
           <StShopGuidePostInfo>
             <StShopGuidePostUserPicture>
-              <span></span>
             </StShopGuidePostUserPicture>
             <StShopGuidePostUserName>
               <span>닉네임1219</span>
@@ -70,7 +70,7 @@ const ShopGuide = () => {
         <StMoveTopButton>︿</StMoveTopButton>
 
       </StShopGuideBody>
-    </StShopGuideContainer >
+    </StShopGuideContainer>
 
 
   )
