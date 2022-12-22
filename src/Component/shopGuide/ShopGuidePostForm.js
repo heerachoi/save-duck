@@ -14,8 +14,6 @@ function Form() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const current = new Date();
-    const todayDate = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`
 
 
     const previousPageHanlder = () => {
@@ -87,7 +85,7 @@ function Form() {
             <StSGPInfo
                 type="text"
                 name="date"
-                value={lists.todayDate}
+                value={lists.date}
                 onChange={onChange}>
             </StSGPInfo>
         </StSGPInputContainer>
