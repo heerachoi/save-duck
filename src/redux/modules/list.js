@@ -1,10 +1,10 @@
-import nextId from "react-id-generator";
+
 
 const ADD_POST = 'ADD_POST';
 const DELETE_POST = 'DELETE_POST';
 
 // POST를 추가하는 Action Creator
-export const addpost = (post) => {
+export const addPost = (post) => {
     return {
         type: ADD_POST, post
     };
@@ -20,13 +20,13 @@ export const deletepost = (post) => {
 
 const initialState = [
     {
-        id: nextId(),
+
         title: "오늘 이마트에서 떡볶이 재료 구매 리스트 공유드려요! 핵맛!!",
         user: "닉네임1189",
         date: "22.12.19",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vulputate diam in nisl lobortis, at elementum purus consectetur. Aliquam sodales pellentesque neque eu mollis. Mauris justo magna, pretium non risus dapibu..."
     }, {
-        id: nextId(),
+
         title: "[쇼핑가이드] 한국소비자원 비교공감 - 무선청소기편!!",
         user: "닉네임1189",
         date: "22.12.19",
