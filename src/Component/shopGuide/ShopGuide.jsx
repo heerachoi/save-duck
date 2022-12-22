@@ -2,10 +2,14 @@ import React from "react";
 import styled from "styled-components";
 
 import { useSelector } from "react-redux"; //useSelector 훅 임포트, state값을 조회한다
+import { useDispatch } from "react-redux"; //useDispatch 훅 임포트, dispatch를 사용한다
 
-function List() {
+
+const List = () => {
+
 
     const listStore = useSelector((state) => state.lists); // useSelector 훅을 통해 state값을 조회한다.
+
 
 
     return (
@@ -47,7 +51,7 @@ function List() {
 }
 
 
-export default List;
+
 
 
 const StShopGuidePostContainer = styled.div`
@@ -97,3 +101,8 @@ font - size : 11px;
 color: gray;
 margin - left : 50px;
 `;
+
+
+
+
+export default List;
