@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
 // import nextId from "react-id-generator";
 import { useParams, useNavigate } from "react-router-dom";
@@ -74,7 +75,7 @@ const ShopGuide = () => {
           </StShopGuidePostDescription>
         </StShopGuidePostContainer>
 
-        <StWirtePostButton>Write</StWirtePostButton>
+        <StWritePostButton to="/shopguideposting">Write</StWritePostButton>
         <StMoveTopButton>︿</StMoveTopButton>
 
       </StShopGuideBody>
@@ -207,10 +208,10 @@ height: 60px;
   justify-content: center;
   `;
 
-const StWirtePostButton = styled.div`
+const StWritePostButton = styled(NavLink)`
 position: fixed; 
 height: 60px;
-    width: 60px;
+width: 60px;
 bottom: 80px; 
 right: 130px; 
 z-index: 1; 

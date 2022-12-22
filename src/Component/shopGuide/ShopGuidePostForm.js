@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { addPost } from "../../redux/modules/list";
+import { NavLink } from "react-router-dom";
 
 
 
@@ -23,7 +24,7 @@ function Form() {
     const onChange = (e) => {
         const { name, value } = e.target;
         setLists({
-            ...lists, [name]: value,
+            ...lists, [name]: value
         });
     };
 
@@ -42,7 +43,7 @@ function Form() {
     };
     return (
 
-        <StSGPInputContainer onsubmit={onSubmit}>
+        <StSGPInputContainer onSubmit={onSubmit}>
             <StSGPTitleInput
                 type="text"
                 name="title"
@@ -56,14 +57,19 @@ function Form() {
                 name="picture"
                 placeholder="사진을 등록해주세요." />
 
-            <StSGPDescriptionInput>
-            </StSGPDescriptionInput>
+            <StSGPDescriptionInput
+                type="text"
+                name="description"
+                value={lists.description}
+                placeholder="내용을 입력해주세요."
+                onChange={onChange}
+                required />
 
             <StSGPButtonGroup>
-                <StSGPSubmitButton>
+                <StSGPSubmitButton>Save
                 </StSGPSubmitButton>
 
-                <StSGPCancelButton>
+                <StSGPCancelButton to="/shopguide">
                 </StSGPCancelButton>
             </StSGPButtonGroup>
         </StSGPInputContainer>
@@ -73,7 +79,7 @@ function Form() {
 
 
 
-const StSGPInputContainer = styled.div`
+const StSGPInputContainer = styled.form`
 margin-top : 4rem;
 width: 60%;
 height: 100%;
@@ -84,7 +90,7 @@ justify-content: top;
 background-color: white;
 `;
 
-const StSGPTitleInput = styled.div`
+const StSGPTitleInput = styled.input`
 margin-top : 2rem;
 width : 600px;
 height : 40px;
@@ -93,7 +99,7 @@ background-color: #F5F5F5;
 
 `;
 
-const StSGPPictureInput = styled.div`
+const StSGPPictureInput = styled.input`
 width : 400px;
 height : 30px;
 margin-bottom : 20px;
@@ -101,7 +107,7 @@ background-color: #F5F5F5;
 `;
 
 
-const StSGPDescriptionInput = styled.div`
+const StSGPDescriptionInput = styled.input`
 width : 700px;
 height : 200px;
 background-color: #F5F5F5;
@@ -111,7 +117,7 @@ const StSGPButtonGroup = styled.div`
 margin-top : 2rem;
 `;
 
-const StSGPSubmitButton = styled.div`
+const StSGPSubmitButton = styled.button`
 
 display: inline-block;
 border: none;
@@ -124,7 +130,7 @@ font-weight: bold;
 margin-right : 15px;
 `;
 
-const StSGPCancelButton = styled.div`
+const StSGPCancelButton = styled(NavLink)`
 display: inline-block;
 border: none;
 background-color: #FFC226;
@@ -133,6 +139,9 @@ height: 70px;
 border-radius: 50%;
 cursor: pointer;
 font-weight: bold;
+text-decoration: none;
+color: black;
+text-size: 10px;
 `;
 
 
