@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import { useSelector } from 'react-redux'; //useSelector 훅 임포트, state값을 조회한다
+import { useSelector } from "react-redux"; //useSelector 훅 임포트, state값을 조회한다
 
 function List() {
   const listStore = useSelector((state) => state.lists); // useSelector 훅을 통해 state값을 조회한다.
@@ -69,21 +69,21 @@ const StShopGuidePostUserPicture = styled.div`
   height: 20px;
 `;
 const StShopGuidePostUserName = styled.div`
-width: 8rem;
-font - size : 11px;
-display: flex;
-align - items: center;
-color: coral;
+  width: 8rem;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  color: coral;
 `;
 const StShopGuidePostDate = styled.div`
-width: 8rem;
-font - size : 9px;
-color: gray;
-display: flex;
-align - items: center;
+  width: 8rem;
+  font-size: 9px;
+  color: gray;
+  display: flex;
+  align-items: center;
 `;
 const StShopGuidePostDescription = styled.div`
-font - size : 11px;
-color: gray;
-margin - left : 50px;
+  font-size: 11px;
+  color: gray;
+  margin-left: 50px;
 `;

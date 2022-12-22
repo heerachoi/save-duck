@@ -4,13 +4,22 @@ import {
   StyledLogoutButton,
   StyledVector,
   Container,
+  StyledblankProfilesImg,
+  ProfileImageContainer,
+  CameraContainer,
+  CameraImage,
 } from "./Modal.js";
 
 export default function Modal() {
   return (
     <>
       <Container>
-        <img src="blankProfiles.png" />
+        <ProfileImageContainer>
+          <StyledblankProfilesImg src="blankProfiles.png" />
+        </ProfileImageContainer>
+        <CameraContainer>
+          <CameraImage src="camera.png" alt="" />
+        </CameraContainer>
         <h3>
           AppleDuck <StyledVector src="Vector.png" />
         </h3>
