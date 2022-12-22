@@ -1,4 +1,5 @@
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+
 const Home = () => {
   return <div className='homeContainer'>Home</div>;
 };
