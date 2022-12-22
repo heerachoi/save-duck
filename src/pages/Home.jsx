@@ -1,6 +1,6 @@
-import { useSelector } from 'react-redux';
+import Calender from '../Component/calendar/Calendar.jsx';
 
 const Home = () => {
-  return <div className='homeContainer'>Home</div>;
+  return <Calender startingDate={new Date()}></Calender>;
 };
 export default Home;
