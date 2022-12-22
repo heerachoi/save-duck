@@ -88,6 +88,7 @@ const Calendar = ({ startingDate }) => {
           <HeadDays key={day}>{day}</HeadDays>
         ))}
       </SevenColGrid>
+
       <SevenColGrid fullheight={true} is28Days={getDaysInMonth(currentDate) === 28}>
         {range(DAYSINMONTH).map((day) => (
           <StyledDay key={day} id={`${currentDate.getFullYear()}/${currentDate.getMonth()}/${day}`} active={datesAreOnSameDay(new Date(), getDateObj(day, currentMonth, currentYear))}>
