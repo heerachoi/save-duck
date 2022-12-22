@@ -2,14 +2,14 @@ import React from "react";
 import styled from "styled-components";
 
 import { useSelector } from "react-redux"; //useSelector 훅 임포트, state값을 조회한다
-import { useDispatch } from "react-redux"; //useDispatch 훅 임포트, dispatch를 사용한다
+// import { useDispatch } from "react-redux"; //useDispatch 훅 임포트, dispatch를 사용한다
 
 
 const List = () => {
 
 
     const listStore = useSelector((state) => state.lists); // useSelector 훅을 통해 state값을 조회한다.
-
+    console.log(listStore)
 
 
     return (
@@ -21,7 +21,7 @@ const List = () => {
                         <StShopGuidePostContainer>
                             <StShopGuideTop>
                                 <StShopGuidePostNumbering>
-                                    <span>{lists.id}</span>
+                                    <span>1</span>
                                 </StShopGuidePostNumbering>
                                 <StShopGuidePostTitle>
                                     <span>{lists.title}</span>
@@ -84,22 +84,22 @@ height: 20px;
 `;
 const StShopGuidePostUserName = styled.div`
 width: 8rem;
-font - size : 11px;
+font-size : 11px;
 display: flex;
-align - items: center;
+align-items: center;
 color: coral;
 `;
 const StShopGuidePostDate = styled.div`
 width: 8rem;
-font - size : 9px;
+font-size : 9px;
 color: gray;
 display: flex;
-align - items: center;
+align-items: center;
 `;
 const StShopGuidePostDescription = styled.div`
-font - size : 11px;
+font-size : 11px;
 color: gray;
-margin - left : 50px;
+margin-left : 50px;
 `;
 
 

@@ -3,12 +3,24 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { addPost } from "../../redux/modules/list";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+
+
 
 
 
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
 function Form() {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const current = new Date();
+    const todayDate = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`
+
+
+    const previousPageHanlder = () => {
+        navigate(-1, true);
+    };
     const [lists, setLists] = useState({
         id: "",
         number: "",
@@ -66,18 +78,26 @@ function Form() {
                 required />
 
             <StSGPButtonGroup>
-                <StSGPSubmitButton>Save
+                <StSGPSubmitButton onClick={() => { previousPageHanlder(); alert("게시글이 성공적으로 저장되었습니다.") }}>Save
                 </StSGPSubmitButton>
 
                 <StSGPCancelButton to="/shopguide">
                 </StSGPCancelButton>
             </StSGPButtonGroup>
+            <StSGPInfo
+                type="text"
+                name="date"
+                value={lists.todayDate}
+                onChange={onChange}>
+            </StSGPInfo>
         </StSGPInputContainer>
 
     );
 }
 
 
+const StSGPInfo = styled.form`
+`;
 
 const StSGPInputContainer = styled.form`
 margin-top : 4rem;
