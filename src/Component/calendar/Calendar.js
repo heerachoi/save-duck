@@ -1,9 +1,8 @@
 import styled from 'styled-components';
 
 export const HomeContainer = styled.div`
-  width: 100%;
-  height: 100vh;
-  border: 1px solid;
+  width: 400px;
+  height: 500px;
   margin: 5px;
 `;
 
@@ -25,7 +24,6 @@ export const SevenColGrid = styled.div`
 
 export const HeadDay = styled.span`
   text-align: center;
-  background-color: aliceblue;
   font-size: 14px;
 `;
 
@@ -37,8 +35,7 @@ export const CalendarBody = styled.div`
 `;
 
 export const StyledDay = styled.div`
-  border: 1px solid;
-  text-align: right;
+  text-align: center;
   padding: 5px;
-  ${({ active }) => active && `background: pink`}
+  ${({ active }) => active && `border: 1px solid #FFC226`}
 `;
