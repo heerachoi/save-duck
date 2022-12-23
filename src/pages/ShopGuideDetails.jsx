@@ -8,6 +8,16 @@ const ShopGuideDetails = () => {
 
   const onChangeHandler = (event) => {};
 
+  // 게시글 삭제 기능
+  const deleteButtonClickHandler = () => {
+    window.confirm('해당 게시글을 삭제하시겠습니까?');
+  };
+
+  // 댓글 작성 인풋창 내용 입력 시 state 업데이트
+  const CommentChangeHandler = (event) => {
+    setComment(event.target.value);
+  };
+
   return (
     <StShopDetailsContainer>
       {/* 게시글 영역 */}
@@ -55,10 +65,10 @@ const ShopGuideDetails = () => {
         <StCommentMyProfileImage src='images/default_profile.webp' alt='' />
         <StCommentForm>
           <StCommentInput
-            id='commnent'
+            id='comment'
             placeholder='댓글을 입력해주세요.'
             value={comment}
-            onChange={onChangeHandler}
+            onChange={CommentChangeHandler}
           />
           <StCommentSaveButton>댓글 등록</StCommentSaveButton>
         </StCommentForm>
@@ -93,6 +103,7 @@ const StShopDetailsContainer = styled.div`
   align-items: center;
 `;
 
+// 게시글 영역
 const StShopDetailsArticle = styled.div`
   text-align: center;
   width: 800px;
@@ -128,6 +139,7 @@ const StShopDetailsEditButtons = styled.div`
   font-size: 20px;
 `;
 
+// 댓글 영역
 const StCommentContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -135,6 +147,7 @@ const StCommentContainer = styled.div`
   width: 100%;
 `;
 
+// 댓글 작성폼
 const StCommentMyProfileImage = styled.img`
   width: 40px;
   height: 40px;
@@ -170,6 +183,7 @@ const StCommentSaveButton = styled.button`
   cursor: pointer;
 `;
 
+// 댓글 리스트 영역
 const StCommentProfileImage = styled.img`
   width: 30px;
   height: 30px;
