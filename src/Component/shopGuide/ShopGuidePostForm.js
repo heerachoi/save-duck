@@ -75,10 +75,10 @@ function Form() {
         required />
 
       <StSGPButtonGroup>
-        <StSGPSubmitButton onClick={() => { previousPageHanlder(); alert("게시글이 성공적으로 저장되었습니다.") }}>Save
+        <StSGPSubmitButton type='button' onClick={() => { previousPageHanlder(); alert("게시글이 성공적으로 저장되었습니다.") }}>Save
         </StSGPSubmitButton>
 
-        <StSGPCancelButton to="/shopguide">
+        <StSGPCancelButton type='button' to="/shopguide">
         </StSGPCancelButton>
       </StSGPButtonGroup>
       <StSGPInfo
@@ -93,7 +93,7 @@ function Form() {
 }
 
 
-const StSGPInfo = styled.form`
+const StSGPInfo = styled.div`
 `;
 
 const StSGPInputContainer = styled.form`
