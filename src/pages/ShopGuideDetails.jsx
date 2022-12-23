@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const ShopGuideDetails = () => {
-  const [comment, setCommnent] = useState('');
+  const [comment, setComment] = useState('');
 
   const onChangeHandler = (event) => {};
 
@@ -31,6 +33,20 @@ const ShopGuideDetails = () => {
           mollis. Mauris justo magna, pretium non risus dapibu
         </StShopDetailsArticleContents>
       </StShopDetailsArticle>
+      {/* 수정 / 삭제 버튼 */}
+      <StShopDetailsEditButtons>
+        <FontAwesomeIcon
+          id='articleEditButton'
+          icon={faPen}
+          style={{ cursor: 'pointer' }}
+        />
+        <FontAwesomeIcon
+          id='articleDeleteButton'
+          icon={faTrashCan}
+          onClick={deleteButtonClickHandler}
+          style={{ cursor: 'pointer' }}
+        />
+      </StShopDetailsEditButtons>
       {/* 댓글 영역 */}
       <br />
       <StCommentContainer>
@@ -99,6 +115,17 @@ const StShopDetailsImage = styled.img`
   height: 300px;
   margin-bottom: 30px;
   object-fit: cover;
+`;
+
+// 게시글 수정 버튼
+const StShopDetailsEditButtons = styled.div`
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  right: 80px;
+  font-size: 20px;
 `;
 
 const StCommentContainer = styled.div`
