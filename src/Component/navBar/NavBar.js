@@ -10,6 +10,7 @@ export const StyledSaveDuckHome = styled.div`
   padding-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
+  position: relative;
 `;
 
 export const SaveDuckHomeNav = styled(NavLink)`
