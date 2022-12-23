@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+import { addComment } from '../redux/modules/comment';
+import CommentList from '../Component/shopGuideDetail/CommentList';
+
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const ShopGuideDetails = () => {
   const [comment, setComment] = useState('');
+
+  const dispatch = useDispatch();
 
   const onChangeHandler = (event) => {};
 
@@ -13,8 +20,21 @@ const ShopGuideDetails = () => {
     window.confirm('해당 게시글을 삭제하시겠습니까?');
   };
 
+  // 댓글 등록 버튼 - 클릭시 댓글 리스트에 작성한 댓글 추가
+  const commentSubmitHandler = (event) => {
+    event.preventDefault();
+    const newComment = {
+      id: uuidv4(),
+      comment,
+    };
+    // console.log(newComment);
+    dispatch(addComment(newComment));
+    setComment('');
+  };
+
   // 댓글 작성 인풋창 내용 입력 시 state 업데이트
   const CommentChangeHandler = (event) => {
+    console.log(event.target.value);
     setComment(event.target.value);
   };
 
@@ -63,14 +83,14 @@ const ShopGuideDetails = () => {
         {/* 댓글 작성란 */}
 
         <StCommentMyProfileImage src='images/default_profile.webp' alt='' />
-        <StCommentForm>
+        <StCommentForm onSubmit={commentSubmitHandler}>
           <StCommentInput
             id='comment'
             placeholder='댓글을 입력해주세요.'
             value={comment}
             onChange={CommentChangeHandler}
           />
-          <StCommentSaveButton>댓글 등록</StCommentSaveButton>
+          <StCommentSaveButton type='submit'>댓글 등록</StCommentSaveButton>
         </StCommentForm>
       </StCommentContainer>
       {/* 댓글 리스트 */}
@@ -88,6 +108,7 @@ const ShopGuideDetails = () => {
             <StCommentContentsEditButton>수정</StCommentContentsEditButton>
             <StCommentContentsDeleteButton>삭제</StCommentContentsDeleteButton>
           </StCommentListContainer>
+          <CommentList />
         </ul>
       </div>
     </StShopDetailsContainer>
