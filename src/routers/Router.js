@@ -6,6 +6,9 @@ import ShopGuide from '../pages/ShopGuide.jsx';
 import ShopGuideDetails from '../pages/ShopGuideDetails.jsx';
 import SignIn from "../pages/SignIn.jsx";
 import SignUp from "../pages/SignUp.jsx";
+import ShopGuidePosting from '../pages/ShopGuidePosting.jsx';
+
+
 
 const Router = () => {
   return (
@@ -17,6 +20,7 @@ const Router = () => {
         <Route path="/shopguide" element={<ShopGuide />} />
         <Route path="/shopguidedetails" element={<ShopGuideDetails />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path='/shopguideposting' element={<ShopGuidePosting />} />
       </Routes>
     </BrowserRouter>
   );
