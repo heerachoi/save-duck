@@ -1,11 +1,22 @@
 import { current } from '@reduxjs/toolkit';
 import { useState } from 'react';
+import nextId from 'react-id-generator';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { HomeContainer, CalendarHead, SevenColGrid, HeadDay, CalendarBody, StyledDay } from './Calendar.js';
 
+// Firestore와 통신하는 함수
+import { loadListFB } from '../../redux/modules/shoppingListActions.js';
+
 const Calendar = ({ startingDate }) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadListFB());
+  }, []);
+
   const [currentMonth, setCurrentMonth] = useState(startingDate.getMonth());
   const [currentYear, setCurrentYear] = useState(startingDate.getFullYear());
 
@@ -125,11 +136,21 @@ const Calendar = ({ startingDate }) => {
       </SevenColGrid>
       <CalendarBody fourCol={DAYSINAMONTH === 28}>
         {dates.map((day) => (
-          <StyledDay key={day} active={areDatesTheSame(new Date(), getDateObj(day, currentMonth, currentYear))}>
+          <StyledDay key={nextId()} active={areDatesTheSame(new Date(), getDateObj(day, currentMonth, currentYear))}>
             {day}
           </StyledDay>
         ))}
       </CalendarBody>
+      <button
+        onClick={
+          // firestore에서 첫번째 문서 삭제
+          () => {
+            dispatch(loadListFB(0));
+          }
+        }
+      >
+        데이터 삭제
+      </button>
     </HomeContainer>
   );
 };
