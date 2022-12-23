@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 function Form() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
   const previousPageHanlder = () => {
     navigate(-1, true);
   };
@@ -30,15 +31,17 @@ function Form() {
     setLists({
       ...lists,
       [name]: value,
+      id: nextId()
     });
   };
 
   // submit 버튼을 누르면 dispatch를 통해 addpost를 실행한다.
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(addpost(lists));
+    nextId.current += 1;
+    dispatch(addpost({ ...lists }));
     setLists({
-      id: nextId(),
+      id: 0,
       number: '',
       title: '',
       username: '',

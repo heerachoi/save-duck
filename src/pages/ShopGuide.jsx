@@ -2,8 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from "react-router-dom";
 import List from "../Component/shopGuide/ShopGuide";
-
-// import nextId from "react-id-generator";
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -24,30 +22,6 @@ const ShopGuide = () => {
       <StShopGuideBody>
 
         <List />
-
-        <StShopGuidePostContainer>
-          <StShopGuideTop>
-            <StShopGuidePostNumbering>
-              <span>2</span>
-            </StShopGuidePostNumbering>
-            <StShopGuidePostTitle>
-              <span>[쇼핑가이드] 한국소비자원 비교공감 - 무선청소기편</span>
-            </StShopGuidePostTitle>
-          </StShopGuideTop>
-          <StShopGuidePostInfo>
-            <StShopGuidePostUserPicture>
-            </StShopGuidePostUserPicture>
-            <StShopGuidePostUserName>
-              <span>닉네임1219</span>
-            </StShopGuidePostUserName>
-            <StShopGuidePostDate>
-              <span>22.12.20</span>
-            </StShopGuidePostDate>
-          </StShopGuidePostInfo>
-          <StShopGuidePostDescription>
-            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vulputate diam in nisl lobortis, at elementum purus consectetur. Aliquam sodales pellentesque neque eu mollis. Mauris justo magna, pretium non risus dapibu...</span>
-          </StShopGuidePostDescription>
-        </StShopGuidePostContainer>
 
         <StWritePostButton to="/shopguideposting">Write</StWritePostButton>
         <StMoveTopButton>︿</StMoveTopButton>
@@ -108,58 +82,7 @@ padding-left : 2rem;
 padding-right : 2rem;
   `;
 
-const StShopGuidePostContainer = styled.div`
-margin : 25px 100px 15px 100px;
-`;
 
-const StShopGuideTop = styled.div`
-height : 20px;
-display: flex;
-flex-direction: row;
-
-  `;
-const StShopGuidePostNumbering = styled.div`
-width : 50px;
-
-font-size : 12px;
-  `;
-const StShopGuidePostTitle = styled.div`
-height : 20px;
-width : 700px;
-font-size : 12px;
-font-weight : 600;
-  `;
-
-const StShopGuidePostInfo = styled.div`
-height : 20px;
-display: flex;
-flex-direction: row;
-margin-left : 55px;
-  `;
-
-const StShopGuidePostUserPicture = styled.div`
-width : 20px;
-height : 20px;
-  `;
-const StShopGuidePostUserName = styled.div`
-width : 8rem;
-font-size : 11px;
-display: flex;
-align-items: center;
-color : coral;
-  `;
-const StShopGuidePostDate = styled.div`
-width : 8rem;
-font-size : 9px;
-color : gray;
-display: flex;
-align-items: center;
-  `;
-const StShopGuidePostDescription = styled.div`
-font-size : 11px;
-color : gray;
-margin-left : 50px;
-  `;
 
 const StMoveTopButton = styled.div`
 // display: none; 
