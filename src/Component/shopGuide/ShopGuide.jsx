@@ -69,6 +69,7 @@ width: 20px;
 height: 20px;
 `;
 const StShopGuidePostUserName = styled.div`
+<<<<<<< HEAD
 width: 8rem;
 font-size : 11px;
 display: flex;
@@ -86,6 +87,25 @@ const StShopGuidePostDescription = styled.div`
 font-size : 11px;
 color: gray;
 margin-left : 50px;
+=======
+  width: 8rem;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  color: coral;
+`;
+const StShopGuidePostDate = styled.div`
+  width: 8rem;
+  font-size: 9px;
+  color: gray;
+  display: flex;
+  align-items: center;
+`;
+const StShopGuidePostDescription = styled.div`
+  font-size: 11px;
+  color: gray;
+  margin-left: 50px;
+>>>>>>> 3f2cc0112a999ce81bf9963fd5ec7bf5a7fa362e
 `;
 
 
