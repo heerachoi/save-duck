@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import { useSelector } from 'react-redux'; //useSelector 훅 임포트, state값을 조회한다
 
 function List() {
