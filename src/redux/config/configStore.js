@@ -2,9 +2,10 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 // 만든 리덕스 모듈의 리듀서
 import shoppingList from '../modules/shoppingListActions';
+import lists from '../modules/list';
 
 const rootReducer = combineReducers({
-  shoppingList,
+  shoppingList, lists
 });
 
 const store = createStore(rootReducer);
