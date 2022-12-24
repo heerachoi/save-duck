@@ -47,7 +47,7 @@ const Navbar = () => {
       {/* 오른쪽영역 */}
       <RightSection>
         <Menu>
-          <MenuItem style={{ color: "#ffc226" }} to="/login">
+          <MenuItem style={{ color: "#ffc226" }} to="/signin">
             Features
           </MenuItem>
           <MenuItem style={{ color: "#ffc226" }} to="/shopguide">
