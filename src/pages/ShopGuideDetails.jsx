@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { addComment } from '../redux/modules/comment';
 import CommentList from '../Component/shopGuideDetail/CommentList';
+import moment from 'moment';
 
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,12 +11,13 @@ import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const ShopGuideDetails = () => {
   const [comment, setComment] = useState('');
+  const globalComment = useSelector((state) => state.comments);
 
   const dispatch = useDispatch();
 
   const onChangeHandler = (event) => {};
 
-  // 게시글 삭제 기능
+  // 게시글 삭제 버튼 - 클릭 시 comfirm 확인 후 삭제
   const deleteButtonClickHandler = () => {
     window.confirm('해당 게시글을 삭제하시겠습니까?');
   };
@@ -26,13 +28,14 @@ const ShopGuideDetails = () => {
     const newComment = {
       id: uuidv4(),
       comment,
+      savetime: moment().format('YYYY-MM-DD-hh:mm'),
     };
     // console.log(newComment);
     dispatch(addComment(newComment));
     setComment('');
   };
 
-  // 댓글 작성 인풋창 내용 입력 시 state 업데이트
+  // 댓글 작성 인풋창 - 내용 입력 시 state 업데이트
   const CommentChangeHandler = (event) => {
     console.log(event.target.value);
     setComment(event.target.value);
