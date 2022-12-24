@@ -59,8 +59,8 @@ export const loadListFB = () => {
           list_data = [...list_data, { id: doc.id, ...doc.data() }];
         }
       });
-      console.log('list_data');
-      console.log(list_data);
+      // console.log('list_data');
+      // console.log(list_data);
 
       // firestore에서 가져온 데이터를 action에 넣어서 dispatch 해준다!
       // 리덕스 모듈에서 action을 dispatch 해주므로 컴포넌트에서는 firestore와
@@ -84,7 +84,7 @@ export default function reducer(state = initialState, action = {}) {
 
     case 'DELETE_LIST':
       const deleted_shopping_list = state.shoppingList.filter((item, index) => index !== action.index);
-      console.log(deleted_shopping_list);
+      // console.log(deleted_shopping_list);
       return { shoppingList: deleted_shopping_list };
 
     default:
