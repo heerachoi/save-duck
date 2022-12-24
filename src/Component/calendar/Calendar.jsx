@@ -52,10 +52,10 @@ import { loadListFB } from '../../redux/modules/shoppingListActions.js';
 const Calendar = ({ startingDate }) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    async function test() {
-      dispatch(loadListFB);
+    async function loadTest() {
+      dispatch(loadListFB());
     }
-    test();
+    loadTest();
   }, []);
 
   const [currentMonth, setCurrentMonth] = useState(startingDate.getMonth());
