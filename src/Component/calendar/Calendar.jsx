@@ -1,6 +1,11 @@
 import { useState } from 'react';
 import nextId from 'react-id-generator';
-import { faChevronLeft, faChevronRight, faPencil, faX } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronLeft,
+  faChevronRight,
+  faPencil,
+  faX,
+} from '@fortawesome/free-solid-svg-icons';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -58,7 +63,20 @@ const Calendar = ({ startingDate }) => {
 
   const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
-  const MONTHS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  const MONTHS = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+  ];
 
   const date = new Date(); // Thu Dec 22 2022 01:04:56 GMT+0900 (한국 표준시)
   const viewYear = date.getFullYear(); // 2022
@@ -113,7 +131,11 @@ const Calendar = ({ startingDate }) => {
 
   // 오늘 날짜인 곳에 핑크색 배경
   const areDatesTheSame = (first, second) => {
-    return first.getFullYear() === second.getFullYear() && first.getMonth() === second.getMonth() && first.getDate() === second.getDate();
+    return (
+      first.getFullYear() === second.getFullYear() &&
+      first.getMonth() === second.getMonth() &&
+      first.getDate() === second.getDate()
+    );
   };
 
   const range = (end) => {
@@ -212,11 +234,19 @@ const Calendar = ({ startingDate }) => {
         <CalendarHead>
           <CurrentYear>{currentYear}</CurrentYear>
           <MonthNavigation>
-            <MonthArrow icon={faChevronLeft} className='goPrevious' onClick={prevMonth}>
+            <MonthArrow
+              icon={faChevronLeft}
+              className='goPrevious'
+              onClick={prevMonth}
+            >
               &lt;
             </MonthArrow>
             <CurrentMonth>{MONTHS[currentMonth]}</CurrentMonth>
-            <MonthArrow icon={faChevronRight} className='goNext' onClick={nextMonth}>
+            <MonthArrow
+              icon={faChevronRight}
+              className='goNext'
+              onClick={nextMonth}
+            >
               &gt;
             </MonthArrow>
           </MonthNavigation>
@@ -228,7 +258,14 @@ const Calendar = ({ startingDate }) => {
         </SevenColGrid>
         <CalendarBody fourCol={DAYSINAMONTH === 28}>
           {h.map((day) => (
-            <StyledDay onClick={dateClick} key={nextId()} active={areDatesTheSame(new Date(), getDateObj(day, currentMonth, currentYear))}>
+            <StyledDay
+              onClick={dateClick}
+              key={nextId()}
+              active={areDatesTheSame(
+                new Date(),
+                getDateObj(day, currentMonth, currentYear)
+              )}
+            >
               {day}
             </StyledDay>
           ))}
