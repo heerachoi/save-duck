@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { addComment } from '../redux/modules/comment';
-import CommentList from '../Component/shopGuideDetail/CommentList';
+import CommentList from '../Component/commentList/CommentList';
 import moment from 'moment';
 
 import styled from 'styled-components';
@@ -37,7 +37,6 @@ const ShopGuideDetails = () => {
 
   // 댓글 작성 인풋창 - 내용 입력 시 state 업데이트
   const CommentChangeHandler = (event) => {
-    console.log(event.target.value);
     setComment(event.target.value);
   };
 
@@ -99,18 +98,6 @@ const ShopGuideDetails = () => {
       {/* 댓글 리스트 */}
       <div>
         <ul>
-          <StCommentListContainer>
-            <StCommentProfileImage src='images/default_profile.webp' alt='' />
-            <StCommentUserName>사용자 닉네임</StCommentUserName>
-            <StCommentContentsContainer>
-              <StCommentContent>작성된 댓글이 보여집니다.</StCommentContent>
-              <StCommentContentSaveTime>
-                2022년 12월 19일 20시 20분
-              </StCommentContentSaveTime>
-            </StCommentContentsContainer>
-            <StCommentContentsEditButton>수정</StCommentContentsEditButton>
-            <StCommentContentsDeleteButton>삭제</StCommentContentsDeleteButton>
-          </StCommentListContainer>
           <CommentList />
         </ul>
       </div>
@@ -200,57 +187,6 @@ const StCommentSaveButton = styled.button`
   background-color: #ffc226;
   color: #ffffff;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-
-// 댓글 리스트 영역
-const StCommentProfileImage = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 50px;
-  /* margin-right: 15px; */
-`;
-
-const StCommentListContainer = styled.li`
-  list-style: none;
-  display: flex;
-  justify-content: space-around;
-  width: 700px;
-`;
-
-const StCommentUserName = styled.div`
-  font-size: 17px;
-`;
-
-const StCommentContentsContainer = styled.div`
-  width: 60%;
-  display: flex;
-  flex-direction: column;
-`;
-
-const StCommentContent = styled.div`
-  font-size: 15px;
-  margin-bottom: 10px;
-`;
-
-const StCommentContentSaveTime = styled.div`
-  font-size: 13px;
-  color: #464646;
-`;
-
-const StCommentContentsEditButton = styled.button`
-  width: 50px;
-  background-color: black;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-
-const StCommentContentsDeleteButton = styled.button`
-  width: 50px;
-  background-color: black;
-  color: white;
   border-radius: 5px;
   cursor: pointer;
 `;
