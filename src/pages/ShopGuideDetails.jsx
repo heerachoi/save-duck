@@ -167,7 +167,6 @@ const StShopDetailsEditButtons = styled.div`
 const StCommentContainer = styled.div`
   display: flex;
   justify-content: center;
-  /* align-items: center; */
   width: 100%;
 `;
 
@@ -184,8 +183,6 @@ const StCommentForm = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-  /* text-align: right; */
-  /* width: 60%; */
 `;
 
 const StCommentInput = styled.textarea`
