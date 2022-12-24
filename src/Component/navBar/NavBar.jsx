@@ -10,10 +10,30 @@ import {
   SignUp,
 } from "./NavBar";
 import Modal from "../modal/Modal.jsx";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const Navbar = () => {
+  const modalRef = useRef();
+  const profileRef = useRef();
+
   const [modal, setModal] = useState(false);
+
+  useEffect(() => {
+    const modalCloseHandler = (e) => {
+      if (
+        modal === true &&
+        modalRef.current.contains(e.target) === false &&
+        profileRef.current.contains(e.target) === false
+      )
+        setModal(false);
+    };
+    window.addEventListener("click", modalCloseHandler);
+
+    return () => {
+      window.removeEventListener("click", modalCloseHandler);
+    };
+  }, [modal]);
+
   return (
     <StyledSaveDuckHome>
       {/* 왼쪽영역 */}
@@ -41,12 +61,17 @@ const Navbar = () => {
         <SignUp>
           <NavLink to="/signup">
             <img
+              ref={profileRef}
               onClick={() => {
                 setModal(!modal);
               }}
               src="blankProfile.png"
             />
-            {modal === true ? <Modal></Modal> : null}
+            {modal === true ? (
+              <div ref={modalRef}>
+                <Modal />
+              </div>
+            ) : null}
           </NavLink>
         </SignUp>
       </RightSection>
