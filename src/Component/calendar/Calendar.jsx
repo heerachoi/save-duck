@@ -1,45 +1,14 @@
 import { useState } from 'react';
 import nextId from 'react-id-generator';
-import { faChevronLeft, faChevronRight, faPencil, faX } from '@fortawesome/free-solid-svg-icons';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import {
-  HomeContainer,
-  CalendarContainer,
-  ShoppingListContainer,
-  CalendarHead,
-  SevenColGrid,
-  HeadDay,
-  CalendarBody,
-  MonthNavigation,
-  MonthArrow,
-  StyledDay,
-  DateContainer,
-  DateUnderLine,
-  ShoppingListTitle,
-  ShoppingItemContainer,
-  UncheckedList,
-  ListItem,
-  CheckBox,
-  ItemName,
-  ItemPrice,
-  CheckedList,
-  CurrentMonth,
-  CurrentYear,
-  PencilIcon,
-  XIcon,
-  ItemPriceContainer,
-  CheckListTotalContainer,
-  CheckListTotalText,
-  CheckListTotal,
-  OverallTotalContainer,
-  OverallTotalTotalText,
-  OverallTotal,
-  ShowItem,
-  UnshowItem,
-  ScrollBox,
-} from './Calendar.js';
+import { db } from '../../firebase.js';
+
+import ShoppingList from '../shoppingList/ShoppingList.jsx';
+
+import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { HomeContainer, CalendarContainer, CalendarHead, SevenColGrid, HeadDay, CalendarBody, MonthNavigation, MonthArrow, StyledDay, CurrentMonth, CurrentYear } from './Calendar.js';
 
 // Firestore와 통신하는 함수
 import { loadListFB } from '../../redux/modules/shoppingListActions.js';
@@ -47,7 +16,11 @@ import { loadListFB } from '../../redux/modules/shoppingListActions.js';
 const Calendar = ({ startingDate }) => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(loadListFB());
+    console.log(db);
+    async function loadTest() {
+      dispatch(loadListFB());
+    }
+    loadTest();
   }, []);
 
   const [currentMonth, setCurrentMonth] = useState(startingDate.getMonth());
@@ -241,65 +214,7 @@ const Calendar = ({ startingDate }) => {
           데이터 삭제
         </button>
       </CalendarContainer>
-      <ShoppingListContainer>
-        <DateContainer>22.12.19</DateContainer>
-        <DateUnderLine></DateUnderLine>
-        <ShoppingListTitle>쇼핑 목록 +</ShoppingListTitle>
-        <ScrollBox>
-          <UncheckedList>
-            <ListItem>
-              <ShowItem>
-                <CheckBox type='checkbox' />
-                <ItemPriceContainer>
-                  <ItemName>고구마</ItemName>
-                  <ItemPrice>5,500원</ItemPrice>
-                </ItemPriceContainer>
-              </ShowItem>
-              <UnshowItem>
-                <PencilIcon icon={faPencil} />
-                <XIcon icon={faX} />
-              </UnshowItem>
-            </ListItem>
-            <ListItem>
-              <CheckBox type='checkbox' />
-              <ItemPriceContainer>
-                <ItemName>입력해주세요</ItemName>
-                <ItemPrice>-- 원</ItemPrice>
-              </ItemPriceContainer>
-              <PencilIcon icon={faPencil} />
-              <XIcon icon={faX} />
-            </ListItem>
-            <CheckListTotalContainer>
-              <CheckListTotalText>합계</CheckListTotalText>
-              <CheckListTotal>244,600원</CheckListTotal>
-            </CheckListTotalContainer>
-          </UncheckedList>
-          <ShoppingListTitle>쇼핑 완료</ShoppingListTitle>
-          <CheckedList>
-            <ListItem>
-              <ShowItem>
-                <CheckBox type='checkbox' />
-                <ItemPriceContainer>
-                  <ItemName>당근</ItemName>
-                  <ItemPrice>3,500원</ItemPrice>
-                </ItemPriceContainer>
-              </ShowItem>
-              <UnshowItem>
-                <PencilIcon icon={faPencil} />
-                <XIcon icon={faX} />
-              </UnshowItem>
-            </ListItem>
-            <CheckListTotalContainer>
-              <CheckListTotalText>합계</CheckListTotalText>
-              <CheckListTotal>244,600원</CheckListTotal>
-            </CheckListTotalContainer>
-          </CheckedList>
-        </ScrollBox>
-        <OverallTotalContainer>
-          <OverallTotalTotalText>총 합계</OverallTotalTotalText>
-          <OverallTotal>244,600원</OverallTotal>
-        </OverallTotalContainer>
-      </ShoppingListContainer>
+      <ShoppingList />
     </HomeContainer>
   );
 };

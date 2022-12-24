@@ -1,10 +1,44 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { v4 as uuidv4 } from 'uuid';
+import { addComment } from '../redux/modules/comment';
+import CommentList from '../Component/commentList/CommentList';
+import moment from 'moment';
+
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const ShopGuideDetails = () => {
-  const [comment, setCommnent] = useState('');
+  const [comment, setComment] = useState('');
+  const globalComment = useSelector((state) => state.comments);
+
+  const dispatch = useDispatch();
 
   const onChangeHandler = (event) => {};
+
+  // 게시글 삭제 버튼 - 클릭 시 comfirm 확인 후 삭제
+  const deleteButtonClickHandler = () => {
+    window.confirm('해당 게시글을 삭제하시겠습니까?');
+  };
+
+  // 댓글 등록 버튼 - 클릭시 댓글 리스트에 작성한 댓글 추가
+  const commentSubmitHandler = (event) => {
+    event.preventDefault();
+    const newComment = {
+      id: uuidv4(),
+      comment,
+      savetime: moment().format('YYYY-MM-DD-hh:mm'),
+    };
+    // console.log(newComment);
+    dispatch(addComment(newComment));
+    setComment('');
+  };
+
+  // 댓글 작성 인풋창 - 내용 입력 시 state 업데이트
+  const CommentChangeHandler = (event) => {
+    setComment(event.target.value);
+  };
 
   return (
     <StShopDetailsContainer>
@@ -31,37 +65,40 @@ const ShopGuideDetails = () => {
           mollis. Mauris justo magna, pretium non risus dapibu
         </StShopDetailsArticleContents>
       </StShopDetailsArticle>
+      {/* 수정 / 삭제 버튼 */}
+      <StShopDetailsEditButtons>
+        <FontAwesomeIcon
+          id='articleEditButton'
+          icon={faPen}
+          style={{ cursor: 'pointer' }}
+        />
+        <FontAwesomeIcon
+          id='articleDeleteButton'
+          icon={faTrashCan}
+          onClick={deleteButtonClickHandler}
+          style={{ cursor: 'pointer' }}
+        />
+      </StShopDetailsEditButtons>
       {/* 댓글 영역 */}
       <br />
       <StCommentContainer>
         {/* 댓글 작성란 */}
 
         <StCommentMyProfileImage src='images/default_profile.webp' alt='' />
-        <StCommentForm>
+        <StCommentForm onSubmit={commentSubmitHandler}>
           <StCommentInput
-            id='commnent'
+            id='comment'
             placeholder='댓글을 입력해주세요.'
             value={comment}
-            onChange={onChangeHandler}
+            onChange={CommentChangeHandler}
           />
-          <StCommentSaveButton>댓글 등록</StCommentSaveButton>
+          <StCommentSaveButton type='submit'>댓글 등록</StCommentSaveButton>
         </StCommentForm>
       </StCommentContainer>
       {/* 댓글 리스트 */}
       <div>
         <ul>
-          <StCommentListContainer>
-            <StCommentProfileImage src='images/default_profile.webp' alt='' />
-            <StCommentUserName>사용자 닉네임</StCommentUserName>
-            <StCommentContentsContainer>
-              <StCommentContent>작성된 댓글이 보여집니다.</StCommentContent>
-              <StCommentContentSaveTime>
-                2022년 12월 19일 20시 20분
-              </StCommentContentSaveTime>
-            </StCommentContentsContainer>
-            <StCommentContentsEditButton>수정</StCommentContentsEditButton>
-            <StCommentContentsDeleteButton>삭제</StCommentContentsDeleteButton>
-          </StCommentListContainer>
+          <CommentList />
         </ul>
       </div>
     </StShopDetailsContainer>
@@ -77,6 +114,7 @@ const StShopDetailsContainer = styled.div`
   align-items: center;
 `;
 
+// 게시글 영역
 const StShopDetailsArticle = styled.div`
   text-align: center;
   width: 800px;
@@ -101,13 +139,25 @@ const StShopDetailsImage = styled.img`
   object-fit: cover;
 `;
 
+// 게시글 수정 버튼
+const StShopDetailsEditButtons = styled.div`
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: absolute;
+  right: 80px;
+  font-size: 20px;
+`;
+
+// 댓글 영역
 const StCommentContainer = styled.div`
   display: flex;
   justify-content: center;
-  /* align-items: center; */
   width: 100%;
 `;
 
+// 댓글 작성폼
 const StCommentMyProfileImage = styled.img`
   width: 40px;
   height: 40px;
@@ -120,8 +170,6 @@ const StCommentForm = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-  /* text-align: right; */
-  /* width: 60%; */
 `;
 
 const StCommentInput = styled.textarea`
@@ -139,56 +187,6 @@ const StCommentSaveButton = styled.button`
   background-color: #ffc226;
   color: #ffffff;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-
-const StCommentProfileImage = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 50px;
-  /* margin-right: 15px; */
-`;
-
-const StCommentListContainer = styled.li`
-  list-style: none;
-  display: flex;
-  justify-content: space-around;
-  width: 700px;
-`;
-
-const StCommentUserName = styled.div`
-  font-size: 17px;
-`;
-
-const StCommentContentsContainer = styled.div`
-  width: 60%;
-  display: flex;
-  flex-direction: column;
-`;
-
-const StCommentContent = styled.div`
-  font-size: 15px;
-  margin-bottom: 10px;
-`;
-
-const StCommentContentSaveTime = styled.div`
-  font-size: 13px;
-  color: #464646;
-`;
-
-const StCommentContentsEditButton = styled.button`
-  width: 50px;
-  background-color: black;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-
-const StCommentContentsDeleteButton = styled.button`
-  width: 50px;
-  background-color: black;
-  color: white;
   border-radius: 5px;
   cursor: pointer;
 `;
