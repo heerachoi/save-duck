@@ -12,7 +12,6 @@ const ShopGuide = () => {
   const navigate = useNavigate();
   // useSelector()를 통해 Redux의 상태를 가져올 수 있습니다. store에 있는 state를 구독합니다.
   const post_list = useSelector((state) => state.lists);
-
   return (
     <StShopGuideContainer>
       <StShopGuideHeader>
