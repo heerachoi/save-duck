@@ -19,7 +19,10 @@ function List() {
               </StShopGuidePostTitle>
             </StShopGuideTop>
             <StShopGuidePostInfo>
+
+              <label type={"picture"}></label>
               <StShopGuidePostUserPicture></StShopGuidePostUserPicture>
+
               <StShopGuidePostUserName>
                 <span>{lists.username}</span>
               </StShopGuidePostUserName>
@@ -62,7 +65,17 @@ const StShopGuidePostInfo = styled.div`
   display: flex;
   flex-direction: row;
   margin-left: 55px;
+  label {
+    display: inline-block;
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    cursor: pointer;
+  }
 `;
+
+
+
 const StShopGuidePostUserPicture = styled.div`
   width: 20px;
   height: 20px;

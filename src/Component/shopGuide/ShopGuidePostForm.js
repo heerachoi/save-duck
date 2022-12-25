@@ -6,6 +6,7 @@ import nextId from 'react-id-generator';
 import { NavLink } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 
+
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
 function Form() {
   const navigate = useNavigate();
@@ -50,6 +51,7 @@ function Form() {
       description: '',
     });
   };
+
   return (
 
     <StSGPInputContainer onSubmit={onSubmit}>
@@ -61,10 +63,19 @@ function Form() {
         value={lists.title}
         required
       />
-
-      <StSGPPictureInput type="file"
-        name="picture"
-        placeholder="사진을 등록해주세요." />
+      <StSGPPhotoInput>
+        <label htmlFor="ex_file">
+          <div className="btnStart">
+            <img src={'camera.png'} alt=" 클릭시 사진을 삽입할 수 있습니다." /><div className="submitPic">사진 등록</div>
+          </div>
+        </label>
+        <input
+          type="file"
+          id="ex_file"
+          accept="image/jpg, image/png, image/jpeg"
+          onChange={(e) => console.log(e.target.files[0])}
+        />
+      </StSGPPhotoInput>
 
       <StSGPDescriptionInput
         type="text"
@@ -78,7 +89,7 @@ function Form() {
         <StSGPSubmitButton onClick={() => { previousPageHanlder(); alert("게시글이 성공적으로 저장되었습니다.") }}>Save
         </StSGPSubmitButton>
 
-        <StSGPCancelButton to="/shopguide">
+        <StSGPCancelButton to="/shopguide">Cancel
         </StSGPCancelButton>
       </StSGPButtonGroup>
       <StSGPInfo
@@ -113,14 +124,62 @@ width : 600px;
 height : 40px;
 margin-bottom : 20px;
 background-color: #F5F5F5;
+outline : hidden;
+border : none;
 
 `;
 
-const StSGPPictureInput = styled.input`
-width : 400px;
-height : 30px;
-margin-bottom : 20px;
-background-color: #F5F5F5;
+const StSGPPhotoInput = styled.div`
+  margin-bottom:1rem;
+  width : 300px;
+  height : 30px;
+  background-color : #FFC226;
+  border-radius:10px;
+  display: flex;
+  flex-direction: row;
+  align-item: center;
+
+  .btnStart {
+    display: flex;
+    flex-direction: row;
+    align-item: center;
+  }
+
+  
+  .submitPic {
+    position : absolute;
+    top: px;
+    width : 80px;
+    height : 15px;
+    font-size: 12px;
+    color: white;
+    margin:10px 0 0px 110px;
+  }
+
+  img {
+    max-width: 20px;
+    margin-left:80px;
+    margin-top: 7px;
+
+  }
+
+  label {
+    width: 300px;
+    height: 40px;
+    cursor: pointer;
+    
+  }
+
+  input[type="file"] {
+    position: absolute;
+    width: 300px;
+    height: 40px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
 `;
 
 
@@ -128,14 +187,17 @@ const StSGPDescriptionInput = styled.input`
 width : 700px;
 height : 200px;
 background-color: #F5F5F5;
+outline : none;
+border: none;
 `;
 
 const StSGPButtonGroup = styled.div`
-margin-top : 2rem;
+margin-top:2rem;
+display: flex;
+align-item:center;
 `;
 
 const StSGPSubmitButton = styled.button`
-
 display: inline-block;
 border: none;
 background-color: #FF8A00;
@@ -144,7 +206,12 @@ height: 70px;
 border-radius: 50%;
 cursor: pointer;
 font-weight: bold;
+text-decoration: none;
+color: white;
+text-size: 10px;
+margin-left:15px;
 margin-right : 15px;
+position : relative;
 `;
 
 const StSGPCancelButton = styled(NavLink)`
@@ -157,8 +224,12 @@ border-radius: 50%;
 cursor: pointer;
 font-weight: bold;
 text-decoration: none;
-color: black;
-text-size: 10px;
+color: white;
+font-size: 18px;
+margin-left:15px;
+position : relative;
+line-height: 350%;
+text-align: center;
 `;
 
 
