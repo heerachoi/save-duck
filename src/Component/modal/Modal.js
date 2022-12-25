@@ -19,6 +19,8 @@ export const ProfileImageContainer = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+  object-fit: fill;
+  padding-left: 20px;
 
   background-color: lightgrey;
   border: 1px solid transparent;
@@ -86,3 +88,4 @@ export const Container = styled.div`
 export const StyledblankProfilesImg = styled.img`
   margin-bottom: 10px;
 `;
+export const StyledprofileName = styled.h3``;
