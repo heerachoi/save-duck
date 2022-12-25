@@ -4,10 +4,17 @@ import { v4 as uuidv4 } from 'uuid';
 import { addComment } from '../redux/modules/comment';
 import CommentList from '../Component/shopGuideDetail/CommentList';
 import moment from 'moment';
-
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+
+
+
+
+// Minsung 수정  
+import { useSelector } from 'react-redux'; // useSelector를 사용해 store에 있는 state를 구독하기 위해해 import
+import { useParams } from "react-router-dom"; // path에 있는 id를 가져오기 위해 import
+import lists from '../redux/modules/list';
 
 const ShopGuideDetails = () => {
   // 댓글 기본 state
@@ -15,7 +22,7 @@ const ShopGuideDetails = () => {
 
   const dispatch = useDispatch();
 
-  const onChangeHandler = (event) => {};
+  const onChangeHandler = (event) => { };
 
   // 게시글 삭제 기능
   const deleteButtonClickHandler = () => {
@@ -43,31 +50,31 @@ const ShopGuideDetails = () => {
     setComment(event.target.value);
   };
 
+  // Minsung 수정
+  const param = useParams();
+  const listStore = useSelector((state) => state.lists);
+  const bStore = listStore.filter((state) => state.id === param.id);
+  const lists = bStore[0];
+
+  // console.log(lists);
   return (
     <StShopDetailsContainer>
       {/* 게시글 영역 */}
-      <StShopDetailsArticle>
+
+      <StShopDetailsArticle key={lists.id}>
         <StShopDetailsArticleTitle>
-          게시글의 제목이 들어갑니다.
+          {lists.title}
         </StShopDetailsArticleTitle>
         <StShopDetailsImage
           className='detailsMainImage'
-          src='images/shop_guide_detail_image.jpg'
-          alt='떡볶이 사진'
+          src={`${lists.profilepicture}`}
+          alt='첨부된 이미지'
         />
         <StShopDetailsArticleContents>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-          vulputate diam in nisl lobortis, at elementum purus consectetur.
-          Aliquam sodales pellentesque neque eu mollis. Mauris justo magna,
-          pretium non risus dapibu in nisl lobortis, at elementum purus
-          consectetur. Aliquam sodales pellentesque neque eu mollis. Mauris
-          justo magna, pretium non risus dapibu in nisl lobortis, at elementum
-          purus consectetur. Aliquam sodales pellentesque neque eu mollis.
-          Mauris justo magna, pretium non risus dapibu in nisl lobortis, at
-          elementum purus consectetur. Aliquam sodales pellentesque neque eu
-          mollis. Mauris justo magna, pretium non risus dapibu
+          {lists.description}
         </StShopDetailsArticleContents>
       </StShopDetailsArticle>
+
       {/* 수정 / 삭제 버튼 */}
       <StShopDetailsEditButtons>
         <FontAwesomeIcon

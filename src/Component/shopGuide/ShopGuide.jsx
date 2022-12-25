@@ -1,10 +1,18 @@
 import React from 'react';
 import styled from 'styled-components';
+
 import { useSelector } from 'react-redux'; //useSelector 훅 임포트, state값을 조회한다
+import { useDispatch } from 'react-redux'; //useDispatch 훅 임포트, state값을 변경한다
+
+
 import nextId from 'react-id-generator';
-import { NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom"; //페이지 이동을 위한 라우터 임포트
 
 function List() {
+
+
+  const dispatch = useDispatch(); // useDispatch 훅을 통해 state값을 변경한다.
+
   const listStore = useSelector((state) => state.lists); // useSelector 훅을 통해 state값을 조회한다.
 
   return (
@@ -13,7 +21,7 @@ function List() {
         return (
           <StShopGuidePostWrapper>
 
-            <StShopGuidePostContainer key={lists.id} to={'/shopguidedetails'}>
+            <StShopGuidePostContainer key={lists.id} to={`/shopguidedetails/${lists.id}`}>
               <StShopGuideTop>
                 <StShopGuidePostNumbering>
                   <span>{lists.id}</span>
