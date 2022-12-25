@@ -119,6 +119,12 @@ export const XIcon = styled(FontAwesomeIcon)`
   cursor: pointer;
 `;
 
+export const CheckIcon = styled(FontAwesomeIcon)`
+  cursor: pointer;
+  margin: 10px;
+  font-size: 14px;
+`;
+
 export const CheckListTotalContainer = styled.div`
   display: flex;
   flex-direction: row;
