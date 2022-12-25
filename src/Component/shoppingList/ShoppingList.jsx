@@ -27,14 +27,85 @@ import {
   ScrollBox,
 } from './ShoppingList.js';
 
-const ShoppingList = () => {
+const ShoppingList = ({ year, month, date }) => {
+  const currentYear = year;
+  const currentMonth = month + 1;
+  const currentDate = date;
+
   return (
     <ShoppingListContainer>
-      <DateContainer>22.12.19</DateContainer>
+      <DateContainer>
+        {currentYear}.{currentMonth}.{currentDate}
+      </DateContainer>
       <DateUnderLine></DateUnderLine>
       <ShoppingListTitle>쇼핑 목록 +</ShoppingListTitle>
       <ScrollBox>
         <UncheckedList>
+          <ListItem>
+            <ShowItem>
+              <CheckBox type='checkbox' />
+              <ItemPriceContainer>
+                <ItemName>고구마</ItemName>
+                <ItemPrice>5,500원</ItemPrice>
+              </ItemPriceContainer>
+            </ShowItem>
+            <UnshowItem>
+              <PencilIcon icon={faPencil} />
+              <XIcon icon={faX} />
+            </UnshowItem>
+          </ListItem>
+          <ListItem>
+            <ShowItem>
+              <CheckBox type='checkbox' />
+              <ItemPriceContainer>
+                <ItemName>고구마</ItemName>
+                <ItemPrice>5,500원</ItemPrice>
+              </ItemPriceContainer>
+            </ShowItem>
+            <UnshowItem>
+              <PencilIcon icon={faPencil} />
+              <XIcon icon={faX} />
+            </UnshowItem>
+          </ListItem>
+          <ListItem>
+            <ShowItem>
+              <CheckBox type='checkbox' />
+              <ItemPriceContainer>
+                <ItemName>고구마</ItemName>
+                <ItemPrice>5,500원</ItemPrice>
+              </ItemPriceContainer>
+            </ShowItem>
+            <UnshowItem>
+              <PencilIcon icon={faPencil} />
+              <XIcon icon={faX} />
+            </UnshowItem>
+          </ListItem>
+          <ListItem>
+            <ShowItem>
+              <CheckBox type='checkbox' />
+              <ItemPriceContainer>
+                <ItemName>고구마</ItemName>
+                <ItemPrice>5,500원</ItemPrice>
+              </ItemPriceContainer>
+            </ShowItem>
+            <UnshowItem>
+              <PencilIcon icon={faPencil} />
+              <XIcon icon={faX} />
+            </UnshowItem>
+          </ListItem>
+          <ListItem>
+            <ShowItem>
+              <CheckBox type='checkbox' />
+              <ItemPriceContainer>
+                <ItemName>고구마</ItemName>
+                <ItemPrice>5,500원</ItemPrice>
+              </ItemPriceContainer>
+            </ShowItem>
+            <UnshowItem>
+              <PencilIcon icon={faPencil} />
+              <XIcon icon={faX} />
+            </UnshowItem>
+          </ListItem>
           <ListItem>
             <ShowItem>
               <CheckBox type='checkbox' />
