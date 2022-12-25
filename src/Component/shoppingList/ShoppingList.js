@@ -1,88 +1,6 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export const HomeContainer = styled.div`
-  width: 100%;
-  /* max-width: 1200px; */
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 50px;
-  margin-top: 30px;
-  /* background-color: aliceblue; */
-`;
-
-export const CalendarContainer = styled.div`
-  width: 400px;
-  height: 500px;
-  margin: 5px;
-`;
-
-export const CalendarHead = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 24px;
-  flex-direction: column;
-  margin-bottom: 40px;
-`;
-
-export const MonthNavigation = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 100%;
-  justify-content: space-between;
-`;
-
-export const MonthArrow = styled.p`
-  font-size: 20px;
-  font-weight: 600;
-  cursor: pointer;
-`;
-
-export const CurrentYear = styled.p`
-  font-size: 14px;
-  margin-bottom: 12px;
-`;
-
-export const CurrentMonth = styled.p`
-  font-size: 20px;
-  font-weight: 500;
-`;
-
-export const SevenColGrid = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  /* height: 40px; */
-  margin-bottom: 20px;
-  /* background-color: aliceblue; */
-`;
-
-export const HeadDay = styled.span`
-  text-align: center;
-  font-size: 14px;
-  font-weight: 500;
-`;
-
-export const CalendarBody = styled.div`
-  /* height: 80px; */
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: repeat(${({ fourCol }) => (fourCol ? 4 : 5)}, 1fr);
-`;
-
-export const StyledDay = styled.div`
-  height: 50px;
-  width: 50px;
-  text-align: center;
-  cursor: pointer;
-  padding-top: 6px;
-  margin: 3px 1px;
-  ${({ active }) => active && `border: 1px solid #FFC226`}
-`;
-
 export const ShoppingListContainer = styled.div`
   width: 500px;
   height: 500px;
@@ -136,7 +54,6 @@ export const ListItem = styled.div`
   align-items: center;
   justify-content: center;
   /* margin-bottom: 10px; */
-
   /* width: 500px; */
   /* justify-content: space-around; */
   /* background-color: aquamarine; */
@@ -224,7 +141,6 @@ export const CheckedList = styled.div`
   /* justify-content: center; */
   /* align-items: center; */
   align-items: center;
-
   padding-bottom: 20px;
   border-bottom: 1px solid;
   margin-bottom: 10px;
