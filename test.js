@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { addComment } from '../redux/modules/comment';
-import CommentList from '../Component/shopGuideDetail/CommentList';
+import CommentList from '../Component/commentList/CommentList';
 import moment from 'moment';
 
 import styled from 'styled-components';
@@ -10,12 +10,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const ShopGuideDetails = () => {
-  // 댓글 기본 state
   const [comment, setComment] = useState('');
+  const globalComment = useSelector((state) => state.comments);
 
   const dispatch = useDispatch();
-
-  const onChangeHandler = (event) => {};
 
   // 게시글 삭제 기능
   const deleteButtonClickHandler = () => {
@@ -29,17 +27,13 @@ const ShopGuideDetails = () => {
       id: uuidv4(),
       comment,
       savetime: moment().format('YYYY-MM-DD-hh:mm'),
-      modify: false,
     };
     dispatch(addComment(newComment));
-    // console.log(moment().format('YYYY-MM-DD-hh:mm'));
-    // console.log(newComment);
     setComment('');
   };
 
   // 댓글 작성 인풋창 내용 입력 시 state 업데이트
   const CommentChangeHandler = (event) => {
-    // console.log(event.target.value);
     setComment(event.target.value);
   };
 
@@ -47,40 +41,19 @@ const ShopGuideDetails = () => {
     <StShopDetailsContainer>
       {/* 게시글 영역 */}
       <StShopDetailsArticle>
-        <StShopDetailsArticleTitle>
-          게시글의 제목이 들어갑니다.
-        </StShopDetailsArticleTitle>
-        <StShopDetailsImage
-          className='detailsMainImage'
-          src='images/shop_guide_detail_image.jpg'
-          alt='떡볶이 사진'
-        />
+        <StShopDetailsArticleTitle>게시글의 제목이 들어갑니다.</StShopDetailsArticleTitle>
+        <StShopDetailsImage className='detailsMainImage' src='images/shop_guide_detail_image.jpg' alt='떡볶이 사진' />
         <StShopDetailsArticleContents>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-          vulputate diam in nisl lobortis, at elementum purus consectetur.
-          Aliquam sodales pellentesque neque eu mollis. Mauris justo magna,
-          pretium non risus dapibu in nisl lobortis, at elementum purus
-          consectetur. Aliquam sodales pellentesque neque eu mollis. Mauris
-          justo magna, pretium non risus dapibu in nisl lobortis, at elementum
-          purus consectetur. Aliquam sodales pellentesque neque eu mollis.
-          Mauris justo magna, pretium non risus dapibu in nisl lobortis, at
-          elementum purus consectetur. Aliquam sodales pellentesque neque eu
-          mollis. Mauris justo magna, pretium non risus dapibu
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vulputate diam in nisl lobortis, at elementum purus consectetur. Aliquam sodales pellentesque neque eu mollis. Mauris justo
+          magna, pretium non risus dapibu in nisl lobortis, at elementum purus consectetur. Aliquam sodales pellentesque neque eu mollis. Mauris justo magna, pretium non risus dapibu in nisl lobortis,
+          at elementum purus consectetur. Aliquam sodales pellentesque neque eu mollis. Mauris justo magna, pretium non risus dapibu in nisl lobortis, at elementum purus consectetur. Aliquam sodales
+          pellentesque neque eu mollis. Mauris justo magna, pretium non risus dapibu
         </StShopDetailsArticleContents>
       </StShopDetailsArticle>
       {/* 수정 / 삭제 버튼 */}
       <StShopDetailsEditButtons>
-        <FontAwesomeIcon
-          id='articleEditButton'
-          icon={faPen}
-          style={{ cursor: 'pointer' }}
-        />
-        <FontAwesomeIcon
-          id='articleDeleteButton'
-          icon={faTrashCan}
-          onClick={deleteButtonClickHandler}
-          style={{ cursor: 'pointer' }}
-        />
+        <FontAwesomeIcon id='articleEditButton' icon={faPen} style={{ cursor: 'pointer' }} />
+        <FontAwesomeIcon id='articleDeleteButton' icon={faTrashCan} onClick={deleteButtonClickHandler} style={{ cursor: 'pointer' }} />
       </StShopDetailsEditButtons>
       {/* 댓글 영역 */}
       <br />
@@ -89,12 +62,7 @@ const ShopGuideDetails = () => {
 
         <StCommentMyProfileImage src='images/default_profile.webp' alt='' />
         <StCommentForm onSubmit={commentSubmitHandler}>
-          <StCommentInput
-            id='comment'
-            placeholder='댓글을 입력해주세요.'
-            value={comment}
-            onChange={CommentChangeHandler}
-          />
+          <StCommentInput id='comment' placeholder='댓글을 입력해주세요.' value={comment} onChange={CommentChangeHandler} />
           <StCommentSaveButton type='submit'>댓글 등록</StCommentSaveButton>
         </StCommentForm>
       </StCommentContainer>

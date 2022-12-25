@@ -1,6 +1,7 @@
-import { useState } from 'react';
-
-import { faPencil, faX } from '@fortawesome/free-solid-svg-icons';
+import { useState, useEffect } from 'react';
+import { db } from '../../firebase.js';
+import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { faPencil, faX, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 import {
   ShoppingListContainer,
@@ -15,6 +16,7 @@ import {
   CheckedList,
   PencilIcon,
   XIcon,
+  CheckIcon,
   ItemPriceContainer,
   CheckListTotalContainer,
   CheckListTotalText,
@@ -31,6 +33,51 @@ const ShoppingList = ({ year, month, date }) => {
   const currentYear = year;
   const currentMonth = month + 1;
   const currentDate = date;
+
+  // const [item, setItem] = useState([]);
+  const [itemList, setItemList] = useState(['당근']);
+
+  const dateToString = '' + currentYear + currentMonth + currentDate;
+  const dateCollectionRef = collection(db, dateToString);
+
+  const syncShoppingItemListStateWithFirestore = () => {
+    getDocs(collection(db, dateToString)).then((querySnapshop) => {
+      const firestoreShoppingItemList = [];
+      querySnapshop.forEach((doc) => {
+        firestoreShoppingItemList.push({
+          date: doc.data().date,
+          item: doc.data().item,
+          isChecked: doc.data().isChecked,
+          price: doc.data().price,
+        });
+      });
+      setItemList(firestoreShoppingItemList);
+    });
+  };
+
+  useEffect(() => {
+    syncShoppingItemListStateWithFirestore();
+  }, []);
+
+  const addItem = async (newShoppingItem) => {
+    const docRef = await addDoc(collection(db, dateToString), {
+      date: dateToString,
+      item: '고기',
+      isChecked: false,
+      price: 3000,
+    });
+    setItemList([
+      ...itemList,
+      {
+        date: dateToString,
+        item: '고기',
+        isChecked: false,
+        price: 3000,
+      },
+    ]);
+    // console.log('docRef');
+    // console.log(docRef);
+  };
 
   return (
     <ShoppingListContainer>
@@ -55,77 +102,12 @@ const ShoppingList = ({ year, month, date }) => {
             </UnshowItem>
           </ListItem>
           <ListItem>
-            <ShowItem>
-              <CheckBox type='checkbox' />
-              <ItemPriceContainer>
-                <ItemName>고구마</ItemName>
-                <ItemPrice>5,500원</ItemPrice>
-              </ItemPriceContainer>
-            </ShowItem>
-            <UnshowItem>
-              <PencilIcon icon={faPencil} />
-              <XIcon icon={faX} />
-            </UnshowItem>
-          </ListItem>
-          <ListItem>
-            <ShowItem>
-              <CheckBox type='checkbox' />
-              <ItemPriceContainer>
-                <ItemName>고구마</ItemName>
-                <ItemPrice>5,500원</ItemPrice>
-              </ItemPriceContainer>
-            </ShowItem>
-            <UnshowItem>
-              <PencilIcon icon={faPencil} />
-              <XIcon icon={faX} />
-            </UnshowItem>
-          </ListItem>
-          <ListItem>
-            <ShowItem>
-              <CheckBox type='checkbox' />
-              <ItemPriceContainer>
-                <ItemName>고구마</ItemName>
-                <ItemPrice>5,500원</ItemPrice>
-              </ItemPriceContainer>
-            </ShowItem>
-            <UnshowItem>
-              <PencilIcon icon={faPencil} />
-              <XIcon icon={faX} />
-            </UnshowItem>
-          </ListItem>
-          <ListItem>
-            <ShowItem>
-              <CheckBox type='checkbox' />
-              <ItemPriceContainer>
-                <ItemName>고구마</ItemName>
-                <ItemPrice>5,500원</ItemPrice>
-              </ItemPriceContainer>
-            </ShowItem>
-            <UnshowItem>
-              <PencilIcon icon={faPencil} />
-              <XIcon icon={faX} />
-            </UnshowItem>
-          </ListItem>
-          <ListItem>
-            <ShowItem>
-              <CheckBox type='checkbox' />
-              <ItemPriceContainer>
-                <ItemName>고구마</ItemName>
-                <ItemPrice>5,500원</ItemPrice>
-              </ItemPriceContainer>
-            </ShowItem>
-            <UnshowItem>
-              <PencilIcon icon={faPencil} />
-              <XIcon icon={faX} />
-            </UnshowItem>
-          </ListItem>
-          <ListItem>
             <CheckBox type='checkbox' />
             <ItemPriceContainer>
               <ItemName>입력해주세요</ItemName>
               <ItemPrice>-- 원</ItemPrice>
             </ItemPriceContainer>
-            <PencilIcon icon={faPencil} />
+            <CheckIcon onClick={addItem} icon={faCheck} />
             <XIcon icon={faX} />
           </ListItem>
           <CheckListTotalContainer>
