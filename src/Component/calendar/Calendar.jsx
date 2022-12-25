@@ -4,25 +4,14 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { db } from '../../firebase.js';
+import { collection, addDoc, getDocs } from 'firebase/firestore';
 
 import ShoppingList from '../shoppingList/ShoppingList.jsx';
 
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { HomeContainer, CalendarContainer, CalendarHead, SevenColGrid, HeadDay, CalendarBody, MonthNavigation, MonthArrow, StyledDay, CurrentMonth, CurrentYear } from './Calendar.js';
 
-// Firestore와 통신하는 함수
-import { loadListFB } from '../../redux/modules/shoppingListActions.js';
-
 const Calendar = ({ startingDate }) => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    console.log(db);
-    async function loadTest() {
-      dispatch(loadListFB());
-    }
-    loadTest();
-  }, []);
-
   const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
   const MONTHS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
@@ -189,16 +178,6 @@ const Calendar = ({ startingDate }) => {
             </StyledDay>
           ))}
         </CalendarBody>
-        <button
-          onClick={
-            // firestore에서 첫번째 문서 삭제
-            () => {
-              dispatch(loadListFB(0));
-            }
-          }
-        >
-          데이터 삭제
-        </button>
       </CalendarContainer>
       {currentShoppingList}
     </HomeContainer>
