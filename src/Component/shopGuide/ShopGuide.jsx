@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux'; //useSelector 훅 임포트, state값을 조회한다
 import nextId from 'react-id-generator';
+import { NavLink } from "react-router-dom";
+
 function List() {
   const listStore = useSelector((state) => state.lists); // useSelector 훅을 통해 state값을 조회한다.
 
@@ -9,7 +11,8 @@ function List() {
     <div>
       {listStore.map((lists) => {
         return (
-          <StShopGuidePostContainer key={lists.id}>
+
+          <StShopGuidePostContainer key={lists.id} to='/shopguidedetails'>
             <StShopGuideTop>
               <StShopGuidePostNumbering>
                 <span>{lists.id}</span>
@@ -44,6 +47,7 @@ export default List;
 
 const StShopGuidePostContainer = styled.div`
   margin: 25px 100px 15px 100px;
+  background: inherit ; border:none; box-shadow:none; border-radius:0; padding:0; overflow:visible; cursor:pointer
 `;
 const StShopGuideTop = styled.div`
   height: 20px;
