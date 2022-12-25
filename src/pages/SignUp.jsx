@@ -1,5 +1,7 @@
+import SignUpComponent from "../Component/signUp/SignUp.jsx";
+
 const SignUp = () => {
-  return <div>SignUp</div>;
+  return <SignUpComponent startingDate={new Date()}></SignUpComponent>;
 };
 
 export default SignUp;
