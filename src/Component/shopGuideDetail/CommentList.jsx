@@ -5,16 +5,48 @@ import moment from 'moment';
 import { deleteComment, modifyModeComment } from '../../redux/modules/comment';
 import CommentItem from './CommentItem';
 import styled from 'styled-components';
+import {
+  collection,
+  getDocs,
+  query,
+  orderBy,
+  // where,
+} from 'firebase/firestore';
+import { db } from '../../firebase';
 
 const CommentList = () => {
-  const globalComment = useSelector((state) => state.comments);
+  // const globalComment = useSelector((state) => state.comments);
 
-  // 수정 모드 확인 state
-  const [edited, setEdited] = useState(false);
+  const [commentList, setCommentList] = useState([]);
+
+  const syncTodoItemListStateWithFirestore = () => {
+    const q = query(
+      collection(db, 'commentList'),
+      // where('userId', '==', currentUser),
+      orderBy('savetime', 'desc')
+    );
+
+    getDocs(q).then((querySnapshot) => {
+      const firestoreTodoItemList = [];
+      querySnapshot.forEach((doc) => {
+        // console.log(doc);
+        firestoreTodoItemList.push({
+          id: doc.id,
+          comment: doc.data().comment,
+          userId: doc.data().userId,
+        });
+      });
+      setCommentList(firestoreTodoItemList);
+    });
+  };
+
+  useEffect(() => {
+    syncTodoItemListStateWithFirestore();
+  }, []);
 
   return (
     <div>
-      {globalComment.map((item) => {
+      {commentList.map((item) => {
         return <CommentItem key={item.id} item={item} />;
       })}
     </div>
