@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+
+
 export const LoginWrap = styled.div`
   position: absolute;
   top: 0;
@@ -93,7 +95,9 @@ export const ErrorMessgeWrap = styled.div`
 
 export const ErrorpasswordWrap = styled.div``;
 
+//! nvibar 안보이도록
 //! 소셜로그인 btn 수정
 //! background 오리 애니메이션 구현.
 //! 회원가입 Html.css 완성
 //! firebase 연동해서 로그인정보, 회원정보 가져오기
+

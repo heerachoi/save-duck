@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import {
   LoginWrap,
   LoginContaier,
@@ -18,7 +19,7 @@ import {
 //더미
 const User = {
   email: "test@saveduck.com",
-  pw: "12345678!",
+  pw: "q1w2e3r4!@",
 };
 
 function SignInComponent() {
@@ -27,7 +28,11 @@ function SignInComponent() {
 
   const [emailValid, setEmailValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
-  //   const [notAllow,]
+
+  const navigate = useNavigate(); //회원가입 이동 함수
+  const navigateSignUp = () => {
+    navigate("/SignUp");
+  };
 
   const handleEmail = (e) => {
     setEmail(e.target.value);
@@ -99,7 +104,7 @@ function SignInComponent() {
             </InputWrap>
             <ErrorMessgeWrap>
               {!pwValid && pw.length > 0 && (
-                <div>! 이메일과 패스워드가 일치하지 않습니다.</div>
+                <div>옳바르지 않은 비밀번호 형식입니다.</div>
               )}
             </ErrorMessgeWrap>
           </div>
@@ -111,7 +116,7 @@ function SignInComponent() {
               <SignInBtn onClick={onClickConfirmButton}>로그인</SignInBtn>
             </div>
             <div>
-              <SignUpBtn>회원가입</SignUpBtn>
+              <SignUpBtn onClick={navigateSignUp}>회원가입</SignUpBtn>
             </div>
           </ButtonSign>
           <div>
