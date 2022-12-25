@@ -23,9 +23,6 @@ const Calendar = ({ startingDate }) => {
     loadTest();
   }, []);
 
-  const [currentMonth, setCurrentMonth] = useState(startingDate.getMonth());
-  const [currentYear, setCurrentYear] = useState(startingDate.getFullYear());
-
   const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
   const MONTHS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
@@ -33,23 +30,27 @@ const Calendar = ({ startingDate }) => {
   const date = new Date(); // Thu Dec 22 2022 01:04:56 GMT+0900 (한국 표준시)
   const viewYear = date.getFullYear(); // 2022
   const viewMonth = date.getMonth();
+  const viewDate = date.getDate();
+
+  const [currentMonth, setCurrentMonth] = useState(startingDate.getMonth());
+  const [currentYear, setCurrentYear] = useState(startingDate.getFullYear());
+
+  const [currentShoppingList, setShoppingList] = useState(<ShoppingList year={viewYear} month={viewMonth} date={viewDate} />);
+
+  const ShoppingListTag = (year, month, date) => {
+    return setShoppingList(<ShoppingList year={year} month={month} date={date} />);
+  };
 
   const prevLast = new Date(viewYear, viewMonth, 0); // Wed Nov 30 2022 00:00:00 GMT+0900 (한국 표준시)
   const thisLast = new Date(viewYear, viewMonth, 0); // Sat Dec 31 2022 00:00:00 GMT+0900 (한국 표준시)
 
   const PLDate = prevLast.getDate(); // 30
   const PLDay = prevLast.getDay(); // 3
-  // console.log('PLDate = ' + PLDate);
-  // console.log('PLDay = ' + PLDay);
 
   const TLDate = thisLast.getDate(); // 31
   const TLDay = thisLast.getDay(); // 6
-  // console.log('TLDate = ' + TLDate);
-  // console.log('TLDay = ' + TLDay);
 
   const prevDays = [];
-  const thisDays = [...Array(TLDate + 1).keys()].slice(1);
-  // console.log('thisDays = ' + thisDays);
   const nextDays = [];
 
   if (PLDay !== 6) {
@@ -84,17 +85,6 @@ const Calendar = ({ startingDate }) => {
   // 오늘 날짜인 곳에 핑크색 배경
   const areDatesTheSame = (first, second) => {
     return first.getFullYear() === second.getFullYear() && first.getMonth() === second.getMonth() && first.getDate() === second.getDate();
-  };
-
-  const range = (end) => {
-    const { result } = Array.from({ length: end }).reduce(
-      ({ result, current }) => ({
-        result: [...result, current],
-        current: current + 1,
-      }),
-      { result: [], current: 1 }
-    );
-    return result;
   };
 
   const nextMonth = () => {
@@ -171,10 +161,6 @@ const Calendar = ({ startingDate }) => {
     }
   };
 
-  const dateClick = () => {
-    console.log(currentMonth);
-  };
-
   changeYearMonth(currentYear, currentMonth + 1);
   return (
     <HomeContainer>
@@ -197,9 +183,9 @@ const Calendar = ({ startingDate }) => {
           ))}
         </SevenColGrid>
         <CalendarBody fourCol={DAYSINAMONTH === 28}>
-          {h.map((day) => (
-            <StyledDay onClick={dateClick} key={nextId()} active={areDatesTheSame(new Date(), getDateObj(day, currentMonth, currentYear))}>
-              {day}
+          {h.map((date) => (
+            <StyledDay onClick={() => ShoppingListTag(currentYear, currentMonth, date)} key={nextId()} active={areDatesTheSame(new Date(), getDateObj(date, currentMonth, currentYear))}>
+              {date}
             </StyledDay>
           ))}
         </CalendarBody>
@@ -214,7 +200,7 @@ const Calendar = ({ startingDate }) => {
           데이터 삭제
         </button>
       </CalendarContainer>
-      <ShoppingList />
+      {currentShoppingList}
     </HomeContainer>
   );
 };

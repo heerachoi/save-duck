@@ -5,6 +5,7 @@ import { addComment } from "../redux/modules/comment";
 import CommentList from "../Component/commentList/CommentList";
 import moment from "moment";
 
+
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPen, faTrashCan } from "@fortawesome/free-solid-svg-icons";
@@ -13,11 +14,10 @@ const ShopGuideDetails = () => {
   const [comment, setComment] = useState("");
   const globalComment = useSelector((state) => state.comments);
 
+
   const dispatch = useDispatch();
 
-  const onChangeHandler = (event) => {};
-
-  // 게시글 삭제 버튼 - 클릭 시 comfirm 확인 후 삭제
+  // 게시글 삭제 기능
   const deleteButtonClickHandler = () => {
     window.confirm("해당 게시글을 삭제하시겠습니까?");
   };
@@ -29,13 +29,13 @@ const ShopGuideDetails = () => {
       id: uuidv4(),
       comment,
       savetime: moment().format("YYYY-MM-DD-hh:mm"),
+
     };
-    // console.log(newComment);
     dispatch(addComment(newComment));
     setComment("");
   };
 
-  // 댓글 작성 인풋창 - 내용 입력 시 state 업데이트
+  // 댓글 작성 인풋창 내용 입력 시 state 업데이트
   const CommentChangeHandler = (event) => {
     setComment(event.target.value);
   };
@@ -154,6 +154,7 @@ const StShopDetailsEditButtons = styled.div`
 const StCommentContainer = styled.div`
   display: flex;
   justify-content: center;
+  /* align-items: center; */
   width: 100%;
 `;
 
@@ -170,6 +171,8 @@ const StCommentForm = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
+  /* text-align: right; */
+  /* width: 60%; */
 `;
 
 const StCommentInput = styled.textarea`

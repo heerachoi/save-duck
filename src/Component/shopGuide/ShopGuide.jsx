@@ -1,8 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-
 import { useSelector } from 'react-redux'; //useSelector 훅 임포트, state값을 조회한다
-
+import nextId from 'react-id-generator';
 function List() {
   const listStore = useSelector((state) => state.lists); // useSelector 훅을 통해 state값을 조회한다.
 
@@ -10,7 +9,7 @@ function List() {
     <div>
       {listStore.map((lists) => {
         return (
-          <StShopGuidePostContainer>
+          <StShopGuidePostContainer key={lists.id}>
             <StShopGuideTop>
               <StShopGuidePostNumbering>
                 <span>{lists.id}</span>
