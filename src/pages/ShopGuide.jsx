@@ -43,6 +43,7 @@ const StShopGuideContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-decoration : none;
 `;
 
 const StShopGuideHeader = styled.div`

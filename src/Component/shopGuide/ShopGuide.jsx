@@ -11,32 +11,35 @@ function List() {
     <div>
       {listStore.map((lists) => {
         return (
+          <StShopGuidePostWrapper>
 
-          <StShopGuidePostContainer key={lists.id} to='/shopguidedetails'>
-            <StShopGuideTop>
-              <StShopGuidePostNumbering>
-                <span>{lists.id}</span>
-              </StShopGuidePostNumbering>
-              <StShopGuidePostTitle>
-                <span>{lists.title}</span>
-              </StShopGuidePostTitle>
-            </StShopGuideTop>
-            <StShopGuidePostInfo>
+            <StShopGuidePostContainer key={lists.id} to={'/shopguidedetails'}>
+              <StShopGuideTop>
+                <StShopGuidePostNumbering>
+                  <span>{lists.id}</span>
+                </StShopGuidePostNumbering>
+                <StShopGuidePostTitle>
+                  <span>{lists.title}</span>
+                </StShopGuidePostTitle>
+              </StShopGuideTop>
+              <StShopGuidePostInfo>
 
-              <label type={"picture"}></label>
-              <StShopGuidePostUserPicture></StShopGuidePostUserPicture>
+                <label type={"picture"}></label>
+                <StShopGuidePostUserPicture></StShopGuidePostUserPicture>
 
-              <StShopGuidePostUserName>
-                <span>{lists.username}</span>
-              </StShopGuidePostUserName>
-              <StShopGuidePostDate>
-                <span>{lists.date}</span>
-              </StShopGuidePostDate>
-            </StShopGuidePostInfo>
-            <StShopGuidePostDescription>
-              <span>{lists.description}</span>
-            </StShopGuidePostDescription>
-          </StShopGuidePostContainer>
+                <StShopGuidePostUserName>
+                  <span>{lists.username}</span>
+                </StShopGuidePostUserName>
+                <StShopGuidePostDate>
+                  <span>{lists.date}</span>
+                </StShopGuidePostDate>
+              </StShopGuidePostInfo>
+              <StShopGuidePostDescription>
+                <span>{lists.description}</span>
+              </StShopGuidePostDescription>
+            </StShopGuidePostContainer>
+
+          </StShopGuidePostWrapper>
         );
       })}
     </div>
@@ -45,9 +48,15 @@ function List() {
 
 export default List;
 
-const StShopGuidePostContainer = styled.div`
+const StShopGuidePostWrapper = styled.div`
+max-width : 800px;
+text-decoration : none;
+`;
+const StShopGuidePostContainer = styled(NavLink)`
+  max-width : 500px;
   margin: 25px 100px 15px 100px;
-  background: inherit ; border:none; box-shadow:none; border-radius:0; padding:0; overflow:visible; cursor:pointer
+  overflow:visible; cursor:pointer
+  text-decoration : none;
 `;
 const StShopGuideTop = styled.div`
   height: 20px;
@@ -63,12 +72,14 @@ const StShopGuidePostTitle = styled.div`
   width: 700px;
   font-size: 12px;
   font-weight: 600;
+  text-decoration : none;
 `;
 const StShopGuidePostInfo = styled.div`
   height: 20px;
   display: flex;
   flex-direction: row;
   margin-left: 55px;
+  text-decoration : none;
   label {
     display: inline-block;
     font-size: inherit;
@@ -102,4 +113,5 @@ const StShopGuidePostDescription = styled.div`
   font-size: 11px;
   color: gray;
   margin-left: 50px;
+  text-decoration : none;
 `;
