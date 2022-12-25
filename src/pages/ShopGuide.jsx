@@ -179,23 +179,4 @@ const StWritePostButton = styled(NavLink)`
   justify-content: center;
 `;
 
-const StWirtePostButton = styled.div`
-  position: fixed;
-  height: 60px;
-  width: 60px;
-  bottom: 80px;
-  right: 130px;
-  z-index: 1;
-  border: none;
-  outline: none;
-  background: #ffc226;
-  color: white;
-  cursor: pointer;
-  border-radius: 30px;
-  font-size: 18px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 export default ShopGuide;
