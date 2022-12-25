@@ -5,10 +5,29 @@ import { addpost } from '../../redux/modules/list';
 import nextId from 'react-id-generator';
 import { NavLink } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import { db } from '../../firebase'
+import { collection, addDoc, Timestamp } from 'firebase/firestore'
 
 
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
 function Form() {
+
+
+  const [title, setTitle] = useState('')
+  const [description, setDescription] = useState('')
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      await addDoc(collection(db, 'posting'), {
+        title: title,
+        description: description,
+        created: Timestamp.now()
+      })
+    } catch (err) {
+      alert(err)
+    }
+  }
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -37,30 +56,30 @@ function Form() {
   };
 
   // submit 버튼을 누르면 dispatch를 통해 addpost를 실행한다.
-  const onSubmit = (e) => {
-    e.preventDefault();
-    nextId.current += 1;
-    dispatch(addpost({ ...lists }));
-    setLists({
-      id: 0,
-      number: '',
-      title: '',
-      username: '',
-      date: '',
-      profilepicture: '',
-      description: '',
-    });
-  };
+  // const onSubmit = (e) => {
+  //   e.preventDefault();
+  //   nextId.current += 1;
+  //   dispatch(addpost({ ...lists }));
+  //   setLists({
+  //     id: 0,
+  //     number: '',
+  //     title: '',
+  //     username: '',
+  //     date: '',
+  //     profilepicture: '',
+  //     description: '',
+  //   });
+  // };
 
   return (
 
-    <StSGPInputContainer onSubmit={onSubmit}>
+    <StSGPInputContainer onSubmit={handleSubmit}>
       <StSGPTitleInput
         type="text"
         name="title"
         placeholder="제목을 입력하여 주세요."
-        onChange={onChange}
-        value={lists.title}
+        onChange={(e) => setTitle(e.target.value.toUpperCase())}
+        value={title}
         required
       />
       <StSGPPhotoInput>
@@ -80,13 +99,13 @@ function Form() {
       <StSGPDescriptionInput
         type="text"
         name="description"
-        value={lists.description}
+        value={description}
         placeholder="내용을 입력해주세요."
-        onChange={onChange}
+        onChange={(e) => setDescription(e.target.value)}
         required />
 
       <StSGPButtonGroup>
-        <StSGPSubmitButton onClick={() => { previousPageHanlder(); alert("게시글이 성공적으로 저장되었습니다.") }}>Save
+        <StSGPSubmitButton type='submit' onClick={() => { previousPageHanlder(); alert("게시글이 성공적으로 저장되었습니다.") }}>Save
         </StSGPSubmitButton>
 
         <StSGPCancelButton to="/shopguide">Cancel
