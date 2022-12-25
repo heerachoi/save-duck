@@ -8,6 +8,13 @@ import moment from 'moment';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { db } from '../firebase';
+
+import {
+  collection,
+  addDoc,
+  // where,
+} from 'firebase/firestore';
 
 const ShopGuideDetails = () => {
   // 댓글 기본 state
@@ -15,16 +22,15 @@ const ShopGuideDetails = () => {
 
   const dispatch = useDispatch();
 
-  const onChangeHandler = (event) => {};
-
   // 게시글 삭제 기능
   const deleteButtonClickHandler = () => {
     window.confirm('해당 게시글을 삭제하시겠습니까?');
   };
 
-  // 댓글 등록 버튼 - 클릭시 댓글 리스트에 작성한 댓글 추가
+  // 댓글 등록 기능 - 버튼 클릭시 댓글 리스트에 작성한 댓글 추가
   const commentSubmitHandler = (event) => {
     event.preventDefault();
+    addItem();
     const newComment = {
       id: uuidv4(),
       comment,
@@ -32,15 +38,24 @@ const ShopGuideDetails = () => {
       modify: false,
     };
     dispatch(addComment(newComment));
-    // console.log(moment().format('YYYY-MM-DD-hh:mm'));
-    // console.log(newComment);
+
     setComment('');
   };
 
   // 댓글 작성 인풋창 내용 입력 시 state 업데이트
   const CommentChangeHandler = (event) => {
-    // console.log(event.target.value);
     setComment(event.target.value);
+  };
+
+  // 댓글 추가 기능
+
+  const addItem = async (newComment) => {
+    const docRef = await addDoc(collection(db, 'commentList'), {
+      id: uuidv4(),
+      comment,
+      savetime: moment().format('YYYY-MM-DD-hh:mm'),
+      modify: false,
+    });
   };
 
   return (
