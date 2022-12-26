@@ -59,7 +59,7 @@ const Navbar = () => {
         </Menu>
 
         <SignUp>
-          <NavLink to="/signup">
+          <NavLink>
             <img
               ref={profileRef}
               onClick={() => {
