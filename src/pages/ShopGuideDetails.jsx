@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import CommentList from '../Component/shopGuideDetail/CommentList';
 import moment from 'moment';
-
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +11,9 @@ import { db } from '../firebase';
 import {
   collection,
   addDoc,
+  getDocs,
+  query,
+  orderBy,
   // where,
 } from 'firebase/firestore';
 
@@ -18,7 +21,7 @@ const ShopGuideDetails = () => {
   // 댓글 기본 state
   const [comment, setComment] = useState('');
 
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   // 게시글 삭제 기능
   const deleteButtonClickHandler = () => {
@@ -40,13 +43,45 @@ const ShopGuideDetails = () => {
   // 댓글 추가 기능
 
   const addItem = async (newComment) => {
+    let time = moment().format('YYYY-MM-DD-hh:mm');
     const docRef = await addDoc(collection(db, 'commentList'), {
       id: uuidv4(),
       comment,
-      savetime: moment().format('YYYY-MM-DD-hh:mm'),
+      savetime: time,
       modify: false,
     });
   };
+
+  // 댓글 불러오기
+
+  const [commenItemtList, setCommentItemList] = useState([]);
+
+  const syncCommentListStateWithFirestore = () => {
+    const q = query(
+      collection(db, 'commentList'),
+      // where('userId', '==', currentUser),
+      orderBy('savetime', 'desc')
+    );
+
+    getDocs(q).then((querySnapshot) => {
+      const firestoreTodoItemList = [];
+      querySnapshot.forEach((doc) => {
+        // console.log(doc);
+        firestoreTodoItemList.push({
+          id: doc.id,
+          comment: doc.data().comment,
+          userId: doc.data().userId,
+          modify: doc.data().modify,
+          savetime: doc.data().savetime,
+        });
+      });
+      setCommentItemList(firestoreTodoItemList);
+    });
+  };
+
+  useEffect(() => {
+    syncCommentListStateWithFirestore();
+  }, []);
 
   return (
     <StShopDetailsContainer>
