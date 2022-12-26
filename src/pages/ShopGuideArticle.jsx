@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ShopGuideDetails from '../pages/ShopGuideDetails.jsx';
 import styled from 'styled-components';
 
 // Minsung 수정
@@ -16,6 +17,7 @@ import {
   getDoc,
   query,
   orderBy,
+  deleteDoc,
   onSnapshot,
   where,
 } from 'firebase/firestore';
@@ -29,9 +31,16 @@ const ShopGuideArticle = () => {
   const [posting, setPosting] = useState([]);
 
   // 게시글 삭제 기능
-  const deleteButtonClickHandler = () => {
-    window.confirm('해당 게시글을 삭제하시겠습니까?');
+  const deleteButtonClickHandler = async () => {
+    if (window.confirm('해당 게시글을 삭제하시겠습니까?')) {
+      await deleteDoc(doc(db, 'posting', NavId.id));
+      alert('삭제되었습니다.');
+      window.location.href = '/shopGuide';
+    } else {
+      return;
+    }
   };
+
 
   // firestore에서 데이터 'posting' 가져오기
   const syncpostingstatewithfirestore = () => {
@@ -95,7 +104,9 @@ const ShopGuideArticle = () => {
           />
         </StShopDetailsEditButtons>
       </StShopDetailsContainer>
+      <ShopGuideDetails />
     </div>
+
   );
 };
 
@@ -131,6 +142,7 @@ const StShopDetailsImage = styled.img`
   height: 300px;
   margin-bottom: 30px;
   object-fit: cover;
+  margin-top : 40px;
 `;
 
 // 게시글 수정 버튼
