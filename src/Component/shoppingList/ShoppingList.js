@@ -5,7 +5,6 @@ export const ShoppingListContainer = styled.div`
   width: 500px;
   height: 500px;
   margin: 5px;
-  /* background-color: beige; */
   font-size: 16px;
 `;
 
@@ -36,12 +35,8 @@ export const ShoppingItemContainer = styled.div`
 `;
 
 export const UncheckedList = styled.div`
-  /* background-color: aliceblue; */
-  /* width: 100%; */
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
-  /* justify-content: center; */
   align-items: center;
   padding-bottom: 20px;
   border-bottom: 1px solid;
@@ -50,41 +45,21 @@ export const UncheckedList = styled.div`
 
 export const ListItem = styled.div`
   display: flex;
-  /* flex-direction: row; */
   align-items: center;
   justify-content: center;
-  /* margin-bottom: 10px; */
-  /* width: 500px; */
-  /* justify-content: space-around; */
-  /* background-color: aquamarine; */
 `;
 
 // 안씀
 export const ItemPriceContainer = styled.div`
   display: flex;
   flex-direction: row;
-  /* align-items: center; */
   font-size: 14px;
   border-bottom: 1px solid;
   width: 400px;
-  /* background-color: aqua; */
   justify-content: space-between;
 `;
 
-export const ShowItem = styled.div`
-  /* background-color: beige; */
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  /* text-align: center; */
-`;
-
-export const UnshowItem = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
+export const ItemPriceInputContainer = styled.div``;
 
 // check box 조금 더 찾아보기
 export const CheckBox = styled.input`
@@ -92,27 +67,6 @@ export const CheckBox = styled.input`
   cursor: pointer;
   margin-right: 10px;
   /* border: 1px solid #ffc226; */
-`;
-
-export const ItemName = styled.div`
-  /* background-color: violet; */
-  width: 300px;
-  font-size: 14px;
-  /* margin-right: 10px; */
-  /* border-bottom: 1px solid; */
-  padding-bottom: 2px;
-`;
-
-export const ItemPrice = styled.div`
-  /* margin-right: 10px; */
-  /* width: 50px; */
-  /* padding-bottom: 2px; */
-`;
-
-export const PencilIcon = styled(FontAwesomeIcon)`
-  cursor: pointer;
-  margin: 10px;
-  font-size: 14px;
 `;
 
 export const XIcon = styled(FontAwesomeIcon)`
@@ -125,15 +79,27 @@ export const CheckIcon = styled(FontAwesomeIcon)`
   font-size: 14px;
 `;
 
+export const ItemInput = styled.input`
+  width: 300px;
+  height: 8px;
+  padding: 4px 0px;
+  border: none;
+  margin: 0;
+`;
+
+export const ItemPriceInput = styled.input`
+  width: 40px;
+  height: 8px;
+  padding: 4px 0px;
+  border: none;
+`;
+
 export const CheckListTotalContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* align-items: center; */
-  /* text-align: center; */
   margin-top: 5px;
   width: 400px;
-  /* background-color: aqua; */
   font-size: 14px;
   margin-right: 20px;
 `;
@@ -177,4 +143,13 @@ export const ScrollBox = styled.div`
   height: 380px;
   overflow: scroll;
   /* background-color: aliceblue; */
+`;
+
+export const ItemPriceContainerForm = styled.form`
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  border-bottom: 1px solid;
+  width: 400px;
+  justify-content: space-between;
 `;
