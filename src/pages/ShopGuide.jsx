@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import { NavLink } from "react-router-dom";
-import List from "../Component/shopGuide/ShopGuide";
+import { NavLink } from 'react-router-dom';
+import List from '../Component/shopGuide/ShopGuide';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -17,22 +17,22 @@ const ShopGuide = () => {
           <span> 쇼핑가이드</span>
         </StShopGuideHeaderLeft>
         <StShopGuideHeaderRight>
-          <span> 가성비 좋았던 쇼핑 기록을 공유하여 주세요. 다른 사람의 쇼핑 목록도 살짝 참고하면 더욱 좋습니다. </span>
+          <span>
+            {' '}
+            가성비 좋았던 쇼핑 기록을 공유하여 주세요. 다른 사람의 쇼핑 목록도
+            살짝 참고하면 더욱 좋습니다.{' '}
+          </span>
         </StShopGuideHeaderRight>
       </StShopGuideHeader>
       <StShopGuideBody>
-
-
         <List />
 
-        <StWritePostButton to="/shopguideposting">Write</StWritePostButton>
+        <StWritePostButton to='/shopguideposting'>Write</StWritePostButton>
         <StMoveTopButton>︿</StMoveTopButton>
-
       </StShopGuideBody>
     </StShopGuideContainer>
-  )
+  );
 };
-
 
 const StShopGuideContainer = styled.div`
   margin-top: 3rem;
@@ -43,7 +43,7 @@ const StShopGuideContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-decoration : none;
+  text-decoration: none;
 `;
 
 const StShopGuideHeader = styled.div`
@@ -71,7 +71,7 @@ const StShopGuideHeaderRight = styled.div`
   border-left: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
   @media screen and (max-width: 800px) {
-  display: none;
+    display: none;
   }
 `;
 
@@ -104,9 +104,9 @@ const StMoveTopButton = styled.div`
   align-items: center;
   justify-content: center;
   @media screen and (max-width: 800px) {
-  display: none;
-    }
-  `;
+    display: none;
+  }
+`;
 
 const StWritePostButton = styled(NavLink)`
   position: fixed;
@@ -117,19 +117,19 @@ const StWritePostButton = styled(NavLink)`
   z-index: 1;
   border: none;
   outline: none;
-  background: #FFC226;
+  background: #ffc226;
   color: white;
   cursor: pointer;
   border-radius: 30px;
   font-size: 18px;
   font-weight: 700;
-  text-decoration-line : none;
+  text-decoration-line: none;
   display: flex;
   align-items: center;
   justify-content: center;
   @media screen and (max-width: 800px) {
-  display: none;
-    }
+    display: none;
+  }
 `;
 
 export default ShopGuide;
