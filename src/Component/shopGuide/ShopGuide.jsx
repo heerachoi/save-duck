@@ -55,9 +55,11 @@ const List = () => {
     <div>
       {posting.map((item) => {
         return (
-
           <StShopGuidePostWrapper key={item.id}>
-            <StShopGuidePostContainer item={item} to={`/shopguidedetails/${item.id}`}>
+            <StShopGuidePostContainer
+              item={item}
+              to={`/shopguidedetails/${item.id}`}
+            >
               <StShopGuideTop>
                 <StShopGuidePostNumbering>
                   <span></span>
