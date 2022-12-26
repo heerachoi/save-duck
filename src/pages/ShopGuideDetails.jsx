@@ -31,13 +31,13 @@ const ShopGuideDetails = () => {
   const commentSubmitHandler = (event) => {
     event.preventDefault();
     addItem();
-    const newComment = {
-      id: uuidv4(),
-      comment,
-      savetime: moment().format('YYYY-MM-DD-hh:mm'),
-      modify: false,
-    };
-    dispatch(addComment(newComment));
+    // const newComment = {
+    //   id: uuidv4(),
+    //   comment,
+    //   savetime: moment().format('YYYY-MM-DD-hh:mm'),
+    //   modify: false,
+    // };
+    // dispatch(addComment(newComment));
 
     setComment('');
   };
