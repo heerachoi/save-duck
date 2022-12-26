@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { addComment } from '../redux/modules/comment';
 import CommentList from '../Component/shopGuideDetail/CommentList';
 import moment from 'moment';
 
@@ -20,7 +18,7 @@ const ShopGuideDetails = () => {
   // 댓글 기본 state
   const [comment, setComment] = useState('');
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   // 게시글 삭제 기능
   const deleteButtonClickHandler = () => {
@@ -31,14 +29,6 @@ const ShopGuideDetails = () => {
   const commentSubmitHandler = (event) => {
     event.preventDefault();
     addItem();
-    // const newComment = {
-    //   id: uuidv4(),
-    //   comment,
-    //   savetime: moment().format('YYYY-MM-DD-hh:mm'),
-    //   modify: false,
-    // };
-    // dispatch(addComment(newComment));
-
     setComment('');
   };
 
