@@ -10,6 +10,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { collection, addDoc } from 'firebase/firestore';
 import moment from 'moment';
 
+
+
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
 const Form = () => {
   const [title, setTitle] = useState('');
