@@ -27,6 +27,7 @@ const Calendar = ({ startingDate }) => {
   const [currentShoppingList, setShoppingList] = useState(<ShoppingList year={viewYear} month={viewMonth} date={viewDate} />);
 
   const ShoppingListTag = (year, month, date) => {
+    // console.log('Different date clicked : ' + year + ' ' + (month + 1) + ' ' + date);
     return setShoppingList(<ShoppingList year={year} month={month} date={date} />);
   };
 
@@ -151,6 +152,7 @@ const Calendar = ({ startingDate }) => {
   };
 
   changeYearMonth(currentYear, currentMonth + 1);
+
   return (
     <HomeContainer>
       <CalendarContainer>
