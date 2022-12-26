@@ -1,34 +1,63 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { modifyModeComment, updateComment } from '../../redux/modules/comment';
-import { doc, deleteDoc } from 'firebase/firestore';
+import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import styled from 'styled-components';
 
-const CommentItem = ({ item, syncTodoItemListStateWithFirestore }) => {
+const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
   const { id, comment, savetime, modify } = item;
   const [readOnly, setReadOnly] = useState(true);
   const [updateCommentInput, setUpdateCommentInput] = useState(comment);
 
   const dispatch = useDispatch();
 
-  // 댓글 수정하기
+  // 댓글 수정 -> 완료 모드 토글링 state에 반영하기
   const modifyCommentButtonHandler = (id) => {
-    console.log('modify!');
+    // console.log('modify!');
+    // console.log(item.id);
     dispatch(modifyModeComment(id));
+    // console.log(modify);
+
+    // console.log(item);
     setReadOnly(false);
   };
 
+  // 댓글 입력시 - state 반영하기
   const onChangeComment = (event) => {
     const { value } = event.target;
     setUpdateCommentInput(value);
   };
 
+  const updateCommentModify = async (id) => {
+    const docRef = doc(db, 'commentList', item.id);
+    console.log(docRef);
+    try {
+      const response = await updateDoc(docRef, { modify: true });
+      console.log(response);
+    } catch (event) {
+      console.log(event);
+    } finally {
+      console.log('end');
+      modifyCommentButtonHandler(id);
+    }
+    syncCommentListStateWithFirestore();
+  };
+
   // 댓글 수정 완료하기
-  const updateCompleteButtonHandler = (item) => {
-    dispatch(updateComment(item));
-    dispatch(modifyModeComment(id));
-    setReadOnly(true);
+  const updateCompleteButtonHandler = async (id) => {
+    const docRef = doc(db, 'commentList', id);
+    try {
+      const response = await updateDoc(docRef, { modify: false });
+      // console.log(response);
+    } catch (event) {
+      console.log(event);
+    } finally {
+      console.log('end');
+      modifyCommentButtonHandler(id);
+    }
+    syncCommentListStateWithFirestore();
+    // setReadOnly(true);
   };
 
   // 댓글 수정 취소하기
@@ -44,7 +73,7 @@ const CommentItem = ({ item, syncTodoItemListStateWithFirestore }) => {
     if (window.confirm('정말 삭제하시겠습니까?')) {
       const commentRef = doc(db, 'commentList', removedComment);
       await deleteDoc(commentRef);
-      syncTodoItemListStateWithFirestore();
+      syncCommentListStateWithFirestore();
     } else {
       return;
     }
@@ -61,14 +90,16 @@ const CommentItem = ({ item, syncTodoItemListStateWithFirestore }) => {
           defaultValue={comment}
           onChange={onChangeComment}
         />
-        {console.log(item)}
+
+        {/* <span>{item.comment}</span> */}
         <StCommentContentSaveTime>{savetime}</StCommentContentSaveTime>
-        {item.modify ? (
+        {/* {console.log(item.modify)} */}
+        {modify ? (
           <StCommentContentsEditButton
             type='button'
             className='comment-edit-complete-btn'
             onClick={() => {
-              updateCompleteButtonHandler(item);
+              updateCompleteButtonHandler(id);
             }}
           >
             완료
@@ -77,13 +108,13 @@ const CommentItem = ({ item, syncTodoItemListStateWithFirestore }) => {
           <StCommentContentsEditButton
             className='comment-edit-btn'
             onClick={() => {
-              modifyCommentButtonHandler(id);
+              updateCommentModify(id);
             }}
           >
             수정
           </StCommentContentsEditButton>
         )}
-        {item.modify ? (
+        {modify ? (
           <StCommentContentsDeleteButton
             onClick={() => {
               editCancelButtonHandler(id);

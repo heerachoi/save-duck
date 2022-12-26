@@ -16,7 +16,7 @@ const CommentList = () => {
   const [commentList, setCommentList] = useState([]);
 
   // 댓글 불러오기
-  const syncTodoItemListStateWithFirestore = () => {
+  const syncCommentListStateWithFirestore = () => {
     const q = query(
       collection(db, 'commentList'),
       // where('userId', '==', currentUser),
@@ -32,6 +32,7 @@ const CommentList = () => {
           comment: doc.data().comment,
           userId: doc.data().userId,
           savetime: doc.data().savetime,
+          modify: doc.data().modify,
         });
       });
       setCommentList(firestoreTodoItemList);
@@ -39,7 +40,7 @@ const CommentList = () => {
   };
 
   useEffect(() => {
-    syncTodoItemListStateWithFirestore();
+    syncCommentListStateWithFirestore();
   }, []);
 
   return (
@@ -49,8 +50,8 @@ const CommentList = () => {
           <CommentItem
             key={item.id}
             item={item}
-            syncTodoItemListStateWithFirestore={
-              syncTodoItemListStateWithFirestore
+            syncCommentListStateWithFirestore={
+              syncCommentListStateWithFirestore
             }
           />
         );
