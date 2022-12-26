@@ -19,6 +19,7 @@ const CommentList = () => {
 
   const [commentList, setCommentList] = useState([]);
 
+  // 댓글 불러오기
   const syncTodoItemListStateWithFirestore = () => {
     const q = query(
       collection(db, 'commentList'),
@@ -47,7 +48,15 @@ const CommentList = () => {
   return (
     <div>
       {commentList.map((item) => {
-        return <CommentItem key={item.id} item={item} />;
+        return (
+          <CommentItem
+            key={item.id}
+            item={item}
+            syncTodoItemListStateWithFirestore={
+              syncTodoItemListStateWithFirestore
+            }
+          />
+        );
       })}
     </div>
   );
