@@ -58,8 +58,8 @@ const List = () => {
       {posting.map((item) => {
         return (
 
-          <StShopGuidePostWrapper>
-            <StShopGuidePostContainer key={item.id} item={item} to={`/shopguidedetails/${item.id}`}>
+          <StShopGuidePostWrapper key={item.id}>
+            <StShopGuidePostContainer item={item} to={`/shopguidedetails/${item.id}`}>
               <StShopGuideTop>
                 <StShopGuidePostNumbering>
                   <span></span>

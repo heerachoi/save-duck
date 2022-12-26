@@ -88,20 +88,13 @@ const ShopGuideDetails = () => {
 
 
   // Minsung 수정
-
-  let { NavId } = useParams();
-
-
+  let NavId = useParams();
   const [lists] = useState({
   });
   const [posting, setPosting] = useState([]);
 
-
   // firestore에서 데이터 'posting' 가져오기
   const syncpostingstatewithfirestore = () => {
-
-
-
     const q = query(
       collection(db, 'posting'),
       orderBy('created', 'desc')
@@ -110,34 +103,17 @@ const ShopGuideDetails = () => {
     getDocs(q).then((querySnapshot) => {
       const firestorePostingList = [];
       querySnapshot.forEach((doc) => {
-
-
-        // console.log(doc);
         firestorePostingList.push({
           id: doc.id,
           title: doc.data().title,
           description: doc.data().description,
           username: doc.data().username,
           created: doc.data().created,
-
         });
-
-        // find id array method 중 find id  useParams id와 같은 id를 가진 posting을 찾아서 posting에 넣어준다.
-        const postingFind = firestorePostingList.find((posting) => posting.id === NavId);
-        // postingFind 적용 코드
-
-        // 나머지는 필터하여 없애준다.
-        const postingFilter = firestorePostingList.filter((posting) => posting.id !== NavId);
-
-        console.log(postingFilter);
-        console.log(postingFind);
-
-
       });
       setPosting(firestorePostingList);
     });
   };
-
   useEffect(() => {
     syncpostingstatewithfirestore();
   }, []);
@@ -147,21 +123,26 @@ const ShopGuideDetails = () => {
     <StShopDetailsContainer>
       {/* 게시글 영역 */}
       {posting.map((item) => {
-        return (
-          <StShopDetailsArticle key={item.id} item={item}>
-            <StShopDetailsArticleTitle>
-              {item.title}
-            </StShopDetailsArticleTitle>
-            <StShopDetailsImage
-              className='detailsMainImage'
-              src={`${lists.profilepicture}`}
-              alt='첨부된 이미지'
-            />
-            <StShopDetailsArticleContents>
-              {item.description}
-            </StShopDetailsArticleContents>
-          </StShopDetailsArticle>
-        );
+        if (item.id === NavId.id) {
+          return (
+            <StShopDetailsArticle key={item.id} item={item}>
+              <StShopDetailsArticleTitle>
+                {item.title}
+              </StShopDetailsArticleTitle>
+              <StShopDetailsImage
+                className='detailsMainImage'
+                src={`${lists.profilepicture}`}
+                alt='첨부된 이미지'
+              />
+              <StShopDetailsArticleContents>
+                {item.description}
+              </StShopDetailsArticleContents>
+            </StShopDetailsArticle>
+          );
+        } else {
+          return null;
+        }
+
       })}
       {/* 수정 / 삭제 버튼 */}
       <StShopDetailsEditButtons>
