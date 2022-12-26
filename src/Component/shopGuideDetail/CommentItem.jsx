@@ -14,12 +14,7 @@ const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
 
   // 댓글 수정 -> 완료 모드 토글링 state에 반영하기
   const modifyCommentButtonHandler = (id) => {
-    // console.log('modify!');
-    // console.log(item.id);
     dispatch(modifyModeComment(id));
-    // console.log(modify);
-
-    // console.log(item);
     setReadOnly(false);
   };
 
@@ -32,7 +27,7 @@ const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
   // 댓글 수정 -> 완료 모드 토글링
   const updateCommentModify = async (id) => {
     const docRef = doc(db, 'commentList', item.id);
-    console.log(docRef);
+    // console.log(docRef);
     try {
       const response = await updateDoc(docRef, { modify: true });
       console.log(response);
@@ -58,7 +53,7 @@ const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
       modifyCommentButtonHandler(id);
     }
     syncCommentListStateWithFirestore();
-    // setReadOnly(true);
+    setReadOnly(true);
   };
 
   // 댓글 수정 취소하기
