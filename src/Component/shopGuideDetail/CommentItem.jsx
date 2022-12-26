@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-
-import {
-  deleteComment,
-  modifyModeComment,
-  updateComment,
-} from '../../redux/modules/comment';
+import { modifyModeComment, updateComment } from '../../redux/modules/comment';
 import { doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import styled from 'styled-components';
@@ -66,7 +61,7 @@ const CommentItem = ({ item, syncTodoItemListStateWithFirestore }) => {
           defaultValue={comment}
           onChange={onChangeComment}
         />
-
+        {console.log(item)}
         <StCommentContentSaveTime>{savetime}</StCommentContentSaveTime>
         {item.modify ? (
           <StCommentContentsEditButton
