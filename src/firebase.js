@@ -14,13 +14,6 @@ const firebaseConfig = {
   measurementId: 'G-98XHQ8X10T',
 };
 
-// Initialize Firebase
-initializeApp(firebaseConfig);
-
-export const db = getFirestore();
-export const auth = getAuth();
-export const storage = getStorage();
-
 // 희라
 
 // const firebaseConfig = {
@@ -32,3 +25,10 @@ export const storage = getStorage();
 //   appId: '1:358998119914:web:2b9da53f7a566702d2ce93',
 //   measurementId: 'G-BP46BNP00N',
 // };
+
+// Initialize Firebase
+initializeApp(firebaseConfig);
+
+export const db = getFirestore();
+export const auth = getAuth();
+export const storage = getStorage();

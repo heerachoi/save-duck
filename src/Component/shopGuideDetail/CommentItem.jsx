@@ -29,6 +29,7 @@ const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
     setUpdateCommentInput(value);
   };
 
+  // 댓글 수정 -> 완료 모드 토글링
   const updateCommentModify = async (id) => {
     const docRef = doc(db, 'commentList', item.id);
     console.log(docRef);

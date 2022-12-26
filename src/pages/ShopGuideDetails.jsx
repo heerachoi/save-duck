@@ -2,26 +2,36 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import CommentList from '../Component/shopGuideDetail/CommentList';
+import { addComment } from '../redux/modules/comment';
 import moment from 'moment';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-
-
-
-// Minsung 수정  
+// Minsung 수정
 import { useSelector } from 'react-redux'; // useSelector를 사용해 store에 있는 state를 구독하기 위해해 import
-import { useParams } from "react-router-dom"; // path에 있는 id를 가져오기 위해 import
+import { useParams } from 'react-router-dom'; // path에 있는 id를 가져오기 위해 import
 import lists from '../redux/modules/list';
 import { db } from '../firebase';
-import { getFirestore, collection, addDoc, setDoc, doc, getDocs, getDoc, query, orderBy, onSnapshot, where } from "firebase/firestore"
-
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  setDoc,
+  doc,
+  getDocs,
+  getDoc,
+  query,
+  orderBy,
+  onSnapshot,
+  where,
+} from 'firebase/firestore';
 
 const ShopGuideDetails = () => {
   // 댓글 기본 state
+  const time = moment().format('YYYY-MM-DD-hh:mm');
   const [comment, setComment] = useState('');
-
+  const [commentItemtList, setCommentItemList] = useState([]);
   const dispatch = useDispatch();
 
   // 게시글 삭제 기능
@@ -32,8 +42,17 @@ const ShopGuideDetails = () => {
   // 댓글 등록 기능 - 버튼 클릭시 댓글 리스트에 작성한 댓글 추가
   const commentSubmitHandler = (event) => {
     event.preventDefault();
-    addItem();
-    setComment('');
+    if (window.confirm('댓글을 등록하시겠습니까?')) {
+      const newComment = {
+        id: uuidv4(),
+        comment,
+        savetime: time,
+        modify: false,
+      };
+      dispatch(addComment(newComment));
+      // addItem();
+      setComment('');
+    }
   };
 
   // 댓글 작성 인풋창 내용 입력 시 state 업데이트
@@ -44,19 +63,24 @@ const ShopGuideDetails = () => {
   // 댓글 추가 기능
 
   const addItem = async (newComment) => {
-    let time = moment().format('YYYY-MM-DD-hh:mm');
     const docRef = await addDoc(collection(db, 'commentList'), {
       id: uuidv4(),
       comment,
       savetime: time,
       modify: false,
     });
+    setCommentItemList([
+      {
+        id: uuidv4(),
+        comment,
+        savetime: time,
+        modify: false,
+      },
+      ...commentItemtList,
+    ]);
   };
 
-
   // 댓글 불러오기
-
-  const [commenItemtList, setCommentItemList] = useState([]);
 
   const syncCommentListStateWithFirestore = () => {
     const q = query(
@@ -85,33 +109,20 @@ const ShopGuideDetails = () => {
     syncCommentListStateWithFirestore();
   }, []);
 
-
-
   // Minsung 수정
 
   let { NavId } = useParams();
 
-
-  const [lists] = useState({
-  });
+  const [lists] = useState({});
   const [posting, setPosting] = useState([]);
-
 
   // firestore에서 데이터 'posting' 가져오기
   const syncpostingstatewithfirestore = () => {
-
-
-
-    const q = query(
-      collection(db, 'posting'),
-      orderBy('created', 'desc')
-    );
+    const q = query(collection(db, 'posting'), orderBy('created', 'desc'));
 
     getDocs(q).then((querySnapshot) => {
       const firestorePostingList = [];
       querySnapshot.forEach((doc) => {
-
-
         // console.log(doc);
         firestorePostingList.push({
           id: doc.id,
@@ -119,20 +130,21 @@ const ShopGuideDetails = () => {
           description: doc.data().description,
           username: doc.data().username,
           created: doc.data().created,
-
         });
 
         // find id array method 중 find id  useParams id와 같은 id를 가진 posting을 찾아서 posting에 넣어준다.
-        const postingFind = firestorePostingList.find((posting) => posting.id === NavId);
+        const postingFind = firestorePostingList.find(
+          (posting) => posting.id === NavId
+        );
         // postingFind 적용 코드
 
         // 나머지는 필터하여 없애준다.
-        const postingFilter = firestorePostingList.filter((posting) => posting.id !== NavId);
+        const postingFilter = firestorePostingList.filter(
+          (posting) => posting.id !== NavId
+        );
 
         console.log(postingFilter);
         console.log(postingFind);
-
-
       });
       setPosting(firestorePostingList);
     });
@@ -149,9 +161,7 @@ const ShopGuideDetails = () => {
       {posting.map((item) => {
         return (
           <StShopDetailsArticle key={item.id} item={item}>
-            <StShopDetailsArticleTitle>
-              {item.title}
-            </StShopDetailsArticleTitle>
+            <StShopDetailsArticleTitle>{item.title}</StShopDetailsArticleTitle>
             <StShopDetailsImage
               className='detailsMainImage'
               src={`${lists.profilepicture}`}
@@ -190,13 +200,16 @@ const ShopGuideDetails = () => {
             value={comment}
             onChange={CommentChangeHandler}
           />
-          <StCommentSaveButton type='submit'>댓글 등록</StCommentSaveButton>
+          <StCommentSaveButton onClick={addItem}>댓글 등록</StCommentSaveButton>
         </StCommentForm>
       </StCommentContainer>
       {/* 댓글 리스트 */}
       <div>
         <ul>
-          <CommentList />
+          <CommentList
+            commentItemtList={commentItemtList}
+            setCommentItemList={setCommentItemList}
+          />
         </ul>
       </div>
     </StShopDetailsContainer>

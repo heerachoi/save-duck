@@ -2,24 +2,26 @@ import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux'; //useSelector 훅 임포트, state값을 조회한다
 import { useDispatch } from 'react-redux'; //useDispatch 훅 임포트, state값을 변경한다
-import { NavLink } from "react-router-dom"; //페이지 이동을 위한 라우터 임포트
+import { NavLink } from 'react-router-dom'; //페이지 이동을 위한 라우터 임포트
 
-
-import { db } from '../../firebase'
-import { getFirestore, collection, addDoc, setDoc, doc, getDocs, query, orderBy, onSnapshot } from "firebase/firestore"
-import { useState, useEffect } from 'react'
-
-
-
-
+import { db } from '../../firebase';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  setDoc,
+  doc,
+  getDocs,
+  query,
+  orderBy,
+  onSnapshot,
+} from 'firebase/firestore';
+import { useState, useEffect } from 'react';
 
 const List = () => {
-
   const dispatch = useDispatch(); // useDispatch 훅을 통해 state값을 변경한다.
-  const [lists] = useState({
-  });
+  const [lists] = useState({});
   const [posting, setPosting] = useState([]);
-
 
   // firestore에서 데이터 'posting' 가져오기
   const syncpostingstatewithfirestore = () => {
@@ -39,7 +41,6 @@ const List = () => {
           description: doc.data().description,
           username: doc.data().username,
           created: doc.data().created,
-
         });
       });
       setPosting(firestorePostingList);
@@ -50,16 +51,16 @@ const List = () => {
     syncpostingstatewithfirestore();
   }, []);
 
-
-
   return (
     <div>
-
       {posting.map((item) => {
         return (
-
           <StShopGuidePostWrapper>
-            <StShopGuidePostContainer key={item.id} item={item} to={`/shopguidedetails/${item.id}`}>
+            <StShopGuidePostContainer
+              key={item.id}
+              item={item}
+              to={`/shopguidedetails/${item.id}`}
+            >
               <StShopGuideTop>
                 <StShopGuidePostNumbering>
                   <span></span>
@@ -69,8 +70,7 @@ const List = () => {
                 </StShopGuidePostTitle>
               </StShopGuideTop>
               <StShopGuidePostInfo>
-
-                <label type={"picture"}></label>
+                <label type={'picture'}></label>
                 <StShopGuidePostUserPicture></StShopGuidePostUserPicture>
 
                 <StShopGuidePostUserName>
@@ -84,20 +84,18 @@ const List = () => {
                 <span>{item.description}</span>
               </StShopGuidePostDescription>
             </StShopGuidePostContainer>
-
-
           </StShopGuidePostWrapper>
         );
       })}
     </div>
   );
-}
+};
 
 export default List;
 
 const StShopGuidePostWrapper = styled.div`
-max-width : 800px;
-text-decoration : none;
+  max-width: 800px;
+  text-decoration: none;
 `;
 const StShopGuidePostContainer = styled(NavLink)`
   max-width : 500px;
@@ -119,14 +117,14 @@ const StShopGuidePostTitle = styled.div`
   width: 700px;
   font-size: 12px;
   font-weight: 600;
-  text-decoration : none;
+  text-decoration: none;
 `;
 const StShopGuidePostInfo = styled.div`
   height: 20px;
   display: flex;
   flex-direction: row;
   margin-left: 55px;
-  text-decoration : none;
+  text-decoration: none;
   label {
     display: inline-block;
     font-size: inherit;
@@ -135,8 +133,6 @@ const StShopGuidePostInfo = styled.div`
     cursor: pointer;
   }
 `;
-
-
 
 const StShopGuidePostUserPicture = styled.div`
   width: 20px;
@@ -160,5 +156,5 @@ const StShopGuidePostDescription = styled.div`
   font-size: 11px;
   color: gray;
   margin-left: 50px;
-  text-decoration : none;
+  text-decoration: none;
 `;
