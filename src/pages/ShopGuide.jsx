@@ -28,28 +28,27 @@ const ShopGuide = () => {
         <StWritePostButton to="/shopguideposting">Write</StWritePostButton>
         <StMoveTopButton>︿</StMoveTopButton>
 
-      </StShopGuideBody >
-    </StShopGuideContainer >
-
-
+      </StShopGuideBody>
+    </StShopGuideContainer>
   )
 };
 
 
 const StShopGuideContainer = styled.div`
   margin-top: 3rem;
-width: 100%;
+  width: 100%;
   height: 100%;
   background-color: #fff;
-display: flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-decoration : none;
 `;
 
 const StShopGuideHeader = styled.div`
   width: 80%;
-color: black;
+  color: black;
   display: flex;
   flex-direction: row;
 `;
@@ -72,7 +71,7 @@ const StShopGuideHeaderRight = styled.div`
   border-left: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
   @media screen and (max-width: 800px) {
-    display: none;
+  display: none;
   }
 `;
 
@@ -86,65 +85,12 @@ const StShopGuideBody = styled.div`
   padding-right: 2rem;
 `;
 
-// const StShopGuidePostContainer = styled.div`
-//   margin: 25px 100px 15px 100px;
-// `;
-
-// const StShopGuideTop = styled.div`
-//   height: 20px;
-//   display: flex;
-//   flex-direction: row;
-// `;
-// const StShopGuidePostNumbering = styled.div`
-//   width: 50px;
-
-//   font-size: 12px;
-// `;
-// const StShopGuidePostTitle = styled.div`
-//   height: 20px;
-//   width: 700px;
-//   font-size: 12px;
-//   font-weight: 600;
-// `;
-
-// const StShopGuidePostInfo = styled.div`
-//   height: 20px;
-//   display: flex;
-//   flex-direction: row;
-//   margin-left: 55px;
-// `;
-
-// const StShopGuidePostUserPicture = styled.div`
-//   width: 20px;
-//   height: 20px;
-// `;
-// const StShopGuidePostUserName = styled.div`
-//   width: 8rem;
-//   font-size: 11px;
-//   display: flex;
-//   align-items: center;
-//   color: coral;
-// `;
-// const StShopGuidePostDate = styled.div`
-//   width: 8rem;
-//   font-size: 9px;
-//   color: gray;
-//   display: flex;
-//   align-items: center;
-// `;
-// const StShopGuidePostDescription = styled.div`
-//   font-size: 11px;
-//   color: gray;
-//   margin-left: 50px;
-// `;
-
 const StMoveTopButton = styled.div`
-  // display: none;
   height: 60px;
   width: 60px;
   position: fixed;
   bottom: 150px;
-  right: 130px;
+  right: 100px;
   z-index: 1;
   border: none;
   outline: none;
@@ -152,11 +98,14 @@ const StMoveTopButton = styled.div`
   color: white;
   cursor: pointer;
   border-radius: 30px;
-  font - size: 18px;
-  font - weight: 700;
+  font-size: 18px;
+  font-weight: 700;
   display: flex;
-  align - items: center;
-  justify - content: center;
+  align-items: center;
+  justify-content: center;
+  @media screen and (max-width: 800px) {
+  display: none;
+    }
   `;
 
 const StWritePostButton = styled(NavLink)`
@@ -164,19 +113,23 @@ const StWritePostButton = styled(NavLink)`
   height: 60px;
   width: 60px;
   bottom: 80px;
-  right: 130px;
-  z - index: 1;
+  right: 100px;
+  z-index: 1;
   border: none;
   outline: none;
   background: #FFC226;
   color: white;
   cursor: pointer;
-  border - radius: 30px;
+  border-radius: 30px;
   font-size: 18px;
   font-weight: 700;
+  text-decoration-line : none;
   display: flex;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 800px) {
+  display: none;
+    }
 `;
 
 export default ShopGuide;
