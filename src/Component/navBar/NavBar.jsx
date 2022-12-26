@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 import {
   StyledSaveDuckHome,
   LeftSection,
@@ -8,9 +8,9 @@ import {
   Menu,
   MenuItem,
   SignUp,
-} from "./NavBar";
-import Modal from "../modal/Modal.jsx";
-import { useEffect, useState, useRef } from "react";
+} from './NavBar';
+import Modal from '../modal/Modal.jsx';
+import { useEffect, useState, useRef } from 'react';
 
 const Navbar = () => {
   const modalRef = useRef();
@@ -27,10 +27,10 @@ const Navbar = () => {
       )
         setModal(false);
     };
-    window.addEventListener("click", modalCloseHandler);
+    window.addEventListener('click', modalCloseHandler);
 
     return () => {
-      window.removeEventListener("click", modalCloseHandler);
+      window.removeEventListener('click', modalCloseHandler);
     };
   }, [modal]);
 
@@ -38,22 +38,22 @@ const Navbar = () => {
     <StyledSaveDuckHome>
       {/* 왼쪽영역 */}
       <LeftSection>
-        <SaveDuckHomeNav to="/">
-          <span style={{ color: "#ffc226" }}>Save Duck</span>
-          <DuckImageLogo src="ssave.png" alt="Home" />
+        <SaveDuckHomeNav to='/'>
+          <span style={{ color: '#ffc226' }}>Save Duck</span>
+          <DuckImageLogo src='ssave.png' alt='Home' />
         </SaveDuckHomeNav>
       </LeftSection>
 
       {/* 오른쪽영역 */}
       <RightSection>
         <Menu>
-          <MenuItem style={{ color: "#ffc226" }} to="/signin">
+          <MenuItem style={{ color: '#ffc226' }} to='/signin'>
             Features
           </MenuItem>
-          <MenuItem style={{ color: "#ffc226" }} to="/shopguide">
+          <MenuItem style={{ color: '#ffc226' }} to='/shopguide'>
             Community
           </MenuItem>
-          <MenuItem style={{ color: "#ffc226" }} to="/shopguidedetails">
+          <MenuItem style={{ color: '#ffc226' }} to='/shopguidedetails'>
             Support
           </MenuItem>
         </Menu>
@@ -65,7 +65,7 @@ const Navbar = () => {
               onClick={() => {
                 setModal(!modal);
               }}
-              src="blankProfile.png"
+              src='blankProfile.png'
             />
           </NavLink>
           {modal === true ? (

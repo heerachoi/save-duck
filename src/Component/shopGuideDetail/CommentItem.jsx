@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import moment from 'moment';
 import { modifyModeComment, updateComment } from '../../redux/modules/comment';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import styled from 'styled-components';
 
 const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
+  const time = moment().format('YYYY-MM-DD-hh:mm');
   const { id, comment, savetime, modify } = item;
   const [readOnly, setReadOnly] = useState(true);
   const [updateCommentInput, setUpdateCommentInput] = useState(comment);
@@ -44,7 +46,10 @@ const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
   const updateCompleteButtonHandler = async (id) => {
     const docRef = doc(db, 'commentList', id);
     try {
-      const response = await updateDoc(docRef, { modify: false });
+      const response = await updateDoc(docRef, {
+        modify: false,
+        savetime: time,
+      });
       // console.log(response);
     } catch (event) {
       console.log(event);
