@@ -6,9 +6,11 @@ import {
   modifyModeComment,
   updateComment,
 } from '../../redux/modules/comment';
+import { doc, deleteDoc } from 'firebase/firestore';
+import { db } from '../../firebase';
 import styled from 'styled-components';
 
-const CommentItem = ({ item }) => {
+const CommentItem = ({ item, syncTodoItemListStateWithFirestore }) => {
   const { id, comment, savetime, modify } = item;
   const [readOnly, setReadOnly] = useState(true);
   const [updateCommentInput, setUpdateCommentInput] = useState(comment);
@@ -41,12 +43,13 @@ const CommentItem = ({ item }) => {
   };
 
   // 댓글 삭제하기
-  const deleteCommentButtonHandler = (id) => {
-    console.log(id);
+  const deleteCommentButtonHandler = async (removedComment) => {
+    // console.log(removedComment);
+
     if (window.confirm('정말 삭제하시겠습니까?')) {
-      {
-        dispatch(deleteComment(id));
-      }
+      const commentRef = doc(db, 'commentList', removedComment);
+      await deleteDoc(commentRef);
+      syncTodoItemListStateWithFirestore();
     } else {
       return;
     }
@@ -64,7 +67,6 @@ const CommentItem = ({ item }) => {
           onChange={onChangeComment}
         />
 
-        {/* <span>{item.comment}</span> */}
         <StCommentContentSaveTime>{savetime}</StCommentContentSaveTime>
         {item.modify ? (
           <StCommentContentsEditButton
