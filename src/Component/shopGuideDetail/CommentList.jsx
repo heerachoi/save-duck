@@ -10,17 +10,17 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 
-const CommentList = () => {
+const CommentList = ({ commentItemtList, setCommentItemList }) => {
   // const globalComment = useSelector((state) => state.comments);
 
-  const [commentList, setCommentList] = useState([]);
+  // const [commentList, setCommentList] = useState([]);
 
   // 댓글 불러오기
   const syncCommentListStateWithFirestore = () => {
     const q = query(
       collection(db, 'commentList'),
       // where('userId', '==', currentUser),
-      orderBy('savetime', 'desc')
+      !orderBy('savetime', 'desc')
     );
 
     getDocs(q).then((querySnapshot) => {
@@ -35,7 +35,7 @@ const CommentList = () => {
           modify: doc.data().modify,
         });
       });
-      setCommentList(firestoreTodoItemList);
+      setCommentItemList(firestoreTodoItemList);
     });
   };
 
@@ -45,7 +45,7 @@ const CommentList = () => {
 
   return (
     <div>
-      {commentList.map((item) => {
+      {commentItemtList.map((item) => {
         return (
           <CommentItem
             key={item.id}
