@@ -65,16 +65,7 @@ const ShopGuideDetails = () => {
     });
   };
 
-  // 댓글 추가 기능
 
-  const addItem = async (newComment) => {
-    const docRef = await addDoc(collection(db, 'commentList'), {
-      id: uuidv4(),
-      comment,
-      savetime: moment().format('YYYY-MM-DD-hh:mm'),
-      modify: false,
-    });
-  };
 
   // Minsung 수정
   const param = useParams();
