@@ -6,11 +6,13 @@ import nextId from 'react-id-generator';
 import { NavLink } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../firebase'
-import { collection, addDoc, Timestamp } from 'firebase/firestore'
+import { v4 as uuidv4 } from 'uuid';
+import { collection, addDoc } from 'firebase/firestore'
+import moment from 'moment';
 
 
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
-function Form() {
+const Form = () => {
 
 
   const [title, setTitle] = useState('')
@@ -19,9 +21,10 @@ function Form() {
     e.preventDefault()
     try {
       await addDoc(collection(db, 'posting'), {
+        id: uuidv4(),
         title: title,
         description: description,
-        created: Timestamp.now()
+        created: moment().format('YYYY-MM-DD')
       })
     } catch (err) {
       alert(err)

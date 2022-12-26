@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux'; //useSelector 훅 임포트, state값을 조회한다
 import { useDispatch } from 'react-redux'; //useDispatch 훅 임포트, state값을 변경한다
-import nextId from 'react-id-generator';
 import { NavLink } from "react-router-dom"; //페이지 이동을 위한 라우터 임포트
 
 
@@ -14,30 +13,11 @@ import { useState, useEffect } from 'react'
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-function List() {
-
-  const nextId = useRef(1);
-
+const List = () => {
 
   const dispatch = useDispatch(); // useDispatch 훅을 통해 state값을 변경한다.
-
-  const listStore = useSelector((state) => state.lists); // useSelector 훅을 통해 state값을 조회한다.
-
-  const [lists, setLists] = useState({
+  const [lists] = useState({
   });
-
   const [posting, setPosting] = useState([]);
 
 
@@ -58,6 +38,7 @@ function List() {
           title: doc.data().title,
           description: doc.data().description,
           username: doc.data().username,
+          created: doc.data().created,
 
         });
       });
@@ -77,9 +58,8 @@ function List() {
       {posting.map((item) => {
         return (
 
-
           <StShopGuidePostWrapper>
-            <StShopGuidePostContainer key={item.id} item={item} to={`/shopguidedetails/${lists.id}`}>
+            <StShopGuidePostContainer key={item.id} item={item} to={`/shopguidedetails/${item.id}`}>
               <StShopGuideTop>
                 <StShopGuidePostNumbering>
                   <span></span>
@@ -97,7 +77,7 @@ function List() {
                   <span>{item.username}</span>
                 </StShopGuidePostUserName>
                 <StShopGuidePostDate>
-                  <span>{item.date}</span>
+                  <span></span>
                 </StShopGuidePostDate>
               </StShopGuidePostInfo>
               <StShopGuidePostDescription>

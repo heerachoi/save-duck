@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import { addComment } from '../redux/modules/comment';
@@ -16,12 +16,9 @@ import { useSelector } from 'react-redux'; // useSelector를 사용해 store에 
 import { useParams } from "react-router-dom"; // path에 있는 id를 가져오기 위해 import
 import lists from '../redux/modules/list';
 import { db } from '../firebase';
+import { getFirestore, collection, addDoc, setDoc, doc, getDocs, getDoc, query, orderBy, onSnapshot, where } from "firebase/firestore"
 
-import {
-  collection,
-  addDoc,
-  // where,
-} from 'firebase/firestore';
+
 
 const ShopGuideDetails = () => {
   // 댓글 기본 state
@@ -68,30 +65,81 @@ const ShopGuideDetails = () => {
 
 
   // Minsung 수정
-  const param = useParams();
-  const listStore = useSelector((state) => state.lists);
-  const bStore = listStore.filter((state) => state.id === param.id);
-  const lists = bStore[0];
+
+  let { NavId } = useParams();
+
+
+  const [lists] = useState({
+  });
+  const [posting, setPosting] = useState([]);
+
+
+  // firestore에서 데이터 'posting' 가져오기
+  const syncpostingstatewithfirestore = () => {
+
+
+
+    const q = query(
+      collection(db, 'posting'),
+      orderBy('created', 'desc')
+    );
+
+    getDocs(q).then((querySnapshot) => {
+      const firestorePostingList = [];
+      querySnapshot.forEach((doc) => {
+
+
+        // console.log(doc);
+        firestorePostingList.push({
+          id: doc.id,
+          title: doc.data().title,
+          description: doc.data().description,
+          username: doc.data().username,
+          created: doc.data().created,
+
+        });
+
+        // find id array method 중 find id  useParams id와 같은 id를 가진 posting을 찾아서 posting에 넣어준다.
+        const postingFind = firestorePostingList.find((posting) => posting.id === NavId);
+        // postingFind 적용 코드
+
+        // 나머지는 필터하여 없애준다.
+        const postingFilter = firestorePostingList.filter((posting) => posting.id !== NavId);
+
+        console.log(postingFilter);
+        console.log(postingFind);
+
+
+      });
+      setPosting(firestorePostingList);
+    });
+  };
+
+  useEffect(() => {
+    syncpostingstatewithfirestore();
+  }, []);
 
   // console.log(lists);
   return (
     <StShopDetailsContainer>
       {/* 게시글 영역 */}
-
-      <StShopDetailsArticle key={lists.id}>
-        <StShopDetailsArticleTitle>
-          {lists.title}
-        </StShopDetailsArticleTitle>
-        <StShopDetailsImage
-          className='detailsMainImage'
-          src={`${lists.profilepicture}`}
-          alt='첨부된 이미지'
-        />
-        <StShopDetailsArticleContents>
-          {lists.description}
-        </StShopDetailsArticleContents>
-      </StShopDetailsArticle>
-
+      {posting.map((item) => {
+        return (
+          <StShopDetailsArticle key={item.id} item={item}>
+            <StShopDetailsArticleTitle>
+              {item.title}
+            </StShopDetailsArticleTitle>
+            <StShopDetailsImage
+              className='detailsMainImage'
+              src={`${lists.profilepicture}`}
+              alt='첨부된 이미지'
+            />
+            <StShopDetailsArticleContents>
+              {item.description}
+            </StShopDetailsArticleContents>
+          </StShopDetailsArticle>
+        );
+      })}
       {/* 수정 / 삭제 버튼 */}
       <StShopDetailsEditButtons>
         <FontAwesomeIcon
