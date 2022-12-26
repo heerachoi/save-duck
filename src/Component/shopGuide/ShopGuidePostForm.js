@@ -55,22 +55,6 @@ function Form() {
     });
   };
 
-  // submit 버튼을 누르면 dispatch를 통해 addpost를 실행한다.
-  // const onSubmit = (e) => {
-  //   e.preventDefault();
-  //   nextId.current += 1;
-  //   dispatch(addpost({ ...lists }));
-  //   setLists({
-  //     id: 0,
-  //     number: '',
-  //     title: '',
-  //     username: '',
-  //     date: '',
-  //     profilepicture: '',
-  //     description: '',
-  //   });
-  // };
-
   return (
 
     <StSGPInputContainer onSubmit={handleSubmit}>

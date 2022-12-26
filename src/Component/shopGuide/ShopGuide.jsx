@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux'; //useSelector 훅 임포트, state값을 조회한다
 import { useDispatch } from 'react-redux'; //useDispatch 훅 임포트, state값을 변경한다
@@ -7,8 +7,20 @@ import { NavLink } from "react-router-dom"; //페이지 이동을 위한 라우�
 
 
 import { db } from '../../firebase'
-import { collection, query, orderBy, onSnapshot } from "firebase/firestore"
+import { getFirestore, collection, addDoc, setDoc, doc, getDocs, query, orderBy, onSnapshot } from "firebase/firestore"
 import { useState, useEffect } from 'react'
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -16,48 +28,64 @@ import { useState, useEffect } from 'react'
 
 function List() {
 
+  const nextId = useRef(1);
+
 
   const dispatch = useDispatch(); // useDispatch 훅을 통해 state값을 변경한다.
 
   const listStore = useSelector((state) => state.lists); // useSelector 훅을 통해 state값을 조회한다.
 
   const [lists, setLists] = useState({
-    id: '',
-    number: '',
-    title: '',
-    username: '',
-    date: '',
-    profilepicture: '',
-    description: '',
   });
 
-  /* firebase에서 실시간으로 모든 게시글 데리고 오는 것 */
+  const [posting, setPosting] = useState([]);
+
+
+  // firestore에서 데이터 'posting' 가져오기
+  const syncpostingstatewithfirestore = () => {
+    const q = query(
+      collection(db, 'posting'),
+      // where('userId', '==', currentUser),
+      orderBy('created', 'desc')
+    );
+
+    getDocs(q).then((querySnapshot) => {
+      const firestorePostingList = [];
+      querySnapshot.forEach((doc) => {
+        // console.log(doc);
+        firestorePostingList.push({
+          id: doc.id,
+          title: doc.data().title,
+          description: doc.data().description,
+          username: doc.data().username,
+
+        });
+      });
+      setPosting(firestorePostingList);
+    });
+  };
+
   useEffect(() => {
-    const callList = query(collection(db, 'posting'), orderBy('created', 'desc'))
-    onSnapshot(callList, (snapshot) => {
-      setLists(snapshot.docs.map(doc => ({
-        id: doc.id,
-        data: doc.data()
-      })))
-    })
-  }, [])
+    syncpostingstatewithfirestore();
+  }, []);
+
 
 
   return (
     <div>
 
-      {listStore.map((lists) => {
+      {posting.map((item) => {
         return (
 
 
           <StShopGuidePostWrapper>
-            <StShopGuidePostContainer key={lists.id} to={`/shopguidedetails/${lists.id}`}>
+            <StShopGuidePostContainer key={item.id} item={item} to={`/shopguidedetails/${lists.id}`}>
               <StShopGuideTop>
                 <StShopGuidePostNumbering>
-                  <span>{lists.id}</span>
+                  <span></span>
                 </StShopGuidePostNumbering>
                 <StShopGuidePostTitle>
-                  <span>{lists.title}</span>
+                  <span>{item.title}</span>
                 </StShopGuidePostTitle>
               </StShopGuideTop>
               <StShopGuidePostInfo>
@@ -66,14 +94,14 @@ function List() {
                 <StShopGuidePostUserPicture></StShopGuidePostUserPicture>
 
                 <StShopGuidePostUserName>
-                  <span>{lists.username}</span>
+                  <span>{item.username}</span>
                 </StShopGuidePostUserName>
                 <StShopGuidePostDate>
-                  <span>{lists.date}</span>
+                  <span>{item.date}</span>
                 </StShopGuidePostDate>
               </StShopGuidePostInfo>
               <StShopGuidePostDescription>
-                <span>{lists.description}</span>
+                <span>{item.description}</span>
               </StShopGuidePostDescription>
             </StShopGuidePostContainer>
 
