@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const StyledProfileButton = styled.button`
   margin-left: 28px;

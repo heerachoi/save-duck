@@ -1,10 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { v4 as uuidv4 } from 'uuid';
-import moment from 'moment';
-import { deleteComment, modifyModeComment } from '../../redux/modules/comment';
+import React, { useEffect, useState } from 'react';
+
 import CommentItem from './CommentItem';
-import styled from 'styled-components';
 import {
   collection,
   getDocs,
@@ -19,7 +15,8 @@ const CommentList = () => {
 
   const [commentList, setCommentList] = useState([]);
 
-  const syncTodoItemListStateWithFirestore = () => {
+  // 댓글 불러오기
+  const syncCommentListStateWithFirestore = () => {
     const q = query(
       collection(db, 'commentList'),
       // where('userId', '==', currentUser),
@@ -34,6 +31,8 @@ const CommentList = () => {
           id: doc.id,
           comment: doc.data().comment,
           userId: doc.data().userId,
+          savetime: doc.data().savetime,
+          modify: doc.data().modify,
         });
       });
       setCommentList(firestoreTodoItemList);
@@ -41,13 +40,21 @@ const CommentList = () => {
   };
 
   useEffect(() => {
-    syncTodoItemListStateWithFirestore();
+    syncCommentListStateWithFirestore();
   }, []);
 
   return (
     <div>
       {commentList.map((item) => {
-        return <CommentItem key={item.id} item={item} />;
+        return (
+          <CommentItem
+            key={item.id}
+            item={item}
+            syncCommentListStateWithFirestore={
+              syncCommentListStateWithFirestore
+            }
+          />
+        );
       })}
     </div>
   );

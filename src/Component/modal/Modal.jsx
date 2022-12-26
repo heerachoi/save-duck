@@ -18,6 +18,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { getStorage, ref, uploadString } from "firebase/storage";
 import { storage } from "../../firebase.js";
 
+
 export default function Modal() {
   const storage = getStorage();
 
@@ -63,23 +64,17 @@ export default function Modal() {
     event.preventDefault();
   };
   return (
-    <>
+    <div>
       <Container>
         <ProfileImageContainer>
-          <label htmlFor="imgInput">
-            <img src="blankProfiles.png" id="profileView" />
-            <input
-              type="file"
-              id="imgInput"
-              accept="image/*"
-              onChange={onFileChange}
-            />
+          <label htmlFor='imgInput'>
+            <img src='blankProfiles.png' id='profileView' />
+            <input type='file' id='imgInput' accept='image/*' onChange={onFileChange} />
           </label>
         </ProfileImageContainer>
         <CameraContainer>
-          <CameraImage src="camera.png" alt="" />
+          <CameraImage src='camera.png' alt='' />
         </CameraContainer>
-
         <StyledProfileForm onSubmit={handleProfileSubmit}>
           {profileName.map((item) => {
             return (
@@ -116,9 +111,8 @@ export default function Modal() {
             프로필변경
           </StyledProfileButton>
         </StyledProfileForm>
-
         <StyledLogoutButton>로그아웃</StyledLogoutButton>
       </Container>
-    </>
+    </div>
   );
 }

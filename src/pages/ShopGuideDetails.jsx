@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { addComment } from '../redux/modules/comment';
 import CommentList from '../Component/shopGuideDetail/CommentList';
 import moment from 'moment';
-
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import { db } from '../firebase';
 
-import {
-  collection,
-  addDoc,
-  // where,
-} from 'firebase/firestore';
+
+
+
+// Minsung 수정  
+import { useSelector } from 'react-redux'; // useSelector를 사용해 store에 있는 state를 구독하기 위해해 import
+import { useParams } from "react-router-dom"; // path에 있는 id를 가져오기 위해 import
+import lists from '../redux/modules/list';
+import { db } from '../firebase';
+import { getFirestore, collection, addDoc, setDoc, doc, getDocs, getDoc, query, orderBy, onSnapshot, where } from "firebase/firestore"
+
 
 const ShopGuideDetails = () => {
   // 댓글 기본 state
@@ -31,14 +33,6 @@ const ShopGuideDetails = () => {
   const commentSubmitHandler = (event) => {
     event.preventDefault();
     addItem();
-    const newComment = {
-      id: uuidv4(),
-      comment,
-      savetime: moment().format('YYYY-MM-DD-hh:mm'),
-      modify: false,
-    };
-    dispatch(addComment(newComment));
-
     setComment('');
   };
 
@@ -50,39 +44,125 @@ const ShopGuideDetails = () => {
   // 댓글 추가 기능
 
   const addItem = async (newComment) => {
+    let time = moment().format('YYYY-MM-DD-hh:mm');
     const docRef = await addDoc(collection(db, 'commentList'), {
       id: uuidv4(),
       comment,
-      savetime: moment().format('YYYY-MM-DD-hh:mm'),
+      savetime: time,
       modify: false,
     });
   };
 
+
+  // 댓글 불러오기
+
+  const [commenItemtList, setCommentItemList] = useState([]);
+
+  const syncCommentListStateWithFirestore = () => {
+    const q = query(
+      collection(db, 'commentList'),
+      // where('userId', '==', currentUser),
+      orderBy('savetime', 'desc')
+    );
+
+    getDocs(q).then((querySnapshot) => {
+      const firestoreTodoItemList = [];
+      querySnapshot.forEach((doc) => {
+        // console.log(doc);
+        firestoreTodoItemList.push({
+          id: doc.id,
+          comment: doc.data().comment,
+          userId: doc.data().userId,
+          modify: doc.data().modify,
+          savetime: doc.data().savetime,
+        });
+      });
+      setCommentItemList(firestoreTodoItemList);
+    });
+  };
+
+  useEffect(() => {
+    syncCommentListStateWithFirestore();
+  }, []);
+
+
+
+  // Minsung 수정
+
+  let { NavId } = useParams();
+
+
+  const [lists] = useState({
+  });
+  const [posting, setPosting] = useState([]);
+
+
+  // firestore에서 데이터 'posting' 가져오기
+  const syncpostingstatewithfirestore = () => {
+
+
+
+    const q = query(
+      collection(db, 'posting'),
+      orderBy('created', 'desc')
+    );
+
+    getDocs(q).then((querySnapshot) => {
+      const firestorePostingList = [];
+      querySnapshot.forEach((doc) => {
+
+
+        // console.log(doc);
+        firestorePostingList.push({
+          id: doc.id,
+          title: doc.data().title,
+          description: doc.data().description,
+          username: doc.data().username,
+          created: doc.data().created,
+
+        });
+
+        // find id array method 중 find id  useParams id와 같은 id를 가진 posting을 찾아서 posting에 넣어준다.
+        const postingFind = firestorePostingList.find((posting) => posting.id === NavId);
+        // postingFind 적용 코드
+
+        // 나머지는 필터하여 없애준다.
+        const postingFilter = firestorePostingList.filter((posting) => posting.id !== NavId);
+
+        console.log(postingFilter);
+        console.log(postingFind);
+
+
+      });
+      setPosting(firestorePostingList);
+    });
+  };
+
+  useEffect(() => {
+    syncpostingstatewithfirestore();
+  }, []);
+
+  // console.log(lists);
   return (
     <StShopDetailsContainer>
       {/* 게시글 영역 */}
-      <StShopDetailsArticle>
-        <StShopDetailsArticleTitle>
-          게시글의 제목이 들어갑니다.
-        </StShopDetailsArticleTitle>
-        <StShopDetailsImage
-          className='detailsMainImage'
-          src='images/shop_guide_detail_image.jpg'
-          alt='떡볶이 사진'
-        />
-        <StShopDetailsArticleContents>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-          vulputate diam in nisl lobortis, at elementum purus consectetur.
-          Aliquam sodales pellentesque neque eu mollis. Mauris justo magna,
-          pretium non risus dapibu in nisl lobortis, at elementum purus
-          consectetur. Aliquam sodales pellentesque neque eu mollis. Mauris
-          justo magna, pretium non risus dapibu in nisl lobortis, at elementum
-          purus consectetur. Aliquam sodales pellentesque neque eu mollis.
-          Mauris justo magna, pretium non risus dapibu in nisl lobortis, at
-          elementum purus consectetur. Aliquam sodales pellentesque neque eu
-          mollis. Mauris justo magna, pretium non risus dapibu
-        </StShopDetailsArticleContents>
-      </StShopDetailsArticle>
+      {posting.map((item) => {
+        return (
+          <StShopDetailsArticle key={item.id} item={item}>
+            <StShopDetailsArticleTitle>
+              {item.title}
+            </StShopDetailsArticleTitle>
+            <StShopDetailsImage
+              className='detailsMainImage'
+              src={`${lists.profilepicture}`}
+              alt='첨부된 이미지'
+            />
+            <StShopDetailsArticleContents>
+              {item.description}
+            </StShopDetailsArticleContents>
+          </StShopDetailsArticle>
+        );
+      })}
       {/* 수정 / 삭제 버튼 */}
       <StShopDetailsEditButtons>
         <FontAwesomeIcon

@@ -1,36 +1,92 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux'; //useSelector 훅 임포트, state값을 조회한다
-import nextId from 'react-id-generator';
-function List() {
-  const listStore = useSelector((state) => state.lists); // useSelector 훅을 통해 state값을 조회한다.
+import { useDispatch } from 'react-redux'; //useDispatch 훅 임포트, state값을 변경한다
+import { NavLink } from "react-router-dom"; //페이지 이동을 위한 라우터 임포트
+
+
+import { db } from '../../firebase'
+import { getFirestore, collection, addDoc, setDoc, doc, getDocs, query, orderBy, onSnapshot } from "firebase/firestore"
+import { useState, useEffect } from 'react'
+
+
+
+
+
+const List = () => {
+
+  const dispatch = useDispatch(); // useDispatch 훅을 통해 state값을 변경한다.
+  const [lists] = useState({
+  });
+  const [posting, setPosting] = useState([]);
+
+
+  // firestore에서 데이터 'posting' 가져오기
+  const syncpostingstatewithfirestore = () => {
+    const q = query(
+      collection(db, 'posting'),
+      // where('userId', '==', currentUser),
+      orderBy('created', 'desc')
+    );
+
+    getDocs(q).then((querySnapshot) => {
+      const firestorePostingList = [];
+      querySnapshot.forEach((doc) => {
+        // console.log(doc);
+        firestorePostingList.push({
+          id: doc.id,
+          title: doc.data().title,
+          description: doc.data().description,
+          username: doc.data().username,
+          created: doc.data().created,
+
+        });
+      });
+      setPosting(firestorePostingList);
+    });
+  };
+
+  useEffect(() => {
+    syncpostingstatewithfirestore();
+  }, []);
+
+
 
   return (
     <div>
-      {listStore.map((lists) => {
+
+      {posting.map((item) => {
         return (
-          <StShopGuidePostContainer key={lists.id}>
-            <StShopGuideTop>
-              <StShopGuidePostNumbering>
-                <span>{lists.id}</span>
-              </StShopGuidePostNumbering>
-              <StShopGuidePostTitle>
-                <span>{lists.title}</span>
-              </StShopGuidePostTitle>
-            </StShopGuideTop>
-            <StShopGuidePostInfo>
-              <StShopGuidePostUserPicture></StShopGuidePostUserPicture>
-              <StShopGuidePostUserName>
-                <span>{lists.username}</span>
-              </StShopGuidePostUserName>
-              <StShopGuidePostDate>
-                <span>{lists.date}</span>
-              </StShopGuidePostDate>
-            </StShopGuidePostInfo>
-            <StShopGuidePostDescription>
-              <span>{lists.description}</span>
-            </StShopGuidePostDescription>
-          </StShopGuidePostContainer>
+
+          <StShopGuidePostWrapper>
+            <StShopGuidePostContainer key={item.id} item={item} to={`/shopguidedetails/${item.id}`}>
+              <StShopGuideTop>
+                <StShopGuidePostNumbering>
+                  <span></span>
+                </StShopGuidePostNumbering>
+                <StShopGuidePostTitle>
+                  <span>{item.title}</span>
+                </StShopGuidePostTitle>
+              </StShopGuideTop>
+              <StShopGuidePostInfo>
+
+                <label type={"picture"}></label>
+                <StShopGuidePostUserPicture></StShopGuidePostUserPicture>
+
+                <StShopGuidePostUserName>
+                  <span>{item.username}</span>
+                </StShopGuidePostUserName>
+                <StShopGuidePostDate>
+                  <span></span>
+                </StShopGuidePostDate>
+              </StShopGuidePostInfo>
+              <StShopGuidePostDescription>
+                <span>{item.description}</span>
+              </StShopGuidePostDescription>
+            </StShopGuidePostContainer>
+
+
+          </StShopGuidePostWrapper>
         );
       })}
     </div>
@@ -39,8 +95,15 @@ function List() {
 
 export default List;
 
-const StShopGuidePostContainer = styled.div`
+const StShopGuidePostWrapper = styled.div`
+max-width : 800px;
+text-decoration : none;
+`;
+const StShopGuidePostContainer = styled(NavLink)`
+  max-width : 500px;
   margin: 25px 100px 15px 100px;
+  overflow:visible; cursor:pointer
+  text-decoration : none;
 `;
 const StShopGuideTop = styled.div`
   height: 20px;
@@ -56,13 +119,25 @@ const StShopGuidePostTitle = styled.div`
   width: 700px;
   font-size: 12px;
   font-weight: 600;
+  text-decoration : none;
 `;
 const StShopGuidePostInfo = styled.div`
   height: 20px;
   display: flex;
   flex-direction: row;
   margin-left: 55px;
+  text-decoration : none;
+  label {
+    display: inline-block;
+    font-size: inherit;
+    line-height: normal;
+    vertical-align: middle;
+    cursor: pointer;
+  }
 `;
+
+
+
 const StShopGuidePostUserPicture = styled.div`
   width: 20px;
   height: 20px;
@@ -85,4 +160,5 @@ const StShopGuidePostDescription = styled.div`
   font-size: 11px;
   color: gray;
   margin-left: 50px;
+  text-decoration : none;
 `;
