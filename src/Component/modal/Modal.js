@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const StyledProfileButton = styled.button`
   margin-left: 28px;
@@ -20,9 +20,8 @@ export const ProfileImageContainer = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  object-fit: fill;
+  object-fit: cover;
   padding-left: 20px;
-
   background-color: lightgrey;
   border: 1px solid transparent;
 
