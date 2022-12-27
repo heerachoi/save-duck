@@ -103,7 +103,7 @@ const SignUpComponent = () => {
     }
   };
   return (
-    <>
+    <div>
       <H1>SaveDuck</H1>
       <form onSubmit={onSubmit} className="form">
         <div className="form-el">
@@ -147,7 +147,7 @@ const SignUpComponent = () => {
         </div>
         <button type="submit">Submit</button>
       </form>
-    </>
+    </div>
   );
 };
 

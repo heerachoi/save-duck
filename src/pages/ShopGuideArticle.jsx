@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ShopGuideDetails from '../pages/ShopGuideDetails.jsx';
+import ShopGuideDetails from './ShopGuideDetails.jsx';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -61,6 +61,7 @@ const ShopGuideArticle = ({ item }) => {
           description: doc.data().description,
           username: doc.data().username,
           created: doc.data().created,
+          image: doc.data().image,
         });
       });
       setPosting(firestorePostingList);
@@ -83,7 +84,7 @@ const ShopGuideArticle = ({ item }) => {
                 </StShopDetailsArticleTitle>
                 <StShopDetailsImage
                   className='detailsMainImage'
-                  src={`${lists.profilepicture}`}
+                  src={item.image}
                   alt='첨부된 이미지'
                 />
                 <StShopDetailsArticleContents>
@@ -123,7 +124,6 @@ const ShopGuideArticle = ({ item }) => {
           />
         </StShopDetailsEditButtons>
       </StShopDetailsContainer>
-      {/* 회수 수정 */}
       <ShopGuideDetails collectionName={collectionName} />
     </div>
   );

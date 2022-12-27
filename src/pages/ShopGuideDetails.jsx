@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import CommentList from '../Component/shopGuideDetail/CommentList';
+import ShopGuideDetailsCommentList from '../Component/shopGuideDetailsCommentList/ShopGuideDetailsCommentList.jsx';
 import { addComment } from '../redux/modules/comment';
 import moment from 'moment';
 import styled from 'styled-components';
@@ -120,7 +120,7 @@ const ShopGuideDetails = ({ collectionName }) => {
       {/* 댓글 리스트 */}
       <div>
         <ul>
-          <CommentList
+          <ShopGuideDetailsCommentList
             collectionName={collectionName}
             commentItemtList={commentItemtList}
             setCommentItemList={setCommentItemList}

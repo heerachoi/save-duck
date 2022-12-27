@@ -2,7 +2,6 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 export const StyledSaveDuckHome = styled.div`
-  border-bottom: 2px solid black;
   padding-bottom: 10px;
   display: flex;
   align-items: center;
