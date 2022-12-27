@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import { addpost } from '../../redux/modules/list';
-import nextId from 'react-id-generator';
-import { NavLink } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
-import { db } from '../../firebase';
-import { v4 as uuidv4 } from 'uuid';
-import { collection, addDoc } from 'firebase/firestore';
-import moment from 'moment';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import { addpost } from "../../redux/modules/list";
+import nextId from "react-id-generator";
+import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { db } from "../../firebase";
+import { v4 as uuidv4 } from "uuid";
+import { collection, addDoc } from "firebase/firestore";
+import moment from "moment";
 
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
 const Form = () => {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await addDoc(collection(db, 'posting'), {
+      await addDoc(collection(db, "posting"), {
         id: uuidv4(),
         title: title,
         description: description,
-        created: moment().format('YYYY-MM-DD'),
+        created: moment().format("YYYY-MM-DD"),
       });
     } catch (err) {
       alert(err);
@@ -36,13 +36,13 @@ const Form = () => {
   };
 
   const [lists, setLists] = useState({
-    id: '',
-    number: '',
-    title: '',
-    username: '',
-    date: '',
-    profilepicture: '',
-    description: '',
+    id: "",
+    number: "",
+    title: "",
+    username: "",
+    date: "",
+    profilepicture: "",
+    description: "",
   });
 
   // input 창의 value 값을 변경할 떄 마다 list 객체의 키값에 맞게 setList를 통해 값을 변경한다.
@@ -58,53 +58,53 @@ const Form = () => {
   return (
     <StSGPInputContainer onSubmit={handleSubmit}>
       <StSGPTitleInput
-        type='text'
-        name='title'
-        placeholder='제목을 입력하여 주세요.'
+        type="text"
+        name="title"
+        placeholder="제목을 입력하여 주세요."
         onChange={(e) => setTitle(e.target.value.toUpperCase())}
         value={title}
         required
       />
       <StSGPPhotoInput>
-        <label htmlFor='ex_file'>
-          <div className='btnStart'>
-            <img src={'camera.png'} alt=' 클릭시 사진을 삽입할 수 있습니다.' />
-            <div className='submitPic'>사진 등록</div>
+        <label htmlFor="ex_file">
+          <div className="btnStart">
+            <img src={"camera.png"} alt=" 클릭시 사진을 삽입할 수 있습니다." />
+            <div className="submitPic">사진 등록</div>
           </div>
         </label>
         <input
-          type='file'
-          id='ex_file'
-          accept='image/jpg, image/png, image/jpeg'
+          type="file"
+          id="ex_file"
+          accept="image/jpg, image/png, image/jpeg"
           onChange={(e) => console.log(e.target.files[0])}
         />
       </StSGPPhotoInput>
 
       <StSGPDescriptionInput
-        type='text'
-        name='description'
+        type="text"
+        name="description"
         value={description}
-        placeholder='내용을 입력해주세요.'
+        placeholder="내용을 입력해주세요."
         onChange={(e) => setDescription(e.target.value)}
         required
       />
 
       <StSGPButtonGroup>
         <StSGPSubmitButton
-          type='submit'
+          type="submit"
           onClick={() => {
             previousPageHanlder();
-            alert('게시글이 성공적으로 저장되었습니다.');
+            alert("게시글이 성공적으로 저장되었습니다.");
           }}
         >
           Save
         </StSGPSubmitButton>
 
-        <StSGPCancelButton to='/shopguide'>Cancel</StSGPCancelButton>
+        <StSGPCancelButton to="/shopguide">Cancel</StSGPCancelButton>
       </StSGPButtonGroup>
       <StSGPInfo
-        type='text'
-        name='date'
+        type="text"
+        name="date"
         value={lists.date}
         onChange={onChange}
       ></StSGPInfo>
@@ -173,7 +173,7 @@ const StSGPPhotoInput = styled.div`
     cursor: pointer;
   }
 
-  input[type='file'] {
+  input[type="file"] {
     position: absolute;
     width: 300px;
     height: 40px;
