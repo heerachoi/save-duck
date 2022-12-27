@@ -123,7 +123,6 @@ const ShopGuideArticle = ({ item }) => {
           />
         </StShopDetailsEditButtons>
       </StShopDetailsContainer>
-      {/* 회수 수정 */}
       <ShopGuideDetails collectionName={collectionName} />
     </div>
   );
