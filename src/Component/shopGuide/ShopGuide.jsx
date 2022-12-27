@@ -41,7 +41,6 @@ const List = () => {
           description: doc.data().description,
           username: doc.data().username,
           created: doc.data().created,
-
         });
       });
       setPosting(firestorePostingList);
@@ -55,7 +54,6 @@ const List = () => {
   return (
     <div>
       {posting.map((item, i) => {
-
         return (
           <StShopGuidePostWrapper key={item.id}>
             <StShopGuidePostContainer
@@ -100,21 +98,20 @@ const StShopGuidePostWrapper = styled.div`
   border-bottom: 2px solid #e5e5e5;
 `;
 const StShopGuidePostContainer = styled(NavLink)`
-  max-width : 500px;
+  max-width: 500px;
   margin: 25px 100px 15px 100px;
-  overflow:hidden; 
-  cursor:pointer;
-  text-decoration : none;
+  overflow: hidden;
+  cursor: pointer;
+  text-decoration: none;
 
   span {
-  max-width : 500px;
-  margin: 25px 100px 15px 100px;
-  overflow:; 
-  cursor:pointer;
-  text-decoration : none;
-  color: black;
+    max-width: 500px;
+    margin: 25px 100px 15px 100px;
+    overflow: ;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
   }
-  
 `;
 const StShopGuideTop = styled.div`
   height: 20px;
@@ -171,14 +168,12 @@ const StShopGuidePostDate = styled.div`
   }
 `;
 const StShopGuidePostDescription = styled.div`
-width : 90%;
-height : 90px;  
-font-size: 11px;
+  width: 90%;
+  height: 90px;
+  font-size: 11px;
   color: gray;
   margin-left: 50px;
   text-decoration: none;
   overflow: hidden;
   text-overflow: ellipsis;
-  
-
 `;

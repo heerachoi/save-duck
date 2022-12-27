@@ -26,7 +26,7 @@ const Router = () => {
         />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/shopguideposting' element={<ShopGuidePosting />} />
-        <Route path='/shopguidepostingetidform/:id' element={<EditForm />} />
+        <Route path='/shopguidepostingEdit/:id' element={<EditForm />} />
       </Routes>
     </BrowserRouter>
   );

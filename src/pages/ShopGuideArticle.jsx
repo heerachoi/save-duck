@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ShopGuideDetails from '../pages/ShopGuideDetails.jsx';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
@@ -91,20 +92,19 @@ const ShopGuideArticle = ({ item }) => {
         })}
         {/* 수정 / 삭제 버튼 */}
         <StShopDetailsEditButtons>
-          {/* <StShopGuideFormEdit to={`/shopguidepostingetidform/${item.id}`}> */}
           {posting.map((item) => {
             if (item.id === NavId.id) {
               return (
-                <StShopGuideFormEdit
+                <StArticleEditLink
                   key={item.id}
-                  to={`/shopguidepostingetidform/${item.id}`}
+                  to={`/shopguidepostingEdit/${item.id}`}
                 >
                   <FontAwesomeIcon
                     id='articleEditButton'
                     icon={faPen}
                     style={{ cursor: 'pointer' }}
                   />
-                </StShopGuideFormEdit>
+                </StArticleEditLink>
               );
             } else {
               return null;
@@ -171,4 +171,8 @@ const StShopDetailsEditButtons = styled.div`
   position: absolute;
   right: 80px;
   font-size: 20px;
+`;
+
+const StArticleEditLink = styled(NavLink)`
+  color: black;
 `;

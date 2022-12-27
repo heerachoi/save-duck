@@ -6,19 +6,35 @@ import nextId from 'react-id-generator';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../firebase';
+import {
+  doc,
+  collection,
+  getDoc,
+  getDocs,
+  addDoc,
+  query,
+  where,
+} from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import { collection, addDoc } from 'firebase/firestore';
 import moment from 'moment';
 import { useParams, Link } from 'react-router-dom';
 
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
 const EditForm = () => {
   const param = useParams();
-  console.log(param);
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
-  // const [postingList, setPostingList] = useState{[]}
+  // 게시글 정보 불러오기
+  const getPostingFirebase = async () => {
+    const ref = doc(db, 'posting', param.id);
+    let res = await getDoc(ref);
+    console.log(res.data().title);
+    return res.data();
+  };
+
+  getPostingFirebase();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -52,44 +68,24 @@ const EditForm = () => {
   });
 
   // input 창의 value 값을 변경할 떄 마다 list 객체의 키값에 맞게 setList를 통해 값을 변경한다.
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setLists({
-      ...lists,
-      [name]: value,
-      id: nextId(),
-    });
-  };
-
-  // 게시글 내용 불러오기
-
-  // const syncCommentListStateWithFirestore = () => {
-  //   const q = query(
-  //     collection(db, 'posting'),
-  //     where('id', '==', param.id)
-  //     // orderBy('savetime', 'desc')
-  //   );
-
-  //   getDocs(q).then((querySnapshot) => {
-  //     const firestorePostinItemList = [];
-  //     querySnapshot.forEach((doc) => {
-  //       // console.log(doc);
-  //       firestoreTodoItemList.push({
-  //         id: doc.id,
-  //         comment: doc.data().comment,
-  //         userId: doc.data().userId,
-  //         modify: doc.data().modify,
-  //         savetime: doc.data().savetime,
-  //       });
-  //     });
-  //     setCommentItemList(firestorePostinItemList);
+  // const onChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setLists({
+  //     ...lists,
+  //     [name]: value,
+  //     id: nextId(),
   //   });
   // };
 
-  // useEffect(() => {
-  //   syncCommentListStateWithFirestore();
-  // }, []);
-
+  // const onChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setLists({
+  //     ...lists,
+  //     [name]: value,
+  //     id: nextId(),
+  //   });
+  // };
+  //
   return (
     <StSGPInputContainer onSubmit={handleSubmit}>
       <StSGPTitleInput
@@ -137,12 +133,14 @@ const EditForm = () => {
 
         <StSGPCancelButton to='/shopguide'>Cancel</StSGPCancelButton>
       </StSGPButtonGroup>
+      {/* 작성 날짜인가요?? */}
+      {/*       
       <StSGPInfo
         type='text'
         name='date'
         value={lists.date}
         onChange={onChange}
-      ></StSGPInfo>
+      ></StSGPInfo> */}
     </StSGPInputContainer>
   );
 };
