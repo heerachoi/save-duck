@@ -2,7 +2,21 @@ import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { authService } from "../../firebase";
 import "firebase/firestore";
-import { H1, H2, } from "./SignUp.js";
+import {
+  H1,
+  H2,
+  SignupWrap,
+  SignupContaier,
+  SignupTitle,
+  Emailform,
+  SignUpSubmit,
+  Label,
+  Input,
+  InputTitle,
+  InputWrap,
+  passwordWrp,
+  ContentWrap
+} from "./SignUp.js";
 
 import {
   getAuth,
@@ -137,55 +151,72 @@ const SignUpComponent = () => {
     }
   };
   return (
-    <div>
-      <H1>SaveDuck</H1>
-      <H2>Record everything. The duck will show you the way.</H2>
+    <SignupWrap>
+      <SignupTitle>
+        <H1>SaveDuck</H1>
+        <H2>Record everything. The duck will show you the way.</H2>
+      </SignupTitle>
 
-      <form onSubmit={onSubmit} className="form">
-        <div className="form-el">
-          <label placeholder="saveduck@saveduck.com" htmlFor="email">Email</label>
-          <br />
-          <input
-            id="email"
-            name="name"
-            value={email}
-            onChange={onChangeEmail}
-          />
-          <p className="message">{emailMessage}</p>
-        </div>
-        <div className="form-el">
-          <label htmlFor="name">Nick Name</label>
-          <br />
-          <input id="name" name="name" value={name} onChange={onChangeName} />
-          <p className="message">{nameMessage}</p>
-        </div>
-        <div className="form-el">
-          <label htmlFor="password">Password</label>
-          <br />
-          <input
-            id="password"
-            name="password"
-            value={password}
-            onChange={onChangePassword}
-          />
-          <p className="message">{passwordMessage}</p>
-        </div>
-        <div className="form-el">
-          <label htmlFor="passwordConfirm">Password Confirm</label>
-          <br />
-          <input
-            id="passwordConfirm"
-            name="passwordConfirm"
-            value={passwordConfirm}
-            onChange={onChangePasswordConfirm}
-          />
-          <p className="message">{passwordConfirmMessage}</p>
-        </div>
-        <button onClick={onClickSummit} disabled={notAllow}>
-          회원가입
-        </button>
-      </form>
-    </div>
+      <ContentWrap>
+        <EmailWrap>
+          <form onSubmit={onSubmit} className="form">
+              <InputTitle placeholder="saveduck@saveduck.com" htmlFor="email">
+                Email
+              </InputTitle>
+              <Input
+                id="email"
+                name="name"
+                value={email}
+                onChange={onChangeEmail}
+              />
+              <ErrorMessgeWrap>
+              <div className="message">{emailMessage}</div>
+              </ErrorMessgeWrap>
+        </EmailWrap>
+            <
+              <label htmlFor="name">Nick Name</label>
+              
+              <Input
+                id="name"
+                name="name"
+                value={name}
+                onChange={onChangeName}
+              />
+              <ErrorMessgeWrap>
+                <div className="message">{nameMessage}></div>
+            </div>
+                </ErrorMessgeWrap>
+            <PasswordWrap>
+              <label htmlFor="password">Password</label>
+              <Input
+                id="password"
+                name="password"
+                value={password}
+                onChange={onChangePassword}/>
+                <ErrorMessgeWrap>
+              <div className="message">{passwordMessage}>
+              </div>
+            </ErrorMessgeWrap>
+              <label htmlFor="passwordConfirm">Password Confirm</label>
+
+              <Input
+                id="passwordConfirm"
+                name="passwordConfirm"
+                value={passwordConfirm}
+                onChange={onChangePasswordConfirm}
+              />
+              <ErrorMessgeWrap>
+              <div className="message">{passwordConfirmMessage}</div>
+              </ErrorMessgeWrap>
+              
+            </PasswordWrap>
+            <SignUpSubmit onClick={onClickSummit} disabled={notAllow}>
+              회원가입
+            </SignUpSubmit>
+          </form>
+        </SignupContaier>
+      </div>
+    </SignupWrap>
   );
 };
 

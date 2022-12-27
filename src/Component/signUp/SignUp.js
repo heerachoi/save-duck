@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const LoginWrap = styled.div`
+export const SignupWrap = styled.div`
   position: absolute;
   top: 0;
   bottom: 0;
@@ -10,7 +10,6 @@ export const LoginWrap = styled.div`
   align-items: center;
   display: flex;
 `;
-
 export const H1 = styled.h1`
   font-size: 30px;
   margin-bottom: 20px;
@@ -18,11 +17,19 @@ export const H1 = styled.h1`
 export const H2 = styled.h2`
   margin-bottom: 100px;
 `;
-export const LoginContaier = styled.section`
+export const SignupTitle = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+`;
+export const SignupContaier = styled.section`
   text-align: center;
   width: 800px;
 `;
-export const InputTitle = styled.div`
+export const Emailform = styled.div``;
+
+//input part
+export const InputTitle = styled.label`
   font-size: 20px;
   text-align: left;
   /* background-color: aqua; */
@@ -53,7 +60,7 @@ export const InputWrap = styled.div`
 
 //* Btn Part
 
-export const ButtonWrap = styled.div`
+export const ErrorMessgeWrap = styled.div`
   margin-top: 50px;
 `;
 
@@ -70,14 +77,6 @@ export const Button = styled.button`
   font-size: 15px;
 `;
 
-export const SignInBtn = styled(Button)`
-  background-color: #ffc226;
-  border-radius: 7px;
-  border: none;
-  color: white;
-  padding: 5px;
-`;
-
 export const SignUpBtn = styled(Button)`
   background-color: transparent;
   border-radius: 7px;
@@ -85,7 +84,7 @@ export const SignUpBtn = styled(Button)`
   outline: none;
   padding: 5px;
 `;
-export const SignUpSummit = styled.button`
+export const SignUpSubmit = styled(Button)`
   width: 300px;
   margin-top: 10px;
   font-weight: 700;

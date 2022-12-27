@@ -85,14 +85,13 @@ const SignInComponent = () => {
   }, []);
 
   useEffect(() => {
-    if ((email.length === 0) || (password.length === 0)) {
+    if (email.length === 0 || password.length === 0) {
       setNotAllow(true);
 
       return;
     }
     setNotAllow(false);
-  }, [password, email]);
-  console.log(email.length);
+  }, [email, password]);
 
 
   const handleEmail = (e) => {
