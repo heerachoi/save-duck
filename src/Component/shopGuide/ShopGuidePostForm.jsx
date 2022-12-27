@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { addpost } from '../../redux/modules/list';
-import nextId from 'react-id-generator';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../firebase';
@@ -79,13 +78,14 @@ const Form = () => {
     setLists({
       ...lists,
       [name]: value,
-      id: nextId(),
+      id: uuidv4(),
     });
   };
 
   return (
     <StSGPInputContainer onSubmit={handleSubmit}>
       <StSGPTitleInput type='text' name='title' placeholder='제목을 입력하여 주세요.' onChange={(e) => setTitle(e.target.value.toUpperCase())} value={title} required />
+
       <StSGPPhotoInput>
         <label htmlFor='ex_file'>
           <div className='btnStart'>
