@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ShopGuideDetails from '../pages/ShopGuideDetails.jsx';
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 
 // Minsung 수정
 import { useSelector } from 'react-redux'; // useSelector를 사용해 store에 있는 state를 구독하기 위해해 import
@@ -24,7 +25,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-const ShopGuideArticle = () => {
+const ShopGuideArticle = ({ item }) => {
   // Minsung 수정
   let NavId = useParams();
   const [lists] = useState({});
@@ -40,7 +41,6 @@ const ShopGuideArticle = () => {
       return;
     }
   };
-
 
   // firestore에서 데이터 'posting' 가져오기
   const syncpostingstatewithfirestore = () => {
@@ -91,11 +91,25 @@ const ShopGuideArticle = () => {
         })}
         {/* 수정 / 삭제 버튼 */}
         <StShopDetailsEditButtons>
-          <FontAwesomeIcon
-            id='articleEditButton'
-            icon={faPen}
-            style={{ cursor: 'pointer' }}
-          />
+          {/* <StShopGuideFormEdit to={`/shopguidepostingetidform/${item.id}`}> */}
+          {posting.map((item) => {
+            if (item.id === NavId.id) {
+              return (
+                <StShopGuideFormEdit
+                  key={item.id}
+                  to={`/shopguidepostingetidform/${item.id}`}
+                >
+                  <FontAwesomeIcon
+                    id='articleEditButton'
+                    icon={faPen}
+                    style={{ cursor: 'pointer' }}
+                  />
+                </StShopGuideFormEdit>
+              );
+            } else {
+              return null;
+            }
+          })}
           <FontAwesomeIcon
             id='articleDeleteButton'
             icon={faTrashCan}
@@ -106,7 +120,6 @@ const ShopGuideArticle = () => {
       </StShopDetailsContainer>
       <ShopGuideDetails />
     </div>
-
   );
 };
 
@@ -142,10 +155,14 @@ const StShopDetailsImage = styled.img`
   height: 300px;
   margin-bottom: 30px;
   object-fit: cover;
-  margin-top : 40px;
+  margin-top: 40px;
 `;
 
 // 게시글 수정 버튼
+const StShopGuideFormEdit = styled(NavLink)`
+  color: black;
+`;
+
 const StShopDetailsEditButtons = styled.div`
   height: 80px;
   display: flex;

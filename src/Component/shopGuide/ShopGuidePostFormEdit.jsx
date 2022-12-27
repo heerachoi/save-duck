@@ -9,13 +9,17 @@ import { db } from '../../firebase';
 import { v4 as uuidv4 } from 'uuid';
 import { collection, addDoc } from 'firebase/firestore';
 import moment from 'moment';
-
-
+import { useParams, Link } from 'react-router-dom';
 
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
-const Form = () => {
+const EditForm = () => {
+  const param = useParams();
+  console.log(param);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
+  // const [postingList, setPostingList] = useState{[]}
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -56,6 +60,35 @@ const Form = () => {
       id: nextId(),
     });
   };
+
+  // 게시글 내용 불러오기
+
+  // const syncCommentListStateWithFirestore = () => {
+  //   const q = query(
+  //     collection(db, 'posting'),
+  //     where('id', '==', param.id)
+  //     // orderBy('savetime', 'desc')
+  //   );
+
+  //   getDocs(q).then((querySnapshot) => {
+  //     const firestorePostinItemList = [];
+  //     querySnapshot.forEach((doc) => {
+  //       // console.log(doc);
+  //       firestoreTodoItemList.push({
+  //         id: doc.id,
+  //         comment: doc.data().comment,
+  //         userId: doc.data().userId,
+  //         modify: doc.data().modify,
+  //         savetime: doc.data().savetime,
+  //       });
+  //     });
+  //     setCommentItemList(firestorePostinItemList);
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   syncCommentListStateWithFirestore();
+  // }, []);
 
   return (
     <StSGPInputContainer onSubmit={handleSubmit}>
@@ -236,4 +269,4 @@ const StSGPCancelButton = styled(NavLink)`
   text-align: center;
 `;
 
-export default Form;
+export default EditForm;
