@@ -25,6 +25,7 @@ export default function Modal() {
 
   // const theFile = test;
   // onFileChange는 사용자가 인풋에 파일을 업로드 했을때 실행된다.
+  // oneFileChange 를 통해 사진이 업로드 되기 전 미리보기 기능을 구현한다.
   const onFileChange = (event) => {
     const theFile = event.target.files[0];
     setUploadImage(theFile);

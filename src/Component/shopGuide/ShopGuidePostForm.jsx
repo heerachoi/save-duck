@@ -66,6 +66,8 @@ const Form = () => {
   };
 
 
+
+
   const previousPageHanlder = () => {
     navigate(-1, true);
   };
@@ -90,6 +92,20 @@ const Form = () => {
     });
   };
 
+  const onFileChange = (event) => {
+    const theFile = event.target.files[0];
+    setUploadImage(theFile);
+
+    console.log("the File : ", theFile);
+    const reader = new FileReader();
+    reader.readAsDataURL(theFile);
+    reader.onloadend = (finishedEvent) => {
+      const imgDataUrl = finishedEvent.currentTarget.result;
+      localStorage.setItem("imgDataUrl", imgDataUrl);
+      document.getElementById("view").src = imgDataUrl;
+    };
+  };
+
   return (
     <StSGPInputContainer onSubmit={handleSubmit}>
       <StSGPTitleInput
@@ -100,19 +116,20 @@ const Form = () => {
         value={title}
         required
       />
-      <StSGPPhotoInput>
+      <StSGPPhotoInput onChange={onFileChange}>
         <label htmlFor='ex_file'>
+          <input
+            type='file'
+            id='ex_file'
+            accept='image/jpg, image/png, image/jpeg'
+            onChange={(e) => onImageChange(e)}
+          />
           <div className='btnStart'>
-            <img src={'camera.png'} alt=' 클릭시 사진을 삽입할 수 있습니다.' />
+            <img src={'camera.png'} id="view" alt=' 클릭시 사진을 삽입할 수 있습니다.' />
             <div className='submitPic'>사진 등록</div>
           </div>
         </label>
-        <input
-          type='file'
-          id='ex_file'
-          accept='image/jpg, image/png, image/jpeg'
-          onChange={(e) => onImageChange(e)}
-        />
+
       </StSGPPhotoInput>
 
       <StSGPDescriptionInput
