@@ -1,23 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { NavLink, Router, Link, useNavigate } from "react-router-dom";
-import { authService } from "../../firebase";
-import {
-  getAuth,
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  onAuthStateChanged,
-  signOut,
-  GithubAuthProvider,
-  signInWithPopup,
-} from "firebase/auth";
+import React, { useEffect, useState } from 'react';
+import { NavLink, Router, Link, useNavigate } from 'react-router-dom';
+import { authService } from '../../firebase';
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signOut, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 import {
   // Img,
   LoginWrap,
   LoginContaier,
   GitImgContainer,
   GogImgContainer,
-  ContentWrap,
   EmaillWrap,
+  PasswordWrap,
   InputTitle,
   ButtonWrap,
   SignInBtn,
@@ -30,7 +22,8 @@ import {
   Button,
   GithubBtn,
   GoogleBtn,
-} from "./SignIn.js";
+  SocialLoginBtn,
+} from './SignIn.js';
 
 //더미
 
@@ -38,8 +31,8 @@ const auth = getAuth();
 
 const SignInComponent = () => {
   //이메일, 패스워드 초기화
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [user, setUser] = useState({});
   //이메일, 패스워드 유효성 값 초기화
   const [emailValid, setEmailValid] = useState(false);
@@ -88,8 +81,7 @@ const SignInComponent = () => {
   const handleEmail = (e) => {
     // 이메일 정규식
     setEmail(e.target.value);
-    const regex =
-      /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+    const regex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
     if (regex.test(e.target.value)) {
       setEmailValid(true);
     } else {
@@ -99,8 +91,7 @@ const SignInComponent = () => {
   // 비밀번호 정규식
   const handlePassword = (e) => {
     setPassword(e.target.value);
-    const regex =
-      /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+    const regex = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
     if (regex.test(e.target.value)) {
       setPwValid(true);
     } else {
@@ -112,20 +103,16 @@ const SignInComponent = () => {
     e.preventDefault();
     let data;
     try {
-      const response = await signInWithEmailAndPassword(
-        authService,
-        email,
-        password
-      );
+      const response = await signInWithEmailAndPassword(authService, email, password);
       // const docRef = await addDoc(collection(data, "users"), {
       //   email: "email",
       // });
-      window.location.href = "/";
+      window.location.href = '/';
     } catch (error) {
-      alert("등록되지않은 아이디입니다.");
+      alert('등록되지않은 아이디입니다.');
     }
   };
-  console.log("email:", email, "passord:", password);
+  console.log('email:', email, 'passord:', password);
 
   //소셜로그인
   const onSocialClick = async (event) => {
@@ -133,17 +120,17 @@ const SignInComponent = () => {
       target: { name },
     } = event;
     let provider;
-    if (name === "google") {
+    if (name === 'google') {
       provider = new GoogleAuthProvider();
-    } else if (name === "github") {
+    } else if (name === 'github') {
       provider = new GithubAuthProvider();
     }
-    window.location.href = "/";
+    window.location.href = '/';
     const data = await signInWithPopup(authService, provider);
     console.log(data);
   };
   const gotoSignup = (e) => {
-    window.location.href = "/signup";
+    window.location.href = '/signup';
   };
   return (
     <LoginWrap>
@@ -153,64 +140,35 @@ const SignInComponent = () => {
         <form>
           <EmaillWrap>
             <InputTitle>이메일 주소</InputTitle>
-
             <InputWrap>
-              <Input
-                type="email"
-                name="email"
-                placeholder="saveduck@saveduck.com"
-                required
-                value={email}
-                onChange={handleEmail}
-              />
+              <Input type='email' name='email' placeholder='saveduck@saveduck.com' required value={email} onChange={handleEmail} />
             </InputWrap>
-
-            <ErrorMessgeWrap>
-              {!emailValid && email.length > 0 && (
-                <div>! 옳바른 아이디를 입력해주세요.</div>
-              )}
-            </ErrorMessgeWrap>
+            <ErrorMessgeWrap>{!emailValid && email.length > 0 && <div>! 옳바른 아이디를 입력해주세요.</div>}</ErrorMessgeWrap>
           </EmaillWrap>
-
-          <div>
+          <PasswordWrap>
             <InputTitle>비밀번호</InputTitle>
-
             <InputWrap>
-              <Input
-                type="password"
-                name="password"
-                placeholder="비밀번호를 입력해주세요."
-                required
-                value={password}
-                onChange={handlePassword}
-              />
+              <Input type='password' name='password' placeholder='비밀번호를 입력해주세요.' required value={password} onChange={handlePassword} />
             </InputWrap>
-          </div>
+          </PasswordWrap>
         </form>
 
         <ButtonWrap>
           <ButtonSign>
-            <div>
-              <SignInBtn onClick={login}>로그인</SignInBtn>
-            </div>
-            <div>
-              <SignUpBtn onClick={gotoSignup}>회원가입</SignUpBtn>
-            </div>
+            <SignInBtn onClick={login}>로그인</SignInBtn>
+            <SignUpBtn onClick={gotoSignup}>회원가입</SignUpBtn>
           </ButtonSign>
-          <div>
-            <div>
-              <GoogleBtn onClick={onSocialClick} name="google">
-                <GogImgContainer />
-                Google 로그인
-              </GoogleBtn>
-            </div>
-            <div>
-              <GithubBtn onClick={onSocialClick} name="github">
-                <GitImgContainer />
-                Github 로그인
-              </GithubBtn>
-            </div>
-          </div>
+          <SocialLoginBtn>
+            <GoogleBtn onClick={onSocialClick} name='google'>
+              <GogImgContainer />
+              Google 로그인
+            </GoogleBtn>
+
+            <GithubBtn onClick={onSocialClick} name='github'>
+              <GitImgContainer />
+              Github 로그인
+            </GithubBtn>
+          </SocialLoginBtn>
         </ButtonWrap>
       </LoginContaier>
     </LoginWrap>
