@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ShopGuideDetailsComment from '../shopGuideDetailsComment/ShopGuideDetailsComment.jsx';
-import { StCommentListContainer } from './shopGuideDetailsCommentList.js';
+import { StCommentListContainer } from './ShopGuideDetailsCommentList.js';
 import {
   collection,
   getDocs,
@@ -10,11 +10,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 
-const ShopGuideDetailsCommentList = ({
-  collectionName,
-  commentItemtList,
-  setCommentItemList,
-}) => {
+const ShopGuideDetailsCommentList = ({ collectionName, commentItemtList, setCommentItemList }) => {
   // const globalComment = useSelector((state) => state.comments);
 
   // const [commentList, setCommentList] = useState([]);
@@ -50,16 +46,7 @@ const ShopGuideDetailsCommentList = ({
   return (
     <StCommentListContainer>
       {commentItemtList.map((item) => {
-        return (
-          <ShopGuideDetailsComment
-            key={item.id}
-            item={item}
-            syncCommentListStateWithFirestore={
-              syncCommentListStateWithFirestore
-            }
-            collectionName={collectionName}
-          />
-        );
+        return <ShopGuideDetailsComment key={item.id} item={item} syncCommentListStateWithFirestore={syncCommentListStateWithFirestore} collectionName={collectionName} />;
       })}
     </StCommentListContainer>
   );
