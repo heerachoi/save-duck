@@ -14,19 +14,19 @@ const Router = () => {
     <BrowserRouter>
       <Navbar />
       <Routes>
-        <Route exact path='/' element={<Home />} />
-        <Route path='/signin' element={<SignIn />} />
-        <Route path='/shopguide' element={<ShopGuide />} />
-        <Route path='/shopguidearticle' element={<ShopGuideArticle />} />
-        <Route path='/shopguidearticle/:id' element={<ShopGuideArticle />} />
+        <Route exact path="/signin" element={<SignIn />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/shopguide" element={<ShopGuide />} />
+        <Route path="/shopguidearticle" element={<ShopGuideArticle />} />
+        <Route path="/shopguidearticle/:id" element={<ShopGuideArticle />} />
         <Route
-          path='/shopguidedetails/:id'
+          path="/shopguidedetails/:id"
           component={ShopGuideDetails}
           element={<ShopGuideDetails />}
         />
-        <Route path='/signup' element={<SignUp />} />
-        <Route path='/shopguideposting' element={<ShopGuidePosting />} />
-        <Route path='/shopguidepostingEdit/:id' element={<EditForm />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/shopguideposting" element={<ShopGuidePosting />} />
+        <Route path="/shopguidepostingEdit/:id" element={<EditForm />} />
       </Routes>
     </BrowserRouter>
   );
