@@ -4,12 +4,12 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { db } from '../../firebase.js';
-import { collection, addDoc, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 
 import ShoppingList from '../shoppingList/ShoppingList.jsx';
 
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { HomeContainer, CalendarContainer, CalendarHead, SevenColGrid, HeadDay, CalendarBody, MonthNavigation, MonthArrow, StyledDay, CurrentMonth, CurrentYear } from './Calendar.js';
+import { HomeContainer, CalendarContainer, CalendarHead, SevenColGrid, HeadDay, CalendarBody, MonthNavigation, MonthArrow, StyledDay, CurrentMonth, CurrentYear, Dot } from './Calendar.js';
 
 const Calendar = ({ startingDate }) => {
   const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
@@ -153,6 +153,29 @@ const Calendar = ({ startingDate }) => {
 
   changeYearMonth(currentYear, currentMonth + 1);
 
+  const dateToString = '' + currentYear + currentMonth + viewDate;
+
+  const containShoppingList = (date) => {
+    const q = query(collection(db, dateToString), where('isChecked', '==', false));
+
+    getDocs(q).then((querySnapshop) => {
+      const firestoreShoppingItemList = [];
+      querySnapshop.forEach((doc) => {
+        firestoreShoppingItemList.push({
+          id: doc.id,
+          date: doc.data().date,
+          name: doc.data().name,
+          isChecked: doc.data().isChecked,
+          price: doc.data().price,
+          modify: doc.data().modify,
+        });
+      });
+      // console.log('firestoreShoppingItemList');
+      // console.log(firestoreShoppingItemList);
+      // setItemList(firestoreShoppingItemList);
+    });
+  };
+
   return (
     <HomeContainer>
       <CalendarContainer>
@@ -177,6 +200,7 @@ const Calendar = ({ startingDate }) => {
           {h.map((date) => (
             <StyledDay onClick={() => ShoppingListTag(currentYear, currentMonth, date)} key={nextId()} active={areDatesTheSame(new Date(), getDateObj(date, currentMonth, currentYear))}>
               {date}
+              <Dot />
             </StyledDay>
           ))}
         </CalendarBody>
