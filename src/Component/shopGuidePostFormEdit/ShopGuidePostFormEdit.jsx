@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
-import { addpost } from '../../redux/modules/list';
-import nextId from 'react-id-generator';
-import { NavLink } from 'react-router-dom';
 import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '../../firebase';
 import { v4 as uuidv4 } from 'uuid';
 import { collection, addDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
 import moment from 'moment';
-
-
+import {
+  StSGPInfo,
+  StSGPInputContainer,
+  StSGPTitleInput,
+  StSGPPhotoInput,
+  StSGPDescriptionInput,
+  StSGPButtonGroup,
+  StSGPSubmitButton,
+  StSGPCancelButton,
+} from './shopGuidePostFormEdit';
 
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
-const EditForm = ({ item, syncpostingstatewithfirestore }) => {
+const ShopGuidePostFormEdit = () => {
   const param = useParams();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -30,7 +34,7 @@ const EditForm = ({ item, syncpostingstatewithfirestore }) => {
 
   useEffect(() => {
     getPostingFirebase();
-  }, [])
+  }, []);
 
   // 게시물 수정사항 입력시 - state 반영하기
   const onChangeTitle = (event) => {
@@ -75,10 +79,6 @@ const EditForm = ({ item, syncpostingstatewithfirestore }) => {
     }
   };
 
-
-
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -87,7 +87,6 @@ const EditForm = ({ item, syncpostingstatewithfirestore }) => {
         title: title,
         description: description,
         created: moment().format('YYYY-MM-DD'),
-
       });
       alert('게시글이 성공적으로 저장되었습니다.');
       window.location.href = '/shopGuide';
@@ -158,143 +157,13 @@ const EditForm = ({ item, syncpostingstatewithfirestore }) => {
       />
 
       <StSGPButtonGroup>
-        <StSGPSubmitButton
-          type='submit'>
-          Save
-        </StSGPSubmitButton>
+        <StSGPSubmitButton type='submit'>Save</StSGPSubmitButton>
 
         <StSGPCancelButton to='/shopguide'>Cancel</StSGPCancelButton>
       </StSGPButtonGroup>
-      <StSGPInfo
-        type='text'
-        name='date'
-        value={lists.date}
-      ></StSGPInfo>
+      <StSGPInfo type='text' name='date' value={lists.date}></StSGPInfo>
     </StSGPInputContainer>
   );
 };
-
-const StSGPInfo = styled.div``;
-
-const StSGPInputContainer = styled.form`
-  margin-top: 4rem;
-  width: 60%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: top;
-  background-color: white;
-`;
-
-const StSGPTitleInput = styled.input`
-  margin-top: 2rem;
-  width: 600px;
-  height: 40px;
-  margin-bottom: 20px;
-  background-color: #f5f5f5;
-  outline: hidden;
-  border: none;
-`;
-
-const StSGPPhotoInput = styled.div`
-  margin-bottom: 1rem;
-  width: 300px;
-  height: 30px;
-  background-color: #ffc226;
-  border-radius: 10px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  .btnStart {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .submitPic {
-    position: absolute;
-    top: px;
-    width: 80px;
-    height: 15px;
-    font-size: 12px;
-    color: white;
-    margin: 10px 0 0px 110px;
-  }
-
-  img {
-    max-width: 20px;
-    margin-left: 80px;
-    margin-top: 7px;
-  }
-
-  label {
-    width: 300px;
-    height: 40px;
-    cursor: pointer;
-  }
-
-  input[type='file'] {
-    position: absolute;
-    width: 300px;
-    height: 40px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-  }
-`;
-
-const StSGPDescriptionInput = styled.textarea`
-  width: 700px;
-  height: 200px;
-  background-color: #f5f5f5;
-  outline: none;
-  border: none;
-  resize: none;
-`;
-
-const StSGPButtonGroup = styled.div`
-  margin-top: 2rem;
-  display: flex;
-  align-items: center;
-`;
-
-const StSGPSubmitButton = styled.button`
-  display: inline-block;
-  border: none;
-  background-color: #ff8a00;
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-weight: bold;
-  text-decoration: none;
-  color: white;
-  font-size: 10px;
-  margin-left: 15px;
-  margin-right: 15px;
-  position: relative;
-`;
-
-const StSGPCancelButton = styled(NavLink)`
-  display: inline-block;
-  border: none;
-  background-color: #ffc226;
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-weight: bold;
-  text-decoration: none;
-  color: white;
-  font-size: 18px;
-  margin-left: 15px;
-  position: relative;
-  line-height: 350%;
-  text-align: center;
-`;
 
 export default EditForm;
