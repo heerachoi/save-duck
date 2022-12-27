@@ -112,7 +112,7 @@ const lists = (state = initialState, action) => {
         if (item.id === action.payload.id) {
           return {
             ...item,
-            item: action.payload.item,
+            name: action.payload.name,
           };
         } else {
           return item;

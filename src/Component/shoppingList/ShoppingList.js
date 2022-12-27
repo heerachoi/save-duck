@@ -28,12 +28,6 @@ export const ShoppingListTitle = styled.div`
   margin-bottom: 15px;
 `;
 
-// 안씀
-export const ShoppingItemContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 export const UncheckedList = styled.div`
   display: flex;
   flex-direction: column;
@@ -94,32 +88,7 @@ export const ItemPriceInput = styled.input`
   border: none;
 `;
 
-export const CheckListTotalContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-top: 5px;
-  width: 400px;
-  font-size: 14px;
-  margin-right: 20px;
-`;
-
 export const CheckListTotalText = styled.div``;
-
-export const CheckedList = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* justify-content: space-between; */
-  /* justify-content: center; */
-  /* align-items: center; */
-  align-items: center;
-  padding-bottom: 20px;
-  border-bottom: 1px solid;
-  margin-bottom: 10px;
-  /* background-color: aqua; */
-`;
-
-export const CheckListTotal = styled.div``;
 
 export const TotalPriceContainer = styled.div`
   display: flex;
@@ -127,8 +96,6 @@ export const TotalPriceContainer = styled.div`
   justify-content: space-between;
   width: 400px;
   align-items: center;
-  /* text-align: center; */
-  /* background-color: aqua; */
   width: 400px;
   padding-left: 40px;
   font-size: 15px;
@@ -142,7 +109,6 @@ export const TotalPrice = styled.div``;
 export const ScrollBox = styled.div`
   height: 380px;
   overflow: scroll;
-  /* background-color: aliceblue; */
 `;
 
 export const ItemPriceContainerForm = styled.form`

@@ -90,7 +90,7 @@ export const Dot = styled.div`
   width: 4px;
   height: 4px;
   border-radius: 10px;
-  background-color: #ffc226;
+  background-color: #fff;
   margin-top: 10px;
 `;
 
