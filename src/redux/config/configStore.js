@@ -1,12 +1,14 @@
-// applyMiddleware는 스토어에 미들웨어를 적용하기 위해 불러옴
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-// 만든 리덕스 모듈의 리듀서
-import shoppingList from '../modules/shoppingListActions';
-
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import shoppingList from "../modules/shoppingListActions";
+import lists from "../modules/list";
+import comments from "../modules/comment";
+import profileName from "../modules/profile";
+// import ItemsReducer from '../modules/ItemReducer';
 const rootReducer = combineReducers({
+  lists,
+  comments,
   shoppingList,
+  profileName,
 });
 
-const store = createStore(rootReducer);
-
-export default store;
+export default rootReducer;
