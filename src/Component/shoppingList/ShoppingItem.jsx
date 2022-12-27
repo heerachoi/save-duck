@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { deleteList, loadList, modifyModeList, updateList, checkList } from '../../redux/modules/shoppingListActions.js';
-import { doc, deleteDoc } from 'firebase/firestore';
+import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 
 import { faPencil, faX, faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -17,6 +17,31 @@ const ShoppingItem = ({ item, shoppingListUnchecked, shoppingListChecked, dateTo
 
   const dispatch = useDispatch();
 
+  // Check 버튼 실행
+  // const toggleDoneHandler = async (id) => {
+  //   dispatch(checkList({ id }));
+  //   const docRef = doc(db, dateToString, item.id);
+  //   const response = await updateDoc(docRef, { isChecked: true });
+  //   console.log(response);
+  //   shoppingListUnchecked();
+  //   // shoppingListChecked();
+  // };
+  // 댓글 수정 -> 완료 모드 토글링
+  const toggleDoneHandler = async (id) => {
+    const docRef = doc(db, dateToString, item.id);
+    try {
+      const response = await updateDoc(docRef, { isChecked: false });
+      console.log(response);
+    } catch (event) {
+      console.log(event);
+    } finally {
+      console.log('end');
+      // modifyItemButtonHandler(id);
+    }
+    shoppingListUnchecked();
+    // shoppingListChecked();
+  };
+
   // 댓글 수정하기
   const modifyItemButtonHandler = (id) => {
     console.log('수정 완료!');
@@ -29,10 +54,36 @@ const ShoppingItem = ({ item, shoppingListUnchecked, shoppingListChecked, dateTo
     setUpdateItemInput(value);
   };
 
+  // 댓글 수정 -> 완료 모드 토글링
+  const updateItemModify = async (id) => {
+    const docRef = doc(db, dateToString, item.id);
+    try {
+      const response = await updateDoc(docRef, { modify: true });
+      console.log(response);
+    } catch (event) {
+      console.log(event);
+    } finally {
+      console.log('end');
+      modifyItemButtonHandler(id);
+    }
+    shoppingListUnchecked();
+    // shoppingListChecked();
+  };
+
   // 댓글 수정 완료하기
-  const updateCompleteButtonHandler = (item) => {
-    dispatch(updateList(item));
-    dispatch(modifyModeList(id));
+  const updateCompleteButtonHandler = async (id) => {
+    const docRef = doc(db, dateToString, id);
+    try {
+      const response = await updateDoc(docRef, { modify: false });
+      // console.log(response);
+    } catch (event) {
+      console.log(event);
+    } finally {
+      console.log('end');
+      modifyItemButtonHandler(id);
+    }
+    shoppingListUnchecked();
+    shoppingListChecked();
     setReadOnly(true);
   };
 
@@ -58,17 +109,10 @@ const ShoppingItem = ({ item, shoppingListUnchecked, shoppingListChecked, dateTo
     }
   };
 
-  // Check 버튼 실행
-  const toggleDoneHandler = (id) => {
-    // console.log(id);
-    dispatch(checkList({ id }));
-    shoppingListUnchecked();
-    shoppingListChecked();
-  };
   return (
     <ListItem key={id}>
       <ShowItem>
-        <CheckBox type='checkbox' />
+        <CheckBox type='checkbox' value='false' />
         <ItemPriceContainer>
           <ItemName>{name}</ItemName>
           <ItemPrice>{price}원</ItemPrice>
@@ -78,7 +122,7 @@ const ShoppingItem = ({ item, shoppingListUnchecked, shoppingListChecked, dateTo
         <PencilIcon
           icon={faPencil}
           onClick={() => {
-            updateCompleteButtonHandler();
+            updateItemModify(id);
           }}
         />
         <XIcon

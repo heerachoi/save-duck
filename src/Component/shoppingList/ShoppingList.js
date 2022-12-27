@@ -80,7 +80,7 @@ export const CheckIcon = styled(FontAwesomeIcon)`
 `;
 
 export const ItemInput = styled.input`
-  width: 300px;
+  width: 310px;
   height: 8px;
   padding: 4px 0px;
   border: none;
@@ -88,7 +88,7 @@ export const ItemInput = styled.input`
 `;
 
 export const ItemPriceInput = styled.input`
-  width: 40px;
+  width: 50px;
   height: 8px;
   padding: 4px 0px;
   border: none;
@@ -121,7 +121,7 @@ export const CheckedList = styled.div`
 
 export const CheckListTotal = styled.div``;
 
-export const OverallTotalContainer = styled.div`
+export const TotalPriceContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -135,9 +135,9 @@ export const OverallTotalContainer = styled.div`
   font-weight: 500;
 `;
 
-export const OverallTotalTotalText = styled.div``;
+export const TotalPriceText = styled.div``;
 
-export const OverallTotal = styled.div``;
+export const TotalPrice = styled.div``;
 
 export const ScrollBox = styled.div`
   height: 380px;

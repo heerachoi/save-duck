@@ -76,11 +76,22 @@ export const CalendarBody = styled.div`
 export const StyledDay = styled.div`
   height: 50px;
   width: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   cursor: pointer;
   padding-top: 6px;
   margin: 3px 1px;
   ${({ active }) => active && `border: 1px solid #FFC226`}
+`;
+
+export const Dot = styled.div`
+  width: 4px;
+  height: 4px;
+  border-radius: 10px;
+  background-color: #ffc226;
+  margin-top: 10px;
 `;
 
 export const ShoppingListContainer = styled.div`
@@ -233,7 +244,7 @@ export const CheckedList = styled.div`
 
 export const CheckListTotal = styled.div``;
 
-export const OverallTotalContainer = styled.div`
+export const TotalPriceContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -247,9 +258,9 @@ export const OverallTotalContainer = styled.div`
   font-weight: 500;
 `;
 
-export const OverallTotalTotalText = styled.div``;
+export const TotalPriceText = styled.div``;
 
-export const OverallTotal = styled.div``;
+export const TotalPrice = styled.div``;
 
 export const ScrollBox = styled.div`
   height: 380px;
