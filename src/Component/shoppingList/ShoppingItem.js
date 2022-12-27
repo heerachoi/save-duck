@@ -15,7 +15,6 @@ export const ItemPriceContainer = styled.div`
   border-bottom: 1px solid;
   width: 400px;
   justify-content: space-between;
-  background-color: aliceblue;
 `;
 
 export const ShowItem = styled.div`
@@ -62,3 +61,26 @@ export const PencilIcon = styled(FontAwesomeIcon)`
 export const XIcon = styled(FontAwesomeIcon)`
   cursor: pointer;
 `;
+
+export const CheckIcon = styled(FontAwesomeIcon)`
+  cursor: pointer;
+  margin: 10px;
+  font-size: 14px;
+`;
+
+export const ItemInput = styled.input`
+  width: 310px;
+  height: 8px;
+  padding: 4px 0px;
+  border: none;
+  margin: 0;
+`;
+
+export const ItemPriceInput = styled.input`
+  width: 50px;
+  height: 8px;
+  padding: 4px 0px;
+  border: none;
+`;
+
+export const ItemPriceInputContainer = styled.div``;
