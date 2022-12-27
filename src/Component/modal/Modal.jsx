@@ -12,15 +12,39 @@ import {
   StyledProfileForm,
   StyledProfileInput,
 } from "./Modal.js";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAuth, upload } from "../../firebase.js";
 import { modifyProfile, updateProfile } from "../../redux/modules/profile.js";
 import { useSelector, useDispatch } from "react-redux";
-
+import { authService } from "../../firebase.js";
 import { ref, uploadBytes } from "firebase/storage";
-
 import { storage } from "../../firebase.js";
 
 export default function Modal() {
+  const currentUser = useAuth();
+  const [photo, setPhoto] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [photoURL, setPhotoURL] = useState("blankProfiles.png");
+  const [updateProfileInput, setUpdateProfileInput] = useState("");
+
+  function handleChange(e) {
+    if (e.target.files[0]) {
+      setPhoto(e.target.files[0]);
+    }
+  }
+
+  function handleClick() {
+    console.log("handle");
+    console.log(currentUser.uid);
+    upload(photo, currentUser, setLoading);
+  }
+
+  useEffect(() => {
+    if (currentUser?.photoURL) {
+      setPhotoURL(currentUser.photoURL);
+    }
+  }, [currentUser]);
+
   const [uploadImage, setUploadImage] = useState();
 
   // const theFile = test;
@@ -41,11 +65,11 @@ export default function Modal() {
 
   const profileName = useSelector((state) => state.profileName);
 
-  console.log(profileName);
+  // console.log(profileName);
 
   const dispatch = useDispatch(); // 디스패치 함수
   const [readOnly, setReadOnly] = useState(true);
-  const [updateProfileInput, setUpdateProfileInput] = useState("");
+  // const [updateProfileInput, setUpdateProfileInput] = useState("");
 
   const modifyProfileButtonHandler = (id) => {
     dispatch(modifyProfile(id));
@@ -54,6 +78,7 @@ export default function Modal() {
 
   const onChangeProfile = (event) => {
     const { value } = event.target;
+    console.log(currentUser);
     console.log(value);
     setUpdateProfileInput(value);
   };
@@ -63,20 +88,9 @@ export default function Modal() {
     setReadOnly(true);
   };
 
-  const handleProfileSubmit = (event) => {
-    event.preventDefault();
-
-    // const storage = getStorage();
-    const storageRef = ref(storage, uploadImage.name);
-
-    uploadBytes(storageRef, uploadImage)
-      .then((snapshot) => {
-        // console.log("앞에 함수가 실행되고 성공하면 실행할거에요.");
-        alert("프로필 변경 완료!");
-      })
-      .catch(() => {
-        console.log("uploadBytes가 실패했다.");
-      });
+  const onLogOutClick = () => {
+    authService.signOut();
+    window.location.href = "/signin";
   };
 
   return (
@@ -84,20 +98,20 @@ export default function Modal() {
       <Container>
         <ProfileImageContainer>
           <label htmlFor="imgInput">
-            <img src="blankProfiles.png" id="profileView" />
+            <img src={photoURL} id="profileView" />
             <input
               style={{ display: "none" }}
               type="file"
               id="imgInput"
               accept="image/*"
-              onChange={onFileChange}
+              onChange={handleChange}
             />
           </label>
         </ProfileImageContainer>
         <CameraContainer>
           <CameraImage src="camera.png" alt="" />
         </CameraContainer>
-        <StyledProfileForm onSubmit={handleProfileSubmit}>
+        <StyledProfileForm onSubmit={onFileChange}>
           {profileName.map((item) => {
             return (
               <StyledDivBox key={item.id}>
@@ -125,9 +139,16 @@ export default function Modal() {
               </StyledDivBox>
             );
           })}
-          <StyledProfileButton>프로필변경</StyledProfileButton>
+          <StyledProfileButton
+            disabled={loading || !photo}
+            onClick={handleClick}
+          >
+            프로필변경
+          </StyledProfileButton>
         </StyledProfileForm>
-        <StyledLogoutButton>로그아웃</StyledLogoutButton>
+        <StyledLogoutButton onClick={onLogOutClick}>
+          로그아웃
+        </StyledLogoutButton>
       </Container>
     </div>
   );

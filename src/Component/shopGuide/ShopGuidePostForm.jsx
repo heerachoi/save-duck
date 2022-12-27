@@ -9,12 +9,10 @@ import { db } from '../../firebase';
 import { v4 as uuidv4 } from 'uuid';
 import { collection, addDoc, getFirestore } from 'firebase/firestore';
 import moment from 'moment';
-import { storage } from "../../firebase.js";
-import { ref, uploadBytesResumable, getDownloadURL, uploadString } from "firebase/storage";
+import { storage } from '../../firebase.js';
+import { ref, uploadBytesResumable, getDownloadURL, uploadString } from 'firebase/storage';
 import firebase from 'firebase/app';
 import 'firebase/functions';
-
-
 
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
 const Form = () => {
@@ -22,14 +20,13 @@ const Form = () => {
   const [description, setDescription] = useState('');
 
   // 사진 업로드 용 정의
-  const [image, setImage] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [error, setError] = useState("");
+  const [image, setImage] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const [error, setError] = useState('');
   const [progress, setProgress] = useState(100);
   const [uploadImage, setUploadImage] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
 
   const onImageChange = (event) => {
     const theFile = event.target.files[0]; // file 객체
@@ -45,10 +42,10 @@ const Form = () => {
     const imageRef = ref(storage, `image/${uuidv4()}`);
     let downloadimage;
     if (imageUrl) {
-      const imageResponse = await uploadString(imageRef, imageUrl, "data_url");
+      const imageResponse = await uploadString(imageRef, imageUrl, 'data_url');
       downloadimage = await getDownloadURL(imageResponse.ref);
     }
-    console.log(downloadimage)
+    console.log(downloadimage);
     try {
       await addDoc(collection(db, 'posting'), {
         id: uuidv4(),
@@ -57,14 +54,10 @@ const Form = () => {
         created: moment().format('YYYY-MM-DD'),
         image: downloadimage,
       });
-
-
-
     } catch (err) {
       alert(err);
     }
   };
-
 
   const previousPageHanlder = () => {
     navigate(-1, true);
@@ -92,14 +85,7 @@ const Form = () => {
 
   return (
     <StSGPInputContainer onSubmit={handleSubmit}>
-      <StSGPTitleInput
-        type='text'
-        name='title'
-        placeholder='제목을 입력하여 주세요.'
-        onChange={(e) => setTitle(e.target.value.toUpperCase())}
-        value={title}
-        required
-      />
+      <StSGPTitleInput type='text' name='title' placeholder='제목을 입력하여 주세요.' onChange={(e) => setTitle(e.target.value.toUpperCase())} value={title} required />
       <StSGPPhotoInput>
         <label htmlFor='ex_file'>
           <div className='btnStart'>
@@ -107,22 +93,10 @@ const Form = () => {
             <div className='submitPic'>사진 등록</div>
           </div>
         </label>
-        <input
-          type='file'
-          id='ex_file'
-          accept='image/jpg, image/png, image/jpeg'
-          onChange={(e) => onImageChange(e)}
-        />
+        <input type='file' id='ex_file' accept='image/jpg, image/png, image/jpeg' onChange={(e) => onImageChange(e)} />
       </StSGPPhotoInput>
 
-      <StSGPDescriptionInput
-        type='text'
-        name='description'
-        value={description}
-        placeholder='내용을 입력해주세요.'
-        onChange={(e) => setDescription(e.target.value)}
-        required
-      />
+      <StSGPDescriptionInput type='text' name='description' value={description} placeholder='내용을 입력해주세요.' onChange={(e) => setDescription(e.target.value)} required />
 
       <StSGPButtonGroup>
         <StSGPSubmitButton
@@ -137,16 +111,10 @@ const Form = () => {
 
         <StSGPCancelButton to='/shopguide'>Cancel</StSGPCancelButton>
       </StSGPButtonGroup>
-      <StSGPInfo
-        type='text'
-        name='date'
-        value={lists.date}
-        onChange={onChange}
-      ></StSGPInfo>
+      <StSGPInfo type='text' name='date' value={lists.date} onChange={onChange}></StSGPInfo>
     </StSGPInputContainer>
   );
 };
-
 
 const StSGPInfo = styled.div``;
 
