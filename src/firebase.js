@@ -1,17 +1,17 @@
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
-import { getStorage } from 'firebase/storage';
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
 // 회수
 const firebaseConfig = {
-  apiKey: 'AIzaSyBJAaoGVZAqQ58vnhtT9eTbnx3G6eeOpXM',
-  authDomain: 'save-duck-project.firebaseapp.com',
-  projectId: 'save-duck-project',
-  storageBucket: 'save-duck-project.appspot.com',
-  messagingSenderId: '1034061398211',
-  appId: '1:1034061398211:web:8eb7aea9f40421db3ee276',
-  measurementId: 'G-98XHQ8X10T',
+  apiKey: "AIzaSyBJAaoGVZAqQ58vnhtT9eTbnx3G6eeOpXM",
+  authDomain: "save-duck-project.firebaseapp.com",
+  projectId: "save-duck-project",
+  storageBucket: "save-duck-project.appspot.com",
+  messagingSenderId: "1034061398211",
+  appId: "1:1034061398211:web:8eb7aea9f40421db3ee276",
+  measurementId: "G-98XHQ8X10T",
 };
 
 // 희라
@@ -27,7 +27,7 @@ const firebaseConfig = {
 // };
 
 // Initialize Firebase
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore();
 export const auth = getAuth();
