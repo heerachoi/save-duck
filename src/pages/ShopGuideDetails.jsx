@@ -27,6 +27,7 @@ const ShopGuideDetails = () => {
   // 댓글 등록 기능 - 버튼 클릭시 댓글 리스트에 작성한 댓글 추가
   const commentSubmitHandler = (event) => {
     event.preventDefault();
+    console.log(event.target.value);
     if (window.confirm('댓글을 등록하시겠습니까?')) {
       const newComment = {
         id: uuidv4(),
@@ -105,7 +106,8 @@ const ShopGuideDetails = () => {
         <StCommentMyProfileImage src='images/default_profile.webp' alt='' />
         <StCommentForm onSubmit={commentSubmitHandler}>
           <StCommentInput
-            maxlength={100}
+            type='text'
+            max-length='10'
             id='comment'
             placeholder='댓글을 입력해주세요.'
             value={comment}
@@ -135,7 +137,7 @@ const StCommentContainer = styled.div`
   justify-content: center;
   /* align-items: center; */
   width: 100%;
-  margin-top : 50px;
+  margin-top: 50px;
 `;
 
 // 댓글 작성폼
@@ -151,7 +153,7 @@ const StCommentForm = styled.form`
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
-  // text-align: right; 
+  // text-align: right;
   // width: 60%;
 `;
 
