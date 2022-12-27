@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
 import { authService } from "../../firebase";
 import "firebase/firestore";
-
+import { H1 } from "./SignUp.js";
+// import { H2 } from "../signIn/SignIn.js";
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -31,7 +32,7 @@ const SignUpComponent = () => {
   const [isPassword, setIsPassword] = React.useState(false);
   const [isPasswordConfirm, setIsPasswordConfirm] = React.useState(false);
   const [isEmail, setIsEmail] = React.useState(false);
-    //db 저장
+  //db 저장
   const auth = getAuth();
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -103,7 +104,7 @@ const SignUpComponent = () => {
   };
   return (
     <>
-      <h3> Sign Up</h3>
+      <H1>SaveDuck</H1>
       <form onSubmit={onSubmit} className="form">
         <div className="form-el">
           <label htmlFor="email">Email</label>

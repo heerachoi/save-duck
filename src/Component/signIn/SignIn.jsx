@@ -1,3 +1,4 @@
+import { collection, addDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { NavLink, Router, Link, useNavigate } from "react-router-dom";
 import { authService } from "../../firebase";
@@ -7,6 +8,8 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   signOut,
+  GithubAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import {
   LoginWrap,
@@ -37,28 +40,48 @@ const SignInComponent = () => {
   //이메일, 패스워드 유효성 값 초기화
   const [emailValid, setEmailValid] = useState(false);
   const [pwValid, setPwValid] = useState(false);
-
-  const [init, setInit] = useState(false);
   // 처음에는 false이고 나중에 사용자 존재 판명이 모두 끝났을 때 true를 통해 해당 화면을 render
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  useEffect(() => {
-    authService.onAuthStateChanged((user) => {
-      // user 판명을 듣고
-      if (user) {
-        // 있으면
-        setIsLoggedIn(true); // 로그인 됨
-      } else {
-        setIsLoggedIn(false); // 로그인 안됨
-      }
-      setInit(true); // user 판명 끝
-    });
-  }, []);
+
+  // useEffect(() => {
+  //   authService.onAuthStateChanged((user) => {
+  //     // user 판명을 듣고
+  //     if (user) {
+  //       // 있으면
+  //       setIsLoggedIn(true); // 로그인 됨
+  //     } else {
+  //       setIsLoggedIn(false); // 로그인 안됨
+  //     }
+  //     setInit(true); // user 판명 끝
+  //   });
+  // }, [user]);
 
   // onAuthStateChanged(authService, (currentUser) => {
-  //   console.log("onAuthStateChanged: ", onAuthStateChanged);
+  //   console.log(onAuthStateChanged);
   //   setUser(currentUser);
   // });
-  //User 정보 추적
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(authService, (user) => {
+  //     console.log("test");
+  //     if (user) {
+  //       console.log("user");
+  //       console.log(user);
+  //       setUser({ id: user.uid, email: "" });
+  //     } else {
+  //       console.log("null");
+  //       setUser(null);
+  //     }
+  //   });
+  //   return unsubscribe;
+  // }, []);
+
+    useEffect(() => {
+      onAuthStateChanged(auth, (currentUser) => {
+          setUser(currentUser);
+      });
+
+  }, [])
+
   const handleEmail = (e) => {
     // 이메일 정규식
     setEmail(e.target.value);
@@ -81,32 +104,44 @@ const SignInComponent = () => {
       setPwValid(false);
     }
   };
-
+  //로그인
   const login = async (e) => {
     e.preventDefault();
     let data;
     try {
-      await signInWithEmailAndPassword(authService, email, password);
+      const response = await signInWithEmailAndPassword(
+        authService,
+        email,
+        password
+      );
+      // const docRef = await addDoc(collection(data, "users"), {
+      //   email: "email",
+      // });
+      window.location.href = "/";
     } catch (error) {
-      // window.location.href = "/";
       console.log(error);
     }
   };
   console.log("email:", email, "passord:", password);
-  // const login = async (email, password) => {
-  //   try {
-  //     await signInWithEmailAndPassword(authService, email, password);
-  //     console.log(email, password);
-  //   } catch (error) {
-  //     console.log(error.message);
-  //     console.log("로그인 실패");
-  //   }
-  // };
 
   //로그아웃
   const logout = async () => {
-    console.log("logout");
     await signOut(auth);
+  };
+  //소셜로그인
+  const onSocialClick = async (event) => {
+    const {
+      target: { name },
+    } = event;
+    let provider;
+    if (name === "google") {
+      provider = new GoogleAuthProvider();
+    } else if (name === "github") {
+      provider = new GithubAuthProvider();
+    }
+    window.location.href = "/";
+    const data = await signInWithPopup(authService, provider);
+    console.log(data);
   };
 
   return (
@@ -172,10 +207,14 @@ const SignInComponent = () => {
           </ButtonSign>
           <div>
             <div>
-              <Button name="Google">Google 로그인</Button>
+              <Button onClick={onSocialClick} name="google">
+                Google 로그인
+              </Button>
             </div>
             <div>
-              <Button name="Gtihub">Github 로그인</Button>
+              <Button onClick={onSocialClick} name="github">
+                Github 로그인
+              </Button>
             </div>
           </div>
         </ButtonWrap>
