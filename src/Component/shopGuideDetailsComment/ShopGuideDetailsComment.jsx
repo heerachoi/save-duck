@@ -12,7 +12,7 @@ import {
   StCommentContentSaveTime,
   StCommentContentsEditButton,
   StCommentContentsDeleteButton,
-} from './shopGuideDetailsComment.js';
+} from '../shopGuideDetailsComment/shopGuideDetailsComment.js';
 
 const ShopGuideDetailsComment = ({
   item,
