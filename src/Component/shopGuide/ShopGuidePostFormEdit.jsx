@@ -17,11 +17,24 @@ import {
 } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import moment from 'moment';
+import { useParams, Link } from 'react-router-dom';
 
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
 const EditForm = () => {
+  const param = useParams();
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
+  // 게시글 정보 불러오기
+  const getPostingFirebase = async () => {
+    const ref = doc(db, 'posting', param.id);
+    let res = await getDoc(ref);
+    console.log(res.data().title);
+    return res.data();
+  };
+
+  getPostingFirebase();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
