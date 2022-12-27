@@ -61,6 +61,7 @@ const ShopGuideArticle = ({ item }) => {
           description: doc.data().description,
           username: doc.data().username,
           created: doc.data().created,
+          image: doc.data().image,
         });
       });
       setPosting(firestorePostingList);
@@ -83,7 +84,7 @@ const ShopGuideArticle = ({ item }) => {
                 </StShopDetailsArticleTitle>
                 <StShopDetailsImage
                   className='detailsMainImage'
-                  src={`${lists.profilepicture}`}
+                  src={item.image}
                   alt='첨부된 이미지'
                 />
                 <StShopDetailsArticleContents>

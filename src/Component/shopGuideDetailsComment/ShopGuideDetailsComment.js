@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import ShopGuideArticle from '../../pages/ShopGuideArticle';
 
 // 댓글 리스트 영역
 export const StCommentProfileImage = styled.img`
