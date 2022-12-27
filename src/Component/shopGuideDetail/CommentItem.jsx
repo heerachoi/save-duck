@@ -65,11 +65,12 @@ const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
   const editCancelButtonHandler = (id) => {
     dispatch(modifyModeComment(id));
     setReadOnly(true);
+    setUpdateCommentInput(comment);
   };
 
   // 댓글 삭제하기
   const deleteCommentButtonHandler = async (removedComment) => {
-    // console.log(removedComment);
+    console.log(removedComment);
 
     if (window.confirm('정말 삭제하시겠습니까?')) {
       const commentRef = doc(db, 'commentList', removedComment);
@@ -88,6 +89,7 @@ const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
         <StCommentContentInput
           name='comment'
           readOnly={readOnly}
+          maxlength='200'
           defaultValue={comment}
           onChange={onChangeComment}
         />
@@ -151,6 +153,7 @@ const StCommentListContainer = styled.li`
   list-style: none;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   width: 850px;
   margin-bottom: 20px;
 `;
@@ -159,11 +162,14 @@ const StCommentUserName = styled.div`
   font-size: 17px;
 `;
 
-const StCommentContentInput = styled.input`
+const StCommentContentInput = styled.textarea`
   font-size: 15px;
   margin-bottom: 10px;
   width: 400px;
   min-width: 300px;
+  min-height: 80px;
+  border: none;
+  background-color: #eeeeee;
 `;
 
 const StCommentContentSaveTime = styled.div`

@@ -9,6 +9,7 @@ import {
   // where,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
+import styled from 'styled-components';
 
 const CommentList = ({ commentItemtList, setCommentItemList }) => {
   // const globalComment = useSelector((state) => state.comments);
@@ -44,7 +45,7 @@ const CommentList = ({ commentItemtList, setCommentItemList }) => {
   }, []);
 
   return (
-    <div>
+    <StCommentListContainer>
       {commentItemtList.map((item) => {
         return (
           <CommentItem
@@ -56,8 +57,14 @@ const CommentList = ({ commentItemtList, setCommentItemList }) => {
           />
         );
       })}
-    </div>
+    </StCommentListContainer>
   );
 };
 
 export default CommentList;
+
+const StCommentListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
