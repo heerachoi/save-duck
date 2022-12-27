@@ -1,4 +1,3 @@
-import { collection, addDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { NavLink, Router, Link, useNavigate } from "react-router-dom";
 import { authService } from "../../firebase";
@@ -12,8 +11,11 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import {
+  // Img,
   LoginWrap,
   LoginContaier,
+  GitImgContainer,
+  GogImgContainer,
   ContentWrap,
   EmaillWrap,
   InputTitle,
@@ -26,6 +28,8 @@ import {
   ErrorMessgeWrap,
   ButtonSign,
   Button,
+  GithubBtn,
+  GoogleBtn,
 } from "./SignIn.js";
 
 //더미
@@ -75,12 +79,11 @@ const SignInComponent = () => {
   //   return unsubscribe;
   // }, []);
 
-    useEffect(() => {
-      onAuthStateChanged(auth, (currentUser) => {
-          setUser(currentUser);
-      });
-
-  }, [])
+  useEffect(() => {
+    onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+  }, []);
 
   const handleEmail = (e) => {
     // 이메일 정규식
@@ -119,15 +122,11 @@ const SignInComponent = () => {
       // });
       window.location.href = "/";
     } catch (error) {
-      console.log(error);
+      alert("등록되지않은 아이디입니다.");
     }
   };
   console.log("email:", email, "passord:", password);
 
-  //로그아웃
-  const logout = async () => {
-    await signOut(auth);
-  };
   //소셜로그인
   const onSocialClick = async (event) => {
     const {
@@ -143,7 +142,9 @@ const SignInComponent = () => {
     const data = await signInWithPopup(authService, provider);
     console.log(data);
   };
-
+  const gotoSignup = (e) => {
+    window.location.href = "/signup";
+  };
   return (
     <LoginWrap>
       <LoginContaier>
@@ -166,7 +167,7 @@ const SignInComponent = () => {
 
             <ErrorMessgeWrap>
               {!emailValid && email.length > 0 && (
-                <div>! 잘못된 이메일주소입니다.</div>
+                <div>! 옳바른 아이디를 입력해주세요.</div>
               )}
             </ErrorMessgeWrap>
           </EmaillWrap>
@@ -184,14 +185,6 @@ const SignInComponent = () => {
                 onChange={handlePassword}
               />
             </InputWrap>
-            <h4> User Logged In</h4>
-            {user?.email}
-            <button onClick={logout}>Sign out</button>
-            {/* <ErrorMessgeWrap>
-              {!pwValid && password.length > 0 && (
-                <div>! 이메일과 패스워드가 일치하지 않습니다.</div>
-              )}
-            </ErrorMessgeWrap> */}
           </div>
         </form>
 
@@ -199,22 +192,23 @@ const SignInComponent = () => {
           <ButtonSign>
             <div>
               <SignInBtn onClick={login}>로그인</SignInBtn>
-              {/* <Route exact path="/" element={<Home />} /> */}
             </div>
             <div>
-              <SignUpBtn>회원가입</SignUpBtn>
+              <SignUpBtn onClick={gotoSignup}>회원가입</SignUpBtn>
             </div>
           </ButtonSign>
           <div>
             <div>
-              <Button onClick={onSocialClick} name="google">
+              <GoogleBtn onClick={onSocialClick} name="google">
+                <GogImgContainer />
                 Google 로그인
-              </Button>
+              </GoogleBtn>
             </div>
             <div>
-              <Button onClick={onSocialClick} name="github">
+              <GithubBtn onClick={onSocialClick} name="github">
+                <GitImgContainer />
                 Github 로그인
-              </Button>
+              </GithubBtn>
             </div>
           </div>
         </ButtonWrap>

@@ -19,7 +19,6 @@ import {
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
 const ShopGuidePostFormEdit = ({ item, syncpostingstatewithfirestore }) => {
   const param = useParams();
-
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
@@ -27,9 +26,11 @@ const ShopGuidePostFormEdit = ({ item, syncpostingstatewithfirestore }) => {
   const getPostingFirebase = async () => {
     const ref = doc(db, 'posting', param.id);
     let res = await getDoc(ref);
-    console.log(res.data().title);
+    setTitle(res.data().title);
+    setDescription(res.data().description);
     return res.data();
   };
+  // getPostingFirebase();
 
   useEffect(() => {
     getPostingFirebase();
@@ -110,6 +111,17 @@ const ShopGuidePostFormEdit = ({ item, syncpostingstatewithfirestore }) => {
     profilepicture: '',
     description: '',
   });
+
+  // input 창의 value 값을 변경할 떄 마다 list 객체의 키값에 맞게 setList를 통해 값을 변경한다.
+  // const onChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setLists({
+  //     ...lists,
+  //     [name]: value,
+  //     id: nextId(),
+  //   });
+  // };
+
   return (
     <StSGPInputContainer onSubmit={handleSubmit}>
       <StSGPTitleInput
