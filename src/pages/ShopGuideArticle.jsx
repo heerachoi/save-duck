@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ShopGuideDetails from '../pages/ShopGuideDetails.jsx';
+import ShopGuideDetails from './ShopGuideDetails.jsx';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 

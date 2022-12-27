@@ -4,9 +4,17 @@ import moment from 'moment';
 import { modifyModeComment, updateComment } from '../../redux/modules/comment';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
-import styled from 'styled-components';
+import {
+  StCommentProfileImage,
+  StCommentListContainer,
+  StCommentUserName,
+  StCommentContentInput,
+  StCommentContentSaveTime,
+  StCommentContentsEditButton,
+  StCommentContentsDeleteButton,
+} from './shopGuideDetailsComment.js';
 
-const CommentItem = ({
+const ShopGuideDetailsComment = ({
   item,
   syncCommentListStateWithFirestore,
   collectionName,
@@ -144,59 +152,4 @@ const CommentItem = ({
   );
 };
 
-export default CommentItem;
-
-// 댓글 리스트 영역
-const StCommentProfileImage = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 50px;
-  /* margin-right: 15px; */
-`;
-
-const StCommentListContainer = styled.li`
-  list-style: none;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 850px;
-  margin-bottom: 20px;
-`;
-
-const StCommentUserName = styled.div`
-  font-size: 17px;
-`;
-
-const StCommentContentInput = styled.textarea`
-  font-size: 15px;
-  margin-bottom: 10px;
-  width: 400px;
-  min-width: 300px;
-  min-height: 80px;
-  border: none;
-  background-color: #eeeeee;
-  resize: none;
-`;
-
-const StCommentContentSaveTime = styled.div`
-  font-size: 13px;
-  color: #464646;
-`;
-
-const StCommentContentsEditButton = styled.button`
-  width: 50px;
-  height: 50px;
-  background-color: black;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-
-const StCommentContentsDeleteButton = styled.button`
-  width: 50px;
-  height: 50px;
-  background-color: black;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-`;
+export default ShopGuideDetailsComment;
