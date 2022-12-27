@@ -127,7 +127,7 @@ export default function Modal() {
           })}
           <StyledProfileButton>프로필변경</StyledProfileButton>
         </StyledProfileForm>
-        <StyledLogoutButton>로그아웃</StyledLogoutButton>
+        <StyledLogoutButton>로그아운</StyledLogoutButton>
       </Container>
     </div>
   );
