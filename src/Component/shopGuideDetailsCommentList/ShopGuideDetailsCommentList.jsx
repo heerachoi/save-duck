@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ShopGuideDetailsComment from '../shopGuideDetailsComment/ShopGuideDetailsComment.jsx';
-import { StCommentListContainer } from './ShopGuideDetailsCommentList.js';
+import { StCommentListContainer } from './shopGuideDetailsCommentList.js';
 import {
   collection,
   getDocs,
