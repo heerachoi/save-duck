@@ -41,6 +41,7 @@ const List = () => {
           description: doc.data().description,
           username: doc.data().username,
           created: doc.data().created,
+
         });
       });
       setPosting(firestorePostingList);
@@ -53,16 +54,17 @@ const List = () => {
 
   return (
     <div>
-      {posting.map((item) => {
+      {posting.map((item, i) => {
+
         return (
           <StShopGuidePostWrapper key={item.id}>
             <StShopGuidePostContainer
               item={item}
-              to={`/shopguidedetails/${item.id}`}
+              to={`/shopguidearticle/${item.id}`}
             >
               <StShopGuideTop>
                 <StShopGuidePostNumbering>
-                  <span></span>
+                  <span>{i + 1}</span>
                 </StShopGuidePostNumbering>
                 <StShopGuidePostTitle>
                   <span>{item.title}</span>
@@ -76,7 +78,7 @@ const List = () => {
                   <span>{item.username}</span>
                 </StShopGuidePostUserName>
                 <StShopGuidePostDate>
-                  <span></span>
+                  <span>{item.created}</span>
                 </StShopGuidePostDate>
               </StShopGuidePostInfo>
               <StShopGuidePostDescription>
@@ -95,12 +97,24 @@ export default List;
 const StShopGuidePostWrapper = styled.div`
   max-width: 800px;
   text-decoration: none;
+  border-bottom: 2px solid #e5e5e5;
 `;
 const StShopGuidePostContainer = styled(NavLink)`
   max-width : 500px;
   margin: 25px 100px 15px 100px;
-  overflow:visible; cursor:pointer
+  overflow:hidden; 
+  cursor:pointer;
   text-decoration : none;
+
+  span {
+  max-width : 500px;
+  margin: 25px 100px 15px 100px;
+  overflow:; 
+  cursor:pointer;
+  text-decoration : none;
+  color: black;
+  }
+  
 `;
 const StShopGuideTop = styled.div`
   height: 20px;
@@ -145,15 +159,26 @@ const StShopGuidePostUserName = styled.div`
   color: coral;
 `;
 const StShopGuidePostDate = styled.div`
-  width: 8rem;
+  width: 10rem;
   font-size: 9px;
   color: gray;
   display: flex;
   align-items: center;
+
+  span {
+    width: 50px;
+    white-space: nowrap;
+  }
 `;
 const StShopGuidePostDescription = styled.div`
-  font-size: 11px;
+width : 90%;
+height : 90px;  
+font-size: 11px;
   color: gray;
   margin-left: 50px;
   text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+
 `;
