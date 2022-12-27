@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { addpost } from '../../redux/modules/list';
@@ -26,8 +26,11 @@ const EditForm = ({ item, syncpostingstatewithfirestore }) => {
     setDescription(res.data().description);
     return res.data();
   };
-  getPostingFirebase();
+  // getPostingFirebase();
 
+  useEffect(() => {
+    getPostingFirebase();
+  }, [])
 
   // 게시물 수정사항 입력시 - state 반영하기
   const onChangeTitle = (event) => {
@@ -57,7 +60,7 @@ const EditForm = ({ item, syncpostingstatewithfirestore }) => {
 
   // 게시물 수정 버튼
   const updatePostButton = async (id) => {
-    const ref = doc(db, 'posting', id);
+    const ref = doc(db, 'posting', param.id);
     const time = moment().format('YYYY-MM-DD');
     try {
       const response = await updateDoc(ref, {
@@ -84,7 +87,10 @@ const EditForm = ({ item, syncpostingstatewithfirestore }) => {
         title: title,
         description: description,
         created: moment().format('YYYY-MM-DD'),
+
       });
+      alert('게시글이 성공적으로 저장되었습니다.');
+      window.location.href = '/shopGuide';
     } catch (err) {
       alert(err);
     }
@@ -124,7 +130,7 @@ const EditForm = ({ item, syncpostingstatewithfirestore }) => {
         name='title'
         placeholder='제목을 입력하여 주세요.'
         onChange={onChangeTitle}
-        defaultValue={title}
+        value={title}
         required
       />
       <StSGPPhotoInput>
@@ -145,7 +151,7 @@ const EditForm = ({ item, syncpostingstatewithfirestore }) => {
       <StSGPDescriptionInput
         type='text'
         name='description'
-        defaultValue={description}
+        value={description}
         placeholder='내용을 입력해주세요.'
         onChange={onChangeDescription}
         required
@@ -153,12 +159,7 @@ const EditForm = ({ item, syncpostingstatewithfirestore }) => {
 
       <StSGPButtonGroup>
         <StSGPSubmitButton
-          type='submit'
-          onClick={() => {
-            updatePostButton();
-            alert('게시글이 성공적으로 저장되었습니다.');
-          }}
-        >
+          type='submit'>
           Save
         </StSGPSubmitButton>
 
