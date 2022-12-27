@@ -7,29 +7,64 @@ import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../firebase';
 import { v4 as uuidv4 } from 'uuid';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, getFirestore } from 'firebase/firestore';
 import moment from 'moment';
+import { storage } from "../../firebase.js";
+import { ref, uploadBytesResumable, getDownloadURL, uploadString } from "firebase/storage";
+import firebase from 'firebase/app';
+import 'firebase/functions';
+
+
 
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
 const Form = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
+  // 사진 업로드 용 정의
+  const [image, setImage] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [error, setError] = useState("");
+  const [progress, setProgress] = useState(100);
+  const [uploadImage, setUploadImage] = useState();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+
+  const onImageChange = (event) => {
+    const theFile = event.target.files[0]; // file 객체
+    const reader = new FileReader();
+    reader.readAsDataURL(theFile); // file 객체를 브라우저가 읽을 수 있는 data URL로 읽음.
+    reader.onloadend = (finished) => {
+      setImageUrl(finished.currentTarget.result);
+    };
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const imageRef = ref(storage, `image/${uuidv4()}`);
+    let downloadimage;
+    if (imageUrl) {
+      const imageResponse = await uploadString(imageRef, imageUrl, "data_url");
+      downloadimage = await getDownloadURL(imageResponse.ref);
+    }
+    console.log(downloadimage)
     try {
       await addDoc(collection(db, 'posting'), {
         id: uuidv4(),
         title: title,
         description: description,
         created: moment().format('YYYY-MM-DD'),
+        image: downloadimage,
       });
+
+
+
     } catch (err) {
       alert(err);
     }
   };
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const previousPageHanlder = () => {
     navigate(-1, true);
@@ -76,7 +111,7 @@ const Form = () => {
           type='file'
           id='ex_file'
           accept='image/jpg, image/png, image/jpeg'
-          onChange={(e) => console.log(e.target.files[0])}
+          onChange={(e) => onImageChange(e)}
         />
       </StSGPPhotoInput>
 
@@ -111,6 +146,7 @@ const Form = () => {
     </StSGPInputContainer>
   );
 };
+
 
 const StSGPInfo = styled.div``;
 
