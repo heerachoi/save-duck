@@ -7,13 +7,13 @@ import { NavLink } from 'react-router-dom';
 import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '../../firebase';
 import { v4 as uuidv4 } from 'uuid';
-import { collection, addDoc, doc, getDoc, } from 'firebase/firestore';
+import { collection, addDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
 import moment from 'moment';
 
 
 
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
-const EditForm = () => {
+const EditForm = ({ item, syncpostingstatewithfirestore }) => {
   const param = useParams();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -22,11 +22,59 @@ const EditForm = () => {
   const getPostingFirebase = async () => {
     const ref = doc(db, 'posting', param.id);
     let res = await getDoc(ref);
-    console.log(res.data().title);
+    setTitle(res.data().title);
+    setDescription(res.data().description);
     return res.data();
   };
-
   getPostingFirebase();
+
+
+  // 게시물 수정사항 입력시 - state 반영하기
+  const onChangeTitle = (event) => {
+    const { value } = event.target;
+    setTitle(value);
+  };
+  const onChangeDescription = (event) => {
+    const { value } = event.target;
+    setDescription(value);
+  };
+
+  // 게시물 수정사항 입력시 - firebase 반영하기
+  const updatePostingFirebase = async () => {
+    const ref = doc(db, 'posting', param.id);
+    const time = moment().format('YYYY-MM-DD');
+    try {
+      const response = await updateDoc(ref, {
+        title: title,
+        description: description,
+        created: time,
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // 게시물 수정 버튼
+  const updatePostButton = async (id) => {
+    const ref = doc(db, 'posting', id);
+    const time = moment().format('YYYY-MM-DD');
+    try {
+      const response = await updateDoc(ref, {
+        title: title,
+        description: description,
+        created: time,
+      });
+      window.location.href = '/shopGuide';
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,14 +108,14 @@ const EditForm = () => {
   });
 
   // input 창의 value 값을 변경할 떄 마다 list 객체의 키값에 맞게 setList를 통해 값을 변경한다.
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setLists({
-      ...lists,
-      [name]: value,
-      id: nextId(),
-    });
-  };
+  // const onChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setLists({
+  //     ...lists,
+  //     [name]: value,
+  //     id: nextId(),
+  //   });
+  // };
 
   return (
     <StSGPInputContainer onSubmit={handleSubmit}>
@@ -75,8 +123,8 @@ const EditForm = () => {
         type='text'
         name='title'
         placeholder='제목을 입력하여 주세요.'
-        onChange={(e) => setTitle(e.target.value.toUpperCase())}
-        value={title}
+        onChange={onChangeTitle}
+        defaultValue={title}
         required
       />
       <StSGPPhotoInput>
@@ -97,9 +145,9 @@ const EditForm = () => {
       <StSGPDescriptionInput
         type='text'
         name='description'
-        value={description}
+        defaultValue={description}
         placeholder='내용을 입력해주세요.'
-        onChange={(e) => setDescription(e.target.value)}
+        onChange={onChangeDescription}
         required
       />
 
@@ -107,7 +155,7 @@ const EditForm = () => {
         <StSGPSubmitButton
           type='submit'
           onClick={() => {
-            previousPageHanlder();
+            updatePostButton();
             alert('게시글이 성공적으로 저장되었습니다.');
           }}
         >
@@ -120,7 +168,6 @@ const EditForm = () => {
         type='text'
         name='date'
         value={lists.date}
-        onChange={onChange}
       ></StSGPInfo>
     </StSGPInputContainer>
   );
