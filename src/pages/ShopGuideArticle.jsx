@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ShopGuideDetails from '../pages/ShopGuideDetails.jsx';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 // Minsung 수정
@@ -40,7 +41,6 @@ const ShopGuideArticle = () => {
       return;
     }
   };
-
 
   // firestore에서 데이터 'posting' 가져오기
   const syncpostingstatewithfirestore = () => {
@@ -91,11 +91,25 @@ const ShopGuideArticle = () => {
         })}
         {/* 수정 / 삭제 버튼 */}
         <StShopDetailsEditButtons>
-          <FontAwesomeIcon
-            id='articleEditButton'
-            icon={faPen}
-            style={{ cursor: 'pointer' }}
-          />
+          {posting.map((item) => {
+            if (item.id === NavId.id) {
+              return (
+                <StArticleEditLink
+                  key={item.id}
+                  to={`/shopguidepostingEdit/${item.id}`}
+                >
+                  <FontAwesomeIcon
+                    id='articleEditButton'
+                    icon={faPen}
+                    style={{ cursor: 'pointer' }}
+                  />
+                </StArticleEditLink>
+              );
+            } else {
+              return null;
+            }
+          })}
+
           <FontAwesomeIcon
             id='articleDeleteButton'
             icon={faTrashCan}
@@ -106,7 +120,6 @@ const ShopGuideArticle = () => {
       </StShopDetailsContainer>
       <ShopGuideDetails />
     </div>
-
   );
 };
 
@@ -142,7 +155,7 @@ const StShopDetailsImage = styled.img`
   height: 300px;
   margin-bottom: 30px;
   object-fit: cover;
-  margin-top : 40px;
+  margin-top: 40px;
 `;
 
 // 게시글 수정 버튼
@@ -154,4 +167,8 @@ const StShopDetailsEditButtons = styled.div`
   position: absolute;
   right: 80px;
   font-size: 20px;
+`;
+
+const StArticleEditLink = styled(NavLink)`
+  color: black;
 `;

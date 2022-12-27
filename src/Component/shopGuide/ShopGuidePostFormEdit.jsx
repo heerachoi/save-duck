@@ -6,16 +6,23 @@ import nextId from 'react-id-generator';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../firebase';
+import {
+  doc,
+  collection,
+  getDoc,
+  getDocs,
+  addDoc,
+  query,
+  where,
+} from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import { collection, addDoc } from 'firebase/firestore';
 import moment from 'moment';
 
-
-
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
-const Form = () => {
+const EditForm = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -48,14 +55,23 @@ const Form = () => {
   });
 
   // input 창의 value 값을 변경할 떄 마다 list 객체의 키값에 맞게 setList를 통해 값을 변경한다.
-  const onChange = (e) => {
-    const { name, value } = e.target;
-    setLists({
-      ...lists,
-      [name]: value,
-      id: nextId(),
-    });
-  };
+  // const onChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setLists({
+  //     ...lists,
+  //     [name]: value,
+  //     id: nextId(),
+  //   });
+  // };
+
+  // const onChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setLists({
+  //     ...lists,
+  //     [name]: value,
+  //     id: nextId(),
+  //   });
+  // };
 
   return (
     <StSGPInputContainer onSubmit={handleSubmit}>
@@ -104,12 +120,14 @@ const Form = () => {
 
         <StSGPCancelButton to='/shopguide'>Cancel</StSGPCancelButton>
       </StSGPButtonGroup>
+      {/* 작성 날짜인가요?? */}
+      {/*       
       <StSGPInfo
         type='text'
         name='date'
         value={lists.date}
         onChange={onChange}
-      ></StSGPInfo>
+      ></StSGPInfo> */}
     </StSGPInputContainer>
   );
 };
@@ -236,4 +254,4 @@ const StSGPCancelButton = styled(NavLink)`
   text-align: center;
 `;
 
-export default Form;
+export default EditForm;
