@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import ShopGuideDetails from '../pages/ShopGuideDetails.jsx';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
 
 // Minsung 수정
 import { useSelector } from 'react-redux'; // useSelector를 사용해 store에 있는 state를 구독하기 위해해 import
