@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const StyledProfileButton = styled.button`
+  margin-left: 28px;
   background-color: white;
   border: 1px solid #ffc226;
   width: 200px;
@@ -19,8 +20,9 @@ export const ProfileImageContainer = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+  object-fit: fill;
 
-  background-color: lightgrey;
+  background-color: transparent;
   border: 1px solid transparent;
 
   overflow: hidden;
@@ -35,7 +37,7 @@ export const CameraContainer = styled.div`
   background-color: white;
   border: 1px solid black;
   position: absolute;
-  bottom: 210px;
+  bottom: 230px;
   right: 110px;
 `;
 
@@ -54,7 +56,9 @@ export const StyledLogoutButton = styled.button`
 `;
 
 export const StyledVector = styled.img`
-  margin-left: 10px;
+  margin-right: 10px;
+  padding-top: 10px;
+  margin-bottom: 10px;
   cursor: pointer;
 `;
 
@@ -65,6 +69,7 @@ export const Container = styled.div`
   flex-direction: column;
 
   text-decoration: none;
+  background-color: white;
   color: black;
   width: 400px;
   height: 500px;
@@ -85,4 +90,31 @@ export const Container = styled.div`
 
 export const StyledblankProfilesImg = styled.img`
   margin-bottom: 10px;
+`;
+export const StyledprofileName = styled.h3``;
+
+export const StyledDivBox = styled.div`
+  margin-left: 55px;
+  display: flex;
+`;
+export const StyledCheckButton = styled.button`
+  border: none;
+  cursor: pointer;
+  background-color: transparent;
+  font-size: 18px;
+  position: relative;
+  bottom: 1px;
+  right: 8px;
+`;
+
+export const StyledProfileForm = styled.form`
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+export const StyledProfileInput = styled.input`
+  border: none;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;

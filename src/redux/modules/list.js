@@ -11,6 +11,12 @@ export const addpost = (post) => {
   };
 };
 
+export const addPost = (post) => {
+  return {
+    type: ADD_POST, post
+  };
+};
+
 // POST를 삭제하는 Action Creator
 export const deletepost = (post) => {
   return {

@@ -1,5 +1,14 @@
 import { NavLink } from 'react-router-dom';
-import { StyledSaveDuckHome, LeftSection, SaveDuckHomeNav, DuckImageLogo, RightSection, Menu, MenuItem, SignUp } from './NavBar';
+import {
+  StyledSaveDuckHome,
+  LeftSection,
+  SaveDuckHomeNav,
+  DuckImageLogo,
+  RightSection,
+  Menu,
+  MenuItem,
+  SignUp,
+} from './NavBar';
 import Modal from '../modal/Modal.jsx';
 import { useEffect, useState, useRef } from 'react';
 
@@ -11,7 +20,12 @@ const Navbar = () => {
 
   useEffect(() => {
     const modalCloseHandler = (e) => {
-      if (modal === true && modalRef.current.contains(e.target) === false && profileRef.current.contains(e.target) === false) setModal(false);
+      if (
+        modal === true &&
+        modalRef.current.contains(e.target) === false &&
+        profileRef.current.contains(e.target) === false
+      )
+        setModal(false);
     };
     window.addEventListener('click', modalCloseHandler);
 
@@ -45,7 +59,7 @@ const Navbar = () => {
         </Menu>
 
         <SignUp>
-          <NavLink to='/signup'>
+          <NavLink>
             <img
               ref={profileRef}
               onClick={() => {
@@ -53,12 +67,12 @@ const Navbar = () => {
               }}
               src='blankProfile.png'
             />
-            {modal === true ? (
-              <div ref={modalRef}>
-                <Modal />
-              </div>
-            ) : null}
           </NavLink>
+          {modal === true ? (
+            <div ref={modalRef}>
+              <Modal />
+            </div>
+          ) : null}
         </SignUp>
       </RightSection>
     </StyledSaveDuckHome>
