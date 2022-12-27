@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { addpost } from '../../redux/modules/list';
-import nextId from 'react-id-generator';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../firebase';
@@ -51,20 +50,13 @@ const Form = () => {
     setLists({
       ...lists,
       [name]: value,
-      id: nextId(),
+      id: uuidv4(),
     });
   };
 
   return (
     <StSGPInputContainer onSubmit={handleSubmit}>
-      <StSGPTitleInput
-        type='text'
-        name='title'
-        placeholder='제목을 입력하여 주세요.'
-        onChange={(e) => setTitle(e.target.value.toUpperCase())}
-        value={title}
-        required
-      />
+      <StSGPTitleInput type='text' name='title' placeholder='제목을 입력하여 주세요.' onChange={(e) => setTitle(e.target.value.toUpperCase())} value={title} required />
       <StSGPPhotoInput>
         <label htmlFor='ex_file'>
           <div className='btnStart'>
@@ -72,22 +64,10 @@ const Form = () => {
             <div className='submitPic'>사진 등록</div>
           </div>
         </label>
-        <input
-          type='file'
-          id='ex_file'
-          accept='image/jpg, image/png, image/jpeg'
-          onChange={(e) => console.log(e.target.files[0])}
-        />
+        <input type='file' id='ex_file' accept='image/jpg, image/png, image/jpeg' onChange={(e) => console.log(e.target.files[0])} />
       </StSGPPhotoInput>
 
-      <StSGPDescriptionInput
-        type='text'
-        name='description'
-        value={description}
-        placeholder='내용을 입력해주세요.'
-        onChange={(e) => setDescription(e.target.value)}
-        required
-      />
+      <StSGPDescriptionInput type='text' name='description' value={description} placeholder='내용을 입력해주세요.' onChange={(e) => setDescription(e.target.value)} required />
 
       <StSGPButtonGroup>
         <StSGPSubmitButton
@@ -102,12 +82,7 @@ const Form = () => {
 
         <StSGPCancelButton to='/shopguide'>Cancel</StSGPCancelButton>
       </StSGPButtonGroup>
-      <StSGPInfo
-        type='text'
-        name='date'
-        value={lists.date}
-        onChange={onChange}
-      ></StSGPInfo>
+      <StSGPInfo type='text' name='date' value={lists.date} onChange={onChange}></StSGPInfo>
     </StSGPInputContainer>
   );
 };

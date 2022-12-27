@@ -2,15 +2,12 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { addpost } from '../../redux/modules/list';
-import nextId from 'react-id-generator';
 import { NavLink } from 'react-router-dom';
 import { useNavigate, useParams } from 'react-router-dom';
 import { db } from '../../firebase';
 import { v4 as uuidv4 } from 'uuid';
 import { collection, addDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
 import moment from 'moment';
-
-
 
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
 const EditForm = ({ item, syncpostingstatewithfirestore }) => {
@@ -30,7 +27,7 @@ const EditForm = ({ item, syncpostingstatewithfirestore }) => {
 
   useEffect(() => {
     getPostingFirebase();
-  }, [])
+  }, []);
 
   // 게시물 수정사항 입력시 - state 반영하기
   const onChangeTitle = (event) => {
@@ -75,10 +72,6 @@ const EditForm = ({ item, syncpostingstatewithfirestore }) => {
     }
   };
 
-
-
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -87,7 +80,6 @@ const EditForm = ({ item, syncpostingstatewithfirestore }) => {
         title: title,
         description: description,
         created: moment().format('YYYY-MM-DD'),
-
       });
       alert('게시글이 성공적으로 저장되었습니다.');
       window.location.href = '/shopGuide';
@@ -125,14 +117,7 @@ const EditForm = ({ item, syncpostingstatewithfirestore }) => {
 
   return (
     <StSGPInputContainer onSubmit={handleSubmit}>
-      <StSGPTitleInput
-        type='text'
-        name='title'
-        placeholder='제목을 입력하여 주세요.'
-        onChange={onChangeTitle}
-        value={title}
-        required
-      />
+      <StSGPTitleInput type='text' name='title' placeholder='제목을 입력하여 주세요.' onChange={onChangeTitle} value={title} required />
       <StSGPPhotoInput>
         <label htmlFor='ex_file'>
           <div className='btnStart'>
@@ -140,36 +125,17 @@ const EditForm = ({ item, syncpostingstatewithfirestore }) => {
             <div className='submitPic'>사진 등록</div>
           </div>
         </label>
-        <input
-          type='file'
-          id='ex_file'
-          accept='image/jpg, image/png, image/jpeg'
-          onChange={(e) => console.log(e.target.files[0])}
-        />
+        <input type='file' id='ex_file' accept='image/jpg, image/png, image/jpeg' onChange={(e) => console.log(e.target.files[0])} />
       </StSGPPhotoInput>
 
-      <StSGPDescriptionInput
-        type='text'
-        name='description'
-        value={description}
-        placeholder='내용을 입력해주세요.'
-        onChange={onChangeDescription}
-        required
-      />
+      <StSGPDescriptionInput type='text' name='description' value={description} placeholder='내용을 입력해주세요.' onChange={onChangeDescription} required />
 
       <StSGPButtonGroup>
-        <StSGPSubmitButton
-          type='submit'>
-          Save
-        </StSGPSubmitButton>
+        <StSGPSubmitButton type='submit'>Save</StSGPSubmitButton>
 
         <StSGPCancelButton to='/shopguide'>Cancel</StSGPCancelButton>
       </StSGPButtonGroup>
-      <StSGPInfo
-        type='text'
-        name='date'
-        value={lists.date}
-      ></StSGPInfo>
+      <StSGPInfo type='text' name='date' value={lists.date}></StSGPInfo>
     </StSGPInputContainer>
   );
 };
