@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import CommentList from '../Component/shopGuideDetail/CommentList';
+import ShopGuideDetailsCommentList from '../Component/shopGuideDetailsCommentList/ShopGuideDetailsCommentList.jsx';
 import { addComment } from '../redux/modules/comment';
 import moment from 'moment';
 import styled from 'styled-components';
@@ -17,7 +17,7 @@ import {
   orderBy,
 } from 'firebase/firestore';
 
-const ShopGuideDetails = () => {
+const ShopGuideDetails = ({ collectionName }) => {
   // 댓글 기본 state
   const time = moment().format('YYYY-MM-DD-hh:mm');
   const [comment, setComment] = useState('');
@@ -46,10 +46,11 @@ const ShopGuideDetails = () => {
     setComment(event.target.value);
   };
 
-  // 댓글 추가 기능
+  // 회수 수정
+  // 댓글 등록 기능 - 버튼 클릭 시 DB 컬렉션에 댓글 내용 추가
 
   const addItem = async (newComment) => {
-    const docRef = await addDoc(collection(db, 'commentList'), {
+    const docRef = await addDoc(collection(db, collectionName), {
       id: uuidv4(),
       comment,
       savetime: time,
@@ -70,7 +71,7 @@ const ShopGuideDetails = () => {
 
   const syncCommentListStateWithFirestore = () => {
     const q = query(
-      collection(db, 'commentList'),
+      collection(db, collectionName),
       // where('userId', '==', currentUser),
       orderBy('savetime', 'desc')
     );
@@ -119,7 +120,8 @@ const ShopGuideDetails = () => {
       {/* 댓글 리스트 */}
       <div>
         <ul>
-          <CommentList
+          <ShopGuideDetailsCommentList
+            collectionName={collectionName}
             commentItemtList={commentItemtList}
             setCommentItemList={setCommentItemList}
           />

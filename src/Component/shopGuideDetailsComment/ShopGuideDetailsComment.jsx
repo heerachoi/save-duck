@@ -4,9 +4,21 @@ import moment from 'moment';
 import { modifyModeComment, updateComment } from '../../redux/modules/comment';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
-import styled from 'styled-components';
+import {
+  StCommentProfileImage,
+  StCommentListContainer,
+  StCommentUserName,
+  StCommentContentInput,
+  StCommentContentSaveTime,
+  StCommentContentsEditButton,
+  StCommentContentsDeleteButton,
+} from '../shopGuideDetailsComment/ShopGuideDetailsComment.js';
 
-const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
+const ShopGuideDetailsComment = ({
+  item,
+  syncCommentListStateWithFirestore,
+  collectionName,
+}) => {
   const time = moment().format('YYYY-MM-DD-hh:mm');
   const { id, comment, savetime, modify } = item;
   const [readOnly, setReadOnly] = useState(true);
@@ -28,7 +40,7 @@ const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
 
   // 댓글 수정 -> 완료 모드 토글링
   const updateCommentModify = async (id) => {
-    const docRef = doc(db, 'commentList', item.id);
+    const docRef = doc(db, collectionName, item.id);
     // console.log(docRef);
     try {
       const response = await updateDoc(docRef, { modify: true });
@@ -44,11 +56,12 @@ const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
 
   // 댓글 수정 완료하기
   const updateCompleteButtonHandler = async (id) => {
-    const docRef = doc(db, 'commentList', id);
+    const docRef = doc(db, collectionName, id);
     try {
       const response = await updateDoc(docRef, {
         modify: false,
         savetime: time,
+        comment: updateCommentInput,
       });
       // console.log(response);
     } catch (event) {
@@ -73,7 +86,7 @@ const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
     console.log(removedComment);
 
     if (window.confirm('정말 삭제하시겠습니까?')) {
-      const commentRef = doc(db, 'commentList', removedComment);
+      const commentRef = doc(db, collectionName, removedComment);
       await deleteDoc(commentRef);
       syncCommentListStateWithFirestore();
     } else {
@@ -139,58 +152,4 @@ const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
   );
 };
 
-export default CommentItem;
-
-// 댓글 리스트 영역
-const StCommentProfileImage = styled.img`
-  width: 30px;
-  height: 30px;
-  border-radius: 50px;
-  /* margin-right: 15px; */
-`;
-
-const StCommentListContainer = styled.li`
-  list-style: none;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 850px;
-  margin-bottom: 20px;
-`;
-
-const StCommentUserName = styled.div`
-  font-size: 17px;
-`;
-
-const StCommentContentInput = styled.textarea`
-  font-size: 15px;
-  margin-bottom: 10px;
-  width: 400px;
-  min-width: 300px;
-  min-height: 80px;
-  border: none;
-  background-color: #eeeeee;
-`;
-
-const StCommentContentSaveTime = styled.div`
-  font-size: 13px;
-  color: #464646;
-`;
-
-const StCommentContentsEditButton = styled.button`
-  width: 50px;
-  height: 50px;
-  background-color: black;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-
-const StCommentContentsDeleteButton = styled.button`
-  width: 50px;
-  height: 50px;
-  background-color: black;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-`;
+export default ShopGuideDetailsComment;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ShopGuideDetails from '../pages/ShopGuideDetails.jsx';
+import ShopGuideDetails from './ShopGuideDetails.jsx';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -31,6 +31,10 @@ const ShopGuideArticle = ({ item }) => {
   const [lists] = useState({});
   const [posting, setPosting] = useState([]);
 
+  // 회수 수정
+  const collectionName = NavId.id;
+  // console.log(collectionName);
+
   // 게시글 삭제 기능
   const deleteButtonClickHandler = async () => {
     if (window.confirm('해당 게시글을 삭제하시겠습니까?')) {
@@ -41,6 +45,8 @@ const ShopGuideArticle = ({ item }) => {
       return;
     }
   };
+
+  // console.log(NavId.id);
 
   // firestore에서 데이터 'posting' 가져오기
   const syncpostingstatewithfirestore = () => {
@@ -55,6 +61,7 @@ const ShopGuideArticle = ({ item }) => {
           description: doc.data().description,
           username: doc.data().username,
           created: doc.data().created,
+          image: doc.data().image,
         });
       });
       setPosting(firestorePostingList);
@@ -77,7 +84,7 @@ const ShopGuideArticle = ({ item }) => {
                 </StShopDetailsArticleTitle>
                 <StShopDetailsImage
                   className='detailsMainImage'
-                  src={`${lists.profilepicture}`}
+                  src={item.image}
                   alt='첨부된 이미지'
                 />
                 <StShopDetailsArticleContents>
@@ -117,7 +124,7 @@ const ShopGuideArticle = ({ item }) => {
           />
         </StShopDetailsEditButtons>
       </StShopDetailsContainer>
-      <ShopGuideDetails />
+      <ShopGuideDetails collectionName={collectionName} />
     </div>
   );
 };
