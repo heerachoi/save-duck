@@ -105,6 +105,7 @@ const ShopGuideDetails = () => {
         <StCommentMyProfileImage src='images/default_profile.webp' alt='' />
         <StCommentForm onSubmit={commentSubmitHandler}>
           <StCommentInput
+            maxlength={100}
             id='comment'
             placeholder='댓글을 입력해주세요.'
             value={comment}
@@ -154,13 +155,14 @@ const StCommentForm = styled.form`
   // width: 60%;
 `;
 
-const StCommentInput = styled.textarea`
+const StCommentInput = styled.input`
   width: 600px;
   height: 40px;
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 10px;
   margin-bottom: 10px;
+  overflow: scroll;
 `;
 
 const StCommentSaveButton = styled.button`

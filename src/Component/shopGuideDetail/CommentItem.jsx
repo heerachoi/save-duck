@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import moment from 'moment';
 import { modifyModeComment, updateComment } from '../../redux/modules/comment';
 import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import styled from 'styled-components';
 
 const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
+  const time = moment().format('YYYY-MM-DD-hh:mm');
   const { id, comment, savetime, modify } = item;
   const [readOnly, setReadOnly] = useState(true);
   const [updateCommentInput, setUpdateCommentInput] = useState(comment);
@@ -44,7 +46,10 @@ const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
   const updateCompleteButtonHandler = async (id) => {
     const docRef = doc(db, 'commentList', id);
     try {
-      const response = await updateDoc(docRef, { modify: false });
+      const response = await updateDoc(docRef, {
+        modify: false,
+        savetime: time,
+      });
       // console.log(response);
     } catch (event) {
       console.log(event);
@@ -60,11 +65,12 @@ const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
   const editCancelButtonHandler = (id) => {
     dispatch(modifyModeComment(id));
     setReadOnly(true);
+    setUpdateCommentInput(comment);
   };
 
   // 댓글 삭제하기
   const deleteCommentButtonHandler = async (removedComment) => {
-    // console.log(removedComment);
+    console.log(removedComment);
 
     if (window.confirm('정말 삭제하시겠습니까?')) {
       const commentRef = doc(db, 'commentList', removedComment);
@@ -83,6 +89,7 @@ const CommentItem = ({ item, syncCommentListStateWithFirestore }) => {
         <StCommentContentInput
           name='comment'
           readOnly={readOnly}
+          maxlength='200'
           defaultValue={comment}
           onChange={onChangeComment}
         />
@@ -146,6 +153,7 @@ const StCommentListContainer = styled.li`
   list-style: none;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   width: 850px;
   margin-bottom: 20px;
 `;
@@ -154,11 +162,14 @@ const StCommentUserName = styled.div`
   font-size: 17px;
 `;
 
-const StCommentContentInput = styled.input`
+const StCommentContentInput = styled.textarea`
   font-size: 15px;
   margin-bottom: 10px;
   width: 400px;
   min-width: 300px;
+  min-height: 80px;
+  border: none;
+  background-color: #eeeeee;
 `;
 
 const StCommentContentSaveTime = styled.div`
