@@ -14,12 +14,10 @@ import {
   StSGPButtonGroup,
   StSGPSubmitButton,
   StSGPCancelButton,
-
-} from './ShopGuidePostFormEdit';
+} from './shopGuidePostFormEdit.js';
 
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
 const ShopGuidePostFormEdit = ({ item, syncpostingstatewithfirestore }) => {
-
   const param = useParams();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -169,4 +167,3 @@ const ShopGuidePostFormEdit = ({ item, syncpostingstatewithfirestore }) => {
 };
 
 export default ShopGuidePostFormEdit;
-
