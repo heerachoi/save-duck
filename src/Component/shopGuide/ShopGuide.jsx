@@ -107,7 +107,6 @@ const StShopGuidePostContainer = styled(NavLink)`
   span {
     max-width: 500px;
     margin: 25px 100px 15px 100px;
-    overflow: ;
     cursor: pointer;
     text-decoration: none;
     color: black;
