@@ -20,9 +20,9 @@ export const ProfileImageContainer = styled.div`
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  object-fit: cover;
-  padding-left: 20px;
-  background-color: lightgrey;
+  object-fit: fill;
+
+  background-color: transparent;
   border: 1px solid transparent;
 
   overflow: hidden;
