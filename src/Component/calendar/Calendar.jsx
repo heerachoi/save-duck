@@ -170,9 +170,6 @@ const Calendar = ({ startingDate }) => {
           modify: doc.data().modify,
         });
       });
-      // console.log('firestoreShoppingItemList');
-      // console.log(firestoreShoppingItemList);
-      // setItemList(firestoreShoppingItemList);
     });
   };
 
