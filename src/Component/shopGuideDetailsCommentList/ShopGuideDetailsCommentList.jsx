@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-
-import CommentItem from './CommentItem';
+import ShopGuideDetailsComment from '../shopGuideDetailsComment/ShopGuideDetailsComment.jsx';
+import { StCommentListContainer } from './ShopGuideDetailsCommentList.js';
 import {
   collection,
   getDocs,
@@ -9,9 +9,8 @@ import {
   // where,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
-import styled from 'styled-components';
 
-const CommentList = ({
+const ShopGuideDetailsCommentList = ({
   collectionName,
   commentItemtList,
   setCommentItemList,
@@ -52,7 +51,7 @@ const CommentList = ({
     <StCommentListContainer>
       {commentItemtList.map((item) => {
         return (
-          <CommentItem
+          <ShopGuideDetailsComment
             key={item.id}
             item={item}
             syncCommentListStateWithFirestore={
@@ -66,10 +65,4 @@ const CommentList = ({
   );
 };
 
-export default CommentList;
-
-const StCommentListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+export default ShopGuideDetailsCommentList;
