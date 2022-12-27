@@ -224,6 +224,7 @@ const StSGPDescriptionInput = styled.textarea`
   background-color: #f5f5f5;
   outline: none;
   border: none;
+  resize: none;
 `;
 
 const StSGPButtonGroup = styled.div`

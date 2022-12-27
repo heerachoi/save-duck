@@ -11,7 +11,11 @@ import {
 import { db } from '../../firebase';
 import styled from 'styled-components';
 
-const CommentList = ({ commentItemtList, setCommentItemList }) => {
+const CommentList = ({
+  collectionName,
+  commentItemtList,
+  setCommentItemList,
+}) => {
   // const globalComment = useSelector((state) => state.comments);
 
   // const [commentList, setCommentList] = useState([]);
@@ -19,7 +23,7 @@ const CommentList = ({ commentItemtList, setCommentItemList }) => {
   // 댓글 불러오기
   const syncCommentListStateWithFirestore = () => {
     const q = query(
-      collection(db, 'commentList'),
+      collection(db, collectionName),
       // where('userId', '==', currentUser),
       !orderBy('savetime', 'desc')
     );
@@ -54,6 +58,7 @@ const CommentList = ({ commentItemtList, setCommentItemList }) => {
             syncCommentListStateWithFirestore={
               syncCommentListStateWithFirestore
             }
+            collectionName={collectionName}
           />
         );
       })}
