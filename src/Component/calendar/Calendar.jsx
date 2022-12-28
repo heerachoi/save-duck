@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import nextId from 'react-id-generator';
+import { v4 as uuidv4 } from 'uuid';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
@@ -195,7 +195,7 @@ const Calendar = ({ startingDate }) => {
         </SevenColGrid>
         <CalendarBody fourCol={DAYSINAMONTH === 28}>
           {h.map((date) => (
-            <StyledDay onClick={() => ShoppingListTag(currentYear, currentMonth, date)} key={nextId()} active={areDatesTheSame(new Date(), getDateObj(date, currentMonth, currentYear))}>
+            <StyledDay onClick={() => ShoppingListTag(currentYear, currentMonth, date)} key={uuidv4()} active={areDatesTheSame(new Date(), getDateObj(date, currentMonth, currentYear))}>
               {date}
               <Dot />
             </StyledDay>

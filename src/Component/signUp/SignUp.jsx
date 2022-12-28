@@ -28,18 +28,19 @@ import { ButtonWrap } from "../signIn/SignIn";
 
 const SignUpComponent = () => {
   // 초기값 세팅 - 아이디, 닉네임, 비밀번호, 비밀번호확인, 이메일, 전화번호, 생년월일
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirm, setPasswordConfirm] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = React.useState('');
+  const [name, setName] = React.useState('');
+  const [error, setError] = useState('');
+
+  const navigate = useNavigate();
 
   // 오류메세지 상태 저장
-  const [emailMessage, setEmailMessage] = React.useState("");
-  const [passwordMessage, setPasswordMessage] = React.useState("");
-  const [passwordConfirmMessage, setPasswordConfirmMessage] =
-    React.useState("");
-  const [nameMessage, setNameMessage] = React.useState("");
+  const [emailMessage, setEmailMessage] = React.useState('');
+  const [passwordMessage, setPasswordMessage] = React.useState('');
+  const [passwordConfirmMessage, setPasswordConfirmMessage] = React.useState('');
+  const [nameMessage, setNameMessage] = React.useState('');
 
   // 유효성 검사
   const [isname, setIsName] = React.useState(false);
@@ -51,17 +52,28 @@ const SignUpComponent = () => {
   const [notAllow, setNotAllow] = useState(true);
 
   const auth = getAuth();
+
+  const { createUser } = UserAuth();
+  const currentUser = useAuth();
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    let data;
     try {
-      await createUserWithEmailAndPassword(authService, email, password);
+      await createUser(email, password);
+      await addDoc(collection(db, currentUser.uid), {
+        id: currentUser.uid,
+        nickName: '',
+      });
+      navigate('/home');
+      alert('SaveDuck 회원이 되신걸 환영합니다.');
+      window.location.href = '/home';
+      // await createUserWithEmailAndPassword(authService, email, password);
     } catch (error) {
       setError(error.message);
       console.log(error);
     }
   };
-  console.log("email:", email, "passord:", password);
+  console.log('email:', email, 'passord:', password);
   //
   useEffect(() => {
     if (isname && isPassword && isPasswordConfirm && isEmail) {
@@ -74,15 +86,14 @@ const SignUpComponent = () => {
 
   //회원가입 완료
   const onClickSummit = () => {
-    alert("SaveDuck 회원이 되신걸 환영합니다.");
-    window.location.href = "/";
+    alert('SaveDuck 회원이 되신걸 환영합니다.');
+    window.location.href = '/home';
   };
 
   const onChangeEmail = (e) => {
     const currentEmail = e.target.value;
     setEmail(currentEmail);
-    const emailRegExp =
-      /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
+    const emailRegExp = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
 
     if (!emailRegExp.test(currentEmail)) {
       setEmailMessage();
@@ -115,8 +126,7 @@ const SignUpComponent = () => {
   const onChangePassword = (e) => {
     const currentPassword = e.target.value;
     setPassword(currentPassword);
-    const passwordRegExp =
-      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    const passwordRegExp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
     if (!passwordRegExp.test(currentPassword)) {
       setPasswordMessage();
       // <div style={{ color: "red" }}>

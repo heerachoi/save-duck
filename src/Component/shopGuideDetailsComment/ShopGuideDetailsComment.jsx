@@ -14,11 +14,7 @@ import {
   StCommentContentsDeleteButton,
 } from '../shopGuideDetailsComment/ShopGuideDetailsComment.js';
 
-const ShopGuideDetailsComment = ({
-  item,
-  syncCommentListStateWithFirestore,
-  collectionName,
-}) => {
+const ShopGuideDetailsComment = ({ item, syncCommentListStateWithFirestore, collectionName }) => {
   const time = moment().format('YYYY-MM-DD-hh:mm');
   const { id, comment, savetime, modify } = item;
   const [readOnly, setReadOnly] = useState(true);
@@ -99,13 +95,7 @@ const ShopGuideDetailsComment = ({
       <StCommentListContainer key={id}>
         <StCommentProfileImage src='images/default_profile.webp' alt='' />
         <StCommentUserName>사용자 닉네임</StCommentUserName>
-        <StCommentContentInput
-          name='comment'
-          readOnly={readOnly}
-          maxlength='200'
-          defaultValue={comment}
-          onChange={onChangeComment}
-        />
+        <StCommentContentInput name='comment' readOnly={readOnly} maxlength='200' defaultValue={comment} onChange={onChangeComment} />
 
         {/* <span>{item.comment}</span> */}
         <StCommentContentSaveTime>{savetime}</StCommentContentSaveTime>

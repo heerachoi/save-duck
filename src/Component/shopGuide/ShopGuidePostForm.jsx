@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { addpost } from '../../redux/modules/list';
-import nextId from 'react-id-generator';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../firebase';
@@ -13,9 +12,13 @@ import { storage } from '../../firebase.js';
 import { ref, uploadBytesResumable, getDownloadURL, uploadString } from 'firebase/storage';
 import firebase from 'firebase/app';
 import 'firebase/functions';
+import { authService } from '../../firebase';
+import { getAuth } from "firebase/auth";
+import { useAuth } from '../../firebase.js';
+
 
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
-const Form = () => {
+const Form = ({ userObj }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
@@ -27,6 +30,10 @@ const Form = () => {
   const [uploadImage, setUploadImage] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [setUserObj] = useState(null);
+  const currentUser = useAuth();
+
+
 
   const onImageChange = (event) => {
     const theFile = event.target.files[0]; // file 객체
@@ -45,7 +52,8 @@ const Form = () => {
       const imageResponse = await uploadString(imageRef, imageUrl, 'data_url');
       downloadimage = await getDownloadURL(imageResponse.ref);
     }
-    console.log(downloadimage);
+    console.log(downloadimage)
+    console.log(userObj)
     try {
       await addDoc(collection(db, 'posting'), {
         id: uuidv4(),
@@ -53,11 +61,18 @@ const Form = () => {
         description: description,
         created: moment().format('YYYY-MM-DD'),
         image: downloadimage,
+        // user: userObj.displayName,
+        creatorid: currentUser.uid, // 고정
+
       });
+
+
+
     } catch (err) {
       alert(err);
     }
   };
+
 
   const previousPageHanlder = () => {
     navigate(-1, true);
@@ -79,21 +94,53 @@ const Form = () => {
     setLists({
       ...lists,
       [name]: value,
-      id: nextId(),
+      id: uuidv4(),
     });
+  };
+
+  const onFileChange = (event) => {
+    const theFile = event.target.files[0];
+    setUploadImage(theFile);
+
+    console.log("the File : ", theFile);
+    const reader = new FileReader();
+    reader.readAsDataURL(theFile);
+    reader.onloadend = (finishedEvent) => {
+      const imgDataUrl = finishedEvent.currentTarget.result;
+      localStorage.setItem("imgDataUrl", imgDataUrl);
+      document.getElementById("view").src = imgDataUrl;
+    };
   };
 
   return (
     <StSGPInputContainer onSubmit={handleSubmit}>
-      <StSGPTitleInput type='text' name='title' placeholder='제목을 입력하여 주세요.' onChange={(e) => setTitle(e.target.value.toUpperCase())} value={title} required />
+      <StSGPTitleInput
+        type='text'
+        name='title'
+        placeholder='제목을 입력하여 주세요.'
+        onChange={(e) => setTitle(e.target.value.toUpperCase())}
+        value={title}
+        required
+      />
       <StSGPPhotoInput>
         <label htmlFor='ex_file'>
+          <input
+            type='file'
+            id='ex_file'
+            accept='image/jpg, image/png, image/jpeg'
+            onChange={(e) => onImageChange(e)}
+          />
           <div className='btnStart'>
-            <img src={'camera.png'} alt=' 클릭시 사진을 삽입할 수 있습니다.' />
+            <img src={'camera.png'} id="view" alt=' 클릭시 사진을 삽입할 수 있습니다.' />
             <div className='submitPic'>사진 등록</div>
           </div>
         </label>
-        <input type='file' id='ex_file' accept='image/jpg, image/png, image/jpeg' onChange={(e) => onImageChange(e)} />
+        <input
+          type='file'
+          id='ex_file'
+          accept='image/jpg, image/png, image/jpeg'
+          onChange={(e) => onImageChange(e)}
+        />
       </StSGPPhotoInput>
 
       <StSGPDescriptionInput type='text' name='description' value={description} placeholder='내용을 입력해주세요.' onChange={(e) => setDescription(e.target.value)} required />
