@@ -225,5 +225,4 @@ const StShopGuidePostDescription = styled.div`
   text-decoration: none;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.1;
 `;
