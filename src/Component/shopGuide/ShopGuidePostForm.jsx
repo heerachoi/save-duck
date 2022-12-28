@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { addpost } from '../../redux/modules/list';
-import nextId from 'react-id-generator';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../firebase';
 import { v4 as uuidv4 } from 'uuid';
 import { collection, addDoc, getFirestore } from 'firebase/firestore';
 import moment from 'moment';
-import { storage } from "../../firebase.js";
-import { ref, uploadBytesResumable, getDownloadURL, uploadString } from "firebase/storage";
+import { storage } from '../../firebase.js';
+import { ref, uploadBytesResumable, getDownloadURL, uploadString } from 'firebase/storage';
 import firebase from 'firebase/app';
 import 'firebase/functions';
 import { authService } from '../../firebase';
@@ -24,9 +23,9 @@ const Form = ({ userObj }) => {
   const [description, setDescription] = useState('');
 
   // 사진 업로드 용 정의
-  const [image, setImage] = useState("");
-  const [imageUrl, setImageUrl] = useState("");
-  const [error, setError] = useState("");
+  const [image, setImage] = useState('');
+  const [imageUrl, setImageUrl] = useState('');
+  const [error, setError] = useState('');
   const [progress, setProgress] = useState(100);
   const [uploadImage, setUploadImage] = useState();
   const navigate = useNavigate();
@@ -50,7 +49,7 @@ const Form = ({ userObj }) => {
     const imageRef = ref(storage, `image/${uuidv4()}`);
     let downloadimage;
     if (imageUrl) {
-      const imageResponse = await uploadString(imageRef, imageUrl, "data_url");
+      const imageResponse = await uploadString(imageRef, imageUrl, 'data_url');
       downloadimage = await getDownloadURL(imageResponse.ref);
     }
     console.log(downloadimage)
@@ -67,24 +66,12 @@ const Form = ({ userObj }) => {
 
       });
 
-      //  CreatorId와 currentUser.uid가 같으면 해당 게시물을 삭제할 수 있도록 한다.
-      // true or false 값을 가진 isOnwer 함수를  생성한다.
-      // const isOwner = (posting) => {
-      //   if (posting.creatorid === currentUser.uid) {
-      //     return true;
-      //   } else {
-      //     return false;
-      //   }
-      // }
-
 
 
     } catch (err) {
       alert(err);
     }
   };
-
-
 
 
   const previousPageHanlder = () => {
@@ -107,7 +94,7 @@ const Form = ({ userObj }) => {
     setLists({
       ...lists,
       [name]: value,
-      id: nextId(),
+      id: uuidv4(),
     });
   };
 
@@ -135,7 +122,7 @@ const Form = ({ userObj }) => {
         value={title}
         required
       />
-      <StSGPPhotoInput onChange={onFileChange}>
+      <StSGPPhotoInput>
         <label htmlFor='ex_file'>
           <input
             type='file'
@@ -148,17 +135,15 @@ const Form = ({ userObj }) => {
             <div className='submitPic'>사진 등록</div>
           </div>
         </label>
-
+        <input
+          type='file'
+          id='ex_file'
+          accept='image/jpg, image/png, image/jpeg'
+          onChange={(e) => onImageChange(e)}
+        />
       </StSGPPhotoInput>
 
-      <StSGPDescriptionInput
-        type='text'
-        name='description'
-        value={description}
-        placeholder='내용을 입력해주세요.'
-        onChange={(e) => setDescription(e.target.value)}
-        required
-      />
+      <StSGPDescriptionInput type='text' name='description' value={description} placeholder='내용을 입력해주세요.' onChange={(e) => setDescription(e.target.value)} required />
 
       <StSGPButtonGroup>
         <StSGPSubmitButton
@@ -173,16 +158,10 @@ const Form = ({ userObj }) => {
 
         <StSGPCancelButton to='/shopguide'>Cancel</StSGPCancelButton>
       </StSGPButtonGroup>
-      <StSGPInfo
-        type='text'
-        name='date'
-        value={lists.date}
-        onChange={onChange}
-      ></StSGPInfo>
+      <StSGPInfo type='text' name='date' value={lists.date} onChange={onChange}></StSGPInfo>
     </StSGPInputContainer>
   );
 };
-
 
 const StSGPInfo = styled.div``;
 

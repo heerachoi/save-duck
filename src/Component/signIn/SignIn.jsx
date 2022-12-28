@@ -36,9 +36,14 @@ const SignInComponent = () => {
   const [user, setUser] = useState({});
   //이메일, 패스워드 유효성 값 초기화
   const [emailValid, setEmailValid] = useState(false);
-  const [pwValid, setPwValid] = useState(false);
+  const [passwordValid, setPasswordValid] = useState(false);
+  const [notAllow, setNotAllow] = useState(false);
+  const [passwordleng, setPasswordleng] = useState(false);
+  const [emailleng, setEmailleng] = useState(false);
+  // <div>
+
   // 처음에는 false이고 나중에 사용자 존재 판명이 모두 끝났을 때 true를 통해 해당 화면을 render
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // useEffect(() => {
   //   authService.onAuthStateChanged((user) => {
@@ -65,18 +70,30 @@ const SignInComponent = () => {
   //       console.log(user);
   //       setUser({ id: user.uid, email: "" });
   //     } else {
-  //       console.log("null");
-  //       setUser(null);
+    //       console.log("null");
+    //       setUser(null);
   //     }
   //   });
   //   return unsubscribe;
   // }, []);
-
+  // </div>
+  
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
   }, []);
+
+  useEffect(() => {
+    if ((email.length === 0) || (password.length === 0)) {
+      setNotAllow(true);
+
+      return;
+    }
+    setNotAllow(false);
+  }, [password, email]);
+  console.log(email.length);
+
 
   const handleEmail = (e) => {
     // 이메일 정규식
@@ -93,9 +110,9 @@ const SignInComponent = () => {
     setPassword(e.target.value);
     const regex = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
     if (regex.test(e.target.value)) {
-      setPwValid(true);
+      setPasswordValid(true);
     } else {
-      setPwValid(false);
+      setPasswordValid(false);
     }
   };
   //로그인
@@ -112,7 +129,7 @@ const SignInComponent = () => {
       alert('등록되지않은 아이디입니다.');
     }
   };
-  console.log('email:', email, 'passord:', password);
+  // console.log("email:", email, "passord:", password);
 
   //소셜로그인
   const onSocialClick = async (event) => {

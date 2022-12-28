@@ -1,4 +1,4 @@
-import nextId from 'react-id-generator';
+import { v4 as uuidv4 } from 'uuid';
 
 const ADD_POST = 'ADD_POST';
 const DELETE_POST = 'DELETE_POST';
@@ -13,7 +13,8 @@ export const addpost = (post) => {
 
 export const addPost = (post) => {
   return {
-    type: ADD_POST, post
+    type: ADD_POST,
+    post,
   };
 };
 
@@ -27,7 +28,7 @@ export const deletepost = (post) => {
 
 const initialState = [
   {
-    id: nextId(),
+    id: uuidv4(),
     title: '오늘 이마트에서 떡볶이 재료 구매 리스트 공유드려요! 핵맛!!',
     user: '닉네임1189',
     date: '22.12.19',
@@ -35,7 +36,7 @@ const initialState = [
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi vulputate diam in nisl lobortis, at elementum purus consectetur. Aliquam sodales pellentesque neque eu mollis. Mauris justo magna, pretium non risus dapibu...',
   },
   {
-    id: nextId(),
+    id: uuidv4(),
     title: '[쇼핑가이드] 한국소비자원 비교공감 - 무선청소기편!!',
     user: '닉네임1189',
     date: '22.12.19',
