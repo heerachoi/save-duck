@@ -4,6 +4,7 @@ import { authService } from '../../firebase';
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signOut, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 import {
   // Img,
+  Div,
   LoginWrap,
   LoginContaier,
   GitImgContainer,
@@ -23,7 +24,7 @@ import {
   GithubBtn,
   GoogleBtn,
   SocialLoginBtn,
-} from './SignIn.js';
+} from "./SignIn.js";
 
 //더미
 
@@ -149,6 +150,7 @@ const SignInComponent = () => {
     window.location.href = '/signup';
   };
   return (
+        <Box></Box>
     <LoginWrap>
       <LoginContaier>
         <H2>Login</H2>
@@ -157,14 +159,32 @@ const SignInComponent = () => {
           <EmaillWrap>
             <InputTitle>이메일 주소</InputTitle>
             <InputWrap>
-              <Input type='email' name='email' placeholder='saveduck@saveduck.com' required value={email} onChange={handleEmail} />
+              <Input
+                type="email"
+                name="email"
+                placeholder="saveduck@saveduck.com"
+                required
+                value={email}
+                onChange={handleEmail}
+              />
             </InputWrap>
-            <ErrorMessgeWrap>{!emailValid && email.length > 0 && <div>! 옳바른 아이디를 입력해주세요.</div>}</ErrorMessgeWrap>
+            <ErrorMessgeWrap>
+              {!emailValid && email.length > 0 && (
+                <div>! 옳바른 아이디를 입력해주세요.</div>
+              )}
+            </ErrorMessgeWrap>
           </EmaillWrap>
           <PasswordWrap>
             <InputTitle>비밀번호</InputTitle>
             <InputWrap>
-              <Input type='password' name='password' placeholder='비밀번호를 입력해주세요.' required value={password} onChange={handlePassword} />
+              <Input
+                type="password"
+                name="password"
+                placeholder="비밀번호를 입력해주세요."
+                required
+                value={password}
+                onChange={handlePassword}
+              />
             </InputWrap>
           </PasswordWrap>
         </form>
@@ -175,12 +195,12 @@ const SignInComponent = () => {
             <SignUpBtn onClick={gotoSignup}>회원가입</SignUpBtn>
           </ButtonSign>
           <SocialLoginBtn>
-            <GoogleBtn onClick={onSocialClick} name='google'>
+            <GoogleBtn onClick={onSocialClick} name="google">
               <GogImgContainer />
               Google 로그인
             </GoogleBtn>
 
-            <GithubBtn onClick={onSocialClick} name='github'>
+            <GithubBtn onClick={onSocialClick} name="github">
               <GitImgContainer />
               Github 로그인
             </GithubBtn>

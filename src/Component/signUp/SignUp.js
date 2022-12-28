@@ -12,7 +12,6 @@ export const SignupContitair = styled.div`
   display: flex;
   flex-direction: column;
   text-align: center;
-  margin-left: ;
 `;
 
 export const H1 = styled.h1`
@@ -54,7 +53,7 @@ export const Input = styled.input`
     font-size: 13px;
   }
   &:hover {
-    border-bottom: 2px solid #222;
+    /* border-bottom: 2px solid #222; */
   }
 `;
 
@@ -113,12 +112,10 @@ export const SignUpSubmit = styled(Button)`
 `;
 
 export const ErrorMessgeWrap = styled.div`
-  padding-left: 100px;
   text-align: left;
   color: #ef0000;
   font-size: 12px;
   margin-bottom: 40px;
-
   padding-top: 5px;
 `;
 
