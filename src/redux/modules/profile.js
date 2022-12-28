@@ -24,7 +24,7 @@ export const updateProfile = (payload) => {
 const initialState = [
   {
     id: uuidv4(),
-    profile: "Apple Duck",
+    profile: "닉네임 없음",
     modify: false,
   },
 ];

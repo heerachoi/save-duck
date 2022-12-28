@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, Router, Link, useNavigate } from 'react-router-dom';
 import { authService } from '../../firebase';
+import { UserAuth } from '../../context/AuthContext';
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signOut, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 import {
   // Img,
+  Box,
   LoginWrap,
   LoginContaier,
   GitImgContainer,
@@ -38,46 +40,9 @@ const SignInComponent = () => {
   const [emailValid, setEmailValid] = useState(false);
   const [passwordValid, setPasswordValid] = useState(false);
   const [notAllow, setNotAllow] = useState(false);
-  const [passwordleng, setPasswordleng] = useState(false);
-  const [emailleng, setEmailleng] = useState(false);
-  // <div>
+  const navigate = useNavigate();
+  const { signIn } = UserAuth();
 
-  // 처음에는 false이고 나중에 사용자 존재 판명이 모두 끝났을 때 true를 통해 해당 화면을 render
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // useEffect(() => {
-  //   authService.onAuthStateChanged((user) => {
-  //     // user 판명을 듣고
-  //     if (user) {
-  //       // 있으면
-  //       setIsLoggedIn(true); // 로그인 됨
-  //     } else {
-  //       setIsLoggedIn(false); // 로그인 안됨
-  //     }
-  //     setInit(true); // user 판명 끝
-  //   });
-  // }, [user]);
-
-  // onAuthStateChanged(authService, (currentUser) => {
-  //   console.log(onAuthStateChanged);
-  //   setUser(currentUser);
-  // });
-  // useEffect(() => {
-  //   const unsubscribe = onAuthStateChanged(authService, (user) => {
-  //     console.log("test");
-  //     if (user) {
-  //       console.log("user");
-  //       console.log(user);
-  //       setUser({ id: user.uid, email: "" });
-  //     } else {
-    //       console.log("null");
-    //       setUser(null);
-  //     }
-  //   });
-  //   return unsubscribe;
-  // }, []);
-  // </div>
-  
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -85,15 +50,14 @@ const SignInComponent = () => {
   }, []);
 
   useEffect(() => {
-    if ((email.length === 0) || (password.length === 0)) {
-      setNotAllow(true);
-
-      return;
+    if (email.length === 0 || password.length === 0) {
+      if (email.length === 0 || password.length === 0) {
+        setNotAllow(true);
+        return;
+      }
+      setNotAllow(false);
     }
-    setNotAllow(false);
-  }, [password, email]);
-  console.log(email.length);
-
+  }, [email, password]);
 
   const handleEmail = (e) => {
     // 이메일 정규식
@@ -121,15 +85,11 @@ const SignInComponent = () => {
     let data;
     try {
       const response = await signInWithEmailAndPassword(authService, email, password);
-      // const docRef = await addDoc(collection(data, "users"), {
-      //   email: "email",
-      // });
       window.location.href = '/';
     } catch (error) {
       alert('등록되지않은 아이디입니다.');
     }
   };
-  // console.log("email:", email, "passord:", password);
 
   //소셜로그인
   const onSocialClick = async (event) => {
@@ -149,12 +109,22 @@ const SignInComponent = () => {
   const gotoSignup = (e) => {
     window.location.href = '/signup';
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await signIn(email, password);
+      navigate('/home');
+    } catch (e) {
+      console.log(e.mesage);
+    }
+  };
   return (
     <LoginWrap>
+      <Box></Box>
       <LoginContaier>
         <H2>Login</H2>
-
-        <form>
+        <form onSubmit={handleSubmit}>
           <EmaillWrap>
             <InputTitle>이메일 주소</InputTitle>
             <InputWrap>
@@ -180,7 +150,6 @@ const SignInComponent = () => {
               <GogImgContainer />
               Google 로그인
             </GoogleBtn>
-
             <GithubBtn onClick={onSocialClick} name='github'>
               <GitImgContainer />
               Github 로그인

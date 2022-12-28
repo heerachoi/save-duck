@@ -8,30 +8,37 @@ import SignUp from '../pages/SignUp.jsx';
 import ShopGuidePosting from '../pages/ShopGuidePosting.jsx';
 import ShopGuideArticle from '../pages/ShopGuideArticle.jsx';
 import ShopGuidePostFormEdit from '../Component/shopGuidePostFormEdit/ShopGuidePostFormEdit.jsx';
-
+import { AuthContextProvider } from '../context/AuthContext.js';
+import ProtectedRoute from './ProtectedRoute.js';
 
 const Router = () => {
   return (
     <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route exact path="/signin" element={<SignIn />} />
-        <Route path="/" element={<Home />} />
-        <Route path="/shopguide" element={<ShopGuide />} />
-        <Route path="/shopguidearticle" element={<ShopGuideArticle />} />
-        <Route path="/shopguidearticle/:id" element={<ShopGuideArticle />} />
-        <Route
-          path="/shopguidedetails/:id"
-          component={ShopGuideDetails}
-          element={<ShopGuideDetails />}
-        />
-        <Route path='/signup' element={<SignUp />} />
-        <Route path='/shopguideposting' element={<ShopGuidePosting />} />
-        <Route
-          path='/shopguidepostingEdit/:id'
-          element={<ShopGuidePostFormEdit />}
-        />
-      </Routes>
+      <AuthContextProvider>
+        <Navbar />
+
+        <Routes>
+          <Route path='/' element={<SignIn />} />
+          <Route path='/signup' element={<SignUp />} />
+        </Routes>
+
+        <Routes>
+          <Route
+            path='/home'
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route path='/shopguide' element={<ShopGuide />} />
+          <Route path='/shopguidearticle' element={<ShopGuideArticle />} />
+          <Route path='/shopguidearticle/:id' element={<ShopGuideArticle />} />
+          <Route path='/shopguidedetails/:id' component={ShopGuideDetails} element={<ShopGuideDetails />} />
+          <Route path='/shopguideposting' element={<ShopGuidePosting />} />
+          <Route path='/shopguidepostingEdit/:id' element={<ShopGuidePostFormEdit />} />
+        </Routes>
+      </AuthContextProvider>
     </BrowserRouter>
   );
 };

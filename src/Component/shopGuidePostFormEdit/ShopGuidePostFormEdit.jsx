@@ -21,6 +21,7 @@ const ShopGuidePostFormEdit = ({ item, syncpostingstatewithfirestore }) => {
   const param = useParams();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [uploadImage, setUploadImage] = useState();
 
   // 게시글 정보 불러오기
   const getPostingFirebase = async () => {
@@ -122,6 +123,24 @@ const ShopGuidePostFormEdit = ({ item, syncpostingstatewithfirestore }) => {
   //   });
   // };
 
+  const Back = () => {
+    navigate(-1, true);
+  };
+
+  const onFileChange = (event) => {
+    const theFile = event.target.files[0];
+    setUploadImage(theFile);
+
+    console.log("the File : ", theFile);
+    const reader = new FileReader();
+    reader.readAsDataURL(theFile);
+    reader.onloadend = (finishedEvent) => {
+      const imgDataUrl = finishedEvent.currentTarget.result;
+      localStorage.setItem("imgDataUrl", imgDataUrl);
+      document.getElementById("view").src = imgDataUrl;
+    };
+  };
+
   return (
     <StSGPInputContainer onSubmit={handleSubmit}>
       <StSGPTitleInput
@@ -132,10 +151,10 @@ const ShopGuidePostFormEdit = ({ item, syncpostingstatewithfirestore }) => {
         value={title}
         required
       />
-      <StSGPPhotoInput>
+      <StSGPPhotoInput onChange={onFileChange}>
         <label htmlFor='ex_file'>
           <div className='btnStart'>
-            <img src={'camera.png'} alt=' 클릭시 사진을 삽입할 수 있습니다.' />
+            <img src={'camera.png'} id="view" alt='' />
             <div className='submitPic'>사진 등록</div>
           </div>
         </label>
@@ -159,7 +178,7 @@ const ShopGuidePostFormEdit = ({ item, syncpostingstatewithfirestore }) => {
       <StSGPButtonGroup>
         <StSGPSubmitButton type='submit'>Save</StSGPSubmitButton>
 
-        <StSGPCancelButton to='/shopguide'>Cancel</StSGPCancelButton>
+        <StSGPCancelButton onClick={Back}>Cancel</StSGPCancelButton>
       </StSGPButtonGroup>
       <StSGPInfo type='text' name='date' value={lists.date}></StSGPInfo>
     </StSGPInputContainer>

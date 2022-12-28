@@ -9,7 +9,6 @@ export const LoginWrap = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  overflow: auto;
 `;
 
 export const LoginContaier = styled.section`
@@ -69,10 +68,18 @@ export const Input = styled.input`
     font-size: 13px;
   }
   &:hover {
-    border-bottom: 2px solid #222;
+    /* border: 2px solid blue; */
   }
 `;
-
+export const Box = styled.div`
+  width: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background-color: #000;
+  position: fixed;
+`;
 //* Btn Part
 export const ButtonWrap = styled.div`
   /* margin-top: 30px; */

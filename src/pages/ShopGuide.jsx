@@ -10,6 +10,10 @@ const ShopGuide = () => {
 
   const post_list = useSelector((state) => state.lists);
 
+  const handleScrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <StShopGuideContainer>
       <StShopGuideHeader>
@@ -28,7 +32,7 @@ const ShopGuide = () => {
         <List />
 
         <StWritePostButton to='/shopguideposting'>Write</StWritePostButton>
-        <StMoveTopButton>︿</StMoveTopButton>
+        <StMoveTopButton onClick={handleScrollToTop}>︿</StMoveTopButton>
       </StShopGuideBody>
     </StShopGuideContainer>
   );
