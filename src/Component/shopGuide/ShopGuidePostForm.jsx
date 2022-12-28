@@ -44,6 +44,7 @@ const Form = ({ userObj }) => {
     };
   };
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const imageRef = ref(storage, `image/${uuidv4()}`);
@@ -53,7 +54,7 @@ const Form = ({ userObj }) => {
       downloadimage = await getDownloadURL(imageResponse.ref);
     }
     console.log(downloadimage)
-    console.log(userObj)
+    console.log(currentUser.uid)
     try {
       await addDoc(collection(db, 'posting'), {
         id: uuidv4(),
@@ -143,7 +144,7 @@ const Form = ({ userObj }) => {
         />
       </StSGPPhotoInput>
 
-      <StSGPDescriptionInput type='text' name='description' value={description} placeholder='내용을 입력해주세요.' onChange={(e) => setDescription(e.target.value)} required />
+      <StSGPDescriptionInput style={{ whiteSpace: 'pre-wrap' }} type='text' name='description' value={description} placeholder='내용을 입력해주세요.' onChange={(e) => setDescription(e.target.value)} required />
 
       <StSGPButtonGroup>
         <StSGPSubmitButton
