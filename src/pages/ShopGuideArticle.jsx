@@ -24,12 +24,18 @@ import {
 } from 'firebase/firestore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { authService } from '../firebase';
+import { useAuth } from '../firebase';
 
 const ShopGuideArticle = ({ item }) => {
   // Minsung 수정
   let NavId = useParams();
   const [lists] = useState({});
   const [posting, setPosting] = useState([]);
+  const currentUser = useAuth();
+
+  // firestore에서 데이터 'posting' 가져오기
+
 
   // 회수 수정
   const collectionName = NavId.id;
@@ -48,6 +54,9 @@ const ShopGuideArticle = ({ item }) => {
 
   // console.log(NavId.id);
 
+
+
+
   // firestore에서 데이터 'posting' 가져오기
   const syncpostingstatewithfirestore = () => {
     const q = query(collection(db, 'posting'), orderBy('created', 'desc'));
@@ -62,6 +71,7 @@ const ShopGuideArticle = ({ item }) => {
           username: doc.data().username,
           created: doc.data().created,
           image: doc.data().image,
+          creatorid: doc.data().creatorid
         });
       });
       setPosting(firestorePostingList);
@@ -97,32 +107,43 @@ const ShopGuideArticle = ({ item }) => {
           }
         })}
         {/* 수정 / 삭제 버튼 */}
-        <StShopDetailsEditButtons>
-          {posting.map((item) => {
-            if (item.id === NavId.id) {
+
+
+        {posting.map((item) => {
+
+          if (item.id === NavId.id) {
+            console.log(item.creatorid);
+            console.log(currentUser.uid)
+            if (item.creatorid === currentUser.uid) {
               return (
-                <StArticleEditLink
-                  key={item.id}
-                  to={`/shopguidepostingEdit/${item.id}`}
-                >
+                <StShopDetailsEditButtons>
+                  <StArticleEditLink
+                    key={item.id}
+                    to={`/shopguidepostingEdit/${item.id}`}
+                  >
+                    <FontAwesomeIcon
+                      id='articleEditButton'
+                      icon={faPen}
+                      style={{ cursor: 'pointer' }}
+                    />
+                  </StArticleEditLink>
                   <FontAwesomeIcon
-                    id='articleEditButton'
-                    icon={faPen}
+                    id='articleDeleteButton'
+                    icon={faTrashCan}
+                    onClick={deleteButtonClickHandler}
                     style={{ cursor: 'pointer' }}
                   />
-                </StArticleEditLink>
+
+
+                </StShopDetailsEditButtons>
               );
-            } else {
-              return null;
             }
-          })}
-          <FontAwesomeIcon
-            id='articleDeleteButton'
-            icon={faTrashCan}
-            onClick={deleteButtonClickHandler}
-            style={{ cursor: 'pointer' }}
-          />
-        </StShopDetailsEditButtons>
+          } else {
+            return null;
+          }
+        })}
+
+
       </StShopDetailsContainer>
       <ShopGuideDetails collectionName={collectionName} />
     </div>
@@ -182,3 +203,4 @@ const StShopDetailsEditButtons = styled.div`
 const StArticleEditLink = styled(NavLink)`
   color: black;
 `;
+

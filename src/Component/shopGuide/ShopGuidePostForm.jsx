@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { addpost } from '../../redux/modules/list';
@@ -13,11 +13,13 @@ import { storage } from "../../firebase.js";
 import { ref, uploadBytesResumable, getDownloadURL, uploadString } from "firebase/storage";
 import firebase from 'firebase/app';
 import 'firebase/functions';
-
+import { authService } from '../../firebase';
+import { getAuth } from "firebase/auth";
+import { useAuth } from '../../firebase.js';
 
 
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
-const Form = () => {
+const Form = ({ userObj }) => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
 
@@ -29,6 +31,9 @@ const Form = () => {
   const [uploadImage, setUploadImage] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [setUserObj] = useState(null);
+  const currentUser = useAuth();
+
 
 
   const onImageChange = (event) => {
@@ -49,6 +54,7 @@ const Form = () => {
       downloadimage = await getDownloadURL(imageResponse.ref);
     }
     console.log(downloadimage)
+    console.log(userObj)
     try {
       await addDoc(collection(db, 'posting'), {
         id: uuidv4(),
@@ -56,7 +62,20 @@ const Form = () => {
         description: description,
         created: moment().format('YYYY-MM-DD'),
         image: downloadimage,
+        // user: userObj.displayName,
+        creatorid: currentUser.uid, // 고정
+
       });
+
+      //  CreatorId와 currentUser.uid가 같으면 해당 게시물을 삭제할 수 있도록 한다.
+      // true or false 값을 가진 isOnwer 함수를  생성한다.
+      // const isOwner = (posting) => {
+      //   if (posting.creatorid === currentUser.uid) {
+      //     return true;
+      //   } else {
+      //     return false;
+      //   }
+      // }
 
 
 
