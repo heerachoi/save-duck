@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   StyledProfileButton,
   StyledLogoutButton,
@@ -11,35 +11,26 @@ import {
   StyledCheckButton,
   StyledProfileForm,
   StyledProfileInput,
-} from "./Modal.js";
-import { useState, useEffect } from "react";
-import { useAuth, upload } from "../../firebase.js";
-import { modifyProfile, updateProfile } from "../../redux/modules/profile.js";
-import { useSelector, useDispatch } from "react-redux";
-import { authService } from "../../firebase.js";
-import { ref, uploadBytes } from "firebase/storage";
-import { storage } from "../../firebase.js";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  updateDoc,
-  setDoc,
-  doc,
-  getDocs,
-  query,
-  orderBy,
-  onSnapshot,
-} from "firebase/firestore";
-import { db } from "../../firebase";
+} from './Modal.js';
+import { useState, useEffect } from 'react';
+import { useAuth, upload } from '../../firebase.js';
+import { modifyProfile, updateProfile } from '../../redux/modules/profile.js';
+import { useSelector, useDispatch } from 'react-redux';
+import { authService } from '../../firebase.js';
+import { ref, uploadBytes } from 'firebase/storage';
+import { storage } from '../../firebase.js';
+import { getFirestore, collection, addDoc, updateDoc, setDoc, doc, getDocs, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { db } from '../../firebase';
+import { UserAuth } from '../../context/AuthContext.js';
 
 export default function Modal() {
+  const { user, logout } = UserAuth();
   const currentUser = useAuth();
   const [photo, setPhoto] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [photoURL, setPhotoURL] = useState("blankProfiles.png");
-  const [updateProfileInput, setUpdateProfileInput] = useState("");
-  const [updateNickName, setUpdateNickName] = useState("");
+  const [photoURL, setPhotoURL] = useState('blankProfiles.png');
+  const [updateProfileInput, setUpdateProfileInput] = useState('');
+  const [updateNickName, setUpdateNickName] = useState('');
 
   function handleChange(e) {
     if (e.target.files[0]) {
@@ -48,7 +39,7 @@ export default function Modal() {
   }
 
   function handleClick() {
-    console.log("handle");
+    console.log('handle');
     console.log(currentUser.uid);
     upload(photo, currentUser, setLoading);
   }
@@ -67,13 +58,13 @@ export default function Modal() {
     const theFile = event.target.files[0];
     setUploadImage(theFile);
 
-    console.log("the File : ", theFile);
+    console.log('the File : ', theFile);
     const reader = new FileReader();
     reader.readAsDataURL(theFile);
     reader.onloadend = (finishedEvent) => {
       const imgDataUrl = finishedEvent.currentTarget.result;
-      localStorage.setItem("imgDataUrl", imgDataUrl);
-      document.getElementById("profileView").src = imgDataUrl;
+      localStorage.setItem('imgDataUrl', imgDataUrl);
+      document.getElementById('profileView').src = imgDataUrl;
     };
   };
 
@@ -102,7 +93,7 @@ export default function Modal() {
 
   // };
   const updateCompleteButtonHandler = async (id) => {
-    const docRef = doc(db, "Users", id);
+    const docRef = doc(db, 'Users', id);
     try {
       const response = await updateDoc(docRef, {
         nickname: updateProfileInput,
@@ -113,49 +104,39 @@ export default function Modal() {
 
   const onLogOutClick = () => {
     authService.signOut();
-    window.location.href = "/signin";
+    window.location.href = '/signin';
   };
 
   return (
     <div>
       <Container>
         <ProfileImageContainer>
-          <label htmlFor="imgInput">
-            <img src={photoURL} id="profileView" />
-            <input
-              style={{ display: "none" }}
-              type="file"
-              id="imgInput"
-              accept="image/*"
-              onChange={handleChange}
-            />
+          <label htmlFor='imgInput'>
+            <img src={photoURL} id='profileView' />
+            <input style={{ display: 'none' }} type='file' id='imgInput' accept='image/*' onChange={handleChange} />
           </label>
         </ProfileImageContainer>
         <CameraContainer>
-          <CameraImage src="camera.png" alt="" />
+          <CameraImage src='camera.png' alt='' />
         </CameraContainer>
         <StyledProfileForm onSubmit={onFileChange}>
           {profileName.map((item) => {
             return (
               <StyledDivBox key={item.id}>
-                <StyledProfileInput
-                  readOnly={readOnly}
-                  onChange={onChangeProfile}
-                  defaultValue={item.profile}
-                />
+                <StyledProfileInput readOnly={readOnly} onChange={onChangeProfile} defaultValue={item.profile} />
                 <StyledVector
                   onClick={() => {
                     modifyProfileButtonHandler(item.id);
                     console.log(item.id);
-                    window.confirm("수정 하시겠습니까?");
+                    window.confirm('수정 하시겠습니까?');
                   }}
-                  src="Vector.png"
+                  src='Vector.png'
                 />
                 <StyledCheckButton
                   onClick={(event) => {
                     event.preventDefault();
                     updateCompleteButtonHandler(item.id);
-                    alert("수정 완료!!");
+                    alert('수정 완료!!');
                   }}
                 >
                   ✔️
@@ -163,16 +144,11 @@ export default function Modal() {
               </StyledDivBox>
             );
           })}
-          <StyledProfileButton
-            disabled={loading || !photo}
-            onClick={handleClick}
-          >
+          <StyledProfileButton disabled={loading || !photo} onClick={handleClick}>
             프로필변경
           </StyledProfileButton>
         </StyledProfileForm>
-        <StyledLogoutButton onClick={onLogOutClick}>
-          로그아웃
-        </StyledLogoutButton>
+        <StyledLogoutButton onClick={onLogOutClick}>로그아웃</StyledLogoutButton>
       </Container>
     </div>
   );
