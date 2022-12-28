@@ -42,11 +42,11 @@ export const authService = getAuth();
 export const storage = getStorage();
 
 export function useAuth() {
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCnpmurrentUser] = useState();
 
   useEffect(() => {
     const unsub = onAuthStateChanged(authService, (user) =>
-      setCurrentUser(user)
+      setCnpmurrentUser(user)
     );
     return unsub;
   }, []);
