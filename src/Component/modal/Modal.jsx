@@ -22,15 +22,18 @@ import { storage } from '../../firebase.js';
 import { getFirestore, collection, addDoc, updateDoc, setDoc, doc, getDocs, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { UserAuth } from '../../context/AuthContext.js';
+import { useNavigate } from 'react-router-dom';
 
 export default function Modal() {
-  const { user, logout } = UserAuth();
   const currentUser = useAuth();
   const [photo, setPhoto] = useState(null);
   const [loading, setLoading] = useState(false);
   const [photoURL, setPhotoURL] = useState('blankProfiles.png');
   const [updateProfileInput, setUpdateProfileInput] = useState('');
   const [updateNickName, setUpdateNickName] = useState('');
+  const { user, logout } = UserAuth();
+
+  const navigate = useNavigate();
 
   function handleChange(e) {
     if (e.target.files[0]) {
@@ -103,9 +106,16 @@ export default function Modal() {
     setReadOnly(true);
   };
 
-  const onLogOutClick = () => {
+  const onLogOutClick = async () => {
+    try {
+      await logout();
+      navigate('/');
+      alert('로구아웃 되었습니다.');
+    } catch (e) {
+      console.log(e.message);
+    }
     authService.signOut();
-    window.location.href = '/signin';
+    window.location.href = '/';
   };
 
   return (
