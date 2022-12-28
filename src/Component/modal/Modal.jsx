@@ -19,6 +19,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { authService } from '../../firebase.js';
 import { ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../firebase.js';
+import { getFirestore, collection, addDoc, updateDoc, setDoc, doc, getDocs, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { db } from '../../firebase';
 import { UserAuth } from '../../context/AuthContext.js';
 
 export default function Modal() {
@@ -28,6 +30,7 @@ export default function Modal() {
   const [loading, setLoading] = useState(false);
   const [photoURL, setPhotoURL] = useState('blankProfiles.png');
   const [updateProfileInput, setUpdateProfileInput] = useState('');
+  const [updateNickName, setUpdateNickName] = useState('');
 
   function handleChange(e) {
     if (e.target.files[0]) {
@@ -82,11 +85,20 @@ export default function Modal() {
     const { value } = event.target;
     console.log(currentUser);
     console.log(value);
-    setUpdateProfileInput(value);
+    setUpdateNickName(value);
   };
-  const updateCompleteButtonHandler = (item) => {
-    dispatch(updateProfile(item));
-    dispatch(modifyProfile(item.id));
+  // const updateCompleteButtonHandler = (item) => {
+  //   dispatch(updateProfile(item));
+  //   dispatch(modifyProfile(item.id));
+
+  // };
+  const updateCompleteButtonHandler = async (id) => {
+    const docRef = doc(db, 'Users', id);
+    try {
+      const response = await updateDoc(docRef, {
+        nickname: updateProfileInput,
+      });
+    } catch (event) {}
     setReadOnly(true);
   };
 
@@ -121,7 +133,8 @@ export default function Modal() {
                   src='Vector.png'
                 />
                 <StyledCheckButton
-                  onClick={() => {
+                  onClick={(event) => {
+                    event.preventDefault();
                     updateCompleteButtonHandler(item.id);
                     alert('수정 완료!!');
                   }}
