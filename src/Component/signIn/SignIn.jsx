@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, Router, Link, useNavigate } from 'react-router-dom';
 import { authService } from '../../firebase';
+import { UserAuth } from '../../context/AuthContext';
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signOut, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 import {
   // Img,
@@ -41,7 +42,8 @@ const SignInComponent = () => {
   const [passwordleng, setPasswordleng] = useState(false);
   const [emailleng, setEmailleng] = useState(false);
   // <div>
-
+  const navigate = useNavigate();
+  const { signIn } = UserAuth();
   // 처음에는 false이고 나중에 사용자 존재 판명이 모두 끝났을 때 true를 통해 해당 화면을 render
   // const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -70,14 +72,14 @@ const SignInComponent = () => {
   //       console.log(user);
   //       setUser({ id: user.uid, email: "" });
   //     } else {
-    //       console.log("null");
-    //       setUser(null);
+  //       console.log("null");
+  //       setUser(null);
   //     }
   //   });
   //   return unsubscribe;
   // }, []);
   // </div>
-  
+
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -85,15 +87,14 @@ const SignInComponent = () => {
   }, []);
 
   useEffect(() => {
-    if ((email.length === 0) || (password.length === 0)) {
+    if (email.length === 0 || password.length === 0) {
       setNotAllow(true);
 
       return;
     }
     setNotAllow(false);
   }, [password, email]);
-  console.log(email.length);
-
+  // console.log(email.length);
 
   const handleEmail = (e) => {
     // 이메일 정규식
@@ -149,12 +150,22 @@ const SignInComponent = () => {
   const gotoSignup = (e) => {
     window.location.href = '/signup';
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await signIn(email, password);
+      navigate('/home');
+    } catch (e) {
+      console.log(e.mesage);
+    }
+  };
   return (
     <LoginWrap>
       <LoginContaier>
         <H2>Login</H2>
 
-        <form>
+        <form onSubmit={handleSubmit}>
           <EmaillWrap>
             <InputTitle>이메일 주소</InputTitle>
             <InputWrap>
