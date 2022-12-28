@@ -26,9 +26,9 @@ const List = () => {
   // firestore에서 데이터 'posting' 가져오기
   const syncpostingstatewithfirestore = () => {
     const q = query(
-      collection(db, "posting"),
+      collection(db, 'posting'),
       // where('userId', '==', currentUser),
-      orderBy("created", "desc")
+      orderBy('created', 'desc')
     );
 
     getDocs(q).then((querySnapshot) => {
@@ -52,94 +52,57 @@ const List = () => {
   }, []);
 
   return (
-    <MainWrap>
-        {posting.map((item, i) => {
-          return (
-            <StShopGuidePostWrapper key={item.id}>
-              <StShopGuidePostContainer
-                item={item}
-                to={`/shopguidearticle/${item.id}`}
-              >
-                <StShopGuideTop>
-                  <StShopGuidePostNumbering>
-                    <div>{i + 1}</div>
-                  </StShopGuidePostNumbering>
-                  <StShopGuidePostTitle>
-                    글 제목<div>{item.title}</div>
-                  </StShopGuidePostTitle>
-                </StShopGuideTop>
-                <StShopGuidePostInfo>
-                  <div type={"picture"}></div>
-                  <StShopGuidePostUserPicture></StShopGuidePostUserPicture>
+    <div>
+      {posting.map((item, i) => {
+        return (
+          <StShopGuidePostWrapper key={item.id}>
+            <StShopGuidePostContainer
+              item={item}
+              to={`/shopguidearticle/${item.id}`}
+            >
+              <StShopGuideTop>
+                <StShopGuidePostNumbering>
+                  <span>{i + 1}</span>
+                </StShopGuidePostNumbering>
+                <StShopGuidePostTitle>
+                  <span>{item.title}</span>
+                </StShopGuidePostTitle>
+              </StShopGuideTop>
+              <StShopGuidePostInfo>
+                <label type={'picture'}></label>
+                <StShopGuidePostUserPicture></StShopGuidePostUserPicture>
 
-                  <StShopGuidePostUserName>
-                    <div>작성자 명{item.username}</div>
-                  </StShopGuidePostUserName>
-                  <StShopGuidePostDate>
-                    <div>{item.created}</div>
-                  </StShopGuidePostDate>
-                </StShopGuidePostInfo>
-                <StShopGuidePostDescription>
-                  <div>{item.description}</div>
-                </StShopGuidePostDescription>
-              </StShopGuidePostContainer>
-            </StShopGuidePostWrapper>
-          );
-        })}
-
-    </MainWrap>
+                <StShopGuidePostUserName>
+                  <span>{item.username}</span>
+                </StShopGuidePostUserName>
+                <StShopGuidePostDate>
+                  <span>{item.created}</span>
+                </StShopGuidePostDate>
+              </StShopGuidePostInfo>
+              <StShopGuidePostDescription>
+                <span>{item.description}</span>
+              </StShopGuidePostDescription>
+            </StShopGuidePostContainer>
+          </StShopGuidePostWrapper>
+        );
+      })}
+    </div>
   );
 };
 
 export default List;
 
-const MainWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  margin: 5% auto 0 auto;
-  background-color: #8f8f8f;
-`;
-
-// const Container = styled.div`
-//   display: flex;
-//   flex-wrap: wrap;
-//   max-width: 90%;
-//   grid-gap: 40px;
-//   margin: 5% 0 5% 0;
-//   background-color: beige;
-// `;
-
-// const StShopGuidePostbody = styled.div`
-//   width: 100%;
-//   height: 100%;
-//   background-color: skyblue;
-//   justify-content: center;
-//   display: flex;
-// `;
 const StShopGuidePostWrapper = styled.div`
-  /* max-width: 800px; */
+  max-width: 800px;
   text-decoration: none;
-  /* border-bottom: 3px solid #e5e5e5; */
-  background-color: #ffc226;
-  border-radius: 30px;
-  box-shadow: inset;
-  max-width: 900px;
-  min-width: 700px;
-  min-height: 200px;
-  margin-bottom: 20px;
-  cursor: pointer;
-  transition: all 0.3s ease-out;
-  :hover {
-    transform: translateY(-10px);
-  }
+  border-bottom: 2px solid #e5e5e5;
 `;
 const StShopGuidePostContainer = styled(NavLink)`
-  background-color: yellow;
-  /* max-width: 500px; */
-  /* margin: 25px 100px 15px 100px; */
+  max-width: 500px;
+  margin: 25px 100px 15px 100px;
   overflow: hidden;
   cursor: pointer;
-  /* text-decoration: none; */
+  text-decoration: none;
 
   span {
     max-width: 500px;
@@ -150,80 +113,66 @@ const StShopGuidePostContainer = styled(NavLink)`
   }
 `;
 const StShopGuideTop = styled.div`
-  /* height: 20px;
+  height: 20px;
   display: flex;
-  flex-direction: row; */
-  background-color: green;
+  flex-direction: row;
 `;
 const StShopGuidePostNumbering = styled.div`
-  /* width: 50px;
-  font-size: 30px; */
-  background-color: red;
-  text-align: center;
+  width: 50px;
+  font-size: 12px;
 `;
 const StShopGuidePostTitle = styled.div`
-  /* height: 20px;
+  height: 20px;
   width: 700px;
-  font-size: 15px;
-  font-weight: 600; */
-  text-align: center;
-  background-color: #c3a8c3;
+  font-size: 12px;
+  font-weight: 600;
   text-decoration: none;
 `;
 const StShopGuidePostInfo = styled.div`
-  /* height: 20px; */
-  /* display: flex; */
-  /* flex-direction: row; */
-  /* margin-left: 55px; */
+  height: 20px;
+  display: flex;
+  flex-direction: row;
+  margin-left: 55px;
   text-decoration: none;
-  background-color: #56c287;
   label {
-    /* display: inline-block;
+    display: inline-block;
     font-size: inherit;
     line-height: normal;
-    vertical-align: middle; */
+    vertical-align: middle;
     cursor: pointer;
   }
 `;
 
 const StShopGuidePostUserPicture = styled.div`
-  /* width: 20px;
-  /* height: 20px; */
-  background-color: blue; */
+  width: 20px;
+  height: 20px;
 `;
 const StShopGuidePostUserName = styled.div`
-  /* width: 8rem;
+  width: 8rem;
   font-size: 11px;
   display: flex;
   align-items: center;
-  color: coral; */
-  /* background-color: #26b7b7; */
+  color: coral;
 `;
 const StShopGuidePostDate = styled.div`
-  /* width: 10rem;
+  width: 10rem;
   font-size: 9px;
   color: gray;
-  display: flex; */
-  /* align-items: center; */
-  text-align: center;
-  /* background-color: #5c5c13; */
+  display: flex;
+  align-items: center;
+
   span {
-    /* width: 50px; */
-    /* white-space: nowrap; */
+    width: 50px;
+    white-space: nowrap;
   }
 `;
 const StShopGuidePostDescription = styled.div`
-  /* width: 90%;
+  width: 90%;
   height: 90px;
   font-size: 11px;
-  color: gray; */
-  /* margin-left: 50px; */
-  margin-top: 50px;
-  min-height: 90px;
-  text-align: center;
-  background-color: beige;
+  color: gray;
+  margin-left: 50px;
   text-decoration: none;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.1;
 `;
