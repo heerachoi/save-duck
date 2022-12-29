@@ -1,21 +1,12 @@
-import { NavLink } from "react-router-dom";
-import {
-  StyledSaveDuckHome,
-  LeftSection,
-  SaveDuckHomeNav,
-  DuckImageLogo,
-  RightSection,
-  Menu,
-  MenuItem,
-  SignUp,
-} from "./NavBar";
-import { useAuth, upload } from "../../firebase.js";
-import Modal from "../modal/Modal.jsx";
-import { useEffect, useState, useRef } from "react";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../firebase";
-import { v4 as uuidv4 } from "uuid";
-import { current } from "@reduxjs/toolkit";
+import { NavLink } from 'react-router-dom';
+import { StyledSaveDuckHome, LeftSection, SaveDuckHomeNav, DuckImageLogo, RightSection, Menu, MenuItem, SignUp } from './NavBar';
+import { useAuth, upload } from '../../firebase.js';
+import Modal from '../modal/Modal.jsx';
+import { useEffect, useState, useRef } from 'react';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../../firebase';
+import { v4 as uuidv4 } from 'uuid';
+import { current } from '@reduxjs/toolkit';
 
 const Navbar = () => {
   const modalRef = useRef();
@@ -26,17 +17,12 @@ const Navbar = () => {
 
   useEffect(() => {
     const modalCloseHandler = (e) => {
-      if (
-        modal === true &&
-        modalRef.current.contains(e.target) === false &&
-        profileRef.current.contains(e.target) === false
-      )
-        setModal(false);
+      if (modal === true && modalRef.current.contains(e.target) === false && profileRef.current.contains(e.target) === false) setModal(false);
     };
-    window.addEventListener("click", modalCloseHandler);
+    window.addEventListener('click', modalCloseHandler);
 
     return () => {
-      window.removeEventListener("click", modalCloseHandler);
+      window.removeEventListener('click', modalCloseHandler);
     };
   }, [modal]);
 
@@ -46,7 +32,7 @@ const Navbar = () => {
     try {
       await addDoc(collection(db, currentUser.uid), {
         id: currentUser.uid,
-        nickName: "",
+        nickName: '',
       });
     } catch (err) {
       alert(err);
@@ -57,26 +43,19 @@ const Navbar = () => {
     <StyledSaveDuckHome>
       {/* 왼쪽영역 */}
       <LeftSection>
-        <SaveDuckHomeNav to="/">
-          <span style={{ color: "#ffc226" }}>Save Duck</span>
-          <DuckImageLogo src="ssave.png" alt="Home" />
+        <SaveDuckHomeNav to='/home'>
+          <span style={{ color: '#ffc226' }}>Save Duck</span>
+          <DuckImageLogo src='ssave.png' alt='Home' />
         </SaveDuckHomeNav>
       </LeftSection>
 
       {/* 오른쪽영역 */}
       <RightSection>
         <Menu>
-          <MenuItem style={{ color: "#ffc226" }} to="/signin">
-            Features
-          </MenuItem>
-          <MenuItem style={{ color: "#ffc226" }} to="/shopguide">
+          <MenuItem style={{ color: '#ffc226' }} to='/shopguide'>
             Community
           </MenuItem>
-          <MenuItem style={{ color: "#ffc226" }} to="/shopguidedetails">
-            Support
-          </MenuItem>
         </Menu>
-
         <SignUp>
           <NavLink onClick={handleSubmit}>
             <img
@@ -84,7 +63,7 @@ const Navbar = () => {
               onClick={() => {
                 setModal(!modal);
               }}
-              src="blankProfile.png"
+              src='blankProfile.png'
             />
           </NavLink>
           {modal === true ? (
