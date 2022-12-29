@@ -175,8 +175,6 @@ const StShopDetailsArticleContents = styled.div`
   display: inline-block;
   text-align: start;
   margin-bottom: 40px;
-  white-space:pre-wrap;
-  line-height: 1.5;
 `;
 
 const StShopDetailsImage = styled.img`
@@ -205,3 +203,4 @@ const StShopDetailsEditButtons = styled.div`
 const StArticleEditLink = styled(NavLink)`
   color: black;
 `;
+
