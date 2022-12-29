@@ -21,7 +21,6 @@ import { ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../firebase.js';
 import { getFirestore, collection, addDoc, updateDoc, setDoc, doc, getDocs, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { UserAuth } from '../../context/AuthContext.js';
 import { useNavigate } from 'react-router-dom';
 
 export default function Modal() {
@@ -31,7 +30,6 @@ export default function Modal() {
   const [photoURL, setPhotoURL] = useState('blankProfiles.png');
   const [updateProfileInput, setUpdateProfileInput] = useState('');
   const [updateNickName, setUpdateNickName] = useState('');
-  const { user, logout } = UserAuth();
 
   const navigate = useNavigate();
 
@@ -108,14 +106,16 @@ export default function Modal() {
 
   const onLogOutClick = async () => {
     try {
-      await logout();
+      authService.signOut();
+      // await logout();
       navigate('/');
+      window.location.href = '/';
       alert('로구아웃 되었습니다.');
     } catch (e) {
       console.log(e.message);
     }
-    authService.signOut();
-    window.location.href = '/';
+    // authService.signOut();
+    // window.location.href = '/';
   };
 
   return (
