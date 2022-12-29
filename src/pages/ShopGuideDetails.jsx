@@ -35,6 +35,12 @@ const ShopGuideDetails = ({ collectionName }) => {
         savetime: time,
         modify: false,
       };
+
+      // dispatch는 어떤때에 쓰나요?
+      // dispatch는 action을 reducer로 보내는 역할을 합니다.
+      // action은 reducer로 보내는 데이터를 의미합니다.
+      // reducer는 action을 받아서 state를 업데이트하는 역할을 합니다.
+
       dispatch(addComment(newComment));
       // addItem();
       setComment('');
@@ -68,7 +74,6 @@ const ShopGuideDetails = ({ collectionName }) => {
   };
 
   // 댓글 불러오기
-
   const syncCommentListStateWithFirestore = () => {
     const q = query(
       collection(db, collectionName),
