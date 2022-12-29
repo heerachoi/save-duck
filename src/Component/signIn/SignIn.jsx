@@ -151,6 +151,7 @@ const SignInComponent = () => {
       })
       .catch((error) => {
         console.log(user);
+        alert('없는 계정 또는 잘못된 비밀번호 입니다.');
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorMessage);
