@@ -10,8 +10,11 @@ import ShoppingList from '../shoppingList/ShoppingList.jsx';
 
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { HomeContainer, CalendarContainer, CalendarHead, SevenColGrid, HeadDay, CalendarBody, MonthNavigation, MonthArrow, StyledDay, CurrentMonth, CurrentYear, Dot } from './Calendar.js';
+import { useAuth, upload } from '../../firebase.js';
 
 const Calendar = ({ startingDate }) => {
+  const currentUser = useAuth();
+  console.log(currentUser);
   const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
   const MONTHS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];

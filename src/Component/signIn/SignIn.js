@@ -71,15 +71,7 @@ export const Input = styled.input`
     /* border: 2px solid blue; */
   }
 `;
-export const Box = styled.div`
-  width: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 100px;
-  background-color: #000;
-  position: fixed;
-`;
+
 //* Btn Part
 export const ButtonWrap = styled.div`
   /* margin-top: 30px; */
@@ -97,11 +89,10 @@ export const Button = styled.button`
   cursor: pointer;
   width: 100%;
   border: none;
-  cursor: pointer;
   font-size: 16px;
   letter-spacing: 2px;
   font-weight: 700;
-  height: 52px;
+  height: 42px;
   border-radius: 12px;
   background-color: transparent;
 `;
@@ -115,7 +106,7 @@ export const SocialLoginBtn = styled.div`
 export const SignInBtn = styled(Button)`
   cursor: pointer;
   width: 400px;
-  height: 50px;
+  height: 40px;
   background-color: #ffc226;
   font-weight: 700;
   border-radius: 12px;
@@ -128,7 +119,7 @@ export const SignInBtn = styled(Button)`
 export const SignUpBtn = styled(Button)`
   cursor: pointer;
   width: 400px;
-  height: 50px;
+  height: 40px;
   border: 1px solid #ffc226;
   font-weight: 700;
   border-radius: 12px;
@@ -142,7 +133,7 @@ export const SignUpBtn = styled(Button)`
 export const GoogleBtn = styled(Button)`
   cursor: pointer;
   width: 400px;
-  height: 50px;
+  height: 40px;
   border: 1px solid #e1e1e1;
   font-weight: 600;
   border-radius: 12px;
@@ -159,7 +150,7 @@ export const GoogleBtn = styled(Button)`
 export const GithubBtn = styled(Button)`
   cursor: pointer;
   width: 400px;
-  height: 50px;
+  height: 40px;
   border: 1px solid #e1e1e1;
   font-weight: 600;
   border-radius: 12px;

@@ -2,10 +2,6 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import { authService } from '../../firebase';
 import 'firebase/firestore';
-
-import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider } from 'firebase/auth';
-
-import React from 'react';
 import {
   H1,
   H2,
@@ -24,6 +20,10 @@ import {
   ErrorMessgeWrap,
   PasswordWrap,
 } from './SignUp.js';
+
+import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider } from 'firebase/auth';
+import React from 'react';
+import { useAuth } from '../../firebase.js';
 
 const SignUpComponent = () => {
   // 초기값 세팅 - 아이디, 닉네임, 비밀번호, 비밀번호확인, 이메일, 전화번호, 생년월일
@@ -49,9 +49,9 @@ const SignUpComponent = () => {
   const [notAllow, setNotAllow] = useState(true);
 
   const auth = getAuth();
+
   const onSubmit = async (e) => {
     e.preventDefault();
-    let data;
     try {
       await createUserWithEmailAndPassword(authService, email, password);
       alert('SaveDuck 회원이 되신걸 환영합니다.');
@@ -76,7 +76,7 @@ const SignUpComponent = () => {
   //회원가입 완료
   const onClickSummit = () => {
     alert('SaveDuck 회원이 되신걸 환영합니다.');
-    window.location.href = '/';
+    window.location.href = '/home';
   };
 
   const onChangeEmail = (e) => {
