@@ -59,7 +59,7 @@ const Form = ({ userObj }) => {
         id: uuidv4(),
         title: title,
         description: description,
-        created: moment().format('YYYY-MM-DD'),
+        created: moment().format('YYYY-MM-DD HH:mm:ss'),
         image: downloadimage,
         // user: userObj.displayName,
         creatorid: currentUser.uid, // 고정
