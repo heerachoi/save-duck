@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, Router, Link, useNavigate } from 'react-router-dom';
 import { authService } from '../../firebase';
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signOut, GithubAuthProvider, signInWithPopup, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signOut, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
 import {
   // Img,
   LoginWrap,
@@ -39,12 +39,43 @@ const SignInComponent = () => {
   const [notAllow, setNotAllow] = useState(false);
   const [passwordleng, setPasswordleng] = useState(false);
   const [emailleng, setEmailleng] = useState(false);
+  // <div>
 
-  //added
-  const [newAccount, setNewAccount] = useState(true);
-  const [error, setError] = useState('');
   // 처음에는 false이고 나중에 사용자 존재 판명이 모두 끝났을 때 true를 통해 해당 화면을 render
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // useEffect(() => {
+  //   authService.onAuthStateChanged((user) => {
+  //     // user 판명을 듣고
+  //     if (user) {
+  //       // 있으면
+  //       setIsLoggedIn(true); // 로그인 됨
+  //     } else {
+  //       setIsLoggedIn(false); // 로그인 안됨
+  //     }
+  //     setInit(true); // user 판명 끝
+  //   });
+  // }, [user]);
+
+  // onAuthStateChanged(authService, (currentUser) => {
+  //   console.log(onAuthStateChanged);
+  //   setUser(currentUser);
+  // });
+  // useEffect(() => {
+  //   const unsubscribe = onAuthStateChanged(authService, (user) => {
+  //     console.log("test");
+  //     if (user) {
+  //       console.log("user");
+  //       console.log(user);
+  //       setUser({ id: user.uid, email: "" });
+  //     } else {
+  //       console.log("null");
+  //       setUser(null);
+  //     }
+  //   });
+  //   return unsubscribe;
+  // }, []);
+  // </div>
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -60,8 +91,8 @@ const SignInComponent = () => {
     }
     setNotAllow(false);
   }, [password, email]);
-  // console.log('email');
-  // console.log(email);
+  console.log('email');
+  console.log(email);
 
   const handleEmail = (e) => {
     // 이메일 정규식
@@ -73,7 +104,6 @@ const SignInComponent = () => {
       setEmailValid(false);
     }
   };
-
   // 비밀번호 정규식
   const handlePassword = (e) => {
     setPassword(e.target.value);
@@ -89,29 +119,12 @@ const SignInComponent = () => {
     e.preventDefault();
     let data;
     try {
-      signInWithEmailAndPassword(authService, email, password)
-        .then((userCredential) => {
-          console.log(userCredential);
-          // Signed in
-          const user = userCredential.user;
-          console.log(user);
-          // ...
-          window.location.href = '/home';
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorMessage);
-          setError(errorMessage);
-        });
-      console.log('email:', email, 'passord:', password);
-
-      // const response = await signInWithEmailAndPassword(authService, email, password);
-      // console.log(response);
-      // // const docRef = await addDoc(collection(data, "users"), {
-      // //   email: "email",
-      // // });
-      // window.location.href = '/';
+      const response = await signInWithEmailAndPassword(authService, email, password);
+      console.log(response);
+      // const docRef = await addDoc(collection(data, "users"), {
+      //   email: "email",
+      // });
+      window.location.href = '/';
     } catch (error) {
       alert('등록되지않은 아이디입니다.');
     }
@@ -137,34 +150,12 @@ const SignInComponent = () => {
   const gotoSignup = (e) => {
     window.location.href = '/signup';
   };
-
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    let data;
-    signInWithEmailAndPassword(authService, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        console.log(user);
-        window.location.href = '/home';
-        // ...
-      })
-      .catch((error) => {
-        console.log(user);
-        alert('없는 계정 또는 잘못된 비밀번호 입니다.');
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorMessage);
-        setError(errorMessage);
-      });
-  };
-
   return (
     <LoginWrap>
       <LoginContaier>
         <H2>Login</H2>
 
-        <form onSubmit={onSubmit}>
+        <form>
           <EmaillWrap>
             <InputTitle>이메일 주소</InputTitle>
 
@@ -187,7 +178,7 @@ const SignInComponent = () => {
         <ButtonWrap>
           <ButtonSign>
             <div>
-              <SignInBtn disabled={notAllow} onClick={onSubmit}>
+              <SignInBtn disabled={notAllow} onClick={login}>
                 로그인
               </SignInBtn>
             </div>
