@@ -77,7 +77,7 @@ export const ItemInput = styled.input`
 `;
 
 export const ItemPriceInput = styled.input`
-  width: 50px;
+  width: 65px;
   height: 8px;
   padding: 4px 0px;
   border: none;
