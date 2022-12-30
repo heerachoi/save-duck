@@ -19,7 +19,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import { authService } from '../../firebase.js';
 import { ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../firebase.js';
-import { getFirestore, collection, addDoc, updateDoc, setDoc, doc, getDocs, query, orderBy, onSnapshot } from 'firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  updateDoc,
+  setDoc,
+  doc,
+  getDocs,
+  query,
+  orderBy,
+  onSnapshot,
+} from 'firebase/firestore';
 import { db } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
 
@@ -110,7 +121,7 @@ export default function Modal() {
       // await logout();
       navigate('/');
       window.location.href = '/';
-      alert('로구아웃 되었습니다.');
+      alert('로그아웃 되었습니다.');
     } catch (e) {
       console.log(e.message);
     }
@@ -124,7 +135,13 @@ export default function Modal() {
         <ProfileImageContainer>
           <label htmlFor='imgInput'>
             <img src={photoURL} id='profileView' />
-            <input style={{ display: 'none' }} type='file' id='imgInput' accept='image/*' onChange={handleChange} />
+            <input
+              style={{ display: 'none' }}
+              type='file'
+              id='imgInput'
+              accept='image/*'
+              onChange={handleChange}
+            />
           </label>
         </ProfileImageContainer>
         <CameraContainer>
@@ -134,7 +151,11 @@ export default function Modal() {
           {profileName.map((item) => {
             return (
               <StyledDivBox key={item.id}>
-                <StyledProfileInput readOnly={readOnly} onChange={onChangeProfile} defaultValue={item.profile} />
+                <StyledProfileInput
+                  readOnly={readOnly}
+                  onChange={onChangeProfile}
+                  defaultValue={item.profile}
+                />
                 <StyledVector
                   onClick={() => {
                     modifyProfileButtonHandler(item.id);
@@ -155,11 +176,16 @@ export default function Modal() {
               </StyledDivBox>
             );
           })}
-          <StyledProfileButton disabled={loading || !photo} onClick={handleClick}>
+          <StyledProfileButton
+            disabled={loading || !photo}
+            onClick={handleClick}
+          >
             프로필변경
           </StyledProfileButton>
         </StyledProfileForm>
-        <StyledLogoutButton onClick={onLogOutClick}>로그아웃</StyledLogoutButton>
+        <StyledLogoutButton onClick={onLogOutClick}>
+          로그아웃
+        </StyledLogoutButton>
       </Container>
     </div>
   );

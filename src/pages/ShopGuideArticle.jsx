@@ -36,7 +36,6 @@ const ShopGuideArticle = ({ item }) => {
 
   // firestore에서 데이터 'posting' 가져오기
 
-
   // 회수 수정
   const collectionName = NavId.id;
   // console.log(collectionName);
@@ -54,9 +53,6 @@ const ShopGuideArticle = ({ item }) => {
 
   // console.log(NavId.id);
 
-
-
-
   // firestore에서 데이터 'posting' 가져오기
   const syncpostingstatewithfirestore = () => {
     const q = query(collection(db, 'posting'), orderBy('created', 'desc'));
@@ -71,7 +67,7 @@ const ShopGuideArticle = ({ item }) => {
           username: doc.data().username,
           created: doc.data().created,
           image: doc.data().image,
-          creatorid: doc.data().creatorid
+          creatorid: doc.data().creatorid,
         });
       });
       setPosting(firestorePostingList);
@@ -100,6 +96,8 @@ const ShopGuideArticle = ({ item }) => {
                 <StShopDetailsArticleContents>
                   {item.description}
                 </StShopDetailsArticleContents>
+                {/* 뒤로가기 버튼 */}
+                <StBackButton to={`/shopguide`}> Back</StBackButton>
               </StShopDetailsArticle>
             );
           } else {
@@ -108,12 +106,10 @@ const ShopGuideArticle = ({ item }) => {
         })}
         {/* 수정 / 삭제 버튼 */}
 
-
         {posting.map((item) => {
-
           if (item.id === NavId.id) {
             console.log(item.creatorid);
-            console.log(currentUser.uid)
+            console.log(currentUser.uid);
             if (item.creatorid === currentUser.uid) {
               return (
                 <StShopDetailsEditButtons>
@@ -133,8 +129,6 @@ const ShopGuideArticle = ({ item }) => {
                     onClick={deleteButtonClickHandler}
                     style={{ cursor: 'pointer' }}
                   />
-
-
                 </StShopDetailsEditButtons>
               );
             }
@@ -142,8 +136,6 @@ const ShopGuideArticle = ({ item }) => {
             return null;
           }
         })}
-
-
       </StShopDetailsContainer>
       <ShopGuideDetails collectionName={collectionName} />
     </div>
@@ -185,11 +177,6 @@ const StShopDetailsImage = styled.img`
   margin-top: 40px;
 `;
 
-// 게시글 수정 버튼
-const StShopGuideFormEdit = styled(NavLink)`
-  color: black;
-`;
-
 const StShopDetailsEditButtons = styled.div`
   height: 80px;
   display: flex;
@@ -204,3 +191,16 @@ const StArticleEditLink = styled(NavLink)`
   color: black;
 `;
 
+const StBackButton = styled(NavLink)`
+  position: absolute;
+  line-height: 45px;
+  right: 50px;
+  width: 50px;
+  height: 50px;
+  background-color: #000;
+  color: #fff;
+  border-radius: 100px;
+  border: none;
+  top: 230px;
+  text-decoration: none;
+`;
