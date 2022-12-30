@@ -133,7 +133,7 @@ const SignUpComponent = () => {
       setIsName(true);
     }
   };
-
+// 유효성 함수재조정필요
   const onChangePassword = (e) => {
     const currentPassword = e.target.value;
     setPassword(currentPassword);
