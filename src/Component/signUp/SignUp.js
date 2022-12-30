@@ -26,16 +26,16 @@ export const SignupTitle = styled.div`
 `;
 export const SignupContaier = styled.section`
   text-align: center;
-  width: 800px;
+  width: 400px;
 `;
 export const Emailform = styled.div``;
 
 //input part
 export const EmailWrap = styled.label`
-  font-size: 20px;
+  font-size: 17px;
   text-align: left;
   /* background-color: aqua; */
-  margin-left: 170px;
+  /* margin-left: 170px; */
   margin-top: 30px;
 `;
 
@@ -45,26 +45,25 @@ export const Input = styled.input`
   border: none;
   border-bottom: 1px solid #e2e0e0;
   font-size: 18px;
+  padding: 10px;
   ::placeholder {
     color: #e1e1e1;
     font-size: 13px;
   }
 `;
 
-export const InputWrap = styled.div`
+export const InputTitle = styled.div`
+  font-size: 17px;
   width: 500px;
   padding: 16px;
   margin-top: 8px;
-  margin-left: 150px;
   background-color: white;
   border: 1px solid #e2e0e0;
   border: none;
+  text-align: left;
 `;
 
 //* Btn Part
-export const ErrorMessgeWrap = styled.div`
-  margin-top: 50px;
-`;
 
 export const ButtonSign = styled.section`
   margin-top: 50px;
@@ -73,6 +72,7 @@ export const ButtonSign = styled.section`
 
 export const Button = styled.button`
   width: 300px;
+  height: 40px;
   margin-top: 10px;
   font-weight: 700;
   cursor: pointer;
@@ -88,7 +88,7 @@ export const SignUpBtn = styled(Button)`
 `;
 export const SignUpSubmit = styled(Button)`
   width: 300px;
-  margin-top: 10px;
+  margin-top: 40px;
   font-weight: 700;
   font-size: 15px;
   background-color: #ffc226;
@@ -102,8 +102,13 @@ export const SignUpSubmit = styled(Button)`
     color: #fff;
   }
 `;
+export const ErrorMessgeWrap = styled.div`
+  text-align: left;
+  color: #ef0000;
+  font-size: 12px;
+  margin-top: 5px;
+`;
 
-export const InputTitle = styled.div``;
 export const PasswordWrap = styled.div``;
 export const ContentWrap = styled.div``;
 export const EmaillWrap = styled.div``;
