@@ -111,7 +111,9 @@ export default function Modal() {
       const response = await updateDoc(docRef, {
         nickname: updateProfileInput,
       });
-    } catch (event) {}
+    } catch (event) {
+      console.log('error');
+    }
     setReadOnly(true);
   };
 
@@ -134,7 +136,11 @@ export default function Modal() {
       <Container>
         <ProfileImageContainer>
           <label htmlFor='imgInput'>
-            <img src={photoURL} id='profileView' />
+            <img
+              src={photoURL}
+              id='profileView'
+              style={{ width: '200px', height: '200px', objectFit: 'cover' }}
+            />
             <input
               style={{ display: 'none' }}
               type='file'

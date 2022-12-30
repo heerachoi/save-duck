@@ -67,5 +67,5 @@ export async function upload(file, currentUser, setLoading) {
   updateProfile(currentUser, { photoURL });
 
   setLoading(false);
-  alert('Uploaded file!');
+  alert('프로필 이미지가 변경되었습니다.');
 }
