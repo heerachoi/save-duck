@@ -48,12 +48,12 @@ const ShoppingList = ({ year, month, date }) => {
   const [check, setCheck] = useState(false);
   // useEffect(() => {}, [itemList, checkedItemList]); // 댓글 등록 버튼 - 클릭시 댓글 리스트에 작성한 댓글 추가
 
-  const shoppingListUnchecked = async () => {
+  const shoppingListUnchecked = () => {
     console.log('current user in shopping list');
     console.log(currentUser);
 
     const usersCollectionRef = collection(db, dateToString);
-    const q = await query(usersCollectionRef, where('userId', '==', currentUser.uid));
+    const q = query(usersCollectionRef, where('userId', '==', currentUser.uid));
     // const q = query(collection(db, dateToString));
     // const q = query(
     //   collection(db, dateToString),
@@ -108,8 +108,8 @@ const ShoppingList = ({ year, month, date }) => {
     shoppingListUnchecked();
   }, [dateToString]);
 
-  const addItem = async (newShoppingItem) => {
-    const docRef = await addDoc(collection(db, dateToString), {
+  const addItem = (newShoppingItem) => {
+    const docRef = addDoc(collection(db, dateToString), {
       id: uuidv4(),
       date: dateToString,
       name: item,
@@ -164,8 +164,9 @@ const ShoppingList = ({ year, month, date }) => {
 
   // 아이템 값들의
   const calculateTotalPrice = async () => {
+    console.log('calculate total price currentuser');
+    console.log(currentUser);
     const usersCollectionRef = collection(db, dateToString);
-
     const q = await query(usersCollectionRef, where('userId', '==', currentUser.uid));
     let total = 0;
     let number = 0;
