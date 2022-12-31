@@ -10,11 +10,11 @@ import ShoppingList from '../shoppingList/ShoppingList.jsx';
 
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { HomeContainer, CalendarContainer, CalendarHead, SevenColGrid, HeadDay, CalendarBody, MonthNavigation, MonthArrow, StyledDay, CurrentMonth, CurrentYear, Dot } from './Calendar.js';
-import { useAuth, upload } from '../../firebase.js';
+import { useAuth } from '../../firebase.js';
 
 const Calendar = ({ startingDate }) => {
   const currentUser = useAuth();
-  console.log(currentUser);
+  // console.log(currentUser);
 
   // 오늘의 날짜
   const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
@@ -158,7 +158,7 @@ const Calendar = ({ startingDate }) => {
   const dateToString = '' + currentYear + currentMonth + viewDate;
 
   const containShoppingList = (date) => {
-    const q = query(collection(db, dateToString), where('isChecked', '==', false));
+    const q = query(collection(db, dateToString), where('userId', '==', currentUser.uid));
 
     getDocs(q).then((querySnapshop) => {
       const firestoreShoppingItemList = [];
@@ -170,6 +170,7 @@ const Calendar = ({ startingDate }) => {
           isChecked: doc.data().isChecked,
           price: doc.data().price,
           modify: doc.data().modify,
+          userId: doc.data().userId,
         });
       });
     });

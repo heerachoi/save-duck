@@ -12,7 +12,7 @@ import { ListItem, CheckBox, ItemName, ItemPrice, PencilIcon, XIcon, ItemPriceCo
 
 const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTotalPrice }) => {
   const time = moment().format('YYYY-MM-DD-hh:mm');
-  const { id, name, date, price, modify, isChecked, savetime } = item;
+  const { id, name, date, price, modify, isChecked, savetime, userId } = item;
   const [readOnly, setReadOnly] = useState(true);
   const [updateItemInput, setUpdateItemInput] = useState(name);
   const [updateItemPrice, setUpdateItemPrice] = useState(price);
