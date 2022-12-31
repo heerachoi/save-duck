@@ -9,6 +9,7 @@ import { faPencil, faX, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { addList, loadList } from '../../redux/modules/shoppingListActions.js';
 import ShoppingItem from './ShoppingItem.jsx';
 import moment from 'moment';
+import { useAuth } from '../../firebase.js';
 
 // import TotalPrice from '../totalPrice/TotalPrice.jsx';
 import {
@@ -31,6 +32,8 @@ import {
 } from './ShoppingList.js';
 
 const ShoppingList = ({ year, month, date }) => {
+  const currentUser = useAuth();
+
   const currentYear = year;
   const currentMonth = month + 1;
   const currentDate = date;
@@ -45,8 +48,18 @@ const ShoppingList = ({ year, month, date }) => {
   const [check, setCheck] = useState(false);
   // useEffect(() => {}, [itemList, checkedItemList]); // 댓글 등록 버튼 - 클릭시 댓글 리스트에 작성한 댓글 추가
 
-  const shoppingListUnchecked = () => {
-    const q = query(collection(db, dateToString));
+  const shoppingListUnchecked = async () => {
+    console.log('current user in shopping list');
+    console.log(currentUser);
+
+    const usersCollectionRef = collection(db, dateToString);
+    const q = await query(usersCollectionRef, where('userId', '==', currentUser.uid));
+    // const q = query(collection(db, dateToString));
+    // const q = query(
+    //   collection(db, dateToString),
+    //   where('userId', currentUser.uid)
+    // );
+    console.log(q);
     getDocs(q).then((querySnapshop) => {
       const firestoreShoppingItemList = [];
       querySnapshop.forEach((doc) => {
@@ -58,6 +71,7 @@ const ShoppingList = ({ year, month, date }) => {
           price: doc.data().price,
           modify: doc.data().modify,
           savetime: doc.data().savetime,
+          userId: doc.data().userId,
         });
       });
       setItemList(firestoreShoppingItemList);
@@ -103,6 +117,7 @@ const ShoppingList = ({ year, month, date }) => {
       price,
       modify: false,
       savetime: moment().format('YYYY-MM-DD-hh:mm'),
+      userId: currentUser.uid,
     });
     setItemList([
       ...itemList,
@@ -114,6 +129,7 @@ const ShoppingList = ({ year, month, date }) => {
         price,
         modify: false,
         savetime: moment().format('YYYY-MM-DD-hh:mm'),
+        userId: currentUser.uid,
       },
     ]);
     setItem('');
@@ -147,8 +163,10 @@ const ShoppingList = ({ year, month, date }) => {
   };
 
   // 아이템 값들의
-  const calculateTotalPrice = () => {
-    const q = query(collection(db, dateToString));
+  const calculateTotalPrice = async () => {
+    const usersCollectionRef = collection(db, dateToString);
+
+    const q = await query(usersCollectionRef, where('userId', '==', currentUser.uid));
     let total = 0;
     let number = 0;
     getDocs(q).then((querySnapshop) => {
