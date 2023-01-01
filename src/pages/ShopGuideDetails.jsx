@@ -50,12 +50,13 @@ const ShopGuideDetails = ({ collectionName }) => {
   // 댓글 등록 기능 - 버튼 클릭 시 DB 컬렉션에 댓글 내용 추가
 
   const addItem = async (newComment) => {
-    const docRef = await addDoc(collection(db, collectionName), {
+    const docRef = await addDoc(collection(db, 'commentList'), {
       id: uuidv4(),
       comment,
       savetime: time,
       modify: false,
     });
+    console.log(docRef);
     setCommentItemList([
       {
         id: uuidv4(),
@@ -71,7 +72,7 @@ const ShopGuideDetails = ({ collectionName }) => {
 
   const syncCommentListStateWithFirestore = () => {
     const q = query(
-      collection(db, collectionName),
+      collection(db, 'commentList'),
       // where('userId', '==', currentUser),
       orderBy('savetime', 'desc')
     );
@@ -110,7 +111,7 @@ const ShopGuideDetails = ({ collectionName }) => {
             type='text'
             max-length='10'
             id='comment'
-            placeholder='댓글을 입력해주세요.'
+            placeholder='댓글을 입력해주세요. (50자 이내)'
             value={comment}
             onChange={CommentChangeHandler}
           />
