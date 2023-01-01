@@ -34,6 +34,7 @@ const ShopGuideDetailsComment = ({
 
   // 댓글 입력시 - state 반영하기
   const onChangeComment = (event) => {
+    console.log(event.target.value);
     const { value } = event.target;
 
     setUpdateCommentInput(value);
@@ -41,7 +42,7 @@ const ShopGuideDetailsComment = ({
 
   // 댓글 수정 -> 완료 모드 토글링
   const updateCommentModify = async (id) => {
-    const docRef = doc(db, collectionName, item.id);
+    const docRef = doc(db, 'commentList', item.id);
     // console.log(docRef);
     try {
       const response = await updateDoc(docRef, { modify: true });
@@ -57,7 +58,7 @@ const ShopGuideDetailsComment = ({
 
   // 댓글 수정 완료하기
   const updateCompleteButtonHandler = async (id) => {
-    const docRef = doc(db, collectionName, id);
+    const docRef = doc(db, 'commentList', id);
     try {
       await updateDoc(docRef, {
         modify: false,
@@ -87,7 +88,7 @@ const ShopGuideDetailsComment = ({
     console.log(removedComment);
 
     if (window.confirm('정말 삭제하시겠습니까?')) {
-      const commentRef = doc(db, collectionName, removedComment);
+      const commentRef = doc(db, 'commentList', removedComment);
       await deleteDoc(commentRef);
       syncCommentListStateWithFirestore();
     } else {

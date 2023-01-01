@@ -22,7 +22,7 @@ const ShopGuideDetailsCommentList = ({
   // 댓글 불러오기
   const syncCommentListStateWithFirestore = () => {
     const q = query(
-      collection(db, collectionName),
+      collection(db, 'commentList'),
       // where('userId', '==', currentUser),
       !orderBy('savetime', 'desc')
     );
