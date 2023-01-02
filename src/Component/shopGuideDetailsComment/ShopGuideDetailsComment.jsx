@@ -12,9 +12,13 @@ import {
   StCommentContentSaveTime,
   StCommentContentsEditButton,
   StCommentContentsDeleteButton,
-} from '../shopGuideDetailsComment/ShopGuideDetailsComment.js';
+} from './ShopGuideDetailsComment.js';
 
-const ShopGuideDetailsComment = ({ item, syncCommentListStateWithFirestore, collectionName }) => {
+const ShopGuideDetailsComment = ({
+  item,
+  syncCommentListStateWithFirestore,
+  collectionName,
+}) => {
   const time = moment().format('YYYY-MM-DD-hh:mm');
   const { id, comment, savetime, modify } = item;
   const [readOnly, setReadOnly] = useState(true);
@@ -30,13 +34,15 @@ const ShopGuideDetailsComment = ({ item, syncCommentListStateWithFirestore, coll
 
   // 댓글 입력시 - state 반영하기
   const onChangeComment = (event) => {
+    console.log(event.target.value);
     const { value } = event.target;
+
     setUpdateCommentInput(value);
   };
 
   // 댓글 수정 -> 완료 모드 토글링
   const updateCommentModify = async (id) => {
-    const docRef = doc(db, collectionName, item.id);
+    const docRef = doc(db, 'commentList', item.id);
     // console.log(docRef);
     try {
       const response = await updateDoc(docRef, { modify: true });
@@ -44,7 +50,7 @@ const ShopGuideDetailsComment = ({ item, syncCommentListStateWithFirestore, coll
     } catch (event) {
       console.log(event);
     } finally {
-      console.log('end');
+      console.log('edit mode toggled');
       modifyCommentButtonHandler(id);
     }
     syncCommentListStateWithFirestore();
@@ -52,9 +58,9 @@ const ShopGuideDetailsComment = ({ item, syncCommentListStateWithFirestore, coll
 
   // 댓글 수정 완료하기
   const updateCompleteButtonHandler = async (id) => {
-    const docRef = doc(db, collectionName, id);
+    const docRef = doc(db, 'commentList', id);
     try {
-      const response = await updateDoc(docRef, {
+      await updateDoc(docRef, {
         modify: false,
         savetime: time,
         comment: updateCommentInput,
@@ -63,7 +69,7 @@ const ShopGuideDetailsComment = ({ item, syncCommentListStateWithFirestore, coll
     } catch (event) {
       console.log(event);
     } finally {
-      console.log('end');
+      console.log('comment updated');
       modifyCommentButtonHandler(id);
     }
     syncCommentListStateWithFirestore();
@@ -82,7 +88,7 @@ const ShopGuideDetailsComment = ({ item, syncCommentListStateWithFirestore, coll
     console.log(removedComment);
 
     if (window.confirm('정말 삭제하시겠습니까?')) {
-      const commentRef = doc(db, collectionName, removedComment);
+      const commentRef = doc(db, 'commentList', removedComment);
       await deleteDoc(commentRef);
       syncCommentListStateWithFirestore();
     } else {
@@ -95,7 +101,13 @@ const ShopGuideDetailsComment = ({ item, syncCommentListStateWithFirestore, coll
       <StCommentListContainer key={id}>
         <StCommentProfileImage src='images/default_profile.webp' alt='' />
         <StCommentUserName>사용자 닉네임</StCommentUserName>
-        <StCommentContentInput name='comment' readOnly={readOnly} maxlength='200' defaultValue={comment} onChange={onChangeComment} />
+        <StCommentContentInput
+          name='comment'
+          readOnly={readOnly}
+          maxlength='200'
+          defaultValue={comment}
+          onChange={onChangeComment}
+        />
 
         {/* <span>{item.comment}</span> */}
         <StCommentContentSaveTime>{savetime}</StCommentContentSaveTime>

@@ -1,7 +1,7 @@
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 
-const MODIFY_PROFILE = "MODIFY_PROFILE";
-const UPDATE_PROFILE = "UPDATE_PROFILE";
+const MODIFY_PROFILE = 'MODIFY_PROFILE';
+const UPDATE_PROFILE = 'UPDATE_PROFILE';
 
 //Action Creator
 
@@ -24,7 +24,7 @@ export const updateProfile = (payload) => {
 const initialState = [
   {
     id: uuidv4(),
-    profile: "닉네임 없음",
+    profile: '닉네임 없음',
     modify: false,
   },
 ];
@@ -50,6 +50,7 @@ const profileName = (state = initialState, action) => {
           return {
             ...item,
             comment: action.payload.comment,
+            // profile: action.payload.nickName,
           };
         } else {
           return item;

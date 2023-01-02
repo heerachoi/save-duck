@@ -19,9 +19,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { authService } from '../../firebase.js';
 import { ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../firebase.js';
-import { getFirestore, collection, addDoc, updateDoc, setDoc, doc, getDocs, query, orderBy, onSnapshot } from 'firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  updateDoc,
+  setDoc,
+  doc,
+  getDocs,
+  query,
+  orderBy,
+  onSnapshot,
+} from 'firebase/firestore';
 import { db } from '../../firebase';
-import { UserAuth } from '../../context/AuthContext.js';
 import { useNavigate } from 'react-router-dom';
 
 export default function Modal() {
@@ -31,7 +41,6 @@ export default function Modal() {
   const [photoURL, setPhotoURL] = useState('blankProfiles.png');
   const [updateProfileInput, setUpdateProfileInput] = useState('');
   const [updateNickName, setUpdateNickName] = useState('');
-  const { user, logout } = UserAuth();
 
   const navigate = useNavigate();
 
@@ -102,20 +111,24 @@ export default function Modal() {
       const response = await updateDoc(docRef, {
         nickname: updateProfileInput,
       });
-    } catch (event) {}
+    } catch (event) {
+      console.log('error');
+    }
     setReadOnly(true);
   };
 
   const onLogOutClick = async () => {
     try {
-      await logout();
+      authService.signOut();
+      // await logout();
       navigate('/');
-      alert('로구아웃 되었습니다.');
+      window.location.href = '/';
+      alert('로그아웃 되었습니다.');
     } catch (e) {
       console.log(e.message);
     }
-    authService.signOut();
-    window.location.href = '/';
+    // authService.signOut();
+    // window.location.href = '/';
   };
 
   return (
@@ -123,8 +136,18 @@ export default function Modal() {
       <Container>
         <ProfileImageContainer>
           <label htmlFor='imgInput'>
-            <img src={photoURL} id='profileView' />
-            <input style={{ display: 'none' }} type='file' id='imgInput' accept='image/*' onChange={handleChange} />
+            <img
+              src={photoURL}
+              id='profileView'
+              style={{ width: '200px', height: '200px', objectFit: 'cover' }}
+            />
+            <input
+              style={{ display: 'none' }}
+              type='file'
+              id='imgInput'
+              accept='image/*'
+              onChange={handleChange}
+            />
           </label>
         </ProfileImageContainer>
         <CameraContainer>
@@ -134,7 +157,11 @@ export default function Modal() {
           {profileName.map((item) => {
             return (
               <StyledDivBox key={item.id}>
-                <StyledProfileInput readOnly={readOnly} onChange={onChangeProfile} defaultValue={item.profile} />
+                <StyledProfileInput
+                  readOnly={readOnly}
+                  onChange={onChangeProfile}
+                  defaultValue={item.profile}
+                />
                 <StyledVector
                   onClick={() => {
                     modifyProfileButtonHandler(item.id);
@@ -155,11 +182,16 @@ export default function Modal() {
               </StyledDivBox>
             );
           })}
-          <StyledProfileButton disabled={loading || !photo} onClick={handleClick}>
+          <StyledProfileButton
+            disabled={loading || !photo}
+            onClick={handleClick}
+          >
             프로필변경
           </StyledProfileButton>
         </StyledProfileForm>
-        <StyledLogoutButton onClick={onLogOutClick}>로그아웃</StyledLogoutButton>
+        <StyledLogoutButton onClick={onLogOutClick}>
+          로그아웃
+        </StyledLogoutButton>
       </Container>
     </div>
   );

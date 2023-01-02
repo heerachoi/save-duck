@@ -8,14 +8,14 @@ import {
   Menu,
   MenuItem,
   SignUp,
-} from "./NavBar";
-import { useAuth, upload } from "../../firebase.js";
-import Modal from "../modal/Modal.jsx";
-import { useEffect, useState, useRef } from "react";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../firebase";
-import { v4 as uuidv4 } from "uuid";
-import { current } from "@reduxjs/toolkit";
+} from './NavBar';
+import { useAuth, upload } from '../../firebase.js';
+import Modal from '../modal/Modal.jsx';
+import { useEffect, useState, useRef } from 'react';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../../firebase';
+import { v4 as uuidv4 } from 'uuid';
+import { current } from '@reduxjs/toolkit';
 
 const Navbar = () => {
   const modalRef = useRef();
@@ -33,10 +33,10 @@ const Navbar = () => {
       )
         setModal(false);
     };
-    window.addEventListener("click", modalCloseHandler);
+    window.addEventListener('click', modalCloseHandler);
 
     return () => {
-      window.removeEventListener("click", modalCloseHandler);
+      window.removeEventListener('click', modalCloseHandler);
     };
   }, [modal]);
 
@@ -46,7 +46,7 @@ const Navbar = () => {
     try {
       await addDoc(collection(db, currentUser.uid), {
         id: currentUser.uid,
-        nickName: "",
+        nickName: '',
       });
     } catch (err) {
       alert(err);
@@ -54,7 +54,7 @@ const Navbar = () => {
   };
 
   return (
-    <>
+    <div>
       <Outlet />
       <StyledSaveDuckHome>
         {/* 왼쪽영역 */}
@@ -97,7 +97,7 @@ const Navbar = () => {
           </SignUp>
         </RightSection>
       </StyledSaveDuckHome>
-    </>
+    </div>
   );
 };
 

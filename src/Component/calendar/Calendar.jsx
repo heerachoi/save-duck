@@ -10,13 +10,15 @@ import ShoppingList from '../shoppingList/ShoppingList.jsx';
 
 import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { HomeContainer, CalendarContainer, CalendarHead, SevenColGrid, HeadDay, CalendarBody, MonthNavigation, MonthArrow, StyledDay, CurrentMonth, CurrentYear, Dot } from './Calendar.js';
-import { useAuth, upload } from '../../firebase.js';
+import { useAuth } from '../../firebase.js';
 
 const Calendar = ({ startingDate }) => {
   const currentUser = useAuth();
+  console.log('user in calendar');
   console.log(currentUser);
-  const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
+  // 오늘의 날짜
+  const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
   const MONTHS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
 
   const date = new Date(); // Thu Dec 22 2022 01:04:56 GMT+0900 (한국 표준시)
@@ -26,13 +28,7 @@ const Calendar = ({ startingDate }) => {
 
   const [currentMonth, setCurrentMonth] = useState(startingDate.getMonth());
   const [currentYear, setCurrentYear] = useState(startingDate.getFullYear());
-
   const [currentShoppingList, setShoppingList] = useState(<ShoppingList year={viewYear} month={viewMonth} date={viewDate} />);
-
-  const ShoppingListTag = (year, month, date) => {
-    // console.log('Different date clicked : ' + year + ' ' + (month + 1) + ' ' + date);
-    return setShoppingList(<ShoppingList year={year} month={month} date={date} />);
-  };
 
   const prevLast = new Date(viewYear, viewMonth, 0); // Wed Nov 30 2022 00:00:00 GMT+0900 (한국 표준시)
   const thisLast = new Date(viewYear, viewMonth, 0); // Sat Dec 31 2022 00:00:00 GMT+0900 (한국 표준시)
@@ -45,6 +41,10 @@ const Calendar = ({ startingDate }) => {
 
   const prevDays = [];
   const nextDays = [];
+
+  const ShoppingListTag = (year, month, date) => {
+    return setShoppingList(<ShoppingList year={year} month={month} date={date} />);
+  };
 
   if (PLDay !== 6) {
     for (let i = 0; i < PLDay + 1; i++) {
@@ -159,7 +159,10 @@ const Calendar = ({ startingDate }) => {
   const dateToString = '' + currentYear + currentMonth + viewDate;
 
   const containShoppingList = (date) => {
-    const q = query(collection(db, dateToString), where('isChecked', '==', false));
+    const q = query(
+      collection(db, dateToString)
+      // where('userId', '==', currentUser)
+    );
 
     getDocs(q).then((querySnapshop) => {
       const firestoreShoppingItemList = [];
@@ -171,6 +174,7 @@ const Calendar = ({ startingDate }) => {
           isChecked: doc.data().isChecked,
           price: doc.data().price,
           modify: doc.data().modify,
+          userId: doc.data().userId,
         });
       });
     });
