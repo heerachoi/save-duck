@@ -1,13 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ShopGuideDetailsComment from '../shopGuideDetailsComment/ShopGuideDetailsComment.jsx';
 import { StCommentListContainer } from './ShopGuideDetailsCommentList.js';
-import {
-  collection,
-  getDocs,
-  query,
-  orderBy,
-  // where,
-} from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, where } from 'firebase/firestore';
 import { db } from '../../firebase';
 
 const ShopGuideDetailsCommentList = ({
@@ -20,7 +14,7 @@ const ShopGuideDetailsCommentList = ({
   const syncCommentListStateWithFirestore = () => {
     const q = query(
       collection(db, 'commentList'),
-      // where('userId', '==', currentUser),
+      // where('postingId', '==', CurrentPostingId),
       !orderBy('savetime', 'desc')
     );
 

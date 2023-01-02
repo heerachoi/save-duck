@@ -7,7 +7,7 @@ import moment from 'moment';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import { db } from '../firebase';
+import { db, useAuth } from '../firebase';
 import {
   getFirestore,
   collection,
@@ -22,24 +22,29 @@ const ShopGuideDetails = ({ postingId }) => {
   const time = moment().format('YYYY-MM-DD-hh:mm');
   const [comment, setComment] = useState('');
   const [commentItemtList, setCommentItemList] = useState([]);
+  const currentUser = useAuth();
   const dispatch = useDispatch();
 
+  console.log(currentUser);
+
   // 댓글 등록 기능 - 버튼 클릭시 댓글 리스트에 작성한 댓글 추가
-  const commentSubmitHandler = (event) => {
-    event.preventDefault();
-    console.log(event.target.value);
-    if (window.confirm('댓글을 등록하시겠습니까?')) {
-      const newComment = {
-        id: uuidv4(),
-        comment,
-        savetime: time,
-        modify: false,
-      };
-      dispatch(addComment(newComment));
-      // addItem();
-      setComment('');
-    }
-  };
+  // const commentSubmitHandler = (event) => {
+  //   event.preventDefault();
+  //   console.log(event.target.value);
+  //   if (window.confirm('댓글을 등록하시겠습니까?')) {
+  //     const newComment = {
+  //       id: uuidv4(),
+  //       comment,
+  //       savetime: time,
+  //       modify: false,
+  //       postingId: postingId,
+  //       creatorId: currentUser.uid,
+  //     };
+  //     dispatch(addComment(newComment));
+  //     // addItem();
+  //     setComment('');
+  //   }
+  // };
 
   // 댓글 작성 인풋창 내용 입력 시 state 업데이트
   const CommentChangeHandler = (event) => {
@@ -54,25 +59,44 @@ const ShopGuideDetails = ({ postingId }) => {
 
   // 댓글 등록 기능 - 버튼 클릭 시 DB 컬렉션에 댓글 내용 추가
 
-  const addItem = async (newComment) => {
-    const docRef = await addDoc(collection(db, 'commentList'), {
+  // const addItem = async (newComment) => {
+  //   const docRef = await addDoc(collection(db, 'commentList'), {
+  //     id: uuidv4(),
+  //     comment,
+  //     savetime: time,
+  //     modify: false,
+  //     postingId: postingId,
+  //     creatorId: currentUser.uid,
+  //   });
+  //   console.log(docRef);
+  //   setCommentItemList([
+  //     {
+  //       id: uuidv4(),
+  //       comment,
+  //       savetime: time,
+  //       modify: false,
+  //       postingId: postingId,
+  //     },
+  //     ...commentItemtList,
+  //   ]);
+  // };
+
+  //  수정 함수
+
+  const commentSubmitHandler = async (event) => {
+    event.preventDefault();
+
+    await addDoc(collection(db, 'commentList'), {
       id: uuidv4(),
       comment,
       savetime: time,
       modify: false,
       postingId: postingId,
+      creatorId: currentUser.uid,
     });
-    console.log(docRef);
-    setCommentItemList([
-      {
-        id: uuidv4(),
-        comment,
-        savetime: time,
-        modify: false,
-        postingId: postingId,
-      },
-      ...commentItemtList,
-    ]);
+    // console.log(docRef);
+
+    setComment('');
   };
 
   // 댓글 불러오기
@@ -94,6 +118,7 @@ const ShopGuideDetails = ({ postingId }) => {
           userId: doc.data().userId,
           modify: doc.data().modify,
           savetime: doc.data().savetime,
+          creatorid: currentUser.uid,
           postingId: doc.data().postingId,
         });
       });
@@ -123,7 +148,8 @@ const ShopGuideDetails = ({ postingId }) => {
             value={comment}
             onChange={CommentChangeHandler}
           />
-          <StCommentSaveButton onClick={addItem}>댓글 등록</StCommentSaveButton>
+          {/* <StCommentSaveButton onClick={addItem}>댓글 등록</StCommentSaveButton> */}
+          <StCommentSaveButton type='submit'>댓글 등록</StCommentSaveButton>
         </StCommentForm>
       </StCommentContainer>
       {/* 댓글 리스트 */}
