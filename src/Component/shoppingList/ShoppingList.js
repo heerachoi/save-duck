@@ -24,7 +24,6 @@ export const DateUnderLine = styled.div`
 
 export const ShoppingListTitle = styled.div`
   font-weight: 700;
-  cursor: pointer;
   margin-bottom: 15px;
 `;
 
