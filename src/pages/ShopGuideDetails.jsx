@@ -43,7 +43,13 @@ const ShopGuideDetails = ({ collectionName }) => {
 
   // 댓글 작성 인풋창 내용 입력 시 state 업데이트
   const CommentChangeHandler = (event) => {
-    setComment(event.target.value);
+    const currentComment = event.target.value;
+    if (currentComment.length > 100) {
+      alert('100자 이내로 입력해주세요.');
+      return;
+    } else {
+      setComment(event.target.value);
+    }
   };
 
   // 회수 수정
@@ -109,9 +115,9 @@ const ShopGuideDetails = ({ collectionName }) => {
         <StCommentForm onSubmit={commentSubmitHandler}>
           <StCommentInput
             type='text'
-            max-length='10'
+            // maxLength={100}
             id='comment'
-            placeholder='댓글을 입력해주세요. (50자 이내)'
+            placeholder='댓글을 입력해주세요. (100자 이내)'
             value={comment}
             onChange={CommentChangeHandler}
           />
