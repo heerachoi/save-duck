@@ -7,7 +7,7 @@ import moment from 'moment';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import { db } from '../firebase';
+import { db, useAuth } from '../firebase';
 import {
   getFirestore,
   collection,
@@ -17,35 +17,34 @@ import {
   orderBy,
 } from 'firebase/firestore';
 
-const ShopGuideDetails = ({ collectionName, prevComment }) => {
+const ShopGuideDetails = ({ postingId }) => {
   // 댓글 기본 state
   const time = moment().format('YYYY-MM-DD-hh:mm');
   const [comment, setComment] = useState('');
   const [commentItemtList, setCommentItemList] = useState([]);
+  const currentUser = useAuth();
   const dispatch = useDispatch();
 
+  console.log(currentUser);
+
   // 댓글 등록 기능 - 버튼 클릭시 댓글 리스트에 작성한 댓글 추가
-  const commentSubmitHandler = (event) => {
-    event.preventDefault();
-    console.log(event.target.value);
-    if (window.confirm('댓글을 등록하시겠습니까?')) {
-      const newComment = {
-        id: uuidv4(),
-        comment,
-        savetime: time,
-        modify: false,
-      };
-
-      // dispatch는 어떤때에 쓰나요?
-      // dispatch는 action을 reducer로 보내는 역할을 합니다.
-      // action은 reducer로 보내는 데이터를 의미합니다.
-      // reducer는 action을 받아서 state를 업데이트하는 역할을 합니다.
-
-      dispatch(addComment(newComment));
-      // addItem();
-      setComment('');
-    }
-  };
+  // const commentSubmitHandler = (event) => {
+  //   event.preventDefault();
+  //   console.log(event.target.value);
+  //   if (window.confirm('댓글을 등록하시겠습니까?')) {
+  //     const newComment = {
+  //       id: uuidv4(),
+  //       comment,
+  //       savetime: time,
+  //       modify: false,
+  //       postingId: postingId,
+  //       creatorId: currentUser.uid,
+  //     };
+  //     dispatch(addComment(newComment));
+  //     // addItem();
+  //     setComment('');
+  //   }
+  // };
 
   // 댓글 작성 인풋창 내용 입력 시 state 업데이트
   const CommentChangeHandler = (event) => {
@@ -58,32 +57,52 @@ const ShopGuideDetails = ({ collectionName, prevComment }) => {
     }
   };
 
-  // 회수 수정
   // 댓글 등록 기능 - 버튼 클릭 시 DB 컬렉션에 댓글 내용 추가
 
-  const addItem = async (newComment) => {
-    const docRef = await addDoc(collection(db, collectionName), {
+  // const addItem = async (newComment) => {
+  //   const docRef = await addDoc(collection(db, 'commentList'), {
+  //     id: uuidv4(),
+  //     comment,
+  //     savetime: time,
+  //     modify: false,
+  //     postingId: postingId,
+  //     creatorId: currentUser.uid,
+  //   });
+  //   console.log(docRef);
+  //   setCommentItemList([
+  //     {
+  //       id: uuidv4(),
+  //       comment,
+  //       savetime: time,
+  //       modify: false,
+  //       postingId: postingId,
+  //     },
+  //     ...commentItemtList,
+  //   ]);
+  // };
+
+  //  수정 함수
+
+  const commentSubmitHandler = async (event) => {
+    event.preventDefault();
+
+    await addDoc(collection(db, 'commentList'), {
       id: uuidv4(),
       comment,
       savetime: time,
       modify: false,
+      postingId: postingId,
+      creatorId: currentUser.uid,
     });
-    console.log(docRef);
-    setCommentItemList([
-      {
-        id: uuidv4(),
-        comment,
-        savetime: time,
-        modify: false,
-      },
-      ...commentItemtList,
-    ]);
+    // console.log(docRef);
+
+    setComment('');
   };
 
   // 댓글 불러오기
   const syncCommentListStateWithFirestore = () => {
     const q = query(
-      collection(db, collectionName),
+      collection(db, 'commentList'),
       // where('userId', '==', currentUser),
       orderBy('savetime', 'desc')
     );
@@ -98,6 +117,8 @@ const ShopGuideDetails = ({ collectionName, prevComment }) => {
           userId: doc.data().userId,
           modify: doc.data().modify,
           savetime: doc.data().savetime,
+          creatorid: currentUser.uid,
+          postingId: doc.data().postingId,
         });
       });
       setCommentItemList(firestoreTodoItemList);
@@ -126,14 +147,14 @@ const ShopGuideDetails = ({ collectionName, prevComment }) => {
             value={comment}
             onChange={CommentChangeHandler}
           />
-          <StCommentSaveButton onClick={addItem}>댓글 등록</StCommentSaveButton>
+          {/* <StCommentSaveButton onClick={addItem}>댓글 등록</StCommentSaveButton> */}
+          <StCommentSaveButton type='submit'>댓글 등록</StCommentSaveButton>
         </StCommentForm>
       </StCommentContainer>
       {/* 댓글 리스트 */}
       <div>
         <ul>
           <ShopGuideDetailsCommentList
-            collectionName={collectionName}
             commentItemtList={commentItemtList}
             setCommentItemList={setCommentItemList}
             syncCommentListStateWithFirestore={

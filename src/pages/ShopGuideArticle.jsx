@@ -34,7 +34,7 @@ const ShopGuideArticle = ({ item }) => {
   const [posting, setPosting] = useState([]);
   const currentUser = useAuth();
 
-  const collectionName = NavId.id;
+  const postingId = NavId.id;
 
   // 게시글 삭제 기능
   const deleteButtonClickHandler = async () => {
@@ -129,7 +129,7 @@ const ShopGuideArticle = ({ item }) => {
           }
         })}
       </StShopDetailsContainer>
-      <ShopGuideDetails collectionName={collectionName} />
+      <ShopGuideDetails postingId={postingId} />
     </div>
   );
 };

@@ -24,6 +24,7 @@ export const deleteComment = (payload) => {
   };
 };
 
+// comment 수정모드 토글링 액션
 export const modifyModeComment = (payload) => {
   return {
     type: MODIFY_MODE_COMMENT,
@@ -31,6 +32,7 @@ export const modifyModeComment = (payload) => {
   };
 };
 
+// comment 수정 액션
 export const updateComment = (payload) => {
   return {
     type: UPDATE_COMMENT,

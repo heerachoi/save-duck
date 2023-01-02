@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import ShopGuideDetailsComment from '../shopGuideDetailsComment/ShopGuideDetailsComment.jsx';
 import { StCommentListContainer } from './ShopGuideDetailsCommentList.js';
-import {
-  collection,
-  getDocs,
-  query,
-  orderBy,
-  // where,
-} from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, where } from 'firebase/firestore';
 import { db } from '../../firebase';
 
 const ShopGuideDetailsCommentList = ({
-  collectionName,
+  // collectionName,
   commentItemtList,
   setCommentItemList,
   comment,
@@ -19,8 +13,8 @@ const ShopGuideDetailsCommentList = ({
   // 댓글 불러오기 - DB에서 이전 댓글 리스트 불러오기
   const syncCommentListStateWithFirestore = () => {
     const q = query(
-      collection(db, collectionName),
-      // where('userId', '==', currentUser),
+      collection(db, 'commentList'),
+      // where('postingId', '==', CurrentPostingId),
       !orderBy('savetime', 'desc')
     );
 
@@ -39,9 +33,9 @@ const ShopGuideDetailsCommentList = ({
     });
   };
 
-  useEffect(() => {
-    syncCommentListStateWithFirestore();
-  }, []);
+  // useEffect(() => {
+  //   syncCommentListStateWithFirestore();
+  // }, []);
 
   return (
     <StCommentListContainer>
@@ -53,7 +47,7 @@ const ShopGuideDetailsCommentList = ({
             syncCommentListStateWithFirestore={
               syncCommentListStateWithFirestore
             }
-            collectionName={collectionName}
+            // collectionName={collectionName}
           />
         );
       })}
