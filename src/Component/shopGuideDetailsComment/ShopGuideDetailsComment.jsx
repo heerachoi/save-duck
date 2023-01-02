@@ -23,9 +23,6 @@ const ShopGuideDetailsComment = ({
   const { id, comment, savetime, modify } = item;
   const [readOnly, setReadOnly] = useState(true);
   const [updateCommentInput, setUpdateCommentInput] = useState(comment);
-  // 댓글 수정 취소를 위한 state (이전, 이후 댓글 저장)
-  // const [originComment, setNewComment] = useState(comment);
-
   const dispatch = useDispatch();
 
   // 댓글 수정 -> 완료 모드 토글링 state에 반영하기
@@ -36,9 +33,7 @@ const ShopGuideDetailsComment = ({
 
   // 댓글 입력시 - state 반영하기
   const onChangeComment = (event) => {
-    // console.log(event.target.value);
     const { value } = event.target;
-    // setNewComment(value);
     setUpdateCommentInput(value);
   };
 

@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import ShopGuideDetailsComment from '../shopGuideDetailsComment/ShopGuideDetailsComment.jsx';
 import { StCommentListContainer } from './ShopGuideDetailsCommentList.js';
 import { collection, getDocs, query, orderBy, where } from 'firebase/firestore';
-import { db } from '../../firebase';
+import { db, useAuth } from '../../firebase';
 
 const ShopGuideDetailsCommentList = ({
   // collectionName,
   commentItemtList,
   setCommentItemList,
   comment,
+  postingId,
 }) => {
+  const currentUser = useAuth();
+
+  console.log(postingId);
+
   // 댓글 불러오기 - DB에서 이전 댓글 리스트 불러오기
   const syncCommentListStateWithFirestore = () => {
     const q = query(
@@ -27,6 +32,7 @@ const ShopGuideDetailsCommentList = ({
           userId: doc.data().userId,
           savetime: doc.data().savetime,
           modify: doc.data().modify,
+          postingId: doc.data().postingId,
         });
       });
       setCommentItemList(firestoreTodoItemList);
@@ -40,16 +46,17 @@ const ShopGuideDetailsCommentList = ({
   return (
     <StCommentListContainer>
       {commentItemtList.map((item) => {
-        return (
-          <ShopGuideDetailsComment
-            key={item.id}
-            item={item}
-            syncCommentListStateWithFirestore={
-              syncCommentListStateWithFirestore
-            }
-            // collectionName={collectionName}
-          />
-        );
+        if (postingId === item.postingId) {
+          return (
+            <ShopGuideDetailsComment
+              key={item.id}
+              item={item}
+              syncCommentListStateWithFirestore={
+                syncCommentListStateWithFirestore
+              }
+            />
+          );
+        }
       })}
     </StCommentListContainer>
   );

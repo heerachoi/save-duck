@@ -1,21 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
 import ShopGuideDetailsCommentList from '../Component/shopGuideDetailsCommentList/ShopGuideDetailsCommentList.jsx';
-import { addComment } from '../redux/modules/comment';
 import moment from 'moment';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { db, useAuth } from '../firebase';
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  orderBy,
-} from 'firebase/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 
 const ShopGuideDetails = ({ postingId }) => {
   // 댓글 기본 state
@@ -79,6 +69,7 @@ const ShopGuideDetails = ({ postingId }) => {
       <div>
         <ul>
           <ShopGuideDetailsCommentList
+            postingId={postingId}
             commentItemtList={commentItemtList}
             setCommentItemList={setCommentItemList}
             // syncCommentListStateWithFirestore={
