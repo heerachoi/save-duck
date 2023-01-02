@@ -28,7 +28,6 @@ export const SignupContaier = styled.section`
   text-align: center;
   width: 400px;
 `;
-export const Emailform = styled.div``;
 
 //input part
 export const EmailWrap = styled.label`
@@ -104,11 +103,19 @@ export const SignUpSubmit = styled(Button)`
 `;
 export const ErrorMessgeWrap = styled.div`
   text-align: left;
-  color: #ef0000;
   font-size: 12px;
   margin-top: 5px;
 `;
-
+export const ErrorMessge = styled.span`
+  .message {
+    &.success {
+      color: green;
+    }
+    &.error {
+      color: #ff2727;
+    }
+  }
+`;
 export const PasswordWrap = styled.div``;
 export const ContentWrap = styled.div``;
 export const EmaillWrap = styled.div``;
