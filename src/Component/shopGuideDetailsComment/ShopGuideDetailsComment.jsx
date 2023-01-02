@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { modifyModeComment, updateComment } from '../../redux/modules/comment';
-import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { doc, deleteDoc, updateDoc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import {
   StCommentProfileImage,
@@ -18,7 +18,6 @@ const ShopGuideDetailsComment = ({
   item,
   syncCommentListStateWithFirestore,
   collectionName,
-  prevComment,
 }) => {
   const time = moment().format('YYYY-MM-DD-hh:mm');
   const { id, comment, savetime, modify } = item;
@@ -37,7 +36,7 @@ const ShopGuideDetailsComment = ({
 
   // 댓글 입력시 - state 반영하기
   const onChangeComment = (event) => {
-    console.log(event.target.value);
+    // console.log(event.target.value);
     const { value } = event.target;
     // setNewComment(value);
     setUpdateCommentInput(value);
@@ -45,7 +44,7 @@ const ShopGuideDetailsComment = ({
 
   // 댓글 수정 -> 완료 모드 토글링
   const updateCommentModify = async (id) => {
-    const docRef = doc(db, collectionName, item.id);
+    const docRef = doc(db, collectionName, id);
     // console.log(docRef);
     try {
       const response = await updateDoc(docRef, { modify: true });
@@ -68,22 +67,41 @@ const ShopGuideDetailsComment = ({
         savetime: time,
         comment: updateCommentInput,
       });
+      // console.log(response);
     } catch (event) {
-      console.log('error', event);
+      console.log(event);
     } finally {
       console.log('comment updated');
       modifyCommentButtonHandler(id);
       alert('수정이 완료되었습니다.');
     }
+    setUpdateCommentInput(updateCommentInput);
     syncCommentListStateWithFirestore();
     setReadOnly(true);
   };
 
   // 댓글 수정 취소하기
-  const editCancelButtonHandler = (id) => {
-    dispatch(modifyModeComment(id));
+  const editCancelButtonHandler = async (id) => {
+    const docRef = doc(db, collectionName, id);
+    // console.log(docRef.comment);
+    console.log(comment);
+    try {
+      await updateDoc(docRef, {
+        modify: false,
+        comment: comment,
+      });
+      // console.log(response);
+    } catch (event) {
+      console.log(event);
+    } finally {
+      console.log('comment update canceled');
+      modifyCommentButtonHandler(id);
+      alert('수정이 취소되었습니다.');
+    }
+    // setUpdateCommentInput(comment);
+    // dispatch(modifyModeComment(id));
+    syncCommentListStateWithFirestore();
     setReadOnly(true);
-    setUpdateCommentInput(comment);
   };
 
   // 댓글 삭제하기
