@@ -90,7 +90,7 @@ const lists = (state = initialState, action) => {
         if (item.date === action.payload) {
           return {
             ...item,
-            modify: !item.modify,
+            modify: item.modify,
           };
         } else {
           return item;

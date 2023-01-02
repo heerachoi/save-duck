@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { modifyModeComment, updateComment } from '../../redux/modules/comment';
-import { doc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { doc, deleteDoc, updateDoc, getDoc } from 'firebase/firestore';
 import { db } from '../../firebase';
 import {
   StCommentProfileImage,
@@ -12,13 +12,19 @@ import {
   StCommentContentSaveTime,
   StCommentContentsEditButton,
   StCommentContentsDeleteButton,
-} from '../shopGuideDetailsComment/ShopGuideDetailsComment.js';
+} from './ShopGuideDetailsComment.js';
 
-const ShopGuideDetailsComment = ({ item, syncCommentListStateWithFirestore, collectionName }) => {
+const ShopGuideDetailsComment = ({
+  item,
+  syncCommentListStateWithFirestore,
+  collectionName,
+}) => {
   const time = moment().format('YYYY-MM-DD-hh:mm');
   const { id, comment, savetime, modify } = item;
   const [readOnly, setReadOnly] = useState(true);
   const [updateCommentInput, setUpdateCommentInput] = useState(comment);
+  // 댓글 수정 취소를 위한 state (이전, 이후 댓글 저장)
+  // const [originComment, setNewComment] = useState(comment);
 
   const dispatch = useDispatch();
 
@@ -30,21 +36,23 @@ const ShopGuideDetailsComment = ({ item, syncCommentListStateWithFirestore, coll
 
   // 댓글 입력시 - state 반영하기
   const onChangeComment = (event) => {
+    // console.log(event.target.value);
     const { value } = event.target;
+    // setNewComment(value);
     setUpdateCommentInput(value);
   };
 
   // 댓글 수정 -> 완료 모드 토글링
   const updateCommentModify = async (id) => {
-    const docRef = doc(db, collectionName, item.id);
+    const docRef = doc(db, collectionName, id);
     // console.log(docRef);
     try {
       const response = await updateDoc(docRef, { modify: true });
       console.log(response);
     } catch (event) {
-      console.log(event);
+      console.log('error', event);
     } finally {
-      console.log('end');
+      console.log('edit mode toggled');
       modifyCommentButtonHandler(id);
     }
     syncCommentListStateWithFirestore();
@@ -54,7 +62,7 @@ const ShopGuideDetailsComment = ({ item, syncCommentListStateWithFirestore, coll
   const updateCompleteButtonHandler = async (id) => {
     const docRef = doc(db, collectionName, id);
     try {
-      const response = await updateDoc(docRef, {
+      await updateDoc(docRef, {
         modify: false,
         savetime: time,
         comment: updateCommentInput,
@@ -63,18 +71,37 @@ const ShopGuideDetailsComment = ({ item, syncCommentListStateWithFirestore, coll
     } catch (event) {
       console.log(event);
     } finally {
-      console.log('end');
+      console.log('comment updated');
       modifyCommentButtonHandler(id);
+      alert('수정이 완료되었습니다.');
     }
+    setUpdateCommentInput(updateCommentInput);
     syncCommentListStateWithFirestore();
     setReadOnly(true);
   };
 
   // 댓글 수정 취소하기
-  const editCancelButtonHandler = (id) => {
-    dispatch(modifyModeComment(id));
+  const editCancelButtonHandler = async (id) => {
+    const docRef = doc(db, collectionName, id);
+    // console.log(docRef.comment);
+    console.log(comment);
+    try {
+      await updateDoc(docRef, {
+        modify: false,
+        comment: comment,
+      });
+      // console.log(response);
+    } catch (event) {
+      console.log(event);
+    } finally {
+      console.log('comment update canceled');
+      modifyCommentButtonHandler(id);
+      alert('수정이 취소되었습니다.');
+    }
+    // setUpdateCommentInput(comment);
+    // dispatch(modifyModeComment(id));
+    syncCommentListStateWithFirestore();
     setReadOnly(true);
-    setUpdateCommentInput(comment);
   };
 
   // 댓글 삭제하기
@@ -95,7 +122,12 @@ const ShopGuideDetailsComment = ({ item, syncCommentListStateWithFirestore, coll
       <StCommentListContainer key={id}>
         <StCommentProfileImage src='images/default_profile.webp' alt='' />
         <StCommentUserName>사용자 닉네임</StCommentUserName>
-        <StCommentContentInput name='comment' readOnly={readOnly} maxlength='200' defaultValue={comment} onChange={onChangeComment} />
+        <StCommentContentInput
+          name='comment'
+          readOnly={readOnly}
+          defaultValue={comment}
+          onChange={onChangeComment}
+        />
 
         {/* <span>{item.comment}</span> */}
         <StCommentContentSaveTime>{savetime}</StCommentContentSaveTime>

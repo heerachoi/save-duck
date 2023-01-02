@@ -10,12 +10,13 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 
-const ShopGuideDetailsCommentList = ({ collectionName, commentItemtList, setCommentItemList }) => {
-  // const globalComment = useSelector((state) => state.comments);
-
-  // const [commentList, setCommentList] = useState([]);
-
-  // 댓글 불러오기
+const ShopGuideDetailsCommentList = ({
+  collectionName,
+  commentItemtList,
+  setCommentItemList,
+  comment,
+}) => {
+  // 댓글 불러오기 - DB에서 이전 댓글 리스트 불러오기
   const syncCommentListStateWithFirestore = () => {
     const q = query(
       collection(db, collectionName),
@@ -26,7 +27,6 @@ const ShopGuideDetailsCommentList = ({ collectionName, commentItemtList, setComm
     getDocs(q).then((querySnapshot) => {
       const firestoreTodoItemList = [];
       querySnapshot.forEach((doc) => {
-        // console.log(doc);
         firestoreTodoItemList.push({
           id: doc.id,
           comment: doc.data().comment,
@@ -46,7 +46,16 @@ const ShopGuideDetailsCommentList = ({ collectionName, commentItemtList, setComm
   return (
     <StCommentListContainer>
       {commentItemtList.map((item) => {
-        return <ShopGuideDetailsComment key={item.id} item={item} syncCommentListStateWithFirestore={syncCommentListStateWithFirestore} collectionName={collectionName} />;
+        return (
+          <ShopGuideDetailsComment
+            key={item.id}
+            item={item}
+            syncCommentListStateWithFirestore={
+              syncCommentListStateWithFirestore
+            }
+            collectionName={collectionName}
+          />
+        );
       })}
     </StCommentListContainer>
   );

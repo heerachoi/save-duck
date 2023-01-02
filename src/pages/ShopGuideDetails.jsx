@@ -17,7 +17,7 @@ import {
   orderBy,
 } from 'firebase/firestore';
 
-const ShopGuideDetails = ({ collectionName }) => {
+const ShopGuideDetails = ({ collectionName, prevComment }) => {
   // 댓글 기본 state
   const time = moment().format('YYYY-MM-DD-hh:mm');
   const [comment, setComment] = useState('');
@@ -49,7 +49,13 @@ const ShopGuideDetails = ({ collectionName }) => {
 
   // 댓글 작성 인풋창 내용 입력 시 state 업데이트
   const CommentChangeHandler = (event) => {
-    setComment(event.target.value);
+    const currentComment = event.target.value;
+    if (currentComment.length > 100) {
+      alert('100자 이내로 입력해주세요.');
+      return;
+    } else {
+      setComment(event.target.value);
+    }
   };
 
   // 회수 수정
@@ -62,6 +68,7 @@ const ShopGuideDetails = ({ collectionName }) => {
       savetime: time,
       modify: false,
     });
+    console.log(docRef);
     setCommentItemList([
       {
         id: uuidv4(),
@@ -113,9 +120,9 @@ const ShopGuideDetails = ({ collectionName }) => {
         <StCommentForm onSubmit={commentSubmitHandler}>
           <StCommentInput
             type='text'
-            max-length='10'
+            // maxLength={100}
             id='comment'
-            placeholder='댓글을 입력해주세요.'
+            placeholder='댓글을 입력해주세요. (100자 이내)'
             value={comment}
             onChange={CommentChangeHandler}
           />
@@ -129,6 +136,9 @@ const ShopGuideDetails = ({ collectionName }) => {
             collectionName={collectionName}
             commentItemtList={commentItemtList}
             setCommentItemList={setCommentItemList}
+            syncCommentListStateWithFirestore={
+              syncCommentListStateWithFirestore
+            }
           />
         </ul>
       </div>
