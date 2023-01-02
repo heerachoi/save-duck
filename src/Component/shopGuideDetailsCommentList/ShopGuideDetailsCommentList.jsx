@@ -10,7 +10,11 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 
-const ShopGuideDetailsCommentList = ({ collectionName, commentItemtList, setCommentItemList }) => {
+const ShopGuideDetailsCommentList = ({
+  collectionName,
+  commentItemtList,
+  setCommentItemList,
+}) => {
   // const globalComment = useSelector((state) => state.comments);
 
   // const [commentList, setCommentList] = useState([]);
@@ -18,7 +22,7 @@ const ShopGuideDetailsCommentList = ({ collectionName, commentItemtList, setComm
   // 댓글 불러오기
   const syncCommentListStateWithFirestore = () => {
     const q = query(
-      collection(db, collectionName),
+      collection(db, 'commentList'),
       // where('userId', '==', currentUser),
       !orderBy('savetime', 'desc')
     );
@@ -46,7 +50,16 @@ const ShopGuideDetailsCommentList = ({ collectionName, commentItemtList, setComm
   return (
     <StCommentListContainer>
       {commentItemtList.map((item) => {
-        return <ShopGuideDetailsComment key={item.id} item={item} syncCommentListStateWithFirestore={syncCommentListStateWithFirestore} collectionName={collectionName} />;
+        return (
+          <ShopGuideDetailsComment
+            key={item.id}
+            item={item}
+            syncCommentListStateWithFirestore={
+              syncCommentListStateWithFirestore
+            }
+            collectionName={collectionName}
+          />
+        );
       })}
     </StCommentListContainer>
   );
