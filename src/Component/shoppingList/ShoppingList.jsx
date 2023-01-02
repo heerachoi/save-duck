@@ -46,8 +46,6 @@ const ShoppingList = ({ year, month, date }) => {
   const [price, setPrice] = useState('');
   const [totalPrice, setTotalPrice] = useState('0');
   const [itemList, setItemList] = useState([]);
-  const [check, setCheck] = useState(false);
-  const [visible, setVisible] = useState(false);
 
   const shoppingListUnchecked = () => {
     const q = query(collection(db, 'itemList'), where('userId', '==', currentUser.uid));
@@ -161,10 +159,6 @@ const ShoppingList = ({ year, month, date }) => {
     });
   };
 
-  const openInputHandler = (e) => {
-    setVisible(!visible);
-  };
-
   useEffect(() => {
     if (!currentUser) return;
     calculateTotalPrice();
@@ -181,11 +175,10 @@ const ShoppingList = ({ year, month, date }) => {
         {currentYear}.{currentMonth}.{currentDate}
       </DateContainer>
       <DateUnderLine></DateUnderLine>
-      <ShoppingListTitle onClick={openInputHandler}>쇼핑 목록 </ShoppingListTitle>
+      <ShoppingListTitle>쇼핑 목록</ShoppingListTitle>
       <ScrollBox>
         <UncheckedList>
           {itemList.map((item) => {
-            // console.log('test');
             return <ShoppingItem key={item.id} item={item} shoppingListUnchecked={shoppingListUnchecked} calculateTotalPrice={calculateTotalPrice} dateToString={dateToString} />;
           })}
 
