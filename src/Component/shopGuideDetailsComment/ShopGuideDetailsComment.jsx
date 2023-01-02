@@ -109,7 +109,7 @@ const ShopGuideDetailsComment = ({
     console.log(removedComment);
 
     if (window.confirm('정말 삭제하시겠습니까?')) {
-      const commentRef = doc(db, collectionName, removedComment);
+      const commentRef = doc(db, 'commentList', removedComment);
       await deleteDoc(commentRef);
       syncCommentListStateWithFirestore();
     } else {

@@ -25,28 +25,7 @@ const ShopGuideDetails = ({ postingId }) => {
   const currentUser = useAuth();
   const dispatch = useDispatch();
 
-  console.log(currentUser.uid);
-
-  // 댓글 등록 기능 - 버튼 클릭시 댓글 리스트에 작성한 댓글 추가
-  // const commentSubmitHandler = (event) => {
-  //   event.preventDefault();
-  //   console.log(event.target.value);
-  //   if (window.confirm('댓글을 등록하시겠습니까?')) {
-  //     const newComment = {
-  //       id: uuidv4(),
-  //       comment,
-  //       savetime: time,
-  //       modify: false,
-  //       postingId: postingId,
-  //       creatorId: currentUser.uid,
-  //     };
-  //     dispatch(addComment(newComment));
-  //     // addItem();
-  //     setComment('');
-  //   }
-  // };
-
-  // 댓글 작성 인풋창 내용 입력 시 state 업데이트
+  // 댓글 input 내용 입력 시 input value state 업데이트
   const CommentChangeHandler = (event) => {
     const currentComment = event.target.value;
     if (currentComment.length > 100) {
@@ -57,31 +36,7 @@ const ShopGuideDetails = ({ postingId }) => {
     }
   };
 
-  // 댓글 등록 기능 - 버튼 클릭 시 DB 컬렉션에 댓글 내용 추가
-
-  // const addItem = async (newComment) => {
-  //   const docRef = await addDoc(collection(db, 'commentList'), {
-  //     id: uuidv4(),
-  //     comment,
-  //     savetime: time,
-  //     modify: false,
-  //     postingId: postingId,
-  //     creatorId: currentUser.uid,
-  //   });
-  //   console.log(docRef);
-  //   setCommentItemList([
-  //     {
-  //       id: uuidv4(),
-  //       comment,
-  //       savetime: time,
-  //       modify: false,
-  //       postingId: postingId,
-  //     },
-  //     ...commentItemtList,
-  //   ]);
-  // };
-
-  //  수정 함수
+  //  댓글 등록 하기
 
   const commentSubmitHandler = async (event) => {
     event.preventDefault();
@@ -99,37 +54,6 @@ const ShopGuideDetails = ({ postingId }) => {
     setComment('');
   };
 
-  // 댓글 불러오기
-  const syncCommentListStateWithFirestore = () => {
-    const q = query(
-      collection(db, 'commentList'),
-      // where('userId', '==', currentUser),
-      orderBy('savetime', 'desc')
-    );
-
-    getDocs(q).then((querySnapshot) => {
-      const firestoreTodoItemList = [];
-      querySnapshot.forEach((doc) => {
-        // console.log(doc);
-        firestoreTodoItemList.push({
-          id: doc.id,
-          comment: doc.data().comment,
-          userId: doc.data().userId,
-          modify: doc.data().modify,
-          savetime: doc.data().savetime,
-          creatorid: currentUser.uid,
-          postingId: doc.data().postingId,
-        });
-      });
-      setCommentItemList(firestoreTodoItemList);
-    });
-  };
-
-  useEffect(() => {
-    syncCommentListStateWithFirestore();
-  }, []);
-
-  // console.log(lists);
   return (
     <div>
       {/* 댓글 영역 */}
@@ -157,9 +81,9 @@ const ShopGuideDetails = ({ postingId }) => {
           <ShopGuideDetailsCommentList
             commentItemtList={commentItemtList}
             setCommentItemList={setCommentItemList}
-            syncCommentListStateWithFirestore={
-              syncCommentListStateWithFirestore
-            }
+            // syncCommentListStateWithFirestore={
+            //   syncCommentListStateWithFirestore
+            // }
           />
         </ul>
       </div>
