@@ -159,6 +159,8 @@ const StShopDetailsArticleContents = styled.div`
   display: inline-block;
   text-align: start;
   margin-bottom: 40px;
+  line-height:120%;
+  white-space : pre-line;
 `;
 
 const StShopDetailsImage = styled.img`

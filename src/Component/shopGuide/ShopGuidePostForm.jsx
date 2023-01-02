@@ -33,8 +33,6 @@ const Form = ({ userObj }) => {
   const [setUserObj] = useState(null);
   const currentUser = useAuth();
 
-
-
   const onImageChange = (event) => {
     const theFile = event.target.files[0]; // file 객체
     const reader = new FileReader();
@@ -53,29 +51,38 @@ const Form = ({ userObj }) => {
       downloadimage = await getDownloadURL(imageResponse.ref);
     }
     console.log(downloadimage)
-    console.log(userObj)
+    // console.log(userObj)
+    // console.log(currentUser.uid)
+    // console.log(currentUser.displayName)
+    // console.log(title)
+    // console.log(description)
+    // console.log(moment().format('YYYY-MM-DD HH:mm:ss'))
     try {
       await addDoc(collection(db, 'posting'), {
         id: uuidv4(),
         title: title,
         description: description,
-        created: moment().format('YYYY-MM-DD'),
+        created: moment().format('YYYY-MM-DD HH:mm:ss'),
         image: downloadimage,
         // user: userObj.displayName,
         creatorid: currentUser.uid, // 고정
-
-      });
-
-
-
+      },
+        previousPageHanlder(),
+      );
     } catch (err) {
-      alert(err);
+      alert('사진을 등록해주세요.');
     }
   };
 
 
-  const previousPageHanlder = () => {
-    navigate(-1, true);
+  const previousPageHanlder = async () => {
+    if (window.confirm('해당 게시글을 등록하시겠습니까?')) {
+      alert('등록되었습니다.');
+      navigate('/shopGuide');
+    } else {
+      return;
+    }
+
   };
 
   const [lists, setLists] = useState({
@@ -149,8 +156,6 @@ const Form = ({ userObj }) => {
         <StSGPSubmitButton
           type='submit'
           onClick={() => {
-            previousPageHanlder();
-            alert('게시글이 성공적으로 저장되었습니다.');
           }}
         >
           Save
