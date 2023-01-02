@@ -131,6 +131,9 @@ const ShopGuideDetails = ({ collectionName, prevComment }) => {
             collectionName={collectionName}
             commentItemtList={commentItemtList}
             setCommentItemList={setCommentItemList}
+            syncCommentListStateWithFirestore={
+              syncCommentListStateWithFirestore
+            }
           />
         </ul>
       </div>
