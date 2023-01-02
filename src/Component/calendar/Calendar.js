@@ -3,18 +3,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const HomeContainer = styled.div`
   width: 100%;
-  /* max-width: 1200px; */
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: 50px;
   margin-top: 30px;
-  /* background-color: aliceblue; */
 `;
 
 export const CalendarContainer = styled.div`
   width: 400px;
-  height: 500px;
   margin: 5px;
 `;
 
@@ -55,9 +52,7 @@ export const SevenColGrid = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  /* height: 40px; */
   margin-bottom: 20px;
-  /* background-color: aliceblue; */
 `;
 
 export const HeadDay = styled.span`
@@ -67,7 +62,6 @@ export const HeadDay = styled.span`
 `;
 
 export const CalendarBody = styled.div`
-  /* height: 80px; */
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(${({ fourCol }) => (fourCol ? 4 : 5)}, 1fr);
@@ -98,7 +92,6 @@ export const ShoppingListContainer = styled.div`
   width: 500px;
   height: 500px;
   margin: 5px;
-  /* background-color: beige; */
   font-size: 16px;
 `;
 
@@ -129,12 +122,8 @@ export const ShoppingItemContainer = styled.div`
 `;
 
 export const UncheckedList = styled.div`
-  /* background-color: aliceblue; */
-  /* width: 100%; */
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
-  /* justify-content: center; */
   align-items: center;
   padding-bottom: 20px;
   border-bottom: 1px solid;
@@ -143,35 +132,25 @@ export const UncheckedList = styled.div`
 
 export const ListItem = styled.div`
   display: flex;
-  /* flex-direction: row; */
   align-items: center;
   justify-content: center;
-  /* margin-bottom: 10px; */
-
-  /* width: 500px; */
-  /* justify-content: space-around; */
-  /* background-color: aquamarine; */
 `;
 
 // 안씀
 export const ItemPriceContainer = styled.div`
   display: flex;
   flex-direction: row;
-  /* align-items: center; */
   font-size: 14px;
   border-bottom: 1px solid;
   width: 400px;
-  /* background-color: aqua; */
   justify-content: space-between;
 `;
 
 export const ShowItem = styled.div`
-  /* background-color: beige; */
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  /* text-align: center; */
 `;
 
 export const UnshowItem = styled.div`
@@ -185,23 +164,15 @@ export const CheckBox = styled.input`
   border-radius: 40%;
   cursor: pointer;
   margin-right: 10px;
-  /* border: 1px solid #ffc226; */
 `;
 
 export const ItemName = styled.div`
-  /* background-color: violet; */
   width: 300px;
   font-size: 14px;
-  /* margin-right: 10px; */
-  /* border-bottom: 1px solid; */
   padding-bottom: 2px;
 `;
 
-export const ItemPrice = styled.div`
-  /* margin-right: 10px; */
-  /* width: 50px; */
-  /* padding-bottom: 2px; */
-`;
+export const ItemPrice = styled.div``;
 
 export const PencilIcon = styled(FontAwesomeIcon)`
   cursor: pointer;
@@ -217,11 +188,8 @@ export const CheckListTotalContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* align-items: center; */
-  /* text-align: center; */
   margin-top: 5px;
   width: 400px;
-  /* background-color: aqua; */
   font-size: 14px;
   margin-right: 20px;
 `;
@@ -231,15 +199,10 @@ export const CheckListTotalText = styled.div``;
 export const CheckedList = styled.div`
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between; */
-  /* justify-content: center; */
-  /* align-items: center; */
   align-items: center;
-
   padding-bottom: 20px;
   border-bottom: 1px solid;
   margin-bottom: 10px;
-  /* background-color: aqua; */
 `;
 
 export const CheckListTotal = styled.div``;
@@ -250,8 +213,6 @@ export const TotalPriceContainer = styled.div`
   justify-content: space-between;
   width: 400px;
   align-items: center;
-  /* text-align: center; */
-  /* background-color: aqua; */
   width: 400px;
   padding-left: 40px;
   font-size: 15px;
@@ -265,5 +226,4 @@ export const TotalPrice = styled.div``;
 export const ScrollBox = styled.div`
   height: 380px;
   overflow: scroll;
-  /* background-color: aliceblue; */
 `;

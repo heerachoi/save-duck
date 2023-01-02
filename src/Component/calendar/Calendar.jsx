@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
 import { db } from '../../firebase.js';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
 
 import ShoppingList from '../shoppingList/ShoppingList.jsx';
 
@@ -14,8 +14,6 @@ import { useAuth } from '../../firebase.js';
 
 const Calendar = ({ startingDate }) => {
   const currentUser = useAuth();
-  console.log('user in calendar');
-  console.log(currentUser);
 
   // 오늘의 날짜
   const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
@@ -159,11 +157,7 @@ const Calendar = ({ startingDate }) => {
   const dateToString = '' + currentYear + currentMonth + viewDate;
 
   const containShoppingList = (date) => {
-    const q = query(
-      collection(db, dateToString)
-      // where('userId', '==', currentUser)
-    );
-
+    const q = query(collection(db, 'itemList'), where('userId', '==', currentUser.uid), orderBy('created', 'desc'));
     getDocs(q).then((querySnapshop) => {
       const firestoreShoppingItemList = [];
       querySnapshop.forEach((doc) => {

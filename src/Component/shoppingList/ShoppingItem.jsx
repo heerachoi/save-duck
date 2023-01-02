@@ -72,7 +72,7 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
     // console.log('updateItemModify: 수정 시작');
     // console.log('id');
     // console.log(id);
-    const docRef = doc(db, dateToString, item.id);
+    const docRef = doc(db, 'itemList', item.id);
     // console.log('docRef');
     // console.log(docRef);
     try {
@@ -97,7 +97,7 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
   // 목록 수정 완료하기
   const updateCompleteButtonHandler = async (id) => {
     console.log('댓글 수정 완료하기');
-    const docRef = doc(db, dateToString, id);
+    const docRef = doc(db, 'itemList', id);
     try {
       const response = await updateDoc(docRef, {
         modify: false,
@@ -134,7 +134,7 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
     // console.log('removedItem');
     // console.log(removedItem);
     if (window.confirm('정말 삭제하시겠습니까?')) {
-      const listRef = doc(db, dateToString, removedItem);
+      const listRef = doc(db, 'itemList', removedItem);
       // console.log(listRef);
       await deleteDoc(listRef);
       shoppingListUnchecked();
@@ -206,9 +206,9 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
       <ShowItem>
         <CheckBox type='checkbox' value='false' />
         <ItemPriceContainer>
-          <ItemInput type='text' name='name' readOnly={readOnly} defaultValue={name} onChange={onChangeItem} maxLength='25' value={updateItemInput || ''} />
+          <ItemInput type='text' name='name' readOnly={readOnly} onChange={onChangeItem} maxLength='25' value={updateItemInput || ''} />
           <ItemPriceInputContainer>
-            <ItemPriceInput id='itemPrice' onChange={onChangeItemPrice} defaultValue={price || '0'} maxLength='7' value={updateItemPrice || '0'} />원
+            <ItemPriceInput id='itemPrice' onChange={onChangeItemPrice} maxLength='7' value={updateItemPrice || '0'} />원
           </ItemPriceInputContainer>
         </ItemPriceContainer>
       </ShowItem>
