@@ -14,15 +14,12 @@ const ShopGuideDetailsCommentList = ({
   collectionName,
   commentItemtList,
   setCommentItemList,
+  comment,
 }) => {
-  // const globalComment = useSelector((state) => state.comments);
-
-  // const [commentList, setCommentList] = useState([]);
-
-  // 댓글 불러오기
+  // 댓글 불러오기 - DB에서 이전 댓글 리스트 불러오기
   const syncCommentListStateWithFirestore = () => {
     const q = query(
-      collection(db, 'commentList'),
+      collection(db, collectionName),
       // where('userId', '==', currentUser),
       !orderBy('savetime', 'desc')
     );
@@ -30,7 +27,6 @@ const ShopGuideDetailsCommentList = ({
     getDocs(q).then((querySnapshot) => {
       const firestoreTodoItemList = [];
       querySnapshot.forEach((doc) => {
-        // console.log(doc);
         firestoreTodoItemList.push({
           id: doc.id,
           comment: doc.data().comment,
