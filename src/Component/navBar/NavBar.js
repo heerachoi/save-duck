@@ -1,6 +1,15 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
+export const Outlet = styled.div`
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  left: 0;
+  top: 0;
+  right: 0;
+`;
+
 export const StyledSaveDuckHome = styled.div`
   padding-bottom: 10px;
   display: flex;
@@ -9,7 +18,10 @@ export const StyledSaveDuckHome = styled.div`
   padding-top: 10px;
   padding-left: 10px;
   padding-right: 10px;
-  position: relative;
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
 `;
 
 export const SaveDuckHomeNav = styled(NavLink)`
