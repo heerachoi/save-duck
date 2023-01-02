@@ -33,8 +33,6 @@ const Form = ({ userObj }) => {
   const [setUserObj] = useState(null);
   const currentUser = useAuth();
 
-
-
   const onImageChange = (event) => {
     const theFile = event.target.files[0]; // file 객체
     const reader = new FileReader();
@@ -75,7 +73,7 @@ const Form = ({ userObj }) => {
 
 
   const previousPageHanlder = () => {
-    navigate(-1, true);
+    window.location.href = '/shopguide';
   };
 
   const [lists, setLists] = useState({
