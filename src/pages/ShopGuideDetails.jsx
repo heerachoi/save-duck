@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
+import { addComment } from '../redux/modules/comment';
 import ShopGuideDetailsCommentList from '../Component/shopGuideDetailsCommentList/ShopGuideDetailsCommentList.jsx';
 import moment from 'moment';
 import styled from 'styled-components';
@@ -28,10 +29,29 @@ const ShopGuideDetails = ({ postingId }) => {
 
   //  댓글 등록 하기
 
-  const commentSubmitHandler = async (event) => {
+  // 댓글 등록 기능 - 버튼 클릭시 댓글 리스트에 작성한 댓글 추가
+  const commentSubmitHandler = (event) => {
     event.preventDefault();
+    console.log(event.target.value);
+    if (window.confirm('댓글을 등록하시겠습니까?')) {
+      const newComment = {
+        id: uuidv4(),
+        comment,
+        savetime: time,
+        modify: false,
+        postingId: postingId,
+        creatorId: currentUser.uid,
+      };
+      dispatch(addComment(newComment));
+      // addItem();
+      setComment('');
+    }
+  };
 
-    await addDoc(collection(db, 'commentList'), {
+  // 댓글 등록 기능 - 버튼 클릭 시 DB 컬렉션에 댓글 내용 추가
+
+  const addItem = async (newComment) => {
+    const docRef = await addDoc(collection(db, 'commentList'), {
       id: uuidv4(),
       comment,
       savetime: time,
@@ -39,9 +59,17 @@ const ShopGuideDetails = ({ postingId }) => {
       postingId: postingId,
       creatorId: currentUser.uid,
     });
-    // console.log(docRef);
-
-    setComment('');
+    console.log(docRef);
+    setCommentItemList([
+      {
+        id: uuidv4(),
+        comment,
+        savetime: time,
+        modify: false,
+        postingId: postingId,
+      },
+      ...commentItemtList,
+    ]);
   };
 
   return (
@@ -61,8 +89,7 @@ const ShopGuideDetails = ({ postingId }) => {
             value={comment}
             onChange={CommentChangeHandler}
           />
-          {/* <StCommentSaveButton onClick={addItem}>댓글 등록</StCommentSaveButton> */}
-          <StCommentSaveButton type='submit'>댓글 등록</StCommentSaveButton>
+          <StCommentSaveButton onClick={addItem}>댓글 등록</StCommentSaveButton>
         </StCommentForm>
       </StCommentContainer>
       {/* 댓글 리스트 */}
