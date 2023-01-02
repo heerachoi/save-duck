@@ -100,7 +100,6 @@ const ShopGuideDetails = ({ postingId }) => {
   };
 
   // 댓글 불러오기
-
   const syncCommentListStateWithFirestore = () => {
     const q = query(
       collection(db, 'commentList'),

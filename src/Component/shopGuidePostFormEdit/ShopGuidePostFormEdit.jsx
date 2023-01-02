@@ -87,7 +87,7 @@ const ShopGuidePostFormEdit = ({ item, syncpostingstatewithfirestore }) => {
         id: uuidv4(),
         title: title,
         description: description,
-        created: moment().format('YYYY-MM-DD'),
+        created: moment().format('YYYY-MM-DD HH:mm:ss'),
       });
       alert('게시글이 성공적으로 저장되었습니다.');
       window.location.href = '/shopGuide';
@@ -97,7 +97,6 @@ const ShopGuidePostFormEdit = ({ item, syncpostingstatewithfirestore }) => {
   };
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const previousPageHanlder = () => {
     navigate(-1, true);

@@ -168,11 +168,12 @@ const StShopGuidePostDate = styled.div`
 `;
 const StShopGuidePostDescription = styled.div`
   width: 90%;
-  height: 90px;
+  height: 64px;
   font-size: 11px;
   color: gray;
   margin-left: 50px;
   text-decoration: none;
   overflow: hidden;
   text-overflow: ellipsis;
+  line-height:120%
 `;
