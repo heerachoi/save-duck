@@ -108,8 +108,8 @@ const ShopGuideArticle = ({ item }) => {
 
         {posting.map((item) => {
           if (item.id === NavId.id) {
-            console.log(item.creatorid);
-            console.log(currentUser.uid);
+            // console.log(item.creatorid);
+            // console.log(currentUser.uid);
             if (item.creatorid === currentUser.uid) {
               return (
                 <StShopDetailsEditButtons>

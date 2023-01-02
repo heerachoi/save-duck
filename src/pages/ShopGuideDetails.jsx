@@ -109,9 +109,9 @@ const ShopGuideDetails = ({ collectionName }) => {
         <StCommentForm onSubmit={commentSubmitHandler}>
           <StCommentInput
             type='text'
-            max-length='10'
+            maxLength={100}
             id='comment'
-            placeholder='댓글을 입력해주세요. (50자 이내)'
+            placeholder='댓글을 입력해주세요. (100자 이내)'
             value={comment}
             onChange={CommentChangeHandler}
           />

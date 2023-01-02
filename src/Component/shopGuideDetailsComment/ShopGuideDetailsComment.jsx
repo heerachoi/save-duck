@@ -104,7 +104,6 @@ const ShopGuideDetailsComment = ({
         <StCommentContentInput
           name='comment'
           readOnly={readOnly}
-          maxlength='200'
           defaultValue={comment}
           onChange={onChangeComment}
         />
