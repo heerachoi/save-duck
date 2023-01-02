@@ -14,7 +14,8 @@ import { useAuth } from '../../firebase.js';
 
 const Calendar = ({ startingDate }) => {
   const currentUser = useAuth();
-  // console.log(currentUser);
+  console.log('user in calendar');
+  console.log(currentUser);
 
   // 오늘의 날짜
   const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
@@ -158,7 +159,10 @@ const Calendar = ({ startingDate }) => {
   const dateToString = '' + currentYear + currentMonth + viewDate;
 
   const containShoppingList = (date) => {
-    const q = query(collection(db, dateToString), where('userId', '==', currentUser.uid));
+    const q = query(
+      collection(db, dateToString)
+      // where('userId', '==', currentUser)
+    );
 
     getDocs(q).then((querySnapshop) => {
       const firestoreShoppingItemList = [];

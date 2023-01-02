@@ -7,7 +7,12 @@ export const ListItem = styled.div`
   justify-content: center;
 `;
 
-// 안씀
+export const UnshowItem = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
 export const ItemPriceContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -21,12 +26,6 @@ export const ShowItem = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
-`;
-
-export const UnshowItem = styled.div`
-  display: flex;
-  flex-direction: row;
   align-items: center;
 `;
 

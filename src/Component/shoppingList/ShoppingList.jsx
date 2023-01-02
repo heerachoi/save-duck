@@ -33,7 +33,8 @@ import {
 
 const ShoppingList = ({ year, month, date }) => {
   const currentUser = useAuth();
-
+  console.log('shoppinglist current user');
+  console.log(currentUser);
   const currentYear = year;
   const currentMonth = month + 1;
   const currentDate = date;
@@ -46,14 +47,17 @@ const ShoppingList = ({ year, month, date }) => {
   const [totalPrice, setTotalPrice] = useState('0');
   const [itemList, setItemList] = useState([]);
   const [check, setCheck] = useState(false);
+  const [visible, setVisible] = useState(false);
   // useEffect(() => {}, [itemList, checkedItemList]); // 댓글 등록 버튼 - 클릭시 댓글 리스트에 작성한 댓글 추가
 
-  const shoppingListUnchecked = async () => {
+  const shoppingListUnchecked = () => {
     console.log('current user in shopping list');
     console.log(currentUser);
-
     const usersCollectionRef = collection(db, dateToString);
-    const q = await query(usersCollectionRef, where('userId', '==', currentUser.uid));
+    const q = query(
+      usersCollectionRef
+      // where('userId', '==', currentUser.uid)
+    );
     // const q = query(collection(db, dateToString));
     // const q = query(
     //   collection(db, dateToString),
@@ -74,10 +78,11 @@ const ShoppingList = ({ year, month, date }) => {
           userId: doc.data().userId,
         });
       });
+      console.log('firestoreShoppingItemList');
+      console.log(firestoreShoppingItemList);
       setItemList(firestoreShoppingItemList);
     });
   };
-
   // 아이템 작성 인풋창 내용 입력 시 state 업데이트
   const itemChangeHandler = (event) => {
     setItem(event.target.value);
@@ -103,10 +108,10 @@ const ShoppingList = ({ year, month, date }) => {
   //   });
   // };
 
-  useEffect(() => {
-    calculateTotalPrice();
-    shoppingListUnchecked();
-  }, [dateToString]);
+  // useEffect(() => {
+  //   calculateTotalPrice();
+  //   shoppingListUnchecked();
+  // }, [dateToString]);
 
   const addItem = async (newShoppingItem) => {
     const docRef = await addDoc(collection(db, dateToString), {
@@ -166,7 +171,10 @@ const ShoppingList = ({ year, month, date }) => {
   const calculateTotalPrice = async () => {
     const usersCollectionRef = collection(db, dateToString);
 
-    const q = await query(usersCollectionRef, where('userId', '==', currentUser.uid));
+    const q = await query(
+      usersCollectionRef
+      // where('userId', '==', currentUser.uid)
+    );
     let total = 0;
     let number = 0;
     getDocs(q).then((querySnapshop) => {
@@ -197,6 +205,12 @@ const ShoppingList = ({ year, month, date }) => {
     });
   };
 
+  const openInputHandler = (e) => {
+    console.log('visible');
+    console.log(visible);
+    setVisible(!visible);
+  };
+
   useEffect(() => {
     calculateTotalPrice();
     shoppingListUnchecked();
@@ -212,12 +226,14 @@ const ShoppingList = ({ year, month, date }) => {
         {currentYear}.{currentMonth}.{currentDate}
       </DateContainer>
       <DateUnderLine></DateUnderLine>
-      <ShoppingListTitle>쇼핑 목록 +</ShoppingListTitle>
+      <ShoppingListTitle onClick={openInputHandler}>쇼핑 목록 +</ShoppingListTitle>
       <ScrollBox>
         <UncheckedList>
           {itemList.map((item) => {
+            console.log('test');
             return <ShoppingItem key={item.id} item={item} shoppingListUnchecked={shoppingListUnchecked} calculateTotalPrice={calculateTotalPrice} dateToString={dateToString} />;
           })}
+
           <ListItem>
             <ItemPriceContainerForm>
               <ItemInput key={item.id} type='text' id='item' placeholder='입력해주세요.' onChange={itemChangeHandler} value={item} maxLength='25' />
