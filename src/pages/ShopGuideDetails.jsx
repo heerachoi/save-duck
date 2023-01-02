@@ -17,7 +17,7 @@ import {
   orderBy,
 } from 'firebase/firestore';
 
-const ShopGuideDetails = ({ collectionName, prevComment }) => {
+const ShopGuideDetails = ({ postingId }) => {
   // 댓글 기본 state
   const time = moment().format('YYYY-MM-DD-hh:mm');
   const [comment, setComment] = useState('');
@@ -52,15 +52,15 @@ const ShopGuideDetails = ({ collectionName, prevComment }) => {
     }
   };
 
-  // 회수 수정
   // 댓글 등록 기능 - 버튼 클릭 시 DB 컬렉션에 댓글 내용 추가
 
   const addItem = async (newComment) => {
-    const docRef = await addDoc(collection(db, collectionName), {
+    const docRef = await addDoc(collection(db, 'commentList'), {
       id: uuidv4(),
       comment,
       savetime: time,
       modify: false,
+      postingId: postingId,
     });
     console.log(docRef);
     setCommentItemList([
@@ -69,6 +69,7 @@ const ShopGuideDetails = ({ collectionName, prevComment }) => {
         comment,
         savetime: time,
         modify: false,
+        postingId: postingId,
       },
       ...commentItemtList,
     ]);
@@ -78,7 +79,7 @@ const ShopGuideDetails = ({ collectionName, prevComment }) => {
 
   const syncCommentListStateWithFirestore = () => {
     const q = query(
-      collection(db, collectionName),
+      collection(db, 'commentList'),
       // where('userId', '==', currentUser),
       orderBy('savetime', 'desc')
     );
@@ -93,6 +94,7 @@ const ShopGuideDetails = ({ collectionName, prevComment }) => {
           userId: doc.data().userId,
           modify: doc.data().modify,
           savetime: doc.data().savetime,
+          postingId: doc.data().postingId,
         });
       });
       setCommentItemList(firestoreTodoItemList);
@@ -128,7 +130,6 @@ const ShopGuideDetails = ({ collectionName, prevComment }) => {
       <div>
         <ul>
           <ShopGuideDetailsCommentList
-            collectionName={collectionName}
             commentItemtList={commentItemtList}
             setCommentItemList={setCommentItemList}
             syncCommentListStateWithFirestore={

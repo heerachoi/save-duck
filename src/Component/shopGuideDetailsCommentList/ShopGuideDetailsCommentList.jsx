@@ -11,7 +11,7 @@ import {
 import { db } from '../../firebase';
 
 const ShopGuideDetailsCommentList = ({
-  collectionName,
+  // collectionName,
   commentItemtList,
   setCommentItemList,
   comment,
@@ -19,7 +19,7 @@ const ShopGuideDetailsCommentList = ({
   // 댓글 불러오기 - DB에서 이전 댓글 리스트 불러오기
   const syncCommentListStateWithFirestore = () => {
     const q = query(
-      collection(db, collectionName),
+      collection(db, 'commentList'),
       // where('userId', '==', currentUser),
       !orderBy('savetime', 'desc')
     );
@@ -39,9 +39,9 @@ const ShopGuideDetailsCommentList = ({
     });
   };
 
-  useEffect(() => {
-    syncCommentListStateWithFirestore();
-  }, []);
+  // useEffect(() => {
+  //   syncCommentListStateWithFirestore();
+  // }, []);
 
   return (
     <StCommentListContainer>
@@ -53,7 +53,7 @@ const ShopGuideDetailsCommentList = ({
             syncCommentListStateWithFirestore={
               syncCommentListStateWithFirestore
             }
-            collectionName={collectionName}
+            // collectionName={collectionName}
           />
         );
       })}
