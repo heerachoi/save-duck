@@ -25,7 +25,7 @@ const ShopGuideDetails = ({ postingId }) => {
   const currentUser = useAuth();
   const dispatch = useDispatch();
 
-  console.log(currentUser);
+  console.log(currentUser.uid);
 
   // 댓글 등록 기능 - 버튼 클릭시 댓글 리스트에 작성한 댓글 추가
   // const commentSubmitHandler = (event) => {
