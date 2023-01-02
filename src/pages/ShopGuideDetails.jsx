@@ -17,7 +17,7 @@ import {
   orderBy,
 } from 'firebase/firestore';
 
-const ShopGuideDetails = ({ collectionName }) => {
+const ShopGuideDetails = ({ collectionName, prevComment }) => {
   // 댓글 기본 state
   const time = moment().format('YYYY-MM-DD-hh:mm');
   const [comment, setComment] = useState('');
@@ -56,7 +56,7 @@ const ShopGuideDetails = ({ collectionName }) => {
   // 댓글 등록 기능 - 버튼 클릭 시 DB 컬렉션에 댓글 내용 추가
 
   const addItem = async (newComment) => {
-    const docRef = await addDoc(collection(db, 'commentList'), {
+    const docRef = await addDoc(collection(db, collectionName), {
       id: uuidv4(),
       comment,
       savetime: time,
@@ -78,7 +78,7 @@ const ShopGuideDetails = ({ collectionName }) => {
 
   const syncCommentListStateWithFirestore = () => {
     const q = query(
-      collection(db, 'commentList'),
+      collection(db, collectionName),
       // where('userId', '==', currentUser),
       orderBy('savetime', 'desc')
     );

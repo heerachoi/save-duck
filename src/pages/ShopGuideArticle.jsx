@@ -34,11 +34,7 @@ const ShopGuideArticle = ({ item }) => {
   const [posting, setPosting] = useState([]);
   const currentUser = useAuth();
 
-  // firestore에서 데이터 'posting' 가져오기
-
-  // 회수 수정
   const collectionName = NavId.id;
-  // console.log(collectionName);
 
   // 게시글 삭제 기능
   const deleteButtonClickHandler = async () => {
@@ -51,9 +47,7 @@ const ShopGuideArticle = ({ item }) => {
     }
   };
 
-  // console.log(NavId.id);
-
-  // firestore에서 데이터 'posting' 가져오기
+  // DB에서 'posting' 데이터 가져오기
   const syncpostingstatewithfirestore = () => {
     const q = query(collection(db, 'posting'), orderBy('created', 'desc'));
 
@@ -108,8 +102,6 @@ const ShopGuideArticle = ({ item }) => {
 
         {posting.map((item) => {
           if (item.id === NavId.id) {
-            // console.log(item.creatorid);
-            // console.log(currentUser.uid);
             if (item.creatorid === currentUser.uid) {
               return (
                 <StShopDetailsEditButtons>
