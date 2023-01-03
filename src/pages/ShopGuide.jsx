@@ -1,15 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import List from '../Component/shopGuide/ShopGuide';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import List from '../Component/shopGuide/ShopGuide.jsx';
+import { faChevronUp, faCircleUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ShopGuide = () => {
-  // useSelector()를 통해 Redux의 상태를 가져올 수 있습니다. store에 있는 state를 구독합니다.
-
-  const post_list = useSelector((state) => state.lists);
-
   const handleScrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -17,22 +13,13 @@ const ShopGuide = () => {
   return (
     <StShopGuideContainer>
       <StShopGuideHeader>
-        <StShopGuideHeaderLeft>
-          <span> 쇼핑가이드</span>
-        </StShopGuideHeaderLeft>
-        <StShopGuideHeaderRight>
-          <span>
-            {' '}
-            가성비 좋았던 쇼핑 기록을 공유하여 주세요. 다른 사람의 쇼핑 목록도
-            살짝 참고하면 더욱 좋습니다.{' '}
-          </span>
-        </StShopGuideHeaderRight>
+        <StShopGuideHeaderLeft>쇼핑가이드</StShopGuideHeaderLeft>
+        <StShopGuideHeaderRight>가성비 좋았던 쇼핑 기록을 공유하여 주세요. 다른 사람의 쇼핑 목록도 살짝 참고하면 더욱 좋습니다.</StShopGuideHeaderRight>
       </StShopGuideHeader>
       <StShopGuideBody>
         <List />
-
         <StWritePostButton to='/shopguideposting'>Write</StWritePostButton>
-        <StMoveTopButton onClick={handleScrollToTop}>︿</StMoveTopButton>
+        <StMoveTopButton onClick={handleScrollToTop} icon={faCircleUp} />
       </StShopGuideBody>
     </StShopGuideContainer>
   );
@@ -43,96 +30,91 @@ const StShopGuideContainer = styled.div`
   width: 100%;
   height: 100%;
   background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  margin-left: 10%;
   text-decoration: none;
+  @media screen and (max-width: 800px) {
+    margin-left: 0%;
+  }
 `;
 
 const StShopGuideHeader = styled.div`
-  width: 80%;
   color: black;
   display: flex;
   flex-direction: row;
+  align-items: center;
+  margin-bottom: 30px;
+  @media screen and (max-width: 800px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0px;
+  }
 `;
 
 const StShopGuideHeaderLeft = styled.div`
-  width: 150px;
-  font-size: 25px;
-  margin-top: 1rem;
+  font-size: 28px;
+  @media screen and (max-width: 800px) {
+    display: flex;
+    align-items: center;
+  }
 `;
 
 const StShopGuideHeaderRight = styled.div`
-  width: 500px;
-  height: 22px;
-  margin-top: 1rem;
-  margin-left: 3rem;
-  padding-top: 0.5rem;
-  padding-left: 1rem;
-  padding-bottom: 8px;
-  font-size: 11px;
+  height: 20px;
+  margin-left: 2rem;
+  display: flex;
+  align-items: center;
+  padding: 9px 0 9px 16px;
+  font-size: 14px;
   border-left: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
   @media screen and (max-width: 800px) {
+    /* border: none;
+    width: 80%; */
     display: none;
   }
 `;
 
 const StShopGuideBody = styled.div`
-  width: 80%;
   display: flex;
-  flex-direction: column-reverse;
-  padding-top: 5rem;
-  padding-bottom: 2rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  align-items: left;
 `;
 
-const StMoveTopButton = styled.div`
-  height: 60px;
-  width: 60px;
+const StMoveTopButton = styled(FontAwesomeIcon)`
+  height: 50px;
+  width: 50px;
   position: fixed;
-  bottom: 150px;
-  right: 100px;
+  bottom: 90px;
+  right: 30px;
   z-index: 1;
-  border: none;
-  outline: none;
-  background: #ffc226;
-  color: white;
-  cursor: pointer;
+  /* border: 1px solid #ffc226; */
+  color: #ffc226;
   border-radius: 30px;
-  font-size: 18px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  @media screen and (max-width: 800px) {
-    display: none;
-  }
+  cursor: pointer;
 `;
 
 const StWritePostButton = styled(NavLink)`
   position: fixed;
-  height: 60px;
-  width: 60px;
-  bottom: 80px;
-  right: 100px;
+  height: 50px;
+  width: 50px;
+  bottom: 30px;
+  right: 30px;
   z-index: 1;
   border: none;
   outline: none;
-  background: #ffc226;
-  color: white;
+  color: #ffc226;
+  border: 1px solid #ffc226;
   cursor: pointer;
   border-radius: 30px;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 700;
   text-decoration-line: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  @media screen and (max-width: 800px) {
-    display: none;
+  &:hover {
+    background: #ffc226;
+    color: white;
   }
 `;
 
