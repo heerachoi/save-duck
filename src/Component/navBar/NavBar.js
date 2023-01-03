@@ -1,5 +1,5 @@
-import { NavLink } from "react-router-dom";
-import styled from "styled-components";
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
 export const Outlet = styled.div`
   position: fixed;
@@ -52,6 +52,12 @@ export const MenuItem = styled(NavLink)`
   text-decoration: none;
   margin-right: 8px;
   color: black;
+`;
+
+export const NavProfileImg = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
 `;
 
 export const SignUp = styled.div`

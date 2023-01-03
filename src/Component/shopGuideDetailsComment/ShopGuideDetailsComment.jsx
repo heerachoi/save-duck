@@ -39,7 +39,7 @@ const ShopGuideDetailsComment = ({
 
   // 댓글 수정 -> 완료 모드 토글링
   const updateCommentModify = async (id) => {
-    const docRef = doc(db, collectionName, id);
+    const docRef = doc(db, 'commentList', id);
     // console.log(docRef);
     try {
       const response = await updateDoc(docRef, { modify: true });
@@ -55,7 +55,7 @@ const ShopGuideDetailsComment = ({
 
   // 댓글 수정 완료하기
   const updateCompleteButtonHandler = async (id) => {
-    const docRef = doc(db, collectionName, id);
+    const docRef = doc(db, 'commentList', id);
     try {
       await updateDoc(docRef, {
         modify: false,

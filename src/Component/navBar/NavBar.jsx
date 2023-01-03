@@ -1,4 +1,4 @@
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink } from 'react-router-dom';
 import {
   StyledSaveDuckHome,
   LeftSection,
@@ -41,7 +41,7 @@ const Navbar = () => {
   }, [modal]);
 
   const handleSubmit = async (e) => {
-    console.log(currentUser);
+    // console.log(currentUser);
     e.preventDefault();
     try {
       await addDoc(collection(db, currentUser.uid), {
@@ -59,22 +59,22 @@ const Navbar = () => {
       <StyledSaveDuckHome>
         {/* 왼쪽영역 */}
         <LeftSection>
-          <SaveDuckHomeNav to="/">
-            <span style={{ color: "#ffc226" }}>Save Duck</span>
-            <DuckImageLogo src="ssave.png" alt="Home" />
+          <SaveDuckHomeNav to='/'>
+            <span style={{ color: '#ffc226' }}>Save Duck</span>
+            <DuckImageLogo src='ssave.png' alt='Home' />
           </SaveDuckHomeNav>
         </LeftSection>
 
         {/* 오른쪽영역 */}
         <RightSection>
           <Menu>
-            <MenuItem style={{ color: "#ffc226" }} to="/signin">
+            <MenuItem style={{ color: '#ffc226' }} to='/signin'>
               Features
             </MenuItem>
-            <MenuItem style={{ color: "#ffc226" }} to="/shopguide">
+            <MenuItem style={{ color: '#ffc226' }} to='/shopguide'>
               Community
             </MenuItem>
-            <MenuItem style={{ color: "#ffc226" }} to="/shopguidedetails">
+            <MenuItem style={{ color: '#ffc226' }} to='/shopguidedetails'>
               Support
             </MenuItem>
           </Menu>
@@ -86,7 +86,7 @@ const Navbar = () => {
                 onClick={() => {
                   setModal(!modal);
                 }}
-                src="blankProfile.png"
+                src='blankProfile.png'
               />
             </NavLink>
             {modal === true ? (

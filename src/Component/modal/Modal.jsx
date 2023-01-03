@@ -41,6 +41,8 @@ export default function Modal() {
   const [photoURL, setPhotoURL] = useState('blankProfiles.png');
   const [updateProfileInput, setUpdateProfileInput] = useState('');
   const [updateNickName, setUpdateNickName] = useState('');
+  // 회수 수정
+  const [attachment, setAttachment] = useState();
 
   const navigate = useNavigate();
 
@@ -68,17 +70,36 @@ export default function Modal() {
   // onFileChange는 사용자가 인풋에 파일을 업로드 했을때 실행된다.
   // oneFileChange 를 통해 사진이 업로드 되기 전 미리보기 기능을 구현한다.
   const onFileChange = (event) => {
-    const theFile = event.target.files[0];
-    setUploadImage(theFile);
+    // const theFile = event.target.files[0];
+    // setUploadImage(theFile);
 
-    console.log('the File : ', theFile);
+    // console.log('the File : ', theFile);
+    // const reader = new FileReader();
+    // reader.readAsDataURL(theFile);
+    // reader.onloadend = (finishedEvent) => {
+    //   const imgDataUrl = finishedEvent.currentTarget.result;
+    //   localStorage.setItem('imgDataUrl', imgDataUrl);
+    //   document.getElementById('profileView').src = imgDataUrl;
+    // };
+    //회수 수정
+    console.log(event.target);
+    const {
+      target: { files },
+    } = event;
+    const theFile = files[0];
+    // console.log(theFile);
     const reader = new FileReader();
-    reader.readAsDataURL(theFile);
     reader.onloadend = (finishedEvent) => {
-      const imgDataUrl = finishedEvent.currentTarget.result;
-      localStorage.setItem('imgDataUrl', imgDataUrl);
-      document.getElementById('profileView').src = imgDataUrl;
+      console.log(finishedEvent);
+      const {
+        currentTarget: { result },
+      } = finishedEvent;
+      setAttachment(result);
     };
+    if (event.target.files[0]) {
+      setPhoto(event.target.files[0]);
+    }
+    reader.readAsDataURL(theFile);
   };
 
   const profileName = useSelector((state) => state.profileName);
@@ -136,17 +157,29 @@ export default function Modal() {
       <Container>
         <ProfileImageContainer>
           <label htmlFor='imgInput'>
-            <img
+            {/* <img
               src={photoURL}
               id='profileView'
               style={{ width: '200px', height: '200px', objectFit: 'cover' }}
+            /> */}
+            <img
+              src={attachment ? attachment : photoURL}
+              // id='profileView'
+              style={{ width: '200px', height: '200px', objectFit: 'cover' }}
             />
-            <input
+            {/* <input
               style={{ display: 'none' }}
               type='file'
               id='imgInput'
               accept='image/*'
               onChange={handleChange}
+            /> */}
+            <input
+              style={{ display: 'none' }}
+              type='file'
+              id='imgInput'
+              accept='image/*'
+              onChange={onFileChange}
             />
           </label>
         </ProfileImageContainer>
