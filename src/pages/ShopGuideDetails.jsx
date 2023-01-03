@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { db } from '../firebase';
+import 'firebase/functions';
 import {
   getFirestore,
   collection,
@@ -16,6 +17,8 @@ import {
   query,
   orderBy,
 } from 'firebase/firestore';
+import { useAuth } from '../firebase';
+import { getAuth } from "firebase/auth";
 
 const ShopGuideDetails = ({ collectionName, prevComment }) => {
   // 댓글 기본 state
@@ -23,6 +26,13 @@ const ShopGuideDetails = ({ collectionName, prevComment }) => {
   const [comment, setComment] = useState('');
   const [commentItemtList, setCommentItemList] = useState([]);
   const dispatch = useDispatch();
+  //민성 수정
+  //uid 가져오기
+  const currentUser = useAuth();
+  const auth = getAuth();
+  const uid = auth.currentUser.uid;
+
+
 
   // 댓글 등록 기능 - 버튼 클릭시 댓글 리스트에 작성한 댓글 추가
   const commentSubmitHandler = (event) => {
@@ -31,12 +41,12 @@ const ShopGuideDetails = ({ collectionName, prevComment }) => {
     if (window.confirm('댓글을 등록하시겠습니까?')) {
       const newComment = {
         id: uuidv4(),
+
         comment,
         savetime: time,
         modify: false,
       };
 
-      // dispatch는 어떤때에 쓰나요?
       // dispatch는 action을 reducer로 보내는 역할을 합니다.
       // action은 reducer로 보내는 데이터를 의미합니다.
       // reducer는 action을 받아서 state를 업데이트하는 역할을 합니다.
@@ -67,6 +77,7 @@ const ShopGuideDetails = ({ collectionName, prevComment }) => {
       comment,
       savetime: time,
       modify: false,
+      commentcreatorid: currentUser.uid,
     });
     console.log(docRef);
     setCommentItemList([
@@ -75,6 +86,7 @@ const ShopGuideDetails = ({ collectionName, prevComment }) => {
         comment,
         savetime: time,
         modify: false,
+        commentcreatorid: currentUser.uid,
       },
       ...commentItemtList,
     ]);

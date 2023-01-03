@@ -67,6 +67,12 @@ const Form = ({ userObj }) => {
         created: moment().format('YYYY-MM-DD HH:mm:ss'),
         image: downloadimage,
         // user: userObj.displayName,
+        // user: currentUser.displayName,
+        // uid 란 firebase에서 제공하는 고유한 id값이다.
+        // uid를 읽게 하기 위해선 firebase에서 제공하는 getAuth()를 통해 auth를 가져와야 한다.
+        // 그리고 auth에서 currentUser를 통해 uid를 가져올 수 있다.
+        // uid: currentUser.uid,
+
         creatorid: currentUser.uid, // 고정
       },
         previousPageHanlder(),
