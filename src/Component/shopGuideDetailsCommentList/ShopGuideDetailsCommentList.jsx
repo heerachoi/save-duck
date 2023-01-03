@@ -39,23 +39,15 @@ const ShopGuideDetailsCommentList = ({
     });
   };
 
-  useEffect(() => {
-    syncCommentListStateWithFirestore();
-  }, []);
+  // useEffect(() => {
+  //   syncCommentListStateWithFirestore();
+  // }, []);
 
   return (
     <StCommentListContainer>
       {commentItemtList.map((item) => {
         if (postingId === item.postingId) {
-          return (
-            <ShopGuideDetailsComment
-              key={item.id}
-              item={item}
-              syncCommentListStateWithFirestore={
-                syncCommentListStateWithFirestore
-              }
-            />
-          );
+          return <ShopGuideDetailsComment key={item.id} item={item} syncCommentListStateWithFirestore={syncCommentListStateWithFirestore} />;
         }
       })}
     </StCommentListContainer>
