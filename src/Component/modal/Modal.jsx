@@ -33,12 +33,13 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
+import blankProfile from '../../image/default_profile.webp';
 
 export default function Modal() {
   const currentUser = useAuth();
   const [photo, setPhoto] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [photoURL, setPhotoURL] = useState('blankProfiles.png');
+  const [photoURL, setPhotoURL] = useState(blankProfile);
   const [updateProfileInput, setUpdateProfileInput] = useState('');
   const [updateNickName, setUpdateNickName] = useState('');
 

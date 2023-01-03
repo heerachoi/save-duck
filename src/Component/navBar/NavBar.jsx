@@ -17,7 +17,7 @@ import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { v4 as uuidv4 } from 'uuid';
 import { current } from '@reduxjs/toolkit';
-import blankProfile from '../../images/default_profile.webp';
+import blankProfile from '../../image/default_profile.webp';
 
 const Navbar = () => {
   const modalRef = useRef();
@@ -88,7 +88,8 @@ const Navbar = () => {
                 onClick={() => {
                   setModal(!modal);
                 }}
-                src={currentUser.profile ? currentUser.profile : blankProfile}
+                // src={currentUser.profile ? currentUser.profile : blankProfile}
+                src={blankProfile}
               />
               {/* <img
                 ref={profileRef}
