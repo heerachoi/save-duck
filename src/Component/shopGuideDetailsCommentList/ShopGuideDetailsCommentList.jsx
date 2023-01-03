@@ -11,9 +11,9 @@ const ShopGuideDetailsCommentList = ({
   comment,
   postingId,
 }) => {
-  const currentUser = useAuth();
+  // const currentUser = useAuth();
 
-  console.log(postingId);
+  // console.log(postingId);
 
   // 댓글 불러오기 - DB에서 이전 댓글 리스트 불러오기
   const syncCommentListStateWithFirestore = () => {
@@ -33,6 +33,7 @@ const ShopGuideDetailsCommentList = ({
           savetime: doc.data().savetime,
           modify: doc.data().modify,
           postingId: doc.data().postingId,
+          creatorId: doc.data().creatorId,
         });
       });
       setCommentItemList(firestoreTodoItemList);
@@ -51,6 +52,8 @@ const ShopGuideDetailsCommentList = ({
             <ShopGuideDetailsComment
               key={item.id}
               item={item}
+              commentItemtList={commentItemtList}
+              setCommentItemList={setCommentItemList}
               syncCommentListStateWithFirestore={
                 syncCommentListStateWithFirestore
               }
