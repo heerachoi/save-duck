@@ -7,7 +7,6 @@ import {
   RightSection,
   Menu,
   MenuItem,
-  NavProfileImg,
   SignUp,
 } from './NavBar';
 import { useAuth, upload } from '../../firebase.js';
@@ -17,7 +16,6 @@ import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { v4 as uuidv4 } from 'uuid';
 import { current } from '@reduxjs/toolkit';
-import blankProfile from '../../image/default_profile.webp';
 
 const Navbar = () => {
   const modalRef = useRef();
@@ -43,7 +41,7 @@ const Navbar = () => {
   }, [modal]);
 
   const handleSubmit = async (e) => {
-    console.log(currentUser);
+    // console.log(currentUser);
     e.preventDefault();
     try {
       await addDoc(collection(db, currentUser.uid), {
@@ -83,22 +81,13 @@ const Navbar = () => {
 
           <SignUp>
             <NavLink onClick={handleSubmit}>
-              <NavProfileImg
+              <img
                 ref={profileRef}
                 onClick={() => {
                   setModal(!modal);
                 }}
-                // src={currentUser.profile ? currentUser.profile : blankProfile}
-                src={blankProfile}
+                src='blankProfile.png'
               />
-              {/* <img
-                ref={profileRef}
-                onClick={() => {
-                  setModal(!modal);
-                }}
-                src='assets/images/blankProfiles.png'
-                alt=''
-              /> */}
             </NavLink>
             {modal === true ? (
               <div ref={modalRef}>
