@@ -163,11 +163,7 @@ const ShoppingList = ({ year, month, date }) => {
     if (!currentUser) return;
     calculateTotalPrice();
     shoppingListUnchecked();
-  }, [dateToString, currentUser]);
-
-  useEffect(() => {
-    calculateTotalPrice();
-  }, [price]);
+  }, [dateToString, currentUser, price]);
 
   return (
     <ShoppingListContainer>
