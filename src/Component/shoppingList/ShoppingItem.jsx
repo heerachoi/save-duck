@@ -166,13 +166,16 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
           />
         )}
         {modify ? (
-          <XIcon
-            icon={faX}
-            onClick={() => {
-              editCancelButtonHandler(id);
-            }}
-          />
+          ''
         ) : (
+          //   (
+          //   <XIcon
+          //     icon={faX}
+          //     onClick={() => {
+          //       editCancelButtonHandler(id);
+          //     }}
+          //   />
+          // )
           <XIcon
             icon={faX}
             onClick={() => {
