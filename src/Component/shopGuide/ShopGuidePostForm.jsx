@@ -49,8 +49,10 @@ const Form = ({ userObj }) => {
     if (imageUrl) {
       const imageResponse = await uploadString(imageRef, imageUrl, 'data_url');
       downloadimage = await getDownloadURL(imageResponse.ref);
+    } else {
+      downloadimage = '';
     }
-    console.log(downloadimage)
+    // console.log(downloadimage)
     // console.log(userObj)
     // console.log(currentUser.uid)
     // console.log(currentUser.displayName)
@@ -70,7 +72,7 @@ const Form = ({ userObj }) => {
         previousPageHanlder(),
       );
     } catch (err) {
-      alert('사진을 등록해주세요.');
+      alert(err);
     }
   };
 

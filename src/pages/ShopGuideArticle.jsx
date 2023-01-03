@@ -82,11 +82,13 @@ const ShopGuideArticle = ({ item }) => {
                 <StShopDetailsArticleTitle>
                   {item.title}
                 </StShopDetailsArticleTitle>
-                <StShopDetailsImage
-                  className='detailsMainImage'
-                  src={item.image}
-                  alt='첨부된 이미지'
-                />
+                {/* 게시글에 사진을 등록하지 않은 경우 이미지를 보이지 않게 하기. */}
+                {item.image === '' ? null : (
+                  <StShopDetailsImage
+                    className='detailsMainImage'
+                    src={item.image}
+                    alt='등록된 사진이 없습니다.'
+                  />)}
                 <StShopDetailsArticleContents>
                   {item.description}
                 </StShopDetailsArticleContents>
@@ -169,6 +171,7 @@ const StShopDetailsImage = styled.img`
   margin-bottom: 30px;
   object-fit: cover;
   margin-top: 40px;
+  font-size: xx-small;
 `;
 
 const StShopDetailsEditButtons = styled.div`
