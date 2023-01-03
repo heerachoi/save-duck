@@ -1,4 +1,4 @@
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink } from 'react-router-dom';
 import {
   StyledSaveDuckHome,
   LeftSection,
@@ -7,6 +7,7 @@ import {
   RightSection,
   Menu,
   MenuItem,
+  NavProfileImg,
   SignUp,
 } from './NavBar';
 import { useAuth, upload } from '../../firebase.js';
@@ -16,6 +17,7 @@ import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { v4 as uuidv4 } from 'uuid';
 import { current } from '@reduxjs/toolkit';
+import blankProfile from '../../images/default_profile.webp';
 
 const Navbar = () => {
   const modalRef = useRef();
@@ -59,35 +61,43 @@ const Navbar = () => {
       <StyledSaveDuckHome>
         {/* 왼쪽영역 */}
         <LeftSection>
-          <SaveDuckHomeNav to="/">
-            <span style={{ color: "#ffc226" }}>Save Duck</span>
-            <DuckImageLogo src="ssave.png" alt="Home" />
+          <SaveDuckHomeNav to='/'>
+            <span style={{ color: '#ffc226' }}>Save Duck</span>
+            <DuckImageLogo src='ssave.png' alt='Home' />
           </SaveDuckHomeNav>
         </LeftSection>
 
         {/* 오른쪽영역 */}
         <RightSection>
           <Menu>
-            <MenuItem style={{ color: "#ffc226" }} to="/signin">
+            <MenuItem style={{ color: '#ffc226' }} to='/signin'>
               Features
             </MenuItem>
-            <MenuItem style={{ color: "#ffc226" }} to="/shopguide">
+            <MenuItem style={{ color: '#ffc226' }} to='/shopguide'>
               Community
             </MenuItem>
-            <MenuItem style={{ color: "#ffc226" }} to="/shopguidedetails">
+            <MenuItem style={{ color: '#ffc226' }} to='/shopguidedetails'>
               Support
             </MenuItem>
           </Menu>
 
           <SignUp>
             <NavLink onClick={handleSubmit}>
-              <img
+              <NavProfileImg
                 ref={profileRef}
                 onClick={() => {
                   setModal(!modal);
                 }}
-                src="blankProfile.png"
+                src={currentUser.profile ? currentUser.profile : blankProfile}
               />
+              {/* <img
+                ref={profileRef}
+                onClick={() => {
+                  setModal(!modal);
+                }}
+                src='assets/images/blankProfiles.png'
+                alt=''
+              /> */}
             </NavLink>
             {modal === true ? (
               <div ref={modalRef}>
