@@ -33,8 +33,8 @@ import {
 
 const ShoppingList = ({ year, month, date }) => {
   const currentUser = useAuth();
-  console.log('shoppinglist current user');
-  console.log(currentUser);
+  // console.log('shoppinglist current user');
+  // console.log(currentUser);
   const currentYear = year;
   const currentMonth = month + 1;
   const currentDate = date;
@@ -48,7 +48,7 @@ const ShoppingList = ({ year, month, date }) => {
   const [itemList, setItemList] = useState([]);
 
   const shoppingListUnchecked = () => {
-    const q = query(collection(db, 'itemList'), where('userId', '==', currentUser.uid));
+    const q = query(collection(db, 'itemList'), where('userId', '==', currentUser.uid), where('date', '==', dateToString));
 
     getDocs(q).then((querySnapshop) => {
       const firestoreShoppingItemList = [];
@@ -128,7 +128,7 @@ const ShoppingList = ({ year, month, date }) => {
   const calculateTotalPrice = async () => {
     const usersCollectionRef = collection(db, 'itemList');
 
-    const q = await query(usersCollectionRef, where('userId', '==', currentUser.uid));
+    const q = await query(usersCollectionRef, where('userId', '==', currentUser.uid), where('date', '==', dateToString));
     let total = 0;
     let number = 0;
     getDocs(q).then((querySnapshop) => {
