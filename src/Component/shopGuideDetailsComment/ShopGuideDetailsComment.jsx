@@ -141,27 +141,8 @@ const ShopGuideDetailsComment = ({
       // where('postingId', '==', CurrentPostingId),
       // !orderBy('savetime', 'desc')
     );
-
     console.log(q);
-
-    // getDocs(q).then((querySnapshot) => {
-    //   const firestoreTodoItemList = [];
-    //   querySnapshot.forEach((doc) => {
-    //     firestoreTodoItemList.push({
-    //       id: doc.id,
-    //       comment: doc.data().comment,
-    //       userId: doc.data().userId,
-    //       savetime: doc.data().savetime,
-    //       modify: doc.data().modify,
-    //       postingId: doc.data().postingId,
-    //       creatorId: doc.data().creatorId,
-    //     });
-    //   });
-    //   setCommentItemList(firestoreTodoItemList);
-    // });
   };
-
-  // syncUserInfoWithFirestore();
 
   useEffect(() => {
     syncCommentListStateWithFirestore();
@@ -187,95 +168,47 @@ const ShopGuideDetailsComment = ({
         {/* 버튼 영역 - 수정 & 삭제 VS 완료 & 취소  */}
         {/* <span>{item.comment}</span> */}
         <StCommentContentSaveTime>{savetime}</StCommentContentSaveTime>
-        {modify ? (
-          <>
-            <StCommentContentsEditButton
-              type='button'
-              className='comment-edit-complete-btn'
-              onClick={() => {
-                updateCompleteButtonHandler(id);
-              }}
-            >
-              완료
-            </StCommentContentsEditButton>
-            <StCommentContentsDeleteButton
-              onClick={() => {
-                editCancelButtonHandler(item);
-              }}
-            >
-              취소
-            </StCommentContentsDeleteButton>
-          </>
-        ) : (
-          <>
-            <StCommentContentsEditButton
-              className='comment-edit-btn'
-              onClick={() => {
-                updateCommentModify(id);
-              }}
-            >
-              수정
-            </StCommentContentsEditButton>
-            <StCommentContentsDeleteButton
-              onClick={() => {
-                deleteCommentButtonHandler(id);
-              }}
-            >
-              삭제
-            </StCommentContentsDeleteButton>
-          </>
-        )}
-        {/* {commentItemtList.map((item) => {
-          if (
-            item.creatorId === currentUser.uid
-            // item.postingId === currentUser.postingId
-          ) {
-            return (
-              <>
-                {modify ? (
-                  <>
-                    <StCommentContentsEditButton
-                      type='button'
-                      className='comment-edit-complete-btn'
-                      onClick={() => {
-                        updateCompleteButtonHandler(id);
-                      }}
-                    >
-                      완료
-                    </StCommentContentsEditButton>
-                    <StCommentContentsDeleteButton
-                      onClick={() => {
-                        editCancelButtonHandler(id);
-                      }}
-                    >
-                      취소
-                    </StCommentContentsDeleteButton>
-                  </>
-                ) : (
-                  <>
-                    <StCommentContentsEditButton
-                      className='comment-edit-btn'
-                      onClick={() => {
-                        updateCommentModify(id);
-                      }}
-                    >
-                      수정
-                    </StCommentContentsEditButton>
-                    <StCommentContentsDeleteButton
-                      onClick={() => {
-                        deleteCommentButtonHandler(id);
-                      }}
-                    >
-                      삭제
-                    </StCommentContentsDeleteButton>
-                  </>
-                )}
-              </>
-            );
-          } else {
-            return null;
-          }
-        })} */}
+
+        {item.creatorId === currentUser.uid ? (
+          modify ? (
+            <>
+              <StCommentContentsEditButton
+                type='button'
+                className='comment-edit-complete-btn'
+                onClick={() => {
+                  updateCompleteButtonHandler(id);
+                }}
+              >
+                완료
+              </StCommentContentsEditButton>
+              <StCommentContentsDeleteButton
+                onClick={() => {
+                  editCancelButtonHandler(id);
+                }}
+              >
+                취소
+              </StCommentContentsDeleteButton>
+            </>
+          ) : (
+            <>
+              <StCommentContentsEditButton
+                className='comment-edit-btn'
+                onClick={() => {
+                  updateCommentModify(id);
+                }}
+              >
+                수정
+              </StCommentContentsEditButton>
+              <StCommentContentsDeleteButton
+                onClick={() => {
+                  deleteCommentButtonHandler(id);
+                }}
+              >
+                삭제
+              </StCommentContentsDeleteButton>
+            </>
+          )
+        ) : null}
       </StCommentListContainer>
     </div>
   );

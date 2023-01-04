@@ -14,7 +14,10 @@ const ShopGuide = () => {
     <StShopGuideContainer>
       <StShopGuideHeader>
         <StShopGuideHeaderLeft>쇼핑가이드</StShopGuideHeaderLeft>
-        <StShopGuideHeaderRight>가성비 좋았던 쇼핑 기록을 공유하여 주세요. 다른 사람의 쇼핑 목록도 살짝 참고하면 더욱 좋습니다.</StShopGuideHeaderRight>
+        <StShopGuideHeaderRight>
+          가성비 좋았던 쇼핑 기록을 공유하여 주세요. 다른 사람의 쇼핑 목록도
+          살짝 참고하면 더욱 좋습니다.
+        </StShopGuideHeaderRight>
       </StShopGuideHeader>
       <StShopGuideBody>
         <List />
