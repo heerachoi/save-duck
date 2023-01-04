@@ -35,8 +35,12 @@ export const MyProfileMoDal = styled.div`
   font-size: 15px;
   font-weight: 900;
   font-family: 'Comfortaa', cursive;
-  text-shadow: -0.2px 0 #ffc226, 0 0.2px #ffc226, 0.2px 0 #ffc226,
-    0 -0.2px #ffc226;
+  /* text-shadow: -0.2px 0 #ffc226, 0 0.2px #ffc226, 0.2px 0 #ffc226,
+    0 -0.2px #ffc226; */
+  &:hover {
+    text-shadow: -0.3px 0 #ff8a00, 0 0.3px #ff8a00, 0.3px 0 #ff8a00,
+      0 -0.3px #ff8a00;
+  }
 `;
 
 export const DuckImageLogo = styled.img`
@@ -66,9 +70,13 @@ export const MenuItem = styled(NavLink)`
   font-size: 15px;
   font-weight: 900;
   font-family: 'Comfortaa', cursive;
-  text-shadow: -0.2px 0 #ffc226, 0 0.2px #ffc226, 0.2px 0 #ffc226,
-    0 -0.2px #ffc226;
+  /* text-shadow: -0.2px 0 #ffc226, 0 0.2px #ffc226, 0.2px 0 #ffc226,
+    0 -0.2px #ffc226; */
   /* color: black; */
+  &:hover {
+    text-shadow: -0.3px 0 #ff8a00, 0 0.3px #ff8a00, 0.3px 0 #ff8a00,
+      0 -0.3px #ff8a00;
+  }
 `;
 
 export const NavProfileImg = styled.img`
