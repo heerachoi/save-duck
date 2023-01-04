@@ -7,6 +7,8 @@ import moment from 'moment';
 import styled from 'styled-components';
 import { db, useAuth } from '../firebase';
 import { collection, addDoc, doc, getDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth';
+
 // import storage from '@react-native-firebase/storage';
 
 const ShopGuideDetails = ({ postingId }) => {
@@ -16,6 +18,10 @@ const ShopGuideDetails = ({ postingId }) => {
   const [commentItemtList, setCommentItemList] = useState([]);
   const currentUser = useAuth();
   const dispatch = useDispatch();
+  //민성 수정
+  //uid 가져오기
+  const auth = getAuth();
+  const uid = auth.currentUser.uid;
 
   // 댓글 input 내용 입력 시 input value state 업데이트
   const CommentChangeHandler = (event) => {
