@@ -12,18 +12,22 @@ export const SignupWrap = styled.div`
   flex-direction: column;
   text-align: center;
 `;
+
 export const H1 = styled.h1`
   font-size: 30px;
   margin-bottom: 20px;
 `;
+
 export const H2 = styled.h2`
   margin-bottom: 100px;
 `;
+
 export const SignupTitle = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
 `;
+
 export const SignupContaier = styled.section`
   text-align: center;
   width: 400px;
@@ -33,8 +37,6 @@ export const SignupContaier = styled.section`
 export const EmailWrap = styled.label`
   font-size: 17px;
   text-align: left;
-  /* background-color: aqua; */
-  /* margin-left: 170px; */
   margin-top: 30px;
 `;
 
@@ -62,8 +64,7 @@ export const InputTitle = styled.div`
   text-align: left;
 `;
 
-//* Btn Part
-
+// Btn Part
 export const ButtonSign = styled.section`
   margin-top: 50px;
   margin-bottom: 30px;
@@ -85,6 +86,7 @@ export const SignUpBtn = styled(Button)`
   outline: none;
   padding: 5px;
 `;
+
 export const SignUpSubmit = styled(Button)`
   width: 300px;
   margin-top: 40px;
@@ -101,11 +103,13 @@ export const SignUpSubmit = styled(Button)`
     color: #fff;
   }
 `;
+
 export const ErrorMessgeWrap = styled.div`
   text-align: left;
   font-size: 12px;
   margin-top: 5px;
 `;
+
 export const ErrorMessge = styled.span`
   .message {
     &.success {
@@ -116,14 +120,7 @@ export const ErrorMessge = styled.span`
     }
   }
 `;
-export const PasswordWrap = styled.div``;
 export const ContentWrap = styled.div``;
 export const EmaillWrap = styled.div``;
 
 export const ErrorpasswordWrap = styled.div``;
-
-// nvibar 안보이도록
-// 소셜로그인 btn 수정
-// background 오리 애니메이션 구현.
-// 회원가입 Html.css 완성
-// firebase 연동해서 로그인정보, 회원정보 가져오기

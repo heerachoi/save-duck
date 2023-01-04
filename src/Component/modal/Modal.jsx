@@ -1,4 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+import { authService, upload, db } from '../../firebase.js';
+import { modifyProfile } from '../../redux/modules/profile.js';
+import { useSelector, useDispatch } from 'react-redux';
+import { collection, updateDoc, doc, getDocs, query, where } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+
 import {
   StyledProfileButton,
   StyledLogoutButton,
@@ -12,17 +21,6 @@ import {
   StyledProfileForm,
   StyledProfileInput,
 } from './Modal.js';
-import { useState, useEffect } from 'react';
-import { useAuth, upload } from '../../firebase.js';
-import { modifyProfile, updateProfile } from '../../redux/modules/profile.js';
-import { useSelector, useDispatch } from 'react-redux';
-import { authService } from '../../firebase.js';
-import { ref, uploadBytes } from 'firebase/storage';
-import { storage } from '../../firebase.js';
-import { getFirestore, collection, addDoc, updateDoc, setDoc, doc, getDocs, query, orderBy, onSnapshot, where } from 'firebase/firestore';
-import { db } from '../../firebase';
-import { useNavigate } from 'react-router-dom';
-import { getAuth } from 'firebase/auth';
 
 export default function Modal() {
   const [photo, setPhoto] = useState(null);
@@ -85,11 +83,9 @@ export default function Modal() {
   };
 
   const updateButtonModify = async (id) => {
-    console.log('id', id);
     const docRef = doc(db, 'users', id);
-    console.log('docRef', docRef);
     try {
-      const response = await updateDoc(docRef, {
+      await updateDoc(docRef, {
         username: updateNickName,
         modify: true,
       });
@@ -101,9 +97,8 @@ export default function Modal() {
 
   const updateCompleteButtonHandler = async (id) => {
     const docRef = doc(db, 'users', id);
-    console.log('docRef', docRef);
     try {
-      const response = await updateDoc(docRef, {
+      await updateDoc(docRef, {
         username: updateNickName,
         modify: false,
       });
@@ -170,18 +165,15 @@ export default function Modal() {
                 onClick={(event) => {
                   event.preventDefault();
                   updateCompleteButtonHandler(infoId);
-                  alert('수정 완료!!');
                 }}
-              >
-                v
-              </StyledCheckButton>
+                icon={faCheck}
+              />
             ) : (
               ''
             )}
             <StyledVector
               onClick={() => {
                 updateButtonModify(infoId);
-                window.confirm('수정 하시겠습니까?');
               }}
               src='Vector.png'
             />

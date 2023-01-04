@@ -1,29 +1,10 @@
-import { Link } from 'react-router-dom';
-import { useEffect, useState, useRef } from 'react';
-import { authService, db } from '../../firebase';
-import { collection, addDoc, setDoc, doc } from 'firebase/firestore';
-import { v4 as uuidv4 } from 'uuid';
-
-import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider } from 'firebase/auth';
-
 import React from 'react';
-import {
-  H1,
-  H2,
-  SignupWrap,
-  SignupContaier,
-  SignupTitle,
-  SignUpSubmit,
-  Input,
-  InputTitle,
-  InputWrap,
-  passwordWrp,
-  ContentWrap,
-  EmailWrap,
-  ErrorMessgeWrap,
-  ErrorMessge,
-  PasswordWrap,
-} from './SignUp.js';
+import { useEffect, useState } from 'react';
+import { authService, db } from '../../firebase';
+import { collection, setDoc, doc } from 'firebase/firestore';
+import { v4 as uuidv4 } from 'uuid';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { H1, H2, SignupWrap, SignupContaier, SignupTitle, SignUpSubmit, Input, InputTitle, EmailWrap, ErrorMessgeWrap, ErrorMessge, ContentWrap } from './SignUp.js';
 
 const SignUpComponent = () => {
   // 초기값 세팅 - 아이디, 닉네임, 비밀번호, 비밀번호확인, 이메일, 전화번호, 생년월일
@@ -49,7 +30,6 @@ const SignUpComponent = () => {
   const [notAllow, setNotAllow] = useState(true);
 
   const auth = getAuth();
-  console.log('auth: ', auth);
 
   //* 회원가입 완료
   const onSubmit = async (e) => {
@@ -60,24 +40,21 @@ const SignUpComponent = () => {
     try {
       await createUserWithEmailAndPassword(authService, email, password);
       alert('SaveDuck 회원이 되신걸 환영합니다.');
-      // await setDoc (collection(db, 'users').doc(generateId).set(
       await setDoc(doc(usersRef, generateId), {
-        // uid: currentUser.uid,
+        id: generateId,
+        uid: auth.currentUser.uid,
         email: email,
         username: name,
-        uid: auth.currentUser.uid,
         modify: false,
-        id: generateId,
       });
       window.location.href = '/home';
     } catch (error) {
       setError(error.message);
+      alert('이미 존재하는 계정 입니다.');
       console.log(error);
     }
   };
-  console.log('email:', email);
-  console.log('passord:', password);
-  console.log('name:', name);
+
   //* 회원가입 버튼 활
   useEffect(() => {
     if (isname && isPassword && isPasswordConfirm && isEmail) {
@@ -86,10 +63,6 @@ const SignUpComponent = () => {
     }
     setNotAllow(true);
   }, [isname, isPassword, isPasswordConfirm, isEmail]);
-  console.log(isEmail, isname, isPassword, isPasswordConfirm);
-
-  // 회원가입 완료 const onClickSummit = () => {   alert("SaveDuck 회원이 되신걸 환영합니다.");
-  // window.location.href = "/"; };
 
   //* 이메일
   const onChangeEmail = (e) => {

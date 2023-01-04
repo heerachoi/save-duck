@@ -150,6 +150,7 @@ export const GoogleBtn = styled(Button)`
 
 export const GithubBtn = styled(Button)`
   cursor: pointer;
+  margin-top: 5px;
   width: 400px;
   height: 40px;
   border: 1px solid #e1e1e1;
@@ -188,7 +189,6 @@ export const GogImgContainer = styled.img.attrs({
   padding-left: 10px;
 `;
 
-export const ErrorpasswordWrap = styled.div``;
 
 // nvibar 안보이도록
 // 소셜로그인 btn 수정
