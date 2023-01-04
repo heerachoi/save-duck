@@ -287,7 +287,7 @@ const ShopGuideDetailsComment = ({
 
 
   return (
-    <div>
+    <div style={{ marginTop: '50px' }}>
       <StCommentListContainer key={id}>
         {/* 작성자 정보 및 댓글 내용 */}
         <StCommentProfileImage src={photoURL} alt='' />

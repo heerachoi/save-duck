@@ -2,6 +2,23 @@ import styled from 'styled-components';
 import ShopGuideArticle from '../../pages/ShopGuideArticle';
 
 // 댓글 리스트 영역
+
+export const StCommentListContainer = styled.li`
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 850px;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  gap: 10px;
+`;
+
+export const StCommentCreateInfo = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
 export const StCommentProfileImage = styled.img`
   width: 30px;
   height: 30px;
@@ -9,28 +26,22 @@ export const StCommentProfileImage = styled.img`
   /* margin-right: 15px; */
 `;
 
-export const StCommentListContainer = styled.li`
-  list-style: none;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 850px;
-  margin-bottom: 20px;
-`;
-
 export const StCommentUserName = styled.div`
-  font-size: 17px;
+  font-size: 15px;
+  font-weight: 400;
 `;
 
 export const StCommentContentInput = styled.textarea`
   font-size: 15px;
   margin-bottom: 10px;
-  width: 400px;
+  width: 500px;
   min-width: 300px;
   min-height: 80px;
   border: none;
+  border-radius: 5px;
   background-color: #eeeeee;
   resize: none;
+  padding: 10px;
 `;
 
 export const StCommentContentSaveTime = styled.div`
