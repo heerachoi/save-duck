@@ -59,24 +59,24 @@ const Navbar = () => {
       <StyledSaveDuckHome>
         {/* 왼쪽영역 */}
         <LeftSection>
-          <SaveDuckHomeNav to='/'>
-            <span style={{ color: '#ffc226' }}>Save Duck</span>
-            <DuckImageLogo src='ssave.png' alt='Home' />
+          <SaveDuckHomeNav to='/home'>
+            {/* <span style={{ color: '#ffc226' }}>Save Duck</span> */}
+            <DuckImageLogo src='save_duck_logo_h.png' alt='Home' />
           </SaveDuckHomeNav>
         </LeftSection>
 
         {/* 오른쪽영역 */}
         <RightSection>
           <Menu>
-            <MenuItem style={{ color: '#ffc226' }} to='/signin'>
+            {/* <MenuItem style={{ color: '#ffc226' }} to='/signin'>
               Features
-            </MenuItem>
+            </MenuItem> */}
             <MenuItem style={{ color: '#ffc226' }} to='/shopguide'>
               Community
             </MenuItem>
-            <MenuItem style={{ color: '#ffc226' }} to='/shopguidedetails'>
+            {/* <MenuItem style={{ color: '#ffc226' }} to='/shopguidedetails'>
               Support
-            </MenuItem>
+            </MenuItem> */}
           </Menu>
 
           <SignUp>

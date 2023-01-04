@@ -12,7 +12,7 @@ export const Outlet = styled.div`
 `;
 
 export const StyledSaveDuckHome = styled.div`
-  padding: 10px 10px 10px 10px;
+  padding: 5px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -25,7 +25,7 @@ export const StyledSaveDuckHome = styled.div`
 
 export const SaveDuckHomeNav = styled(NavLink)`
   text-decoration: none;
-  color: black;
+  /* color: black; */
   display: flex;
   align-items: center;
 `;
@@ -33,12 +33,16 @@ export const SaveDuckHomeNav = styled(NavLink)`
 export const DuckImageLogo = styled.img`
   display: flex;
   align-items: center;
+  width: 120px;
 `;
 
-export const LeftSection = styled.div``;
+export const LeftSection = styled.div`
+  margin-left: 30px;
+`;
 
 export const RightSection = styled.div`
   display: flex;
+  margin-right: 30px;
 `;
 
 export const Menu = styled.div`
@@ -49,8 +53,10 @@ export const Menu = styled.div`
 
 export const MenuItem = styled(NavLink)`
   text-decoration: none;
-  margin-right: 8px;
-  color: black;
+  margin-right: -60px;
+  font-size: 18px;
+  font-weight: 600;
+  /* color: black; */
 `;
 
 export const NavProfileImg = styled.img`
@@ -62,4 +68,5 @@ export const NavProfileImg = styled.img`
 export const SignUp = styled.div`
   display: flex;
   align-items: center;
+  margin-top: 5px;
 `;
