@@ -59,7 +59,7 @@ const ShopGuideDetails = ({ postingId }) => {
       postingId: postingId,
       creatorId: currentUser.uid,
     });
-    console.log(docRef);
+    // console.log(docRef);
     setCommentItemList([
       {
         id: uuidv4(),
@@ -96,6 +96,7 @@ const ShopGuideDetails = ({ postingId }) => {
       <div>
         <ul>
           <ShopGuideDetailsCommentList
+            currentUser={currentUser}
             postingId={postingId}
             commentItemtList={commentItemtList}
             setCommentItemList={setCommentItemList}

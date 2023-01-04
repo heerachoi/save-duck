@@ -33,17 +33,22 @@ import {
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 import { useNavigate } from 'react-router-dom';
+import defaultProfileImg from '../../image/default_profile.webp';
 
 export default function Modal() {
   const currentUser = useAuth();
   const [photo, setPhoto] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [photoURL, setPhotoURL] = useState('blankProfiles.png');
+  const [photoURL, setPhotoURL] = useState(defaultProfileImg);
   const [updateProfileInput, setUpdateProfileInput] = useState('');
   const [updateNickName, setUpdateNickName] = useState('');
+  const [readOnly, setReadOnly] = useState(true);
+  const profileName = useSelector((state) => state.profileName);
+  // const [uploadImage, setUploadImage] = useState();
   // 회수 수정
   const [attachment, setAttachment] = useState();
 
+  const dispatch = useDispatch(); // 디스패치 함수
   const navigate = useNavigate();
 
   function handleChange(e) {
@@ -63,8 +68,6 @@ export default function Modal() {
       setPhotoURL(currentUser.photoURL);
     }
   }, [currentUser]);
-
-  const [uploadImage, setUploadImage] = useState();
 
   // const theFile = test;
   // onFileChange는 사용자가 인풋에 파일을 업로드 했을때 실행된다.
@@ -102,13 +105,7 @@ export default function Modal() {
     reader.readAsDataURL(theFile);
   };
 
-  const profileName = useSelector((state) => state.profileName);
-
   // console.log(profileName);
-
-  const dispatch = useDispatch(); // 디스패치 함수
-  const [readOnly, setReadOnly] = useState(true);
-  // const [updateProfileInput, setUpdateProfileInput] = useState("");
 
   const modifyProfileButtonHandler = (id) => {
     dispatch(modifyProfile(id));
