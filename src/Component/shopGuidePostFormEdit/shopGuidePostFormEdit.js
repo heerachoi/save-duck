@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
-// export const StSGPInfo = styled.div``;
+export const StSGPInfo = styled.div``;
 
 export const StSGPInputContainer = styled.form`
   margin-top: 4rem;
