@@ -21,7 +21,7 @@ const List = () => {
 
   // firestore에서 데이터 'posting' 가져오기
   const syncpostingstatewithfirestore = () => {
-    const q = query(collection(db, 'posting'), orderBy('created', 'desc'));
+    const q = query(collection(db, "posting"), orderBy("created", "desc"));
 
     getDocs(q).then((querySnapshot) => {
       const firestorePostingList = [];
@@ -32,12 +32,12 @@ const List = () => {
           description: doc.data().description,
           username: doc.data().username,
           created: doc.data().created,
+          profileImg: doc.data().profileImg,
         });
       });
       setPosting(firestorePostingList);
     });
   };
-
   useEffect(() => {
     syncpostingstatewithfirestore();
   }, []);
@@ -47,19 +47,30 @@ const List = () => {
       {posting.map((item, i) => {
         return (
           <StShopGuidePostWrapper key={item.id}>
-            <StShopGuidePostContainer item={item} to={`/shopguidearticle/${item.id}`}>
+            <StShopGuidePostContainer
+              item={item}
+              to={`/shopguidearticle/${item.id}`}
+            >
               <StShopGuideTop>
                 <StShopGuidePostNumbering>{i + 1}</StShopGuidePostNumbering>
-                <StShopGuidePostTitle>{item.title}</StShopGuidePostTitle>
               </StShopGuideTop>
+
               <StShopGuideBottom>
+                <StShopGuidePostTitle>{item.title}</StShopGuidePostTitle>
                 <StShopGuidePostInfo>
-                  <label type={'picture'}></label>
-                  <StShopGuidePostUserPicture></StShopGuidePostUserPicture>
-                  <StShopGuidePostUserName>{item.username}</StShopGuidePostUserName>
+                  <label type={"picture"}></label>
+                  <StShopGuidePostUserPicture>
+                    {item.profileImg}
+                  </StShopGuidePostUserPicture>
+                  <StShopGuidePostUserName>
+                    {item.username}
+                  </StShopGuidePostUserName>
                   <StShopGuidePostDate>{item.created}</StShopGuidePostDate>
                 </StShopGuidePostInfo>
-                <StShopGuidePostDescription>{item.description}</StShopGuidePostDescription>
+
+                <StShopGuidePostDescription>
+                  {item.description}
+                </StShopGuidePostDescription>
               </StShopGuideBottom>
             </StShopGuidePostContainer>
           </StShopGuidePostWrapper>
@@ -70,3 +81,9 @@ const List = () => {
 };
 
 export default List;
+// @media screen and (max-width: 800px) {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   margin-bottom: 0px;
+// }

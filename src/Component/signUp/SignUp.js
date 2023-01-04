@@ -120,7 +120,6 @@ export const ErrorMessge = styled.span`
     }
   }
 `;
-export const PasswordWrap = styled.div``;
 export const ContentWrap = styled.div``;
 export const EmaillWrap = styled.div``;
 

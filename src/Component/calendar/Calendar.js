@@ -7,12 +7,13 @@ export const HomeContainer = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   gap: 50px;
-  margin-top: 30px;
+  margin-top: 150px;
 `;
 
 export const CalendarContainer = styled.div`
-  width: 400px;
+  width: 480px;
   margin: 5px;
+  margin-right: 20px;
 `;
 
 export const CalendarHead = styled.div`
@@ -33,19 +34,24 @@ export const MonthNavigation = styled.div`
 `;
 
 export const MonthArrow = styled.p`
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 24px;
+  font-weight: 400;
   cursor: pointer;
+  &:hover {
+    color: #ff8a00;
+  }
 `;
 
 export const CurrentYear = styled.p`
-  font-size: 14px;
-  margin-bottom: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
 `;
 
 export const CurrentMonth = styled.p`
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 33px;
+  font-weight: 600;
+  margin-bottom: 10px;
 `;
 
 export const SevenColGrid = styled.div`
@@ -57,27 +63,39 @@ export const SevenColGrid = styled.div`
 
 export const HeadDay = styled.span`
   text-align: center;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 13px;
+  font-weight: 700;
+  /* color: #ff8a00; */
+  margin-bottom: 5px;
 `;
 
 export const CalendarBody = styled.div`
+  justify-items: center;
+
+  margin-top: 30px;
+  height: 340px;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(${({ fourCol }) => (fourCol ? 4 : 5)}, 1fr);
 `;
 
 export const StyledDay = styled.div`
-  height: 50px;
+  height: 40px;
   width: 50px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  line-height: 30px;
   cursor: pointer;
   padding-top: 6px;
   margin: 3px 1px;
-  ${({ active }) => active && `border: 1px solid #FFC226`}
+  border-radius: 100px;
+  &:hover {
+    color: #ff8a00;
+  }
+  /* ${({ active }) => active && `border: 2px solid #FFC226`} */
+  ${({ active }) => active && `background-color: rgba(255, 222, 38, 0.6)`}
 `;
 
 export const Dot = styled.div`

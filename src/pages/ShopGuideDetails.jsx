@@ -5,9 +5,20 @@ import { addComment } from '../redux/modules/comment';
 import ShopGuideDetailsCommentList from '../Component/shopGuideDetailsCommentList/ShopGuideDetailsCommentList.jsx';
 import moment from 'moment';
 import styled from 'styled-components';
-import { db, useAuth } from '../firebase';
-import { collection, addDoc, doc, getDoc } from 'firebase/firestore';
-// import storage from '@react-native-firebase/storage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { db } from '../firebase';
+import 'firebase/functions';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  orderBy,
+} from 'firebase/firestore';
+import { useAuth } from '../firebase';
+import { getAuth } from "firebase/auth";
 
 const ShopGuideDetails = ({ postingId }) => {
   // 댓글 기본 state
@@ -44,6 +55,12 @@ const ShopGuideDetails = ({ postingId }) => {
   // };
 
   //  댓글 등록 하기
+  //민성 수정
+  //uid 가져오기
+  const auth = getAuth();
+  const uid = auth.currentUser.uid;
+
+
 
   // 댓글 등록 기능 - 버튼 클릭시 댓글 리스트에 작성한 댓글 추가
   const commentSubmitHandler = (event) => {
@@ -52,6 +69,7 @@ const ShopGuideDetails = ({ postingId }) => {
     if (window.confirm('댓글을 등록하시겠습니까?')) {
       const newComment = {
         id: uuidv4(),
+
         comment,
         savetime: time,
         modify: false,
@@ -75,6 +93,7 @@ const ShopGuideDetails = ({ postingId }) => {
       modify: false,
       postingId: postingId,
       creatorId: currentUser.uid,
+      commentcreatorid: currentUser.uid,
     });
     // console.log(docRef);
     setCommentItemList([
@@ -84,6 +103,7 @@ const ShopGuideDetails = ({ postingId }) => {
         savetime: time,
         modify: false,
         postingId: postingId,
+        commentcreatorid: currentUser.uid,
       },
       ...commentItemtList,
     ]);
@@ -117,9 +137,9 @@ const ShopGuideDetails = ({ postingId }) => {
             postingId={postingId}
             commentItemtList={commentItemtList}
             setCommentItemList={setCommentItemList}
-            // syncCommentListStateWithFirestore={
-            //   syncCommentListStateWithFirestore
-            // }
+          // syncCommentListStateWithFirestore={
+          //   syncCommentListStateWithFirestore
+          // }
           />
         </ul>
       </div>

@@ -29,15 +29,15 @@ const ShopGuide = () => {
 };
 
 const StShopGuideContainer = styled.div`
-  /* margin-top: 3rem; */
-  width: 100%;
-  height: 100%;
-  background-color: #fff;
   text-decoration: none;
   margin-left: 10%;
+  margin-right: 10%;
   margin-top: 100px;
   @media screen and (max-width: 800px) {
-    margin-left: 0%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0px;
   }
 `;
 
@@ -46,7 +46,8 @@ const StShopGuideHeader = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 80px;
+  justify-content: center;
   @media screen and (max-width: 800px) {
     display: flex;
     flex-direction: column;
@@ -81,7 +82,14 @@ const StShopGuideHeaderRight = styled.div`
 
 const StShopGuideBody = styled.div`
   display: flex;
-  align-items: left;
+  align-items: center;
+  justify-content: center;
+  @media screen and (max-width: 800px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0px;
+  }
 `;
 
 const StMoveTopButton = styled(FontAwesomeIcon)`

@@ -23,7 +23,11 @@ import {
   where,
 } from 'firebase/firestore';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPen,
+  faTrashCan,
+  faCircleUp,
+} from '@fortawesome/free-solid-svg-icons';
 import { authService } from '../firebase';
 import { useAuth } from '../firebase';
 
@@ -88,13 +92,14 @@ const ShopGuideArticle = ({ item }) => {
                     className='detailsMainImage'
                     src={item.image}
                     alt='등록된 사진이 없습니다.'
-                  />
-                )}
+                  />)}
                 <StShopDetailsArticleContents>
                   {item.description}
                 </StShopDetailsArticleContents>
                 {/* 뒤로가기 버튼 */}
-                <StBackButton to={`/shopguide`}> Back</StBackButton>
+                <StBackButton to={`/shopguide`}>
+                  <StBackButtonIcon icon={faCircleUp} />
+                </StBackButton>
               </StShopDetailsArticle>
             );
           } else {
@@ -118,7 +123,7 @@ const ShopGuideArticle = ({ item }) => {
                       style={{ cursor: 'pointer' }}
                     />
                   </StArticleEditLink>
-                  <FontAwesomeIcon
+                  <StArticleDeleteButton
                     id='articleDeleteButton'
                     icon={faTrashCan}
                     onClick={deleteButtonClickHandler}
@@ -140,6 +145,7 @@ const ShopGuideArticle = ({ item }) => {
 export default ShopGuideArticle;
 
 const StShopDetailsContainer = styled.div`
+  margin-top: 150px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -154,24 +160,26 @@ const StShopDetailsArticle = styled.div`
 
 const StShopDetailsArticleTitle = styled.h1`
   font-size: 32px;
-  margin-top: 100px;
+  margin-bottom: 80px;
 `;
 
 const StShopDetailsArticleContents = styled.div`
-  width: 100%;
+  width: 80%;
   display: inline-block;
   text-align: start;
   margin-bottom: 40px;
   line-height: 120%;
   white-space: pre-line;
+  font-weight: 300;
+  font-size: 15px;
 `;
 
 const StShopDetailsImage = styled.img`
   width: 500px;
   height: 300px;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   object-fit: cover;
-  margin-top: 40px;
+  margin-top: -20px;
   font-size: xx-small;
 `;
 
@@ -181,12 +189,25 @@ const StShopDetailsEditButtons = styled.div`
   flex-direction: column;
   justify-content: space-between;
   position: absolute;
-  right: 80px;
+  top: 40%;
+  right: 50px;
   font-size: 20px;
 `;
 
 const StArticleEditLink = styled(NavLink)`
   color: black;
+  transition: all 200ms ease-in-out;
+  &:hover {
+    color: #ffc226;
+  }
+`;
+
+const StArticleDeleteButton = styled(FontAwesomeIcon)`
+  color: black;
+  transition: all 200ms ease-in-out;
+  &:hover {
+    color: #ffc226;
+  }
 `;
 
 const StBackButton = styled(NavLink)`
@@ -195,10 +216,20 @@ const StBackButton = styled(NavLink)`
   right: 50px;
   width: 50px;
   height: 50px;
-  background-color: #000;
-  color: #fff;
+  /* background-color: #ffc226; */
+  color: #ffc226;
   border-radius: 100px;
   border: none;
-  top: 230px;
+  /* top: 230px; */
+  bottom: 50px;
   text-decoration: none;
+`;
+
+const StBackButtonIcon = styled(FontAwesomeIcon)`
+  color: #ffc226;
+  rotate: -90deg;
+  height: 50px;
+  width: 50px;
+  bottom: 90px;
+  right: 30px;
 `;

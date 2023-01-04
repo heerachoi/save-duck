@@ -1,4 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+import { authService, upload, db } from '../../firebase.js';
+import { modifyProfile } from '../../redux/modules/profile.js';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  collection,
+  updateDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
+import { faCheck } from '@fortawesome/free-solid-svg-icons';
+
 import {
   StyledProfileButton,
   StyledLogoutButton,
@@ -6,23 +22,20 @@ import {
   Container,
   ProfileImageContainer,
   CameraContainer,
-  CameraImage,
   StyledDivBox,
   StyledCheckButton,
   StyledProfileForm,
   StyledProfileInput,
+  StyledEditButton,
+  CameraIcon,
 } from './Modal.js';
-import { useState, useEffect } from 'react';
-import { useAuth, upload } from '../../firebase.js';
-import { modifyProfile, updateProfile } from '../../redux/modules/profile.js';
-import { useSelector, useDispatch } from 'react-redux';
-import { authService } from '../../firebase.js';
-import { ref, uploadBytes } from 'firebase/storage';
-import { storage } from '../../firebase.js';
-import { getFirestore, collection, addDoc, updateDoc, setDoc, doc, getDocs, query, orderBy, onSnapshot, where } from 'firebase/firestore';
-import { db } from '../../firebase';
-import { useNavigate } from 'react-router-dom';
-import { getAuth } from 'firebase/auth';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faPen,
+  faTrashCan,
+  faCircleUp,
+  faCamera,
+} from '@fortawesome/free-solid-svg-icons';
 
 export default function Modal() {
   const [photo, setPhoto] = useState(null);
@@ -56,7 +69,7 @@ export default function Modal() {
       setPhotoURL(currentUser.photoURL);
     }
   }, [currentUser]);
-
+  //
   // const theFile = test;
   // onFileChange는 사용자가 인풋에 파일을 업로드 했을때 실행된다.
   // oneFileChange 를 통해 사진이 업로드 되기 전 미리보기 기능을 구현한다.
@@ -85,11 +98,9 @@ export default function Modal() {
   };
 
   const updateButtonModify = async (id) => {
-    console.log('id', id);
     const docRef = doc(db, 'users', id);
-    console.log('docRef', docRef);
     try {
-      const response = await updateDoc(docRef, {
+      await updateDoc(docRef, {
         username: updateNickName,
         modify: true,
       });
@@ -101,9 +112,8 @@ export default function Modal() {
 
   const updateCompleteButtonHandler = async (id) => {
     const docRef = doc(db, 'users', id);
-    console.log('docRef', docRef);
     try {
-      const response = await updateDoc(docRef, {
+      await updateDoc(docRef, {
         username: updateNickName,
         modify: false,
       });
@@ -128,7 +138,10 @@ export default function Modal() {
   };
 
   const getNickName = () => {
-    const q = query(collection(db, 'users'), where('uid', '==', currentUser.uid));
+    const q = query(
+      collection(db, 'users'),
+      where('uid', '==', currentUser.uid)
+    );
     getDocs(q).then((querySnapshop) => {
       const nickNameList = [];
       querySnapshop.forEach((doc) => {
@@ -155,42 +168,68 @@ export default function Modal() {
       <Container>
         <ProfileImageContainer>
           <label htmlFor='imgInput'>
-            <img src={photoURL} id='profileView' style={{ width: '200px', height: '200px', objectFit: 'cover' }} />
-            <input style={{ display: 'none' }} type='file' id='imgInput' accept='image/*' onChange={handleChange} />
+            <img
+              src={photoURL}
+              id='profileView'
+              style={{ width: '200px', height: '200px', objectFit: 'cover' }}
+            />
+            <input
+              style={{ display: 'none' }}
+              type='file'
+              id='imgInput'
+              accept='image/*'
+              onChange={handleChange}
+            />
           </label>
         </ProfileImageContainer>
         <CameraContainer>
-          <CameraImage src='camera.png' alt='' />
+          <CameraIcon icon={faCamera} />
+          {/* <CameraImage src='camera.png' alt='' /> */}
         </CameraContainer>
         <StyledProfileForm onSubmit={onFileChange}>
           <StyledDivBox key={profileName.id}>
-            <StyledProfileInput readOnly={readOnly} onChange={onChangeProfile} value={updateNickName} maxLength='8' />
+            <StyledProfileInput
+              readOnly={readOnly}
+              onChange={onChangeProfile}
+              value={updateNickName}
+              maxLength='8'
+            />
             {modify ? (
               <StyledCheckButton
                 onClick={(event) => {
                   event.preventDefault();
                   updateCompleteButtonHandler(infoId);
-                  alert('수정 완료!!');
                 }}
-              >
-                v
-              </StyledCheckButton>
+                icon={faCheck}
+              />
             ) : (
               ''
             )}
-            <StyledVector
+            {/* <StyledVector
               onClick={() => {
                 updateButtonModify(infoId);
-                window.confirm('수정 하시겠습니까?');
               }}
               src='Vector.png'
+            /> */}
+            <StyledEditButton
+              onClick={() => {
+                updateButtonModify(infoId);
+              }}
+              id='articleEditButton'
+              icon={faPen}
+              style={{ cursor: 'pointer' }}
             />
           </StyledDivBox>
-          <StyledProfileButton disabled={loading || !photo} onClick={handleClick}>
+          <StyledProfileButton
+            disabled={loading || !photo}
+            onClick={handleClick}
+          >
             프로필변경
           </StyledProfileButton>
         </StyledProfileForm>
-        <StyledLogoutButton onClick={onLogOutClick}>로그아웃</StyledLogoutButton>
+        <StyledLogoutButton onClick={onLogOutClick}>
+          로그아웃
+        </StyledLogoutButton>
       </Container>
     </div>
   );
