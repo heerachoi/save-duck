@@ -1,28 +1,28 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useEffect, useState, useRef } from 'react';
 import { authService, db } from '../../firebase';
 import { collection, addDoc, setDoc, doc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-
 import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider } from 'firebase/auth';
-
-import React from 'react';
 import {
   H1,
   H2,
   SignupWrap,
   SignupContaier,
   SignupTitle,
+  Emailform,
   SignUpSubmit,
+  Label,
   Input,
   InputTitle,
   InputWrap,
   passwordWrp,
-  ContentWrap,
   EmailWrap,
   ErrorMessgeWrap,
   ErrorMessge,
   PasswordWrap,
+  ContentWrap,
 } from './SignUp.js';
 
 const SignUpComponent = () => {
