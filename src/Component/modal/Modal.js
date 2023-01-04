@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const StyledProfileButton = styled.button`
   margin-left: 28px;
@@ -7,7 +8,6 @@ export const StyledProfileButton = styled.button`
   width: 200px;
   height: 30px;
   border-radius: 30px;
-  margin-bottom: 8px;
   margin-top: 10px;
   cursor: pointer;
 `;
@@ -73,8 +73,6 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
-  text-decoration: none;
   background-color: white;
   color: black;
   width: 400px;
@@ -102,8 +100,10 @@ export const StyledprofileName = styled.h3``;
 export const StyledDivBox = styled.div`
   margin-left: 55px;
   display: flex;
+  align-items: center;
+  width: 200px;
 `;
-export const StyledCheckButton = styled.button`
+export const StyledCheckButton = styled(FontAwesomeIcon)`
   border: none;
   cursor: pointer;
   background-color: transparent;

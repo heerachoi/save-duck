@@ -55,8 +55,8 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
       const response = await updateDoc(docRef, {
         isChecked: !checked,
       });
-    } catch (event) {
-      console.log(event);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -71,7 +71,6 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
       });
     } catch (event) {
     } finally {
-      console.log('수정 완료 end');
       modifyItemButtonHandler(id);
     }
     shoppingListUnchecked();
@@ -79,7 +78,6 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
 
   // 목록 수정 완료하기
   const updateCompleteButtonHandler = async (id) => {
-    console.log('댓글 수정 완료하기');
     const docRef = doc(db, 'itemList', id);
     try {
       const response = await updateDoc(docRef, {
@@ -96,14 +94,6 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
     setReadOnly(true);
     setUpdateItemPrice(updateItemPrice);
     calculateTotalPrice();
-  };
-
-  // 목록 수정 취소하기
-  const editCancelButtonHandler = (id) => {
-    dispatch(modifyModeList(id));
-    setReadOnly(true);
-    setUpdateItemInput(name);
-    setUpdateItemPrice(price);
   };
 
   // 목록 삭제하기
@@ -123,7 +113,6 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
     cost = cost + '';
     cost = cost.replace(/[^0-9]/g, ''); // 입력값이 숫자가 아니면 공백
     cost = cost.replace(/,/g, ''); // ,값 공백처리
-    console.log(cost.replace(/\B(?=(\d{3})+(?!\d))/g, ','));
     return cost.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // 정규식을 이용해서 3자리 마다 , 추가
   };
 
@@ -168,14 +157,6 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
         {modify ? (
           ''
         ) : (
-          //   (
-          //   <XIcon
-          //     icon={faX}
-          //     onClick={() => {
-          //       editCancelButtonHandler(id);
-          //     }}
-          //   />
-          // )
           <XIcon
             icon={faX}
             onClick={() => {
