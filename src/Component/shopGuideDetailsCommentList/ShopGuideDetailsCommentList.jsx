@@ -43,10 +43,13 @@ const ShopGuideDetailsCommentList = ({
   // useEffect(() => {
   //   syncCommentListStateWithFirestore();
   // }, [commentItemtList]);
+<<<<<<< Updated upstream
 
   useEffect(() => {
     syncCommentListStateWithFirestore();
   }, []);
+=======
+>>>>>>> Stashed changes
 
   return (
     <StCommentListContainer>
