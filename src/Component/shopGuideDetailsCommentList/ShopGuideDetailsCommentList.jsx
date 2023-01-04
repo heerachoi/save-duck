@@ -1,8 +1,19 @@
 import React, { useEffect } from 'react';
 import ShopGuideDetailsComment from '../shopGuideDetailsComment/ShopGuideDetailsComment.jsx';
 import { StCommentListContainer } from './ShopGuideDetailsCommentList.js';
-import { collection, getDocs, query, orderBy, where } from 'firebase/firestore';
-import { db, useAuth } from '../../firebase';
+import {
+  collection,
+  getDocs,
+  query,
+  orderBy,
+  // where,
+} from 'firebase/firestore';
+import { db } from '../../firebase';
+import { getAuth } from "firebase/auth";
+import { useAuth } from '../../firebase.js';
+import { useParams } from 'react-router-dom';
+
+
 
 const ShopGuideDetailsCommentList = ({
   // collectionName,
@@ -11,19 +22,26 @@ const ShopGuideDetailsCommentList = ({
   comment,
   postingId,
 }) => {
-  // const currentUser = useAuth();
-
-  // console.log(postingId);
+  const auth = getAuth();
+  const currentUser = auth.currentUser;
+  let NavId = useParams();
+  const commentCollectionName = NavId.id;
 
   // 댓글 불러오기 - DB에서 이전 댓글 리스트 불러오기
   const syncCommentListStateWithFirestore = () => {
+
+
+
+
+
+
     const q = query(
       collection(db, 'commentList'),
       // where('postingId', '==', CurrentPostingId),
       !orderBy('savetime', 'desc')
     );
 
-    getDocs(q).then((querySnapshot) => {
+    getDocs(q, currentUser).then((querySnapshot) => {
       const firestoreTodoItemList = [];
       querySnapshot.forEach((doc) => {
         firestoreTodoItemList.push({
@@ -34,6 +52,7 @@ const ShopGuideDetailsCommentList = ({
           modify: doc.data().modify,
           postingId: doc.data().postingId,
           creatorId: doc.data().creatorId,
+          commentcreatorid: doc.data().commentcreatorid,
         });
       });
       setCommentItemList(firestoreTodoItemList);
@@ -47,6 +66,7 @@ const ShopGuideDetailsCommentList = ({
   useEffect(() => {
     syncCommentListStateWithFirestore();
   }, []);
+
 
   return (
     <StCommentListContainer>

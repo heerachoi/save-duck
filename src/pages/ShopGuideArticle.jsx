@@ -92,8 +92,7 @@ const ShopGuideArticle = ({ item }) => {
                     className='detailsMainImage'
                     src={item.image}
                     alt='등록된 사진이 없습니다.'
-                  />
-                )}
+                  />)}
                 <StShopDetailsArticleContents>
                   {item.description}
                 </StShopDetailsArticleContents>
