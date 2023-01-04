@@ -8,6 +8,7 @@ export const Outlet = styled.div`
   left: 0;
   top: 0;
   right: 0;
+  /* width: 100vw; */
 `;
 
 export const StyledSaveDuckHome = styled.div`
