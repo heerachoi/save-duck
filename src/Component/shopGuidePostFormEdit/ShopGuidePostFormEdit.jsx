@@ -130,13 +130,13 @@ const ShopGuidePostFormEdit = ({ item, syncpostingstatewithfirestore }) => {
     const theFile = event.target.files[0];
     setUploadImage(theFile);
 
-    console.log("the File : ", theFile);
+    console.log('the File : ', theFile);
     const reader = new FileReader();
     reader.readAsDataURL(theFile);
     reader.onloadend = (finishedEvent) => {
       const imgDataUrl = finishedEvent.currentTarget.result;
-      localStorage.setItem("imgDataUrl", imgDataUrl);
-      document.getElementById("view").src = imgDataUrl;
+      localStorage.setItem('imgDataUrl', imgDataUrl);
+      document.getElementById('view').src = imgDataUrl;
     };
   };
 
@@ -153,7 +153,7 @@ const ShopGuidePostFormEdit = ({ item, syncpostingstatewithfirestore }) => {
       <StSGPPhotoInput onChange={onFileChange}>
         <label htmlFor='ex_file'>
           <div className='btnStart'>
-            <img src={'camera.png'} id="view" alt='' />
+            <img src={'camera.png'} id='view' alt='' />
             <div className='submitPic'>사진 등록</div>
           </div>
         </label>
