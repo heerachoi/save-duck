@@ -34,7 +34,10 @@ const StShopGuideContainer = styled.div`
   margin-right: 10%;
   margin-top: 100px;
   @media screen and (max-width: 800px) {
-    margin-left: 0%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0px;
   }
 `;
 
@@ -81,6 +84,12 @@ const StShopGuideBody = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media screen and (max-width: 800px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 0px;
+  }
 `;
 
 const StMoveTopButton = styled(FontAwesomeIcon)`

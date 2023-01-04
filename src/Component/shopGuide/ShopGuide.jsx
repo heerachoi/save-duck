@@ -81,3 +81,9 @@ const List = () => {
 };
 
 export default List;
+// @media screen and (max-width: 800px) {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   margin-bottom: 0px;
+// }
