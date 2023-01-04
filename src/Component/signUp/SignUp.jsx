@@ -1,7 +1,11 @@
-import { Link } from "react-router-dom";
-import { useEffect, useState, useRef } from "react";
-import { authService } from "../../firebase";
-import "firebase/firestore";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useEffect, useState, useRef } from 'react';
+import { authService, db } from '../../firebase';
+import { collection, addDoc, setDoc, doc } from 'firebase/firestore';
+import { v4 as uuidv4 } from 'uuid';
+
+import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider } from 'firebase/auth';
 import {
   H1,
   H2,
@@ -15,26 +19,20 @@ import {
   InputTitle,
   InputWrap,
   passwordWrp,
-  ContentWrap
-} from "./SignUp.js";
-
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-} from "firebase/auth";
-
-import React from "react";
+  ContentWrap,
+  EmailWrap,
+  ErrorMessgeWrap,
+  ErrorMessge,
+  PasswordWrap,
+} from './SignUp.js';
 
 const SignUpComponent = () => {
   // 초기값 세팅 - 아이디, 닉네임, 비밀번호, 비밀번호확인, 이메일, 전화번호, 생년월일
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = React.useState('');
-  const [name, setName] = React.useState('');
+  const [name, setName] = React.useState('닉네임 없음');
   const [error, setError] = useState('');
-
-  const navigate = useNavigate();
 
   // 오류메세지 상태 저장
   const [emailMessage, setEmailMessage] = React.useState('');
@@ -52,29 +50,36 @@ const SignUpComponent = () => {
   const [notAllow, setNotAllow] = useState(true);
 
   const auth = getAuth();
+  console.log('auth: ', auth);
 
-  const { createUser } = UserAuth();
-  const currentUser = useAuth();
-
+  //* 회원가입 완료
   const onSubmit = async (e) => {
     e.preventDefault();
+    const generateId = uuidv4();
+    const usersRef = collection(db, 'users');
+
     try {
-      await createUser(email, password);
-      await addDoc(collection(db, currentUser.uid), {
-        id: currentUser.uid,
-        nickName: '',
-      });
-      navigate('/home');
-      alert('SaveDuck 회원이 되신걸 환영합니다.');
-      window.location.href = '/home';
       await createUserWithEmailAndPassword(authService, email, password);
+      alert('SaveDuck 회원이 되신걸 환영합니다.');
+      // await setDoc (collection(db, 'users').doc(generateId).set(
+      await setDoc(doc(usersRef, generateId), {
+        // uid: currentUser.uid,
+        email: email,
+        username: name,
+        uid: auth.currentUser.uid,
+        modify: false,
+        id: generateId,
+      });
+      window.location.href = '/home';
     } catch (error) {
       setError(error.message);
       console.log(error);
     }
   };
-  console.log('email:', email, 'passord:', password);
-  //
+  console.log('email:', email);
+  console.log('passord:', password);
+  console.log('name:', name);
+  //* 회원가입 버튼 활
   useEffect(() => {
     if (isname && isPassword && isPasswordConfirm && isEmail) {
       setNotAllow(false);
@@ -84,148 +89,103 @@ const SignUpComponent = () => {
   }, [isname, isPassword, isPasswordConfirm, isEmail]);
   console.log(isEmail, isname, isPassword, isPasswordConfirm);
 
-  //회원가입 완료
-  const onClickSummit = () => {
-    alert('SaveDuck 회원이 되신걸 환영합니다.');
-    window.location.href = '/home';
-  };
+  // 회원가입 완료 const onClickSummit = () => {   alert("SaveDuck 회원이 되신걸 환영합니다.");
+  // window.location.href = "/"; };
 
+  //* 이메일
   const onChangeEmail = (e) => {
     const currentEmail = e.target.value;
     setEmail(currentEmail);
-    const emailRegExp = /^[A-Za-z0-9_]+[A-Za-z0-9]*[@]{1}[A-Za-z0-9]+[A-Za-z0-9]*[.]{1}[A-Za-z]{1,3}$/;
-
+    const emailRegExp = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     if (!emailRegExp.test(currentEmail)) {
-      setEmailMessage(
-        <div style={{ color: "red" }}>! 잘못된 이메일 주소입니다.</div>
-      );
+      setEmailMessage('! 잘못된 이메일 주소입니다.');
       setIsEmail(false);
     } else {
-      setEmailMessage(
-        <div style={{ color: "green" }}>! 사용가능한 이메일입니다.</div>
-      );
+      setEmailMessage('! 사용가능한 이메일입니다.');
       setIsEmail(true);
     }
   };
 
-  const onChangeName = (e) => {
-    const currentName = e.target.value;
-    setName(currentName);
-
-    if (currentName.length < 2 || currentName.length > 5) {
-      setNameMessage(
-        <div style={{ color: "red" }}>
-          ! 닉네임은 2글자 이상 5글자 이하로 입력해주세요!
-        </div>
-      );
-      setIsName(false);
-    } else {
-      setNameMessage(
-        <div style={{ color: "green" }}>! 사용가능한 닉네임입니다.</div>
-      );
-      setIsName(true);
-    }
-  };
-
+  //* 비밀번호
   const onChangePassword = (e) => {
     const currentPassword = e.target.value;
     setPassword(currentPassword);
     const passwordRegExp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+
     if (!passwordRegExp.test(currentPassword)) {
-      setPasswordMessage(
-        <div style={{ color: "red" }}>
-          ! 비밀번호는 영문, 숫자, 특수문자 포함 8자 이상 입력해주세요.
-        </div>
-      );
+      setPasswordMessage('숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!');
       setIsPassword(false);
     } else {
-      setPasswordMessage(
-        <div style={{ color: "green" }}>! 사용가능한 비밀번호입니다.></div>
-      );
+      setPasswordMessage('! 사용 가능한 비밀번호에요.');
       setIsPassword(true);
     }
   };
+
+  //* 비밀번호 확인
   const onChangePasswordConfirm = (e) => {
     const currentPasswordConfirm = e.target.value;
     setPasswordConfirm(currentPasswordConfirm);
-    if (password !== currentPasswordConfirm) {
-      setPasswordConfirmMessage(
-        <div style={{ color: "red" }}>! 비밀번호가 일치하지않습니다</div>
-      );
-      setIsPasswordConfirm(false);
-    } else {
-      setPasswordConfirmMessage(
-        <div style={{ color: "green" }}>! 비밀번호가 일치합니다.</div>
-      );
+    if (password === currentPasswordConfirm) {
+      setPasswordConfirmMessage('! 비밀번호가 일치합니다.');
       setIsPasswordConfirm(true);
+    } else {
+      setPasswordConfirmMessage('! 비밀번호가 일치하지 않아요. 다시 입력해주세요.');
+      setIsPasswordConfirm(false);
     }
   };
+
+  //* 닉네임
+  const onChangeName = (e) => {
+    const currentName = e.target.value;
+    setName(currentName);
+
+    if (currentName.length < 2 || currentName.length > 12) {
+      setNameMessage('! 2글자 이상, 12글자 미만으로만 사용할 수 있습니다.');
+      setIsName(false);
+    } else {
+      setNameMessage('! 사용 가능한 닉네임 입니다.');
+      setIsName(true);
+    }
+  };
+
   return (
     <SignupWrap>
       <SignupTitle>
         <H1>SaveDuck</H1>
         <H2>Record everything. The duck will show you the way.</H2>
       </SignupTitle>
-
       <ContentWrap>
-        <EmailWrap>
-          <form onSubmit={onSubmit} className="form">
-              <InputTitle placeholder="saveduck@saveduck.com" htmlFor="email">
-                Email
-              </InputTitle>
-              <Input
-                id="email"
-                name="name"
-                value={email}
-                onChange={onChangeEmail}
-              />
+        <SignupContaier>
+          <form onSubmit={onSubmit} className='form'>
+            <EmailWrap>
+              <InputTitle placeholder='saveduck@saveduck.com'>이메일</InputTitle>
+              <Input type='email' name='name' value={email} onChange={onChangeEmail} />
               <ErrorMessgeWrap>
-              <div className="message">{emailMessage}</div>
+                <ErrorMessge>{email.length > 0 && <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>}</ErrorMessge>
               </ErrorMessgeWrap>
-        </EmailWrap>
-            <
-              <label htmlFor="name">Nick Name</label>
-              
-              <Input
-                id="name"
-                name="name"
-                value={name}
-                onChange={onChangeName}
-              />
-              <ErrorMessgeWrap>
-                <div className="message">{nameMessage}></div>
-            </div>
-                </ErrorMessgeWrap>
-            <PasswordWrap>
-              <label htmlFor="password">Password</label>
-              <Input
-                id="password"
-                name="password"
-                value={password}
-                onChange={onChangePassword}/>
-                <ErrorMessgeWrap>
-              <div className="message">{passwordMessage}>
-              </div>
-            </ErrorMessgeWrap>
-              <label htmlFor="passwordConfirm">Password Confirm</label>
+            </EmailWrap>
 
-              <Input
-                id="passwordConfirm"
-                name="passwordConfirm"
-                value={passwordConfirm}
-                onChange={onChangePasswordConfirm}
-              />
+            <>
+              <InputTitle>비밀번호</InputTitle>
+              <Input type='password' name='password' value={password} onChange={onChangePassword} />
               <ErrorMessgeWrap>
-              <div className="message">{passwordConfirmMessage}</div>
+                <ErrorMessge>{password.length > 0 && <span className={`message ${isPassword ? 'success' : 'error'}`}>{passwordMessage}</span>}</ErrorMessge>
               </ErrorMessgeWrap>
-              
-            </PasswordWrap>
-            <SignUpSubmit onClick={onClickSummit} disabled={notAllow}>
-              회원가입
-            </SignUpSubmit>
+              <InputTitle>비밀번호 확인</InputTitle>
+              <Input type='password' name='passwordConfirm' value={passwordConfirm} onChange={onChangePasswordConfirm} />
+              <ErrorMessgeWrap>
+                <ErrorMessge>{passwordConfirm.length > 0 && <span className={`message ${isPasswordConfirm ? 'success' : 'error'}`}>{passwordConfirmMessage}</span>}</ErrorMessge>
+              </ErrorMessgeWrap>
+            </>
+            <InputTitle>닉네임</InputTitle>
+            <Input id='name' name='name' value={name} onChange={onChangeName} />
+            <ErrorMessgeWrap>
+              <ErrorMessge>{name.length > 0 && <span className={`message ${isPassword ? 'success' : 'error'}`}>{nameMessage}</span>}</ErrorMessge>
+            </ErrorMessgeWrap>
+            <SignUpSubmit disabled={notAllow}>회원가입</SignUpSubmit>
           </form>
         </SignupContaier>
-      </div>
+      </ContentWrap>
     </SignupWrap>
   );
 };

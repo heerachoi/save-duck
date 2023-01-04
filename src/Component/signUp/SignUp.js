@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const SignupWrap = styled.div`
   position: absolute;
@@ -62,7 +62,6 @@ export const InputWrap = styled.div`
 
 //* Btn Part
 
-
 export const ButtonSign = styled.section`
   margin-top: 50px;
   margin-bottom: 30px;
@@ -110,6 +109,10 @@ export const ErrorMessgeWrap = styled.div`
   padding-top: 5px;
 `;
 
+export const ErrorMessge = styled.div``;
+
+export const EmailWrap = styled.div``;
+
 export const ErrorpasswordWrap = styled.div``;
 
 // nvibar 안보이도록
@@ -117,4 +120,3 @@ export const ErrorpasswordWrap = styled.div``;
 // background 오리 애니메이션 구현.
 // 회원가입 Html.css 완성
 // firebase 연동해서 로그인정보, 회원정보 가져오기
-
