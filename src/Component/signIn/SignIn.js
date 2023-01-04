@@ -43,6 +43,7 @@ export const InputTitle = styled.div`
   font-size: 14px;
   margin-top: 30px;
   font-weight: 700;
+  text-align: left;
 `;
 
 export const InputWrap = styled.div`

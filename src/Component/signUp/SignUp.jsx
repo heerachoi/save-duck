@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
-import { authService } from "../../firebase";
-import "firebase/firestore";
+import { authService, db } from "../../firebase";
+import { collection, addDoc } from "firebase/firestore";
 
 import {
   getAuth,
@@ -53,6 +53,8 @@ const SignUpComponent = () => {
   const [notAllow, setNotAllow] = useState(true);
 
   const auth = getAuth();
+  console.log("auth: ", auth);
+
   //* 회원가입 완료
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -60,13 +62,21 @@ const SignUpComponent = () => {
     try {
       await createUserWithEmailAndPassword(authService, email, password);
       alert("SaveDuck 회원이 되신걸 환영합니다.");
+      await addDoc(collection(db, "users"), {
+        // uid: currentUser.uid,
+        email: email,
+        username: name,
+        uid: auth.currentUser.uid,
+      });
       window.location.href = "/home";
     } catch (error) {
       setError(error.message);
       console.log(error);
     }
   };
-  console.log("email:", email, "passord:", password);
+  console.log("email:", email);
+  console.log("passord:", password);
+  console.log("name:", name);
   //* 회원가입 버튼 활
   useEffect(() => {
     if (isname && isPassword && isPasswordConfirm && isEmail) {
@@ -133,8 +143,8 @@ const SignUpComponent = () => {
     const currentName = e.target.value;
     setName(currentName);
 
-    if (currentName.length < 2 || currentName.length > 8) {
-      setNameMessage("! 2글자 이상, 8글자 미만으로만 사용할 수 있습니다.");
+    if (currentName.length < 2 || currentName.length > 12) {
+      setNameMessage("! 2글자 이상, 12글자 미만으로만 사용할 수 있습니다.");
       setIsName(false);
     } else {
       setNameMessage("! 사용 가능한 닉네임 입니다.");
