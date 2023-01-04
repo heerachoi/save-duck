@@ -52,33 +52,43 @@ export const ItemPrice = styled.div`
 `;
 
 export const PencilIcon = styled(FontAwesomeIcon)`
-  cursor: pointer;
   margin: 10px;
-  font-size: 14px;
+  font-size: 15px;
+  cursor: pointer;
+  &:hover {
+    color: #ff8a00;
+  }
 `;
 
 export const XIcon = styled(FontAwesomeIcon)`
+  font-size: 15px;
   cursor: pointer;
+  &:hover {
+    color: #ff8a00;
+  }
 `;
 
 export const CheckIcon = styled(FontAwesomeIcon)`
-  cursor: pointer;
   margin: 10px;
-  font-size: 14px;
+  font-size: 15px;
+  cursor: pointer;
+  &:hover {
+    color: #ff8a00;
+  }
 `;
 
 export const ItemInput = styled.input`
   width: 310px;
-  height: 8px;
-  padding: 4px 0px;
+  height: 20px;
+  padding: 5px 3px;
   border: none;
   margin: 0;
 `;
 
 export const ItemPriceInput = styled.input`
   width: 65px;
-  height: 8px;
-  padding: 4px 0px;
+  height: 20px;
+  padding: 5px 3px;
   border: none;
 `;
 

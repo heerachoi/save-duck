@@ -3,13 +3,39 @@ import { useDispatch } from 'react-redux';
 import moment from 'moment';
 
 import { modifyModeList } from '../../redux/modules/shoppingListActions.js';
-import { doc, deleteDoc, updateDoc, query, collection, getDocs } from 'firebase/firestore';
+import {
+  doc,
+  deleteDoc,
+  updateDoc,
+  query,
+  collection,
+  getDocs,
+} from 'firebase/firestore';
 import { db } from '../../firebase';
 import { faPencil, faX, faCheck } from '@fortawesome/free-solid-svg-icons';
 
-import { ListItem, CheckBox, ItemName, ItemPrice, PencilIcon, XIcon, ItemPriceContainer, ShowItem, UnshowItem, CheckIcon, ItemInput, ItemPriceInput, ItemPriceInputContainer } from './ShoppingItem.js';
+import {
+  ListItem,
+  CheckBox,
+  ItemName,
+  ItemPrice,
+  PencilIcon,
+  XIcon,
+  ItemPriceContainer,
+  ShowItem,
+  UnshowItem,
+  CheckIcon,
+  ItemInput,
+  ItemPriceInput,
+  ItemPriceInputContainer,
+} from './ShoppingItem.js';
 
-const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTotalPrice }) => {
+const ShoppingItem = ({
+  item,
+  shoppingListUnchecked,
+  dateToString,
+  calculateTotalPrice,
+}) => {
   const time = moment().format('YYYY-MM-DD-hh:mm');
   const { id, name, date, price, modify, isChecked, savetime, userId } = item;
   const [readOnly, setReadOnly] = useState(true);
@@ -132,9 +158,22 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
           }}
         />
         <ItemPriceContainer>
-          <ItemInput type='text' name='name' readOnly={readOnly} onChange={onChangeItem} maxLength='25' value={updateItemInput || ''} />
+          <ItemInput
+            type='text'
+            name='name'
+            readOnly={readOnly}
+            onChange={onChangeItem}
+            maxLength='25'
+            value={updateItemInput || ''}
+          />
           <ItemPriceInputContainer>
-            <ItemPriceInput id='itemPrice' onChange={onChangeItemPrice} maxLength='7' value={updateItemPrice || '0'} />원
+            <ItemPriceInput
+              id='itemPrice'
+              onChange={onChangeItemPrice}
+              maxLength='7'
+              value={updateItemPrice || '0'}
+            />
+            ₩
           </ItemPriceInputContainer>
         </ItemPriceContainer>
       </ShowItem>

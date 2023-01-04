@@ -32,8 +32,15 @@ export const SaveDuckHomeNav = styled(NavLink)`
 
 export const MyProfileMoDal = styled.div`
   text-decoration: none;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 900;
+  font-family: 'Comfortaa', cursive;
+  /* text-shadow: -0.2px 0 #ffc226, 0 0.2px #ffc226, 0.2px 0 #ffc226,
+    0 -0.2px #ffc226; */
+  &:hover {
+    text-shadow: -0.3px 0 #ff8a00, 0 0.3px #ff8a00, 0.3px 0 #ff8a00,
+      0 -0.3px #ff8a00;
+  }
 `;
 
 export const DuckImageLogo = styled.img`
@@ -47,22 +54,31 @@ export const LeftSection = styled.div`
 `;
 
 export const RightSection = styled.div`
+  height: 100%;
   display: flex;
+  justify-content: center;
+  align-items: center;
   margin-right: 30px;
 `;
 
 export const Menu = styled.div`
   margin-right: 100px;
   display: flex;
-  align-items: center;
 `;
 
 export const MenuItem = styled(NavLink)`
   text-decoration: none;
   margin-right: -60px;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 900;
+  font-family: 'Comfortaa', cursive;
+  /* text-shadow: -0.2px 0 #ffc226, 0 0.2px #ffc226, 0.2px 0 #ffc226,
+    0 -0.2px #ffc226; */
   /* color: black; */
+  &:hover {
+    text-shadow: -0.3px 0 #ff8a00, 0 0.3px #ff8a00, 0.3px 0 #ff8a00,
+      0 -0.3px #ff8a00;
+  }
 `;
 
 export const NavProfileImg = styled.img`
@@ -74,5 +90,4 @@ export const NavProfileImg = styled.img`
 export const SignUp = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 5px;
 `;
