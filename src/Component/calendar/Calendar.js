@@ -37,7 +37,7 @@ export const MonthArrow = styled.p`
   font-weight: 400;
   cursor: pointer;
   &:hover {
-    color: #ffc226;
+    color: #ff8a00;
   }
 `;
 
@@ -85,7 +85,7 @@ export const StyledDay = styled.div`
   margin: 3px 1px;
   border-radius: 100px;
   &:hover {
-    color: #ffc226;
+    color: #ff8a00;
   }
   /* ${({ active }) => active && `border: 2px solid #FFC226`} */
   ${({ active }) => active && `background-color: rgba(255, 222, 38, 0.6)`}

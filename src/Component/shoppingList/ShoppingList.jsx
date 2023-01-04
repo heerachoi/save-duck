@@ -184,7 +184,7 @@ const ShoppingList = ({ year, month, date }) => {
   return (
     <ShoppingListContainer>
       <DateContainer>
-        {currentYear}.{currentMonth}.{currentDate}
+        {currentYear} . {currentMonth} . {currentDate}
       </DateContainer>
       <DateUnderLine></DateUnderLine>
       <ShoppingListTitle>Shopping List</ShoppingListTitle>
@@ -224,13 +224,13 @@ const ShoppingList = ({ year, month, date }) => {
               </ItemPriceInputContainer>
             </ItemPriceContainerForm>
             <CheckIcon onClick={addItem} icon={faCheck} />
-            <XIcon icon={faX} />{' '}
+            <XIcon icon={faX} />
           </ListItem>
         </UncheckedList>
       </ScrollBox>
       <TotalPriceContainer>
         <TotalPriceText>Total</TotalPriceText>
-        <TotalPrice>{totalPrice}₩</TotalPrice>
+        <TotalPrice>{totalPrice} ₩</TotalPrice>
       </TotalPriceContainer>
     </ShoppingListContainer>
   );
