@@ -20,6 +20,7 @@ import {
   StCommentContentSaveTime,
   StCommentContentsEditButton,
   StCommentContentsDeleteButton,
+  StCommentCreateInfo,
 } from './ShopGuideDetailsComment.js';
 import { useAuth } from '../../firebase';
 import { getAuth } from 'firebase/auth';
@@ -158,57 +159,63 @@ const ShopGuideDetailsComment = ({
       <StCommentListContainer key={id}>
         {/* 작성자 정보 및 댓글 내용 */}
         <StCommentProfileImage src='image/default_profile.webp' alt='' />
-        <StCommentUserName>사용자 닉네임</StCommentUserName>
-        <StCommentContentInput
-          name='comment'
-          readOnly={readOnly}
-          defaultValue={comment}
-          onChange={onChangeComment}
-        />
+        <div>
+          <div>
+            <StCommentCreateInfo>
+              <StCommentUserName>사용자 닉네임</StCommentUserName>
+              <StCommentContentSaveTime>{savetime}</StCommentContentSaveTime>
+
+              {item.creatorId === currentUser.uid ? (
+                modify ? (
+                  <>
+                    <StCommentContentsEditButton
+                      type='button'
+                      className='comment-edit-complete-btn'
+                      onClick={() => {
+                        updateCompleteButtonHandler(id);
+                      }}
+                    >
+                      완료
+                    </StCommentContentsEditButton>
+                    <StCommentContentsDeleteButton
+                      onClick={() => {
+                        editCancelButtonHandler(id);
+                      }}
+                    >
+                      취소
+                    </StCommentContentsDeleteButton>
+                  </>
+                ) : (
+                  <>
+                    <StCommentContentsEditButton
+                      className='comment-edit-btn'
+                      onClick={() => {
+                        updateCommentModify(id);
+                      }}
+                    >
+                      수정
+                    </StCommentContentsEditButton>
+                    <StCommentContentsDeleteButton
+                      onClick={() => {
+                        deleteCommentButtonHandler(id);
+                      }}
+                    >
+                      삭제
+                    </StCommentContentsDeleteButton>
+                  </>
+                )
+              ) : null}
+            </StCommentCreateInfo>
+          </div>
+          <StCommentContentInput
+            name='comment'
+            readOnly={readOnly}
+            defaultValue={comment}
+            onChange={onChangeComment}
+          />
+        </div>
         {/* 버튼 영역 - 수정 & 삭제 VS 완료 & 취소  */}
         {/* <span>{item.comment}</span> */}
-        <StCommentContentSaveTime>{savetime}</StCommentContentSaveTime>
-
-        {item.creatorId === currentUser.uid ? (
-          modify ? (
-            <>
-              <StCommentContentsEditButton
-                type='button'
-                className='comment-edit-complete-btn'
-                onClick={() => {
-                  updateCompleteButtonHandler(id);
-                }}
-              >
-                완료
-              </StCommentContentsEditButton>
-              <StCommentContentsDeleteButton
-                onClick={() => {
-                  editCancelButtonHandler(id);
-                }}
-              >
-                취소
-              </StCommentContentsDeleteButton>
-            </>
-          ) : (
-            <>
-              <StCommentContentsEditButton
-                className='comment-edit-btn'
-                onClick={() => {
-                  updateCommentModify(id);
-                }}
-              >
-                수정
-              </StCommentContentsEditButton>
-              <StCommentContentsDeleteButton
-                onClick={() => {
-                  deleteCommentButtonHandler(id);
-                }}
-              >
-                삭제
-              </StCommentContentsDeleteButton>
-            </>
-          )
-        ) : null}
       </StCommentListContainer>
     </div>
   );
