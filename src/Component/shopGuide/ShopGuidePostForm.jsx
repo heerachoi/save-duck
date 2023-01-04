@@ -55,8 +55,6 @@ const Form = ({ userObj }) => {
       downloadimage = await getDownloadURL(imageResponse.ref);
     } else {
       downloadimage = '';
-    } else {
-      downloadimage = '';
     }
     // console.log(downloadimage)
     // console.log(userObj)

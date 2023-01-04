@@ -1,8 +1,8 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
 import { getAuth } from 'firebase/auth';
 import { getStorage } from 'firebase/storage';
+import { getFirestore, collection, updateDoc, doc, getDocs, query, where } from 'firebase/firestore';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -66,15 +66,33 @@ export function useAuth() {
 
 // Storage
 export async function upload(file, currentUser, setLoading) {
-  const fileRef = ref(storage, currentUser.uid + '.png');
+  const fileRef = ref(storage, `profileImg/${currentUser.uid + '.png'}`);
 
   setLoading(true);
 
   const snapshot = await uploadBytes(fileRef, file);
   const photoURL = await getDownloadURL(fileRef);
-
+  console.log(photoURL)
   updateProfile(currentUser, { photoURL });
 
   setLoading(false);
   alert('프로필 이미지가 변경되었습니다.');
+
+
+  // console.log(currentUser.uid)
+  // console.log(photoURL)
+
+  // const docRef = doc(db, 'users', currentUser.);
+  // try {
+  //   const response = await updateDoc(docRef, {
+  //     imgUrl: photoURL,
+  //   });
+  // } catch (error) {
+  //   console.log(error);
+  // }
+
+
 }
+
+
+

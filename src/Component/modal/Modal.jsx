@@ -64,6 +64,29 @@ export default function Modal() {
     upload(photo, currentUser, setLoading);
   }
 
+  // 민성수정
+  // 프로필 사진 업로드
+  // const onProfileSubmit = async (event) => {
+  //   event.preventDefault();
+  //   let attachmentUrl = '';
+  //   if (attachment !== '') {
+  //     const attachmentRef = ref(storage, `${currentUser.uid}/profileImg`);
+  //     const response = await uploadBytes(attachmentRef, attachment);
+  //     attachmentUrl = await response.ref.getDownloadURL();
+  //   }
+  //   const profileObj = {
+  //     photoURL: attachmentUrl,
+  //     displayName: updateNickName,
+  //   };
+  //   await updateDoc(doc(db, 'users', currentUser.uid), profileObj);
+  //   setAttachment('');
+  //   setUpdateNickName('');
+  //   setReadOnly(true);
+  // };
+  // 여기까지 민성 수정
+
+
+
   useEffect(() => {
     if (currentUser?.photoURL) {
       setPhotoURL(currentUser.photoURL);

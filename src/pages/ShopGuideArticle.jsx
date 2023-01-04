@@ -71,6 +71,7 @@ const ShopGuideArticle = ({ item }) => {
     syncpostingstatewithfirestore();
   }, []);
 
+
   return (
     <div>
       <StShopDetailsContainer>
