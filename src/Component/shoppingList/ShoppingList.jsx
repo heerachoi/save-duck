@@ -33,8 +33,8 @@ import {
 
 const ShoppingList = ({ year, month, date }) => {
   const currentUser = useAuth();
-  console.log('shoppinglist current user');
-  console.log(currentUser);
+  // console.log('shoppinglist current user');
+  // console.log(currentUser);
   const currentYear = year;
   const currentMonth = month + 1;
   const currentDate = date;
@@ -51,8 +51,8 @@ const ShoppingList = ({ year, month, date }) => {
   // useEffect(() => {}, [itemList, checkedItemList]); // 댓글 등록 버튼 - 클릭시 댓글 리스트에 작성한 댓글 추가
 
   const shoppingListUnchecked = () => {
-    console.log('current user in shopping list');
-    console.log(currentUser);
+    // console.log('current user in shopping list');
+    // console.log(currentUser);
     const usersCollectionRef = collection(db, dateToString);
 
     const q = query(
@@ -65,7 +65,7 @@ const ShoppingList = ({ year, month, date }) => {
     //   collection(db, dateToString),
     //   where('userId', currentUser.uid)
     // );
-    console.log(q);
+    // console.log(q);
     getDocs(q).then((querySnapshop) => {
       const firestoreShoppingItemList = [];
       querySnapshop.forEach((doc) => {
@@ -80,8 +80,8 @@ const ShoppingList = ({ year, month, date }) => {
           userId: doc.data().userId,
         });
       });
-      console.log('firestoreShoppingItemList');
-      console.log(firestoreShoppingItemList);
+      // console.log('firestoreShoppingItemList');
+      // console.log(firestoreShoppingItemList);
       setItemList(firestoreShoppingItemList);
     });
   };
@@ -171,8 +171,8 @@ const ShoppingList = ({ year, month, date }) => {
 
   // 아이템 값들의
   const calculateTotalPrice = async () => {
-    console.log('calculate total price currentuser');
-    console.log(currentUser);
+    // console.log('calculate total price currentuser');
+    // console.log(currentUser);
     const usersCollectionRef = collection(db, dateToString);
 
 
@@ -212,8 +212,8 @@ const ShoppingList = ({ year, month, date }) => {
   };
 
   const openInputHandler = (e) => {
-    console.log('visible');
-    console.log(visible);
+    // console.log('visible');
+    // console.log(visible);
     setVisible(!visible);
   };
 
@@ -236,7 +236,7 @@ const ShoppingList = ({ year, month, date }) => {
       <ScrollBox>
         <UncheckedList>
           {itemList.map((item) => {
-            console.log('test');
+            // console.log('test');
             return <ShoppingItem key={item.id} item={item} shoppingListUnchecked={shoppingListUnchecked} calculateTotalPrice={calculateTotalPrice} dateToString={dateToString} />;
           })}
 

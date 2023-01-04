@@ -130,7 +130,7 @@ const SignInComponent = () => {
     } else if (name === 'github') {
       provider = new GithubAuthProvider();
     }
-    window.location.href = '/';
+    window.location.href = "/home";
     const data = await signInWithPopup(authService, provider);
     console.log('data');
     console.log(data);

@@ -24,7 +24,7 @@ export const updateProfile = (payload) => {
 const initialState = [
   {
     id: uuidv4(),
-    profile: '닉네임 없음',
+    username: '닉네임 없음',
     modify: false,
   },
 ];
@@ -49,7 +49,7 @@ const profileName = (state = initialState, action) => {
         if (item.id === action.payload.id) {
           return {
             ...item,
-            comment: action.payload.comment,
+            username: action.payload.comment,
             // profile: action.payload.nickName,
           };
         } else {

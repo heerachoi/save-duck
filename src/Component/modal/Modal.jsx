@@ -30,19 +30,26 @@ import {
   query,
   orderBy,
   onSnapshot,
-} from 'firebase/firestore';
-import { db } from '../../firebase';
-import { useNavigate } from 'react-router-dom';
+  where,
+} from "firebase/firestore";
+import { db } from "../../firebase";
+import { useNavigate } from "react-router-dom";
+import { getAuth } from "firebase/auth";
 
 export default function Modal() {
-  const currentUser = useAuth();
+  // const currentUser = useAuth();
   const [photo, setPhoto] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [photoURL, setPhotoURL] = useState('blankProfiles.png');
-  const [updateProfileInput, setUpdateProfileInput] = useState('');
-  const [updateNickName, setUpdateNickName] = useState('');
+  const [photoURL, setPhotoURL] = useState("blankProfiles.png");
+  const [updateProfileInput, setUpdateProfileInput] = useState("");
+  const [updateNickName, setUpdateNickName] = useState("");
+  const [modify, setModify] = useState(false);
 
   const navigate = useNavigate();
+  const auth = getAuth();
+  const currentUser = auth.currentUser;
+  // console.log("currentUser", currentUser);
+  // const [id, setId] = useState(currentUser.uid);
 
   function handleChange(e) {
     if (e.target.files[0]) {
@@ -51,8 +58,8 @@ export default function Modal() {
   }
 
   function handleClick() {
-    console.log('handle');
-    console.log(currentUser.uid);
+    // console.log("handle");
+    // console.log(currentUser.uid);
     upload(photo, currentUser, setLoading);
   }
 
@@ -71,18 +78,17 @@ export default function Modal() {
     const theFile = event.target.files[0];
     setUploadImage(theFile);
 
-    console.log('the File : ', theFile);
+    // console.log("the File : ", theFile);
     const reader = new FileReader();
     reader.readAsDataURL(theFile);
     reader.onloadend = (finishedEvent) => {
       const imgDataUrl = finishedEvent.currentTarget.result;
-      localStorage.setItem('imgDataUrl', imgDataUrl);
-      document.getElementById('profileView').src = imgDataUrl;
+      localStorage.setItem("imgDataUrl", imgDataUrl);
+      document.getElementById("profileView").src = imgDataUrl;
     };
   };
 
   const profileName = useSelector((state) => state.profileName);
-
   // console.log(profileName);
 
   const dispatch = useDispatch(); // 디스패치 함수
@@ -92,38 +98,54 @@ export default function Modal() {
   const modifyProfileButtonHandler = (id) => {
     dispatch(modifyProfile(id));
     setReadOnly(false);
+    setModify(true);
   };
 
   const onChangeProfile = (event) => {
     const { value } = event.target;
-    console.log(currentUser);
-    console.log(value);
+    // console.log(currentUser);
     setUpdateNickName(value);
   };
-  // const updateCompleteButtonHandler = (item) => {
-  //   dispatch(updateProfile(item));
-  //   dispatch(modifyProfile(item.id));
 
-  // };
-  const updateCompleteButtonHandler = async (id) => {
-    const docRef = doc(db, 'Users', id);
+  const updateButtonModify = async (id) => {
+    const docRef = doc(db, "users", id);
     try {
       const response = await updateDoc(docRef, {
-        nickname: updateProfileInput,
+        username: updateProfileInput,
+        modify: true,
       });
     } catch (event) {
-      console.log('error');
+    } finally {
+      // console.log('수정 완료 end');
+      modifyProfileButtonHandler(id);
+    }
+  };
+
+  const updateCompleteButtonHandler = async (id) => {
+    const docRef = doc(db, "users", currentUser.id);
+    console.log("docRef", docRef);
+    try {
+      const response = await updateDoc(docRef, {
+        username: updateProfileInput,
+        modify: false,
+      });
+    } catch (event) {
+      console.log(event.message);
+    } finally {
+      modifyProfileButtonHandler(id);
     }
     setReadOnly(true);
+    setModify(false);
+    setUpdateNickName(updateNickName);
   };
 
   const onLogOutClick = async () => {
     try {
       authService.signOut();
       // await logout();
-      navigate('/');
-      window.location.href = '/';
-      alert('로그아웃 되었습니다.');
+      navigate("/");
+      // window.location.href = '/';
+      alert("로그아웃 되었습니다.");
     } catch (e) {
       console.log(e.message);
     }
@@ -131,57 +153,85 @@ export default function Modal() {
     // window.location.href = '/';
   };
 
+  const getNickName = () => {
+    const q = query(
+      collection(db, "users"),
+      where("uid", "==", currentUser.uid)
+    );
+    getDocs(q).then((querySnapshop) => {
+      const nickNameList = [];
+      querySnapshop.forEach((doc) => {
+        nickNameList.push({
+          id: doc.data().id,
+          uid: doc.data().uid,
+          email: doc.data().email,
+          username: doc.data().username,
+          modify: doc.data().modify,
+        });
+        setUpdateNickName(nickNameList[0].username);
+        setModify(modify);
+        // setId(id);
+        // console.log("id", id);
+        // console.log(id);
+      });
+    });
+  };
+
+  useEffect(() => {
+    getNickName();
+  }, []);
   return (
     <div>
       <Container>
         <ProfileImageContainer>
-          <label htmlFor='imgInput'>
+          <label htmlFor="imgInput">
             <img
               src={photoURL}
-              id='profileView'
-              style={{ width: '200px', height: '200px', objectFit: 'cover' }}
+              id="profileView"
+              style={{ width: "200px", height: "200px", objectFit: "cover" }}
             />
             <input
-              style={{ display: 'none' }}
-              type='file'
-              id='imgInput'
-              accept='image/*'
+              style={{ display: "none" }}
+              type="file"
+              id="imgInput"
+              accept="image/*"
               onChange={handleChange}
             />
           </label>
         </ProfileImageContainer>
         <CameraContainer>
-          <CameraImage src='camera.png' alt='' />
+          <CameraImage src="camera.png" alt="" />
         </CameraContainer>
         <StyledProfileForm onSubmit={onFileChange}>
-          {profileName.map((item) => {
-            return (
-              <StyledDivBox key={item.id}>
-                <StyledProfileInput
-                  readOnly={readOnly}
-                  onChange={onChangeProfile}
-                  defaultValue={item.profile}
-                />
-                <StyledVector
-                  onClick={() => {
-                    modifyProfileButtonHandler(item.id);
-                    console.log(item.id);
-                    window.confirm('수정 하시겠습니까?');
-                  }}
-                  src='Vector.png'
-                />
-                <StyledCheckButton
-                  onClick={(event) => {
-                    event.preventDefault();
-                    updateCompleteButtonHandler(item.id);
-                    alert('수정 완료!!');
-                  }}
-                >
-                  ✔️
-                </StyledCheckButton>
-              </StyledDivBox>
-            );
-          })}
+          <StyledDivBox key={profileName.id}>
+            <StyledProfileInput
+              readOnly={readOnly}
+              onChange={onChangeProfile}
+              value={updateNickName}
+              maxLength="8"
+            />
+            {modify ? (
+              <StyledCheckButton
+                onClick={(event) => {
+                  event.preventDefault();
+                  updateCompleteButtonHandler(id);
+                  alert("수정 완료!!");
+                }}
+              >
+                v
+              </StyledCheckButton>
+            ) : (
+              ""
+            )}
+
+            <StyledVector
+              onClick={() => {
+                modifyProfileButtonHandler(id);
+                window.confirm("수정 하시겠습니까?");
+              }}
+              src="Vector.png"
+            />
+          </StyledDivBox>
           <StyledProfileButton
             disabled={loading || !photo}
             onClick={handleClick}
