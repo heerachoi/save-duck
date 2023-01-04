@@ -96,7 +96,7 @@ const ShopGuideDetails = ({ postingId }) => {
       <StCommentContainer>
         {/* 댓글 작성란 */}
 
-        <StCommentMyProfileImage src='images/default_profile.webp' alt='' />
+        {/* <StCommentMyProfileImage src='images/default_profile.webp' alt='' /> */}
         <StCommentForm onSubmit={commentSubmitHandler}>
           <StCommentInput
             type='text'
@@ -117,9 +117,9 @@ const ShopGuideDetails = ({ postingId }) => {
             postingId={postingId}
             commentItemtList={commentItemtList}
             setCommentItemList={setCommentItemList}
-            // syncCommentListStateWithFirestore={
-            //   syncCommentListStateWithFirestore
-            // }
+          // syncCommentListStateWithFirestore={
+          //   syncCommentListStateWithFirestore
+          // }
           />
         </ul>
       </div>

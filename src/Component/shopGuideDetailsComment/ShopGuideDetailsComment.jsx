@@ -253,7 +253,7 @@ const ShopGuideDetailsComment = ({
     if (currentUser.uid === item.creatorId) {
       setPhotoURL(currentUser.photoURL);
     } else {
-      setPhotoURL('');
+      setPhotoURL('https://cdn-icons-png.flaticon.com/512/1160/1160283.png?w=826&t=st=1672868239~exp=1672868839~hmac=4cf3395bb9a163ac9a5ef4fef16f8a2969d0175429f1eb70e7a30554613fd12f');
       // https://item.kakaocdn.net/do/493188dee481260d5c89790036be0e66f604e7b0e6900f9ac53a43965300eb9a
     }
   }, [currentUser, item, photoURL]);
