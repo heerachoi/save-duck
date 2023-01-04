@@ -69,29 +69,15 @@ const Navbar = () => {
         {/* 오른쪽영역 */}
         <RightSection>
           <Menu>
-            {/* <MenuItem style={{ color: '#ffc226' }} to='/signin'>
-              Features
-            </MenuItem> */}
             <MenuItem style={{ color: '#ffc226' }} to='/shopguide'>
               Community
             </MenuItem>
-            {/* <MenuItem style={{ color: '#ffc226' }} to='/shopguidedetails'>
-              Support
-            </MenuItem> */}
           </Menu>
-
           <SignUp>
             <NavLink
               style={{ color: '#ffc226', textDecoration: 'none' }}
               onClick={handleSubmit}
             >
-              {/* <img
-                ref={profileRef}
-                onClick={() => {
-                  setModal(!modal);
-                }}
-                src='blankProfile.png'
-              /> */}
               <MyProfileMoDal
                 className='myProfileMoDal'
                 ref={profileRef}

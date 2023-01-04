@@ -32,8 +32,11 @@ export const SaveDuckHomeNav = styled(NavLink)`
 
 export const MyProfileMoDal = styled.div`
   text-decoration: none;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 900;
+  font-family: 'Comfortaa', cursive;
+  text-shadow: -0.2px 0 #ffc226, 0 0.2px #ffc226, 0.2px 0 #ffc226,
+    0 -0.2px #ffc226;
 `;
 
 export const DuckImageLogo = styled.img`
@@ -60,8 +63,11 @@ export const Menu = styled.div`
 export const MenuItem = styled(NavLink)`
   text-decoration: none;
   margin-right: -60px;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 900;
+  font-family: 'Comfortaa', cursive;
+  text-shadow: -0.2px 0 #ffc226, 0 0.2px #ffc226, 0.2px 0 #ffc226,
+    0 -0.2px #ffc226;
   /* color: black; */
 `;
 
