@@ -20,6 +20,8 @@ import 'firebase/functions';
 import { authService } from '../../firebase';
 import { getAuth } from 'firebase/auth';
 import { useAuth } from '../../firebase.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faC, faCamera } from '@fortawesome/free-solid-svg-icons';
 
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
 const Form = ({ userObj }) => {
@@ -144,11 +146,7 @@ const Form = ({ userObj }) => {
             onChange={(e) => onImageChange(e)}
           />
           <div className='btnStart'>
-            <img
-              src={'camera.png'}
-              id='view'
-              alt=' 클릭시 사진을 삽입할 수 있습니다.'
-            />
+            <CameraIcon icon={faCamera} />
             <div className='submitPic'>사진 등록</div>
           </div>
         </label>
@@ -186,41 +184,199 @@ const Form = ({ userObj }) => {
   );
 };
 
+// const StSGPInfo = styled.div``;
+
+// const StSGPInputContainer = styled.form`
+//   margin-top: 4rem;
+//   width: 60%;
+//   height: 100%;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   /* justify-content: top; */
+//   background-color: white;
+// `;
+
+// const StSGPTitleInput = styled.input`
+//   margin-top: 2rem;
+//   width: 600px;
+//   height: 40px;
+//   margin-bottom: 20px;
+//   background-color: #f5f5f5;
+//   outline: hidden;
+//   border: none;
+//   padding: 0 10px;
+// `;
+
+// const StSGPPhotoInput = styled.div`
+//   margin-bottom: 1rem;
+//   width: 150px;
+//   height: 30px;
+//   background-color: #ffc226;
+//   border-radius: 100px;
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+//   /* align-items: center; */
+//   padding: 10px;
+
+//   .btnStart {
+//     display: flex;
+//     flex-direction: row;
+//     align-items: center;
+//     justify-content: center;
+//     width: 150px;
+//   }
+
+//   .submitPic {
+//     /* position: absolute; */
+//     width: 80px;
+//     height: 15px;
+//     font-size: 12px;
+//     color: white;
+//     /* margin: 10px 0 0px 110px; */
+//   }
+
+//   img {
+//     max-width: 20px;
+//     margin-left: 80px;
+//     margin-top: 7px;
+//   }
+
+//   label {
+//     /* width: 300px;
+//     height: 40px; */
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     width: 100%;
+//     cursor: pointer;
+//   }
+
+//   input[type='file'] {
+//     position: absolute;
+//     width: 300px;
+//     height: 40px;
+//     padding: 0;
+//     margin: -1px;
+//     overflow: hidden;
+//     clip: rect(0, 0, 0, 0);
+//     border: 0;
+//   }
+// `;
+
+// const StSGPDescriptionInput = styled.textarea`
+//   width: 700px;
+//   height: 200px;
+//   background-color: #f5f5f5;
+//   outline: none;
+//   border: none;
+// `;
+
+// const StSGPButtonGroup = styled.div`
+//   margin-top: 2rem;
+//   display: flex;
+//   align-items: center;
+// `;
+
+// const StSGPSubmitButton = styled.button`
+//   display: inline-block;
+//   border: none;
+//   background-color: #ff8a00;
+//   width: 70px;
+//   height: 70px;
+//   border-radius: 50%;
+//   cursor: pointer;
+//   font-weight: bold;
+//   text-decoration: none;
+//   color: white;
+//   font-size: 10px;
+//   margin-left: 15px;
+//   margin-right: 15px;
+//   position: relative;
+// `;
+
+// const StSGPCancelButton = styled(NavLink)`
+//   display: inline-block;
+//   border: none;
+//   background-color: #ffc226;
+//   width: 70px;
+//   height: 70px;
+//   border-radius: 50%;
+//   cursor: pointer;
+//   font-weight: bold;
+//   text-decoration: none;
+//   color: white;
+//   font-size: 18px;
+//   margin-left: 15px;
+//   position: relative;
+//   line-height: 350%;
+//   text-align: center;
+// `;
+
+export default Form;
+
+// const StSGContainer = styled.div`
+//   width: 100%;
+//   height: 100%;
+//   background-color: grey;
+//   background-size: cover;
+// `;
+
 const StSGPInfo = styled.div``;
 
 const StSGPInputContainer = styled.form`
-  margin-top: 4rem;
-  width: 60%;
-  height: 100%;
+  position: absolute;
+  margin-top: 2.5rem;
+  width: 100%;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: top; */
+  justify-content: center;
+  left: 0;
+  top: 0;
+  right: 0;
   background-color: white;
+  /* background-color: grey; */
 `;
 
 const StSGPTitleInput = styled.input`
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
   margin-top: 2rem;
   width: 600px;
   height: 40px;
   margin-bottom: 20px;
   background-color: #f5f5f5;
-  outline: hidden;
   border: none;
+  outline: none;
   padding: 0 10px;
+  border-radius: 8px;
+  &::placeholder: {
+    color: #707070;
+  }
 `;
 
 const StSGPPhotoInput = styled.div`
   margin-bottom: 1rem;
-  width: 150px;
-  height: 30px;
+  width: 120px;
+  height: 25px;
   background-color: #ffc226;
   border-radius: 100px;
   display: flex;
-  flex-direction: row;
   justify-content: center;
-  /* align-items: center; */
-  padding: 10px;
+  /* flex-direction: row; */
+  align-items: center;
+  text-align: center;
+  line-height: 17px;
+  outline: none;
+  padding: 5px;
+  margin-bottom: 20px;
+  &:hover {
+    background-color: #ff8a00;
+  }
 
   .btnStart {
     display: flex;
@@ -231,23 +387,14 @@ const StSGPPhotoInput = styled.div`
   }
 
   .submitPic {
-    /* position: absolute; */
-    width: 80px;
+    /* width: 80px; */
+    margin-left: 5px;
     height: 15px;
     font-size: 12px;
     color: white;
-    /* margin: 10px 0 0px 110px; */
-  }
-
-  img {
-    max-width: 20px;
-    margin-left: 80px;
-    margin-top: 7px;
   }
 
   label {
-    /* width: 300px;
-    height: 40px; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -267,12 +414,26 @@ const StSGPPhotoInput = styled.div`
   }
 `;
 
+const CameraIcon = styled(FontAwesomeIcon)`
+  font-size: 13px;
+  color: #fff;
+`;
+
 const StSGPDescriptionInput = styled.textarea`
+  font-family: 'Noto Sans KR', sans-serif;
+  font-size: 15px;
+  font-weight: 300;
   width: 700px;
   height: 200px;
   background-color: #f5f5f5;
   outline: none;
   border: none;
+  border-radius: 8px;
+  padding: 15px;
+  resize: none;
+  &::placeholder: {
+    color: #707070;
+  }
 `;
 
 const StSGPButtonGroup = styled.div`
@@ -285,35 +446,45 @@ const StSGPSubmitButton = styled.button`
   display: inline-block;
   border: none;
   background-color: #ff8a00;
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
+  width: 80px;
+  height: 35px;
+  border-radius: 20px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 400;
   text-decoration: none;
   color: white;
-  font-size: 10px;
-  margin-left: 15px;
-  margin-right: 15px;
+  font-size: 16px;
+  /* margin-left: 15px; */
+  margin-right: 10px;
   position: relative;
+  &:hover {
+    background-color: #ffc226;
+  }
 `;
 
 const StSGPCancelButton = styled(NavLink)`
   display: inline-block;
   border: none;
-  background-color: #ffc226;
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
+  background-color: #ff8a00;
+  width: 80px;
+  height: 35px;
+  border-radius: 20px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 400;
   text-decoration: none;
   color: white;
-  font-size: 18px;
+  font-size: 16px;
   margin-left: 15px;
   position: relative;
-  line-height: 350%;
   text-align: center;
+  line-height: 33px;
+  &:hover {
+    background-color: #ffc226;
+  }
 `;
 
-export default Form;
+const StSGBackground = styled.div`
+  height: 100vh;
+  width: 100vw;
+  background-color: #ffc226;
+`;

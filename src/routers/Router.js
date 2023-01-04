@@ -15,19 +15,19 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<Navbar />}>
-          <Route path="/home" element={<Home />} />
-          <Route path="/shopguide" element={<ShopGuide />} />
-          <Route path="/shopguidearticle" element={<ShopGuideArticle />} />
-          <Route path="/shopguidearticle/:id" element={<ShopGuideArticle />} />
-          <Route path="/shopguideposting" element={<ShopGuidePosting />} />
+          <Route path='/home' element={<Home />} />
+          <Route path='/shopguide' element={<ShopGuide />} />
+          <Route path='/shopguidearticle' element={<ShopGuideArticle />} />
+          <Route path='/shopguidearticle/:id' element={<ShopGuideArticle />} />
+          <Route path='/shopguideposting' element={<ShopGuidePosting />} />
           <Route
-            path="/shopguidedetails/:id"
+            path='/shopguidedetails/:id'
             component={ShopGuideDetails}
             element={<ShopGuideDetails />}
           />
         </Route>
-        <Route path="/" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
+        <Route path='/' element={<SignIn />} />
+        <Route path='/signup' element={<SignUp />} />
       </Routes>
     </BrowserRouter>
   );

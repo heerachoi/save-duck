@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom'; //페이지 이동을 위한 라우터 임포트
 
 export const StShopGuidePostWrapper = styled.div`
-  width: 70%;
+  width: 100%;
   margin-top: 50px;
   border-bottom: 1px solid #e5e5e5;
   justify-content: left;
