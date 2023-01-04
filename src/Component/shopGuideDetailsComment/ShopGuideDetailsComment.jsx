@@ -10,6 +10,7 @@ import {
   getDoc,
   getDocs,
   collection,
+  where,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 import {
@@ -23,6 +24,8 @@ import {
 } from './ShopGuideDetailsComment.js';
 import { useAuth } from '../../firebase';
 import { getAuth } from 'firebase/auth';
+import { ref, getDownloadURL, getStorage, listAll } from 'firebase/storage';
+import { storage } from '../../firebase.js';
 
 const ShopGuideDetailsComment = ({
   item,
@@ -36,7 +39,12 @@ const ShopGuideDetailsComment = ({
   const [readOnly, setReadOnly] = useState(true);
   const [updateCommentInput, setUpdateCommentInput] = useState(comment);
   const dispatch = useDispatch();
-
+  //! 민성 수정 
+  const [photoURL, setPhotoURL] = useState(``);
+  const [commentList, setCommentList] = useState([]);
+  const [users, setUsers] = useState([]);
+  const storage = getStorage();
+  //! 민성 수정
   const auth = getAuth();
   // console.log(auth);
   const currentUser = auth.currentUser;
@@ -153,11 +161,136 @@ const ShopGuideDetailsComment = ({
   //   // userdeleteCheck();
   // }, [currentUser]);
 
+  //! 민성 수정
+  //! db에서 'commentList' 컬렉션의 'creatorId' 필드를 가져오기
+  const getCreatorId = async (uid, id) => {
+    const q = query(collection(db, 'commentList'));
+    getDocs(q).then((querySnapshot) => {
+      const firestorecommentlist = [];
+      querySnapshot.forEach((doc) => {
+        firestorecommentlist.push({
+          id: doc.id,
+          username: doc.data().username,
+          creatorId: doc.data().creatorId,
+        });
+      });
+      setCommentList(firestorecommentlist);
+      // console.log(firestorecommentlist);
+    });
+  };
+  useEffect(() => {
+    getCreatorId();
+  }, []);
+
+
+
+
+  //! 여기서 민성 수정
+  //! storage에 있는 모든 파일을 배열에 담아서 가져오기
+  const getPhotoURL = async () => {
+    const storageRef = ref(storage, 'images');
+    const listRef = listAll(storageRef);
+    listRef.then((res) => {
+      res.items.forEach((itemRef) => {
+        // console.log(itemRef);
+        getDownloadURL(itemRef).then((url) => {
+          // console.log(url);
+          setPhotoURL(url);
+        });
+      });
+    });
+  };
+
+  //! 다 내 사진이 뜸뜸
+  // useEffect(() => {
+  //   if (!currentUser) return;
+  //   setPhotoURL(currentUser.photoURL);
+  // }, [currentUser]);
+
+  //! 나만 프로필 사진 뜨는 거
+  useEffect(() => {
+    // console.log(item);
+    // console.log(currentUser);
+    // console.log(item.creatorId);
+    // console.log(currentUser.photoURL);
+    // console.log(photoURL)
+
+    if (currentUser.uid === item.creatorId) {
+      setPhotoURL(currentUser.photoURL);
+    } else {
+      setPhotoURL('https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png');
+      // https://item.kakaocdn.net/do/493188dee481260d5c89790036be0e66f604e7b0e6900f9ac53a43965300eb9a
+    }
+  }, [currentUser, item, photoURL]);
+
+  //! 나만 프로필 사진 뜨는 거
+  // useEffect(() => {
+  //   console.log(item);
+  //   console.log(currentUser);
+  //   console.log(item.creatorId);
+  //   console.log(currentUser.photoURL);
+  //   console.log(photoURL)
+
+
+  //   if (currentUser.uid === item.creatorId) {
+  //     setPhotoURL(currentUser.photoURL);
+  //   } else {
+  //     setPhotoURL('');
+  //   }
+  // }, [currentUser, item, photoURL]);
+
+  //! 수정중
+  // useEffect(() => {
+  //   setPhotoURL(photoURL);
+  // }, [currentUser, photoURL, item]);
+
+  //! 다 내 사진이 뜸
+  // useEffect(() => {
+  //   setPhotoURL(currentUser?.photoURL);
+  // }, [currentUser, photoURL, item]);
+
+  //! 다 내 사진이 뜸
+  // useEffect(() => {
+  //   if (currentUser.photoURL === item.creatorId) {
+  //     setPhotoURL(currentUser?.photoURL);
+  //   } else {
+  //     setPhotoURL('https://item.kakaocdn.net/do/493188dee481260d5c89790036be0e66f604e7b0e6900f9ac53a43965300eb9a');
+  //   }
+  // }, [currentUser, item]);
+
+  //! 아무도 안뜸뜸
+  // useEffect(() => {
+  //   if (currentUser.photoURL === item.creatorId) {
+  //     setPhotoURL(currentUser.photoURL);
+  //   } else {
+  //     setPhotoURL('');
+  //   }
+  // }, [currentUser, item]);
+
+  //! 여기까지 민성 수정
+
+  const [profileUrl, setProfileUrl] = useState("");
+
+  // const profileImgRef = ref(storage, '/profileImg/' + item.creatorId + '.png');
+  // console.log(profileImgRef);
+
+  // const imgUrl = getDownloadURL(
+  //   ref(storage, profileImgRef))
+  //   .then(url => setProfileUrl(url));
+
+  // const splitDash = profileUrl?.split("/");
+  // if ()
+  // console.log(splitDash)
+  // const splitDot = splitDash[7].split(".");
+  // const userId = splitDot[0];
+  // console.log(userId);
+
+
   return (
     <div>
       <StCommentListContainer key={id}>
         {/* 작성자 정보 및 댓글 내용 */}
-        <StCommentProfileImage src='image/default_profile.webp' alt='' />
+        <StCommentProfileImage src={photoURL} alt='' />
         <StCommentUserName>사용자 닉네임</StCommentUserName>
         <StCommentContentInput
           name='comment'
