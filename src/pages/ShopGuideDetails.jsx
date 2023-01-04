@@ -8,12 +8,12 @@ import styled from 'styled-components';
 import { db, useAuth } from '../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 
-const ShopGuideDetails = ({ postingId, currentUser }) => {
+const ShopGuideDetails = ({ postingId }) => {
   // 댓글 기본 state
   const time = moment().format('YYYY-MM-DD-hh:mm');
   const [comment, setComment] = useState('');
   const [commentItemtList, setCommentItemList] = useState([]);
-  // const currentUser = useAuth();
+  const currentUser = useAuth();
   const dispatch = useDispatch();
 
   // 댓글 input 내용 입력 시 input value state 업데이트

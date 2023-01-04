@@ -30,10 +30,10 @@ const ShopGuideDetailsComment = ({
   const dispatch = useDispatch();
 
   const auth = getAuth();
-  console.log(auth);
+  // console.log(auth);
   const currentUser = auth.currentUser;
-  console.log('currentUser');
-  console.log(currentUser);
+  // console.log('currentUser');
+  // console.log(currentUser);
 
   // console.log(currentUser.uid);
 
@@ -88,8 +88,9 @@ const ShopGuideDetailsComment = ({
   };
 
   // 댓글 수정 취소하기
-  const editCancelButtonHandler = async (id) => {
-    const docRef = doc(db, 'commentList', id);
+  const editCancelButtonHandler = async (item) => {
+    console.log(item);
+    const docRef = doc(db, 'commentList', item.id);
     // console.log(docRef.comment);
     // console.log(comment);
     try {
@@ -102,10 +103,11 @@ const ShopGuideDetailsComment = ({
       console.log(event);
     } finally {
       console.log('comment update canceled');
-      modifyCommentButtonHandler(id);
+      modifyCommentButtonHandler(item.id);
       alert('수정이 취소되었습니다.');
     }
-    // setUpdateCommentInput(comment);
+    setUpdateCommentInput(item.comment);
+    // setUpdateCommentInput(value);
     // dispatch(modifyModeComment(id));
     syncCommentListStateWithFirestore();
     setReadOnly(true);
@@ -125,15 +127,19 @@ const ShopGuideDetailsComment = ({
   };
 
   useEffect(() => {
-    if (!currentUser) return;
-    // userdeleteCheck();
-  }, [currentUser]);
+    syncCommentListStateWithFirestore();
+  }, [commentItemtList]);
+
+  // useEffect(() => {
+  //   if (!currentUser) return;
+  //   // userdeleteCheck();
+  // }, [currentUser]);
 
   return (
     <div>
       <StCommentListContainer key={id}>
         {/* 작성자 정보 및 댓글 내용 */}
-        <StCommentProfileImage src='images/default_profile.webp' alt='' />
+        <StCommentProfileImage src='image/default_profile.webp' alt='' />
         <StCommentUserName>사용자 닉네임</StCommentUserName>
         <StCommentContentInput
           name='comment'
@@ -144,7 +150,7 @@ const ShopGuideDetailsComment = ({
         {/* 버튼 영역 - 수정 & 삭제 VS 완료 & 취소  */}
         {/* <span>{item.comment}</span> */}
         <StCommentContentSaveTime>{savetime}</StCommentContentSaveTime>
-        {/* {modify ? (
+        {modify ? (
           <>
             <StCommentContentsEditButton
               type='button'
@@ -157,7 +163,7 @@ const ShopGuideDetailsComment = ({
             </StCommentContentsEditButton>
             <StCommentContentsDeleteButton
               onClick={() => {
-                editCancelButtonHandler(id);
+                editCancelButtonHandler(item);
               }}
             >
               취소
@@ -181,8 +187,8 @@ const ShopGuideDetailsComment = ({
               삭제
             </StCommentContentsDeleteButton>
           </>
-        )} */}
-        {commentItemtList.map((item) => {
+        )}
+        {/* {commentItemtList.map((item) => {
           if (
             item.creatorId === currentUser.uid
             // item.postingId === currentUser.postingId
@@ -232,7 +238,7 @@ const ShopGuideDetailsComment = ({
           } else {
             return null;
           }
-        })}
+        })} */}
       </StCommentListContainer>
     </div>
   );
