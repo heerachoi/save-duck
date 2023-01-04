@@ -3,7 +3,14 @@ import React, { useState, useEffect } from 'react';
 import { authService, upload, db } from '../../firebase.js';
 import { modifyProfile } from '../../redux/modules/profile.js';
 import { useSelector, useDispatch } from 'react-redux';
-import { collection, updateDoc, doc, getDocs, query, where } from 'firebase/firestore';
+import {
+  collection,
+  updateDoc,
+  doc,
+  getDocs,
+  query,
+  where,
+} from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -54,7 +61,7 @@ export default function Modal() {
       setPhotoURL(currentUser.photoURL);
     }
   }, [currentUser]);
-
+  //
   // const theFile = test;
   // onFileChange는 사용자가 인풋에 파일을 업로드 했을때 실행된다.
   // oneFileChange 를 통해 사진이 업로드 되기 전 미리보기 기능을 구현한다.
@@ -123,7 +130,10 @@ export default function Modal() {
   };
 
   const getNickName = () => {
-    const q = query(collection(db, 'users'), where('uid', '==', currentUser.uid));
+    const q = query(
+      collection(db, 'users'),
+      where('uid', '==', currentUser.uid)
+    );
     getDocs(q).then((querySnapshop) => {
       const nickNameList = [];
       querySnapshop.forEach((doc) => {
@@ -150,8 +160,18 @@ export default function Modal() {
       <Container>
         <ProfileImageContainer>
           <label htmlFor='imgInput'>
-            <img src={photoURL} id='profileView' style={{ width: '200px', height: '200px', objectFit: 'cover' }} />
-            <input style={{ display: 'none' }} type='file' id='imgInput' accept='image/*' onChange={handleChange} />
+            <img
+              src={photoURL}
+              id='profileView'
+              style={{ width: '200px', height: '200px', objectFit: 'cover' }}
+            />
+            <input
+              style={{ display: 'none' }}
+              type='file'
+              id='imgInput'
+              accept='image/*'
+              onChange={handleChange}
+            />
           </label>
         </ProfileImageContainer>
         <CameraContainer>
@@ -159,7 +179,12 @@ export default function Modal() {
         </CameraContainer>
         <StyledProfileForm onSubmit={onFileChange}>
           <StyledDivBox key={profileName.id}>
-            <StyledProfileInput readOnly={readOnly} onChange={onChangeProfile} value={updateNickName} maxLength='8' />
+            <StyledProfileInput
+              readOnly={readOnly}
+              onChange={onChangeProfile}
+              value={updateNickName}
+              maxLength='8'
+            />
             {modify ? (
               <StyledCheckButton
                 onClick={(event) => {
@@ -178,11 +203,16 @@ export default function Modal() {
               src='Vector.png'
             />
           </StyledDivBox>
-          <StyledProfileButton disabled={loading || !photo} onClick={handleClick}>
+          <StyledProfileButton
+            disabled={loading || !photo}
+            onClick={handleClick}
+          >
             프로필변경
           </StyledProfileButton>
         </StyledProfileForm>
-        <StyledLogoutButton onClick={onLogOutClick}>로그아웃</StyledLogoutButton>
+        <StyledLogoutButton onClick={onLogOutClick}>
+          로그아웃
+        </StyledLogoutButton>
       </Container>
     </div>
   );
