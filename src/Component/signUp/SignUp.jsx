@@ -5,15 +5,15 @@ import { collection, addDoc, setDoc, doc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 
 import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider } from 'firebase/auth';
-
-import React from 'react';
 import {
   H1,
   H2,
   SignupWrap,
   SignupContaier,
   SignupTitle,
+  Emailform,
   SignUpSubmit,
+  Label,
   Input,
   InputTitle,
   InputWrap,
@@ -23,7 +23,15 @@ import {
   ErrorMessgeWrap,
   ErrorMessge,
   PasswordWrap,
-} from './SignUp.js';
+  ContentWrap,
+} from "./SignUp.js";
+
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+} from "firebase/auth";
+
 
 const SignUpComponent = () => {
   // 초기값 세팅 - 아이디, 닉네임, 비밀번호, 비밀번호확인, 이메일, 전화번호, 생년월일
