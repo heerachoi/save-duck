@@ -41,11 +41,11 @@ const ShopGuideDetailsComment = ({
 
   // 민성 수정
   // uid 가져오기
-  const auth = getAuth();
-  const currentUser = auth.currentUser;
+  // const auth = getAuth();
+  // const currentUser = auth.currentUser;
 
-  console.log(auth);
-  console.log(currentUser);
+  // console.log(auth);
+  // console.log(currentUser);
   // 댓글 수정 취소를 위한 state (이전, 이후 댓글 저장)
   // const [originComment, setNewComment] = useState(comment);
 
