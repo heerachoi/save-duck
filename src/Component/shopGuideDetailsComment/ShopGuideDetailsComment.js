@@ -34,7 +34,7 @@ export const StCommentUserName = styled.div`
 export const StCommentContentInput = styled.textarea`
   font-size: 15px;
   margin-bottom: 10px;
-  width: 400px;
+  width: 500px;
   min-width: 300px;
   min-height: 80px;
   border: none;
