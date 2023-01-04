@@ -22,6 +22,7 @@ import {
   Button,
   GithubBtn,
   GoogleBtn,
+  SocialLoginBtn,
 } from './SignIn.js';
 
 //더미

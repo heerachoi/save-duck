@@ -11,17 +11,15 @@ export const Outlet = styled.div`
 `;
 
 export const StyledSaveDuckHome = styled.div`
-  padding-bottom: 10px;
+  padding: 10px 10px 10px 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-top: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
   position: fixed;
   left: 0;
   top: 0;
   right: 0;
+  background-color: white;
 `;
 
 export const SaveDuckHomeNav = styled(NavLink)`
