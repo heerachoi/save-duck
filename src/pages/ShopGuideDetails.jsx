@@ -1,28 +1,49 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import ShopGuideDetailsCommentList from '../Component/shopGuideDetailsCommentList/ShopGuideDetailsCommentList.jsx';
 import { addComment } from '../redux/modules/comment';
+import ShopGuideDetailsCommentList from '../Component/shopGuideDetailsCommentList/ShopGuideDetailsCommentList.jsx';
 import moment from 'moment';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import { db } from '../firebase';
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  getDocs,
-  query,
-  orderBy,
-} from 'firebase/firestore';
+import { db, useAuth } from '../firebase';
+import { collection, addDoc, doc, getDoc } from 'firebase/firestore';
+// import storage from '@react-native-firebase/storage';
 
-const ShopGuideDetails = ({ collectionName, prevComment }) => {
+const ShopGuideDetails = ({ postingId }) => {
   // 댓글 기본 state
   const time = moment().format('YYYY-MM-DD-hh:mm');
   const [comment, setComment] = useState('');
   const [commentItemtList, setCommentItemList] = useState([]);
+  const currentUser = useAuth();
   const dispatch = useDispatch();
+
+  // 댓글 input 내용 입력 시 input value state 업데이트
+  const CommentChangeHandler = (event) => {
+    const currentComment = event.target.value;
+    if (currentComment.length > 100) {
+      alert('100자 이내로 입력해주세요.');
+      return;
+    } else {
+      setComment(event.target.value);
+    }
+  };
+
+  // 프로필 이미지 불러오기
+
+  // const getImage = async (key) => {
+  //   let url = '';
+  //   try {
+  //     const imageRef = await storage().ref('photoName.jpg');
+  //     url = await imageRef.getDownloadURL();
+  //     setUrl(url);
+  //     console.log('imageUrl:', url);
+  //     return url;
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
+  //  댓글 등록 하기
 
   // 댓글 등록 기능 - 버튼 클릭시 댓글 리스트에 작성한 댓글 추가
   const commentSubmitHandler = (event) => {
@@ -34,81 +55,40 @@ const ShopGuideDetails = ({ collectionName, prevComment }) => {
         comment,
         savetime: time,
         modify: false,
+        postingId: postingId,
+        creatorId: currentUser.uid,
+        // nickName: currentUser.
       };
-
-      // dispatch는 어떤때에 쓰나요?
-      // dispatch는 action을 reducer로 보내는 역할을 합니다.
-      // action은 reducer로 보내는 데이터를 의미합니다.
-      // reducer는 action을 받아서 state를 업데이트하는 역할을 합니다.
-
       dispatch(addComment(newComment));
       // addItem();
       setComment('');
     }
   };
 
-  // 댓글 작성 인풋창 내용 입력 시 state 업데이트
-  const CommentChangeHandler = (event) => {
-    const currentComment = event.target.value;
-    if (currentComment.length > 100) {
-      alert('100자 이내로 입력해주세요.');
-      return;
-    } else {
-      setComment(event.target.value);
-    }
-  };
-
-  // 회수 수정
   // 댓글 등록 기능 - 버튼 클릭 시 DB 컬렉션에 댓글 내용 추가
 
   const addItem = async (newComment) => {
-    const docRef = await addDoc(collection(db, collectionName), {
+    const docRef = await addDoc(collection(db, 'commentList'), {
       id: uuidv4(),
       comment,
       savetime: time,
       modify: false,
+      postingId: postingId,
+      creatorId: currentUser.uid,
     });
-    console.log(docRef);
+    // console.log(docRef);
     setCommentItemList([
       {
         id: uuidv4(),
         comment,
         savetime: time,
         modify: false,
+        postingId: postingId,
       },
       ...commentItemtList,
     ]);
   };
 
-  // 댓글 불러오기
-  const syncCommentListStateWithFirestore = () => {
-    const q = query(
-      collection(db, collectionName),
-      // where('userId', '==', currentUser),
-      orderBy('savetime', 'desc')
-    );
-
-    getDocs(q).then((querySnapshot) => {
-      const firestoreTodoItemList = [];
-      querySnapshot.forEach((doc) => {
-        // console.log(doc);
-        firestoreTodoItemList.push({
-          id: doc.id,
-          comment: doc.data().comment,
-          userId: doc.data().userId,
-          modify: doc.data().modify,
-          savetime: doc.data().savetime,
-        });
-      });
-      setCommentItemList(firestoreTodoItemList);
-    });
-  };
-
-  useEffect(() => {
-    syncCommentListStateWithFirestore();
-  }, []);
-
-  // console.log(lists);
   return (
     <div>
       {/* 댓글 영역 */}
@@ -133,12 +113,13 @@ const ShopGuideDetails = ({ collectionName, prevComment }) => {
       <div>
         <ul>
           <ShopGuideDetailsCommentList
-            collectionName={collectionName}
+            currentUser={currentUser}
+            postingId={postingId}
             commentItemtList={commentItemtList}
             setCommentItemList={setCommentItemList}
-            syncCommentListStateWithFirestore={
-              syncCommentListStateWithFirestore
-            }
+            // syncCommentListStateWithFirestore={
+            //   syncCommentListStateWithFirestore
+            // }
           />
         </ul>
       </div>

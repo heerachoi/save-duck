@@ -9,13 +9,17 @@ import { v4 as uuidv4 } from 'uuid';
 import { collection, addDoc, getFirestore } from 'firebase/firestore';
 import moment from 'moment';
 import { storage } from '../../firebase.js';
-import { ref, uploadBytesResumable, getDownloadURL, uploadString } from 'firebase/storage';
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  uploadString,
+} from 'firebase/storage';
 import firebase from 'firebase/app';
 import 'firebase/functions';
 import { authService } from '../../firebase';
-import { getAuth } from "firebase/auth";
+import { getAuth } from 'firebase/auth';
 import { useAuth } from '../../firebase.js';
-
 
 // Form 컴포넌트를 생성 후 useState를 통해 lists 객체를 생성한다. lists 객체의 키값은 id,number, title, username,date, profilepicture, description 이다.
 const Form = ({ userObj }) => {
@@ -51,6 +55,8 @@ const Form = ({ userObj }) => {
       downloadimage = await getDownloadURL(imageResponse.ref);
     } else {
       downloadimage = '';
+    } else {
+      downloadimage = '';
     }
     // console.log(downloadimage)
     // console.log(userObj)
@@ -60,22 +66,24 @@ const Form = ({ userObj }) => {
     // console.log(description)
     // console.log(moment().format('YYYY-MM-DD HH:mm:ss'))
     try {
-      await addDoc(collection(db, 'posting'), {
-        id: uuidv4(),
-        title: title,
-        description: description,
-        created: moment().format('YYYY-MM-DD HH:mm:ss'),
-        image: downloadimage,
-        // user: userObj.displayName,
-        creatorid: currentUser.uid, // 고정
-      },
-        previousPageHanlder(),
+      await addDoc(
+        collection(db, 'posting'),
+        {
+          id: uuidv4(),
+          title: title,
+          description: description,
+          created: moment().format('YYYY-MM-DD HH:mm:ss'),
+          image: downloadimage,
+          // user: userObj.displayName,
+          creatorid: currentUser.uid, // 고정
+        },
+        previousPageHanlder()
       );
     } catch (err) {
       alert(err);
+      alert(err);
     }
   };
-
 
   const previousPageHanlder = async () => {
     if (window.confirm('해당 게시글을 등록하시겠습니까?')) {
@@ -84,7 +92,6 @@ const Form = ({ userObj }) => {
     } else {
       return;
     }
-
   };
 
   const [lists, setLists] = useState({
@@ -111,13 +118,13 @@ const Form = ({ userObj }) => {
     const theFile = event.target.files[0];
     setUploadImage(theFile);
 
-    console.log("the File : ", theFile);
+    console.log('the File : ', theFile);
     const reader = new FileReader();
     reader.readAsDataURL(theFile);
     reader.onloadend = (finishedEvent) => {
       const imgDataUrl = finishedEvent.currentTarget.result;
-      localStorage.setItem("imgDataUrl", imgDataUrl);
-      document.getElementById("view").src = imgDataUrl;
+      localStorage.setItem('imgDataUrl', imgDataUrl);
+      document.getElementById('view').src = imgDataUrl;
     };
   };
 
@@ -140,7 +147,11 @@ const Form = ({ userObj }) => {
             onChange={(e) => onImageChange(e)}
           />
           <div className='btnStart'>
-            <img src={'camera.png'} id="view" alt=' 클릭시 사진을 삽입할 수 있습니다.' />
+            <img
+              src={'camera.png'}
+              id='view'
+              alt=' 클릭시 사진을 삽입할 수 있습니다.'
+            />
             <div className='submitPic'>사진 등록</div>
           </div>
         </label>
@@ -152,20 +163,28 @@ const Form = ({ userObj }) => {
         />
       </StSGPPhotoInput>
 
-      <StSGPDescriptionInput type='text' name='description' value={description} placeholder='내용을 입력해주세요.' onChange={(e) => setDescription(e.target.value)} required />
+      <StSGPDescriptionInput
+        type='text'
+        name='description'
+        value={description}
+        placeholder='내용을 입력해주세요.'
+        onChange={(e) => setDescription(e.target.value)}
+        required
+      />
 
       <StSGPButtonGroup>
-        <StSGPSubmitButton
-          type='submit'
-          onClick={() => {
-          }}
-        >
+        <StSGPSubmitButton type='submit' onClick={() => { }}>
           Save
         </StSGPSubmitButton>
 
         <StSGPCancelButton to='/shopguide'>Cancel</StSGPCancelButton>
       </StSGPButtonGroup>
-      <StSGPInfo type='text' name='date' value={lists.date} onChange={onChange}></StSGPInfo>
+      <StSGPInfo
+        type='text'
+        name='date'
+        value={lists.date}
+        onChange={onChange}
+      ></StSGPInfo>
     </StSGPInputContainer>
   );
 };
@@ -179,7 +198,7 @@ const StSGPInputContainer = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: top;
+  /* justify-content: top; */
   background-color: white;
 `;
 
@@ -191,32 +210,36 @@ const StSGPTitleInput = styled.input`
   background-color: #f5f5f5;
   outline: hidden;
   border: none;
+  padding: 0 10px;
 `;
 
 const StSGPPhotoInput = styled.div`
   margin-bottom: 1rem;
-  width: 300px;
+  width: 150px;
   height: 30px;
   background-color: #ffc226;
-  border-radius: 10px;
+  border-radius: 100px;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  justify-content: center;
+  /* align-items: center; */
+  padding: 10px;
 
   .btnStart {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
+    width: 150px;
   }
 
   .submitPic {
-    position: absolute;
-    top: px;
+    /* position: absolute; */
     width: 80px;
     height: 15px;
     font-size: 12px;
     color: white;
-    margin: 10px 0 0px 110px;
+    /* margin: 10px 0 0px 110px; */
   }
 
   img {
@@ -226,8 +249,12 @@ const StSGPPhotoInput = styled.div`
   }
 
   label {
-    width: 300px;
-    height: 40px;
+    /* width: 300px;
+    height: 40px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     cursor: pointer;
   }
 

@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, Router, Link, useNavigate } from 'react-router-dom';
 import { authService } from '../../firebase';
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signOut, GithubAuthProvider, signInWithPopup, createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signOut,
+  GithubAuthProvider,
+  signInWithPopup,
+  createUserWithEmailAndPassword,
+} from 'firebase/auth';
 import {
   // Img,
   LoginWrap,
@@ -22,6 +31,7 @@ import {
   Button,
   GithubBtn,
   GoogleBtn,
+  SocialLoginBtn,
 } from './SignIn.js';
 
 //더미
@@ -66,7 +76,8 @@ const SignInComponent = () => {
   const handleEmail = (e) => {
     // 이메일 정규식
     setEmail(e.target.value);
-    const regex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+    const regex =
+      /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
     if (regex.test(e.target.value)) {
       setEmailValid(true);
     } else {
@@ -77,7 +88,8 @@ const SignInComponent = () => {
   // 비밀번호 정규식
   const handlePassword = (e) => {
     setPassword(e.target.value);
-    const regex = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+    const regex =
+      /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
     if (regex.test(e.target.value)) {
       setPasswordValid(true);
     } else {
@@ -169,17 +181,35 @@ const SignInComponent = () => {
             <InputTitle>이메일 주소</InputTitle>
 
             <InputWrap>
-              <Input type='email' name='email' placeholder='saveduck@saveduck.com' required value={email} onChange={handleEmail} />
+              <Input
+                type='email'
+                name='email'
+                placeholder='saveduck@saveduck.com'
+                required
+                value={email}
+                onChange={handleEmail}
+              />
             </InputWrap>
 
-            <ErrorMessgeWrap>{!emailValid && email.length > 0 && <div>! 옳바른 아이디를 입력해주세요.</div>}</ErrorMessgeWrap>
+            <ErrorMessgeWrap>
+              {!emailValid && email.length > 0 && (
+                <div>! 옳바른 아이디를 입력해주세요.</div>
+              )}
+            </ErrorMessgeWrap>
           </EmaillWrap>
 
           <div>
             <InputTitle>비밀번호</InputTitle>
 
             <InputWrap>
-              <Input type='password' name='password' placeholder='비밀번호를 입력해주세요.' required value={password} onChange={handlePassword} />
+              <Input
+                type='password'
+                name='password'
+                placeholder='비밀번호를 입력해주세요.'
+                required
+                value={password}
+                onChange={handlePassword}
+              />
             </InputWrap>
           </div>
         </form>

@@ -34,7 +34,7 @@ const ShopGuideArticle = ({ item }) => {
   const [posting, setPosting] = useState([]);
   const currentUser = useAuth();
 
-  const collectionName = NavId.id;
+  const postingId = NavId.id;
 
   // 게시글 삭제 기능
   const deleteButtonClickHandler = async () => {
@@ -131,7 +131,7 @@ const ShopGuideArticle = ({ item }) => {
           }
         })}
       </StShopDetailsContainer>
-      <ShopGuideDetails collectionName={collectionName} />
+      <ShopGuideDetails postingId={postingId} />
     </div>
   );
 };
@@ -161,8 +161,8 @@ const StShopDetailsArticleContents = styled.div`
   display: inline-block;
   text-align: start;
   margin-bottom: 40px;
-  line-height:120%;
-  white-space : pre-line;
+  line-height: 120%;
+  white-space: pre-line;
 `;
 
 const StShopDetailsImage = styled.img`

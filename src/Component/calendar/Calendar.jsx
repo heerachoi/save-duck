@@ -1,7 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
 import { db } from '../../firebase.js';
 import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
@@ -14,6 +12,7 @@ import { useAuth } from '../../firebase.js';
 
 const Calendar = ({ startingDate }) => {
   const currentUser = useAuth();
+  const [list, setList] = useState([]);
 
   // 오늘의 날짜
   const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
@@ -156,8 +155,10 @@ const Calendar = ({ startingDate }) => {
 
   const dateToString = '' + currentYear + currentMonth + viewDate;
 
-  const containShoppingList = (date) => {
-    const q = query(collection(db, 'itemList'), where('userId', '==', currentUser.uid), orderBy('created', 'desc'));
+  const containShoppingList = (year, month, date) => {
+    const currentDateToString = '' + year + month + date;
+    console.log(currentDateToString);
+    const q = query(collection(db, 'itemList'), where('userId', '==', currentUser.uid), where('date', '==', currentDateToString));
     getDocs(q).then((querySnapshop) => {
       const firestoreShoppingItemList = [];
       querySnapshop.forEach((doc) => {
@@ -171,9 +172,28 @@ const Calendar = ({ startingDate }) => {
           userId: doc.data().userId,
         });
       });
+      setList(firestoreShoppingItemList);
+      checkItemListExist(list);
     });
   };
 
+  const checkItemListExist = (list) => {
+    console.log('list');
+    console.log(list);
+    if (list.length > 0) {
+      console.log('true');
+      return true;
+    } else {
+      console.log('false');
+
+      return false;
+    }
+  };
+
+  // useEffect(() => {
+  //   if (!currentUser) return;
+  //   containShoppingList(currentYear, currentMonth + 1, 2);
+  // }, [currentUser]);
   return (
     <HomeContainer>
       <CalendarContainer>
@@ -198,7 +218,7 @@ const Calendar = ({ startingDate }) => {
           {h.map((date) => (
             <StyledDay onClick={() => ShoppingListTag(currentYear, currentMonth, date)} key={uuidv4()} active={areDatesTheSame(new Date(), getDateObj(date, currentMonth, currentYear))}>
               {date}
-              <Dot />
+              {/*containShoppingList(currentYear, currentMonth, date) > 0 ? <Dot /> : ''*/}
             </StyledDay>
           ))}
         </CalendarBody>
