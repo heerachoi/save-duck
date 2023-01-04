@@ -19,20 +19,12 @@ import {
   InputTitle,
   InputWrap,
   passwordWrp,
-  ContentWrap,
   EmailWrap,
   ErrorMessgeWrap,
   ErrorMessge,
   PasswordWrap,
   ContentWrap,
-} from "./SignUp.js";
-
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-} from "firebase/auth";
-
+} from './SignUp.js';
 
 const SignUpComponent = () => {
   // 초기값 세팅 - 아이디, 닉네임, 비밀번호, 비밀번호확인, 이메일, 전화번호, 생년월일
