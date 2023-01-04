@@ -21,7 +21,7 @@ const List = () => {
 
   // firestore에서 데이터 'posting' 가져오기
   const syncpostingstatewithfirestore = () => {
-    const q = query(collection(db, 'posting'), orderBy('created', 'desc'));
+    const q = query(collection(db, "posting"), orderBy("created", "desc"));
 
     getDocs(q).then((querySnapshot) => {
       const firestorePostingList = [];
@@ -32,12 +32,12 @@ const List = () => {
           description: doc.data().description,
           username: doc.data().username,
           created: doc.data().created,
+          profileImg: doc.data().profileImg,
         });
       });
       setPosting(firestorePostingList);
     });
   };
-
   useEffect(() => {
     syncpostingstatewithfirestore();
   }, []);
@@ -60,10 +60,10 @@ const List = () => {
                 <StShopGuidePostInfo>
                   <label type={"picture"}></label>
                   <StShopGuidePostUserPicture>
-                    작성자 프로필 사진
+                    {item.profileImg}
                   </StShopGuidePostUserPicture>
                   <StShopGuidePostUserName>
-                    {item.username} 작성자 닉네임
+                    {item.username}
                   </StShopGuidePostUserName>
                   <StShopGuidePostDate>{item.created}</StShopGuidePostDate>
                 </StShopGuidePostInfo>
