@@ -59,9 +59,7 @@ const ShopGuideDetailsComment = ({
   const storage = getStorage();
   //! 민성 수정
 
-  const auth = getAuth();
   // console.log(auth);
-  const currentUser = auth.currentUser;
 
   // console.log(currentUser);
 

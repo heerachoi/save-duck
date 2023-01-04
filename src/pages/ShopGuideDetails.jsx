@@ -59,10 +59,7 @@ const ShopGuideDetails = ({ postingId }) => {
   // };
 
   //  댓글 등록 하기
-  //민성 수정
-  //uid 가져오기
-  const auth = getAuth();
-  const uid = auth.currentUser.uid;
+
 
 
 
