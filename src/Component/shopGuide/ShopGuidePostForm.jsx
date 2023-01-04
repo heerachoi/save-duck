@@ -66,18 +66,16 @@ const Form = ({ userObj }) => {
     // console.log(description)
     // console.log(moment().format('YYYY-MM-DD HH:mm:ss'))
     try {
-      await addDoc(
-        collection(db, 'posting'),
-        {
-          id: uuidv4(),
-          title: title,
-          description: description,
-          created: moment().format('YYYY-MM-DD HH:mm:ss'),
-          image: downloadimage,
-          // user: userObj.displayName,
-          creatorid: currentUser.uid, // 고정
-        },
-        previousPageHanlder()
+      await addDoc(collection(db, 'posting'), {
+        id: uuidv4(),
+        title: title,
+        description: description,
+        created: moment().format('YYYY-MM-DD HH:mm:ss'),
+        image: downloadimage,
+        // user: userObj.displayName,
+        creatorid: currentUser.uid, // 고정
+      },
+        previousPageHanlder(),
       );
     } catch (err) {
       alert(err);

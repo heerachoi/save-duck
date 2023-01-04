@@ -40,6 +40,17 @@ const ShopGuideDetailsComment = ({
 
   const [readOnly, setReadOnly] = useState(true);
   const [updateCommentInput, setUpdateCommentInput] = useState(comment);
+
+  // 민성 수정
+  // uid 가져오기
+  const auth = getAuth();
+  const currentUser = auth.currentUser;
+
+  console.log(auth);
+  console.log(currentUser);
+  // 댓글 수정 취소를 위한 state (이전, 이후 댓글 저장)
+  // const [originComment, setNewComment] = useState(comment);
+
   const dispatch = useDispatch();
   //! 민성 수정 
   const [photoURL, setPhotoURL] = useState(``);
@@ -351,10 +362,14 @@ const ShopGuideDetailsComment = ({
         {/* 버튼 영역 - 수정 & 삭제 VS 완료 & 취소  */}
         {/* <span>{item.comment}</span> */}
         <StCommentContentSaveTime>{savetime}</StCommentContentSaveTime>
+        {/* {console.log(item.modify)} */}
 
-        {item.creatorId === currentUser.uid ? (
-          modify ? (
-            <>
+
+        {
+          item.commentcreatorid === currentUser.uid ? (
+
+
+            modify ? (
               <StCommentContentsEditButton
                 type='button'
                 className='comment-edit-complete-btn'
@@ -364,16 +379,7 @@ const ShopGuideDetailsComment = ({
               >
                 완료
               </StCommentContentsEditButton>
-              <StCommentContentsDeleteButton
-                onClick={() => {
-                  editCancelButtonHandler(id);
-                }}
-              >
-                취소
-              </StCommentContentsDeleteButton>
-            </>
-          ) : (
-            <>
+            ) : (
               <StCommentContentsEditButton
                 className='comment-edit-btn'
                 onClick={() => {
@@ -382,6 +388,16 @@ const ShopGuideDetailsComment = ({
               >
                 수정
               </StCommentContentsEditButton>
+            ),
+            modify ? (
+              <StCommentContentsDeleteButton
+                onClick={() => {
+                  editCancelButtonHandler(id);
+                }}
+              >
+                취소
+              </StCommentContentsDeleteButton>
+            ) : (
               <StCommentContentsDeleteButton
                 onClick={() => {
                   deleteCommentButtonHandler(id);
@@ -389,11 +405,14 @@ const ShopGuideDetailsComment = ({
               >
                 삭제
               </StCommentContentsDeleteButton>
-            </>
-          )
-        ) : null}
+            )
+
+          ) : (
+            <></>
+          )}
+
       </StCommentListContainer>
-    </div>
+    </div >
   );
 };
 
