@@ -24,7 +24,6 @@ export const DateUnderLine = styled.div`
 
 export const ShoppingListTitle = styled.div`
   font-weight: 700;
-  cursor: pointer;
   margin-bottom: 15px;
 `;
 
@@ -33,7 +32,6 @@ export const UncheckedList = styled.div`
   flex-direction: column;
   align-items: center;
   padding-bottom: 20px;
-  border-bottom: 1px solid;
   margin-bottom: 10px;
 `;
 
@@ -60,7 +58,6 @@ export const CheckBox = styled.input`
   border-radius: 40%;
   cursor: pointer;
   margin-right: 10px;
-  /* border: 1px solid #ffc226; */
 `;
 
 export const XIcon = styled(FontAwesomeIcon)`
@@ -78,7 +75,6 @@ export const ItemInput = styled.input`
   height: 8px;
   padding: 4px 0px;
   border: none;
-  margin: 0;
 `;
 
 export const ItemPriceInput = styled.input`
@@ -118,4 +114,5 @@ export const ItemPriceContainerForm = styled.form`
   border-bottom: 1px solid;
   width: 400px;
   justify-content: space-between;
+  margin-left: 23px;
 `;

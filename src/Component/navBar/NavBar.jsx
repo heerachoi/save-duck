@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Outlet, NavLink } from 'react-router-dom';
 import {
   StyledSaveDuckHome,
   LeftSection,
@@ -8,14 +8,15 @@ import {
   Menu,
   MenuItem,
   SignUp,
-} from "./NavBar";
-import { useAuth, upload } from "../../firebase.js";
-import Modal from "../modal/Modal.jsx";
-import { useEffect, useState, useRef } from "react";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../firebase";
-import { v4 as uuidv4 } from "uuid";
-import { current } from "@reduxjs/toolkit";
+  MyProfileMoDal,
+} from './NavBar';
+import { useAuth, upload } from '../../firebase.js';
+import Modal from '../modal/Modal.jsx';
+import { useEffect, useState, useRef } from 'react';
+import { addDoc, collection } from 'firebase/firestore';
+import { db } from '../../firebase';
+import { v4 as uuidv4 } from 'uuid';
+import { current } from '@reduxjs/toolkit';
 
 const Navbar = () => {
   const modalRef = useRef();
@@ -33,20 +34,20 @@ const Navbar = () => {
       )
         setModal(false);
     };
-    window.addEventListener("click", modalCloseHandler);
+    window.addEventListener('click', modalCloseHandler);
 
     return () => {
-      window.removeEventListener("click", modalCloseHandler);
+      window.removeEventListener('click', modalCloseHandler);
     };
   }, [modal]);
 
   const handleSubmit = async (e) => {
-    console.log(currentUser);
+    // console.log(currentUser);
     e.preventDefault();
     try {
       await addDoc(collection(db, currentUser.uid), {
         id: currentUser.uid,
-        nickName: "",
+        nickName: '',
       });
     } catch (err) {
       alert(err);
@@ -54,47 +55,62 @@ const Navbar = () => {
   };
 
   return (
-    <StyledSaveDuckHome>
-      {/* 왼쪽영역 */}
-      <LeftSection>
-        <SaveDuckHomeNav to="/">
-          <span style={{ color: "#ffc226" }}>Save Duck</span>
-          <DuckImageLogo src="ssave.png" alt="Home" />
-        </SaveDuckHomeNav>
-      </LeftSection>
+    <div>
+      <Outlet />
+      <StyledSaveDuckHome>
+        {/* 왼쪽영역 */}
+        <LeftSection>
+          <SaveDuckHomeNav to='/home'>
+            {/* <span style={{ color: '#ffc226' }}>Save Duck</span> */}
+            <DuckImageLogo src='save_duck_logo_h.png' alt='Home' />
+          </SaveDuckHomeNav>
+        </LeftSection>
 
-      {/* 오른쪽영역 */}
-      <RightSection>
-        <Menu>
-          <MenuItem style={{ color: "#ffc226" }} to="/signin">
-            Features
-          </MenuItem>
-          <MenuItem style={{ color: "#ffc226" }} to="/shopguide">
-            Community
-          </MenuItem>
-          <MenuItem style={{ color: "#ffc226" }} to="/shopguidedetails">
-            Support
-          </MenuItem>
-        </Menu>
+        {/* 오른쪽영역 */}
+        <RightSection>
+          <Menu>
+            {/* <MenuItem style={{ color: '#ffc226' }} to='/signin'>
+              Features
+            </MenuItem> */}
+            <MenuItem style={{ color: '#ffc226' }} to='/shopguide'>
+              Community
+            </MenuItem>
+            {/* <MenuItem style={{ color: '#ffc226' }} to='/shopguidedetails'>
+              Support
+            </MenuItem> */}
+          </Menu>
 
-        <SignUp>
-          <NavLink onClick={handleSubmit}>
-            <img
-              ref={profileRef}
-              onClick={() => {
-                setModal(!modal);
-              }}
-              src="blankProfile.png"
-            />
-          </NavLink>
-          {modal === true ? (
-            <div ref={modalRef}>
-              <Modal />
-            </div>
-          ) : null}
-        </SignUp>
-      </RightSection>
-    </StyledSaveDuckHome>
+          <SignUp>
+            <NavLink
+              style={{ color: '#ffc226', textDecoration: 'none' }}
+              onClick={handleSubmit}
+            >
+              {/* <img
+                ref={profileRef}
+                onClick={() => {
+                  setModal(!modal);
+                }}
+                src='blankProfile.png'
+              /> */}
+              <MyProfileMoDal
+                className='myProfileMoDal'
+                ref={profileRef}
+                onClick={() => {
+                  setModal(!modal);
+                }}
+              >
+                My Profile
+              </MyProfileMoDal>
+            </NavLink>
+            {modal === true ? (
+              <div ref={modalRef}>
+                <Modal />
+              </div>
+            ) : null}
+          </SignUp>
+        </RightSection>
+      </StyledSaveDuckHome>
+    </div>
   );
 };
 

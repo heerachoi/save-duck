@@ -7,38 +7,28 @@ import SignIn from '../pages/SignIn.jsx';
 import SignUp from '../pages/SignUp.jsx';
 import ShopGuidePosting from '../pages/ShopGuidePosting.jsx';
 import ShopGuideArticle from '../pages/ShopGuideArticle.jsx';
-import ShopGuidePostFormEdit from '../Component/shopGuidePostFormEdit/ShopGuidePostFormEdit.jsx';
-import { AuthContextProvider } from '../context/AuthContext.js';
-import ProtectedRoute from './ProtectedRoute.js';
+
+// import EditForm from '../Component/shopGuide/ShopGuidePostFormEdit';
 
 const Router = () => {
   return (
     <BrowserRouter>
-      <AuthContextProvider>
-        <Navbar />
-
-        <Routes>
-          <Route path='/' element={<SignIn />} />
-          <Route path='/signup' element={<SignUp />} />
-        </Routes>
-
-        <Routes>
-          <Route
-            path='/home'
-            element={
-              <ProtectedRoute>
-                <Home />
-              </ProtectedRoute>
-            }
-          />
+      <Routes>
+        <Route element={<Navbar />}>
+          <Route path='/home' element={<Home />} />
           <Route path='/shopguide' element={<ShopGuide />} />
           <Route path='/shopguidearticle' element={<ShopGuideArticle />} />
           <Route path='/shopguidearticle/:id' element={<ShopGuideArticle />} />
-          <Route path='/shopguidedetails/:id' component={ShopGuideDetails} element={<ShopGuideDetails />} />
           <Route path='/shopguideposting' element={<ShopGuidePosting />} />
-          <Route path='/shopguidepostingEdit/:id' element={<ShopGuidePostFormEdit />} />
-        </Routes>
-      </AuthContextProvider>
+          <Route
+            path='/shopguidedetails/:id'
+            component={ShopGuideDetails}
+            element={<ShopGuideDetails />}
+          />
+        </Route>
+        <Route path='/' element={<SignIn />} />
+        <Route path='/signup' element={<SignUp />} />
+      </Routes>
     </BrowserRouter>
   );
 };

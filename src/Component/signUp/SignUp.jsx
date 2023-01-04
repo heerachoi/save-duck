@@ -4,7 +4,6 @@ import { useEffect, useState, useRef } from 'react';
 import { authService, db } from '../../firebase';
 import { collection, addDoc, setDoc, doc } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-
 import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider } from 'firebase/auth';
 import {
   H1,
@@ -19,11 +18,11 @@ import {
   InputTitle,
   InputWrap,
   passwordWrp,
-  ContentWrap,
   EmailWrap,
   ErrorMessgeWrap,
   ErrorMessge,
   PasswordWrap,
+  ContentWrap,
 } from './SignUp.js';
 
 const SignUpComponent = () => {

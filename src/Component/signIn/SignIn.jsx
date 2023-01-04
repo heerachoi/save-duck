@@ -1,17 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, Router, Link, useNavigate } from 'react-router-dom';
 import { authService } from '../../firebase';
-import { UserAuth } from '../../context/AuthContext';
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signOut, GithubAuthProvider, signInWithPopup } from 'firebase/auth';
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signOut,
+  GithubAuthProvider,
+  signInWithPopup,
+  createUserWithEmailAndPassword,
+} from 'firebase/auth';
 import {
   // Img,
-  Box,
   LoginWrap,
   LoginContaier,
   GitImgContainer,
   GogImgContainer,
+  ContentWrap,
   EmaillWrap,
-  PasswordWrap,
   InputTitle,
   ButtonWrap,
   SignInBtn,
@@ -40,8 +47,14 @@ const SignInComponent = () => {
   const [emailValid, setEmailValid] = useState(false);
   const [passwordValid, setPasswordValid] = useState(false);
   const [notAllow, setNotAllow] = useState(false);
-  const navigate = useNavigate();
-  const { signIn } = UserAuth();
+  const [passwordleng, setPasswordleng] = useState(false);
+  const [emailleng, setEmailleng] = useState(false);
+
+  //added
+  const [newAccount, setNewAccount] = useState(true);
+  const [error, setError] = useState('');
+  // 처음에는 false이고 나중에 사용자 존재 판명이 모두 끝났을 때 true를 통해 해당 화면을 render
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
@@ -51,28 +64,32 @@ const SignInComponent = () => {
 
   useEffect(() => {
     if (email.length === 0 || password.length === 0) {
-      if (email.length === 0 || password.length === 0) {
-        setNotAllow(true);
-        return;
-      }
-      setNotAllow(false);
+      setNotAllow(true);
+
+      return;
     }
-  }, [email, password]);
+    setNotAllow(false);
+  }, [password, email]);
+  // console.log('email');
+  // console.log(email);
 
   const handleEmail = (e) => {
     // 이메일 정규식
     setEmail(e.target.value);
-    const regex = /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
+    const regex =
+      /^(([^<>()\[\].,;:\s@"]+(\.[^<>()\[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i;
     if (regex.test(e.target.value)) {
       setEmailValid(true);
     } else {
       setEmailValid(false);
     }
   };
+
   // 비밀번호 정규식
   const handlePassword = (e) => {
     setPassword(e.target.value);
-    const regex = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
+    const regex =
+      /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+])(?!.*[^a-zA-z0-9$`~!@$!%*#^?&\\(\\)\-_=+]).{8,20}$/;
     if (regex.test(e.target.value)) {
       setPasswordValid(true);
     } else {
@@ -84,12 +101,34 @@ const SignInComponent = () => {
     e.preventDefault();
     let data;
     try {
-      const response = await signInWithEmailAndPassword(authService, email, password);
-      window.location.href = '/';
+      signInWithEmailAndPassword(authService, email, password)
+        .then((userCredential) => {
+          console.log(userCredential);
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          // ...
+          window.location.href = '/home';
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorMessage);
+          setError(errorMessage);
+        });
+      console.log('email:', email, 'passord:', password);
+
+      // const response = await signInWithEmailAndPassword(authService, email, password);
+      // console.log(response);
+      // // const docRef = await addDoc(collection(data, "users"), {
+      // //   email: "email",
+      // // });
+      // window.location.href = '/';
     } catch (error) {
       alert('등록되지않은 아이디입니다.');
     }
   };
+  // console.log("email:", email, "passord:", password);
 
   //소셜로그인
   const onSocialClick = async (event) => {
@@ -102,59 +141,104 @@ const SignInComponent = () => {
     } else if (name === 'github') {
       provider = new GithubAuthProvider();
     }
-    window.location.href = '/';
+    window.location.href = "/home";
     const data = await signInWithPopup(authService, provider);
+    console.log('data');
     console.log(data);
   };
   const gotoSignup = (e) => {
     window.location.href = '/signup';
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await signIn(email, password);
-      navigate('/home');
-    } catch (e) {
-      console.log(e.mesage);
-    }
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    let data;
+    signInWithEmailAndPassword(authService, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        window.location.href = '/home';
+        // ...
+      })
+      .catch((error) => {
+        console.log(user);
+        alert('없는 계정 또는 잘못된 비밀번호 입니다.');
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorMessage);
+        setError(errorMessage);
+      });
   };
+
   return (
     <LoginWrap>
-      <Box></Box>
       <LoginContaier>
         <H2>Login</H2>
-        <form onSubmit={handleSubmit}>
+
+        <form onSubmit={onSubmit}>
           <EmaillWrap>
             <InputTitle>이메일 주소</InputTitle>
+
             <InputWrap>
-              <Input type='email' name='email' placeholder='saveduck@saveduck.com' required value={email} onChange={handleEmail} />
+              <Input
+                type='email'
+                name='email'
+                placeholder='saveduck@saveduck.com'
+                required
+                value={email}
+                onChange={handleEmail}
+              />
             </InputWrap>
-            <ErrorMessgeWrap>{!emailValid && email.length > 0 && <div>! 옳바른 아이디를 입력해주세요.</div>}</ErrorMessgeWrap>
+
+            <ErrorMessgeWrap>
+              {!emailValid && email.length > 0 && (
+                <div>! 옳바른 아이디를 입력해주세요.</div>
+              )}
+            </ErrorMessgeWrap>
           </EmaillWrap>
-          <PasswordWrap>
+
+          <div>
             <InputTitle>비밀번호</InputTitle>
+
             <InputWrap>
-              <Input type='password' name='password' placeholder='비밀번호를 입력해주세요.' required value={password} onChange={handlePassword} />
+              <Input
+                type='password'
+                name='password'
+                placeholder='비밀번호를 입력해주세요.'
+                required
+                value={password}
+                onChange={handlePassword}
+              />
             </InputWrap>
-          </PasswordWrap>
+          </div>
         </form>
 
         <ButtonWrap>
           <ButtonSign>
-            <SignInBtn onClick={login}>로그인</SignInBtn>
-            <SignUpBtn onClick={gotoSignup}>회원가입</SignUpBtn>
+            <div>
+              <SignInBtn disabled={notAllow} onClick={onSubmit}>
+                로그인
+              </SignInBtn>
+            </div>
+            <div>
+              <SignUpBtn onClick={gotoSignup}>회원가입</SignUpBtn>
+            </div>
           </ButtonSign>
-          <SocialLoginBtn>
-            <GoogleBtn onClick={onSocialClick} name='google'>
-              <GogImgContainer />
-              Google 로그인
-            </GoogleBtn>
-            <GithubBtn onClick={onSocialClick} name='github'>
-              <GitImgContainer />
-              Github 로그인
-            </GithubBtn>
-          </SocialLoginBtn>
+          <div>
+            <div>
+              <GoogleBtn onClick={onSocialClick} name='google'>
+                <GogImgContainer />
+                Google 로그인
+              </GoogleBtn>
+            </div>
+            <div>
+              <GithubBtn onClick={onSocialClick} name='github'>
+                <GitImgContainer />
+                Github 로그인
+              </GithubBtn>
+            </div>
+          </div>
         </ButtonWrap>
       </LoginContaier>
     </LoginWrap>

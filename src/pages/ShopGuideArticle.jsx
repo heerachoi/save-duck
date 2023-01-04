@@ -34,12 +34,7 @@ const ShopGuideArticle = ({ item }) => {
   const [posting, setPosting] = useState([]);
   const currentUser = useAuth();
 
-  // firestore에서 데이터 'posting' 가져오기
-
-
-  // 회수 수정
-  const collectionName = NavId.id;
-  // console.log(collectionName);
+  const postingId = NavId.id;
 
   // 게시글 삭제 기능
   const deleteButtonClickHandler = async () => {
@@ -52,12 +47,7 @@ const ShopGuideArticle = ({ item }) => {
     }
   };
 
-  // console.log(NavId.id);
-
-
-
-
-  // firestore에서 데이터 'posting' 가져오기
+  // DB에서 'posting' 데이터 가져오기
   const syncpostingstatewithfirestore = () => {
     const q = query(collection(db, 'posting'), orderBy('created', 'desc'));
 
@@ -71,7 +61,7 @@ const ShopGuideArticle = ({ item }) => {
           username: doc.data().username,
           created: doc.data().created,
           image: doc.data().image,
-          creatorid: doc.data().creatorid
+          creatorid: doc.data().creatorid,
         });
       });
       setPosting(firestorePostingList);
@@ -92,14 +82,19 @@ const ShopGuideArticle = ({ item }) => {
                 <StShopDetailsArticleTitle>
                   {item.title}
                 </StShopDetailsArticleTitle>
-                <StShopDetailsImage
-                  className='detailsMainImage'
-                  src={item.image}
-                  alt='첨부된 이미지'
-                />
+                {/* 게시글에 사진을 등록하지 않은 경우 이미지를 보이지 않게 하기. */}
+                {item.image === '' ? null : (
+                  <StShopDetailsImage
+                    className='detailsMainImage'
+                    src={item.image}
+                    alt='등록된 사진이 없습니다.'
+                  />
+                )}
                 <StShopDetailsArticleContents>
                   {item.description}
                 </StShopDetailsArticleContents>
+                {/* 뒤로가기 버튼 */}
+                <StBackButton to={`/shopguide`}> Back</StBackButton>
               </StShopDetailsArticle>
             );
           } else {
@@ -108,12 +103,8 @@ const ShopGuideArticle = ({ item }) => {
         })}
         {/* 수정 / 삭제 버튼 */}
 
-
         {posting.map((item) => {
-
           if (item.id === NavId.id) {
-            console.log(item.creatorid);
-            console.log(currentUser.uid)
             if (item.creatorid === currentUser.uid) {
               return (
                 <StShopDetailsEditButtons>
@@ -133,8 +124,6 @@ const ShopGuideArticle = ({ item }) => {
                     onClick={deleteButtonClickHandler}
                     style={{ cursor: 'pointer' }}
                   />
-
-
                 </StShopDetailsEditButtons>
               );
             }
@@ -142,10 +131,8 @@ const ShopGuideArticle = ({ item }) => {
             return null;
           }
         })}
-
-
       </StShopDetailsContainer>
-      <ShopGuideDetails collectionName={collectionName} />
+      <ShopGuideDetails postingId={postingId} />
     </div>
   );
 };
@@ -175,8 +162,8 @@ const StShopDetailsArticleContents = styled.div`
   display: inline-block;
   text-align: start;
   margin-bottom: 40px;
-  white-space:pre-wrap;
-  line-height: 1.5;
+  line-height: 120%;
+  white-space: pre-line;
 `;
 
 const StShopDetailsImage = styled.img`
@@ -185,11 +172,7 @@ const StShopDetailsImage = styled.img`
   margin-bottom: 30px;
   object-fit: cover;
   margin-top: 40px;
-`;
-
-// 게시글 수정 버튼
-const StShopGuideFormEdit = styled(NavLink)`
-  color: black;
+  font-size: xx-small;
 `;
 
 const StShopDetailsEditButtons = styled.div`
@@ -204,4 +187,18 @@ const StShopDetailsEditButtons = styled.div`
 
 const StArticleEditLink = styled(NavLink)`
   color: black;
+`;
+
+const StBackButton = styled(NavLink)`
+  position: absolute;
+  line-height: 45px;
+  right: 50px;
+  width: 50px;
+  height: 50px;
+  background-color: #000;
+  color: #fff;
+  border-radius: 100px;
+  border: none;
+  top: 230px;
+  text-decoration: none;
 `;

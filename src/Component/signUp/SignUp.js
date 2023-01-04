@@ -12,56 +12,59 @@ export const SignupWrap = styled.div`
   flex-direction: column;
   text-align: center;
 `;
+
 export const H1 = styled.h1`
   font-size: 30px;
   margin-bottom: 20px;
 `;
+
 export const H2 = styled.h2`
   margin-bottom: 100px;
 `;
+
 export const SignupTitle = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
 `;
+
 export const SignupContaier = styled.section`
   text-align: center;
-  width: 800px;
+  width: 400px;
 `;
-export const Emailform = styled.div``;
 
 //input part
-export const InputTitle = styled.label`
-  font-size: 20px;
+export const EmailWrap = styled.label`
+  font-size: 17px;
   text-align: left;
-  /* background-color: aqua; */
-  margin-left: 170px;
   margin-top: 30px;
 `;
+
 export const Input = styled.input`
   width: 100%;
   outline: none;
   border: none;
   border-bottom: 1px solid #e2e0e0;
   font-size: 18px;
+  padding: 10px;
   ::placeholder {
-    color: #dadada;
-    font-size: 15px;
+    color: #e1e1e1;
+    font-size: 13px;
   }
 `;
 
-export const InputWrap = styled.div`
+export const InputTitle = styled.div`
+  font-size: 17px;
   width: 500px;
   padding: 16px;
   margin-top: 8px;
-  margin-left: 150px;
   background-color: white;
   border: 1px solid #e2e0e0;
   border: none;
+  text-align: left;
 `;
 
-//* Btn Part
-
+// Btn Part
 export const ButtonSign = styled.section`
   margin-top: 50px;
   margin-bottom: 30px;
@@ -69,6 +72,7 @@ export const ButtonSign = styled.section`
 
 export const Button = styled.button`
   width: 300px;
+  height: 40px;
   margin-top: 10px;
   font-weight: 700;
   cursor: pointer;
@@ -82,9 +86,10 @@ export const SignUpBtn = styled(Button)`
   outline: none;
   padding: 5px;
 `;
+
 export const SignUpSubmit = styled(Button)`
   width: 300px;
-  margin-top: 10px;
+  margin-top: 40px;
   font-weight: 700;
   font-size: 15px;
   background-color: #ffc226;
@@ -99,24 +104,24 @@ export const SignUpSubmit = styled(Button)`
   }
 `;
 
-export const ContentWrap = styled.div``;
-export const EmaillWrap = styled.div``;
 export const ErrorMessgeWrap = styled.div`
   text-align: left;
-  color: #ef0000;
   font-size: 12px;
-  margin-bottom: 40px;
-  padding-top: 5px;
+  margin-top: 5px;
 `;
 
-export const ErrorMessge = styled.div``;
-
-export const EmailWrap = styled.div``;
+export const ErrorMessge = styled.span`
+  .message {
+    &.success {
+      color: green;
+    }
+    &.error {
+      color: #ff2727;
+    }
+  }
+`;
+export const PasswordWrap = styled.div``;
+export const ContentWrap = styled.div``;
+export const EmaillWrap = styled.div``;
 
 export const ErrorpasswordWrap = styled.div``;
-
-// nvibar 안보이도록
-// 소셜로그인 btn 수정
-// background 오리 애니메이션 구현.
-// 회원가입 Html.css 완성
-// firebase 연동해서 로그인정보, 회원정보 가져오기

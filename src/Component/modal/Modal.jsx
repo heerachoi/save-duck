@@ -19,41 +19,43 @@ import { useSelector, useDispatch } from 'react-redux';
 import { authService } from '../../firebase.js';
 import { ref, uploadBytes } from 'firebase/storage';
 import { storage } from '../../firebase.js';
-import { getFirestore, collection, addDoc, updateDoc, setDoc, doc, getDocs, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, updateDoc, setDoc, doc, getDocs, query, orderBy, onSnapshot, where } from 'firebase/firestore';
 import { db } from '../../firebase';
-import { UserAuth } from '../../context/AuthContext.js';
 import { useNavigate } from 'react-router-dom';
+import { getAuth } from 'firebase/auth';
 
 export default function Modal() {
-  const currentUser = useAuth();
   const [photo, setPhoto] = useState(null);
   const [loading, setLoading] = useState(false);
   const [photoURL, setPhotoURL] = useState('blankProfiles.png');
-  const [updateProfileInput, setUpdateProfileInput] = useState('');
   const [updateNickName, setUpdateNickName] = useState('');
-  const { user, logout } = UserAuth();
+  const [modify, setModify] = useState(false);
+  const [infoId, setInfoId] = useState('');
+  const [readOnly, setReadOnly] = useState(true);
+  const [uploadImage, setUploadImage] = useState();
 
+  const profileName = useSelector((state) => state.profileName);
+
+  const dispatch = useDispatch(); // 디스패치 함수
   const navigate = useNavigate();
+  const auth = getAuth();
+  const currentUser = auth.currentUser;
 
-  function handleChange(e) {
+  const handleChange = (e) => {
     if (e.target.files[0]) {
       setPhoto(e.target.files[0]);
     }
-  }
+  };
 
-  function handleClick() {
-    console.log('handle');
-    console.log(currentUser.uid);
+  const handleClick = () => {
     upload(photo, currentUser, setLoading);
-  }
+  };
 
   useEffect(() => {
     if (currentUser?.photoURL) {
       setPhotoURL(currentUser.photoURL);
     }
   }, [currentUser]);
-
-  const [uploadImage, setUploadImage] = useState();
 
   // const theFile = test;
   // onFileChange는 사용자가 인풋에 파일을 업로드 했을때 실행된다.
@@ -62,7 +64,6 @@ export default function Modal() {
     const theFile = event.target.files[0];
     setUploadImage(theFile);
 
-    console.log('the File : ', theFile);
     const reader = new FileReader();
     reader.readAsDataURL(theFile);
     reader.onloadend = (finishedEvent) => {
@@ -72,58 +73,89 @@ export default function Modal() {
     };
   };
 
-  const profileName = useSelector((state) => state.profileName);
-
-  // console.log(profileName);
-
-  const dispatch = useDispatch(); // 디스패치 함수
-  const [readOnly, setReadOnly] = useState(true);
-  // const [updateProfileInput, setUpdateProfileInput] = useState("");
-
   const modifyProfileButtonHandler = (id) => {
     dispatch(modifyProfile(id));
     setReadOnly(false);
+    setModify(true);
   };
 
   const onChangeProfile = (event) => {
     const { value } = event.target;
-    console.log(currentUser);
-    console.log(value);
     setUpdateNickName(value);
   };
-  // const updateCompleteButtonHandler = (item) => {
-  //   dispatch(updateProfile(item));
-  //   dispatch(modifyProfile(item.id));
 
-  // };
-  const updateCompleteButtonHandler = async (id) => {
-    const docRef = doc(db, 'Users', id);
+  const updateButtonModify = async (id) => {
+    console.log('id', id);
+    const docRef = doc(db, 'users', id);
+    console.log('docRef', docRef);
     try {
       const response = await updateDoc(docRef, {
-        nickname: updateProfileInput,
+        username: updateNickName,
+        modify: true,
       });
-    } catch (event) {}
+    } catch (event) {
+    } finally {
+      modifyProfileButtonHandler(id);
+    }
+  };
+
+  const updateCompleteButtonHandler = async (id) => {
+    const docRef = doc(db, 'users', id);
+    console.log('docRef', docRef);
+    try {
+      const response = await updateDoc(docRef, {
+        username: updateNickName,
+        modify: false,
+      });
+    } catch (event) {
+      console.log(event.message);
+    } finally {
+      modifyProfileButtonHandler(id);
+    }
     setReadOnly(true);
+    setModify(false);
+    setUpdateNickName(updateNickName);
   };
 
   const onLogOutClick = async () => {
     try {
-      await logout();
+      authService.signOut();
       navigate('/');
-      alert('로구아웃 되었습니다.');
+      alert('로그아웃 되었습니다.');
     } catch (e) {
       console.log(e.message);
     }
-    authService.signOut();
-    window.location.href = '/';
   };
+
+  const getNickName = () => {
+    const q = query(collection(db, 'users'), where('uid', '==', currentUser.uid));
+    getDocs(q).then((querySnapshop) => {
+      const nickNameList = [];
+      querySnapshop.forEach((doc) => {
+        nickNameList.push({
+          id: doc.data().id,
+          uid: doc.data().uid,
+          email: doc.data().email,
+          username: doc.data().username,
+          modify: doc.data().modify,
+        });
+        setUpdateNickName(nickNameList[0].username);
+        setModify(modify);
+        setInfoId(nickNameList[0].id);
+      });
+    });
+  };
+
+  useEffect(() => {
+    getNickName();
+  }, []);
 
   return (
     <div>
       <Container>
         <ProfileImageContainer>
           <label htmlFor='imgInput'>
-            <img src={photoURL} id='profileView' />
+            <img src={photoURL} id='profileView' style={{ width: '200px', height: '200px', objectFit: 'cover' }} />
             <input style={{ display: 'none' }} type='file' id='imgInput' accept='image/*' onChange={handleChange} />
           </label>
         </ProfileImageContainer>
@@ -131,30 +163,29 @@ export default function Modal() {
           <CameraImage src='camera.png' alt='' />
         </CameraContainer>
         <StyledProfileForm onSubmit={onFileChange}>
-          {profileName.map((item) => {
-            return (
-              <StyledDivBox key={item.id}>
-                <StyledProfileInput readOnly={readOnly} onChange={onChangeProfile} defaultValue={item.profile} />
-                <StyledVector
-                  onClick={() => {
-                    modifyProfileButtonHandler(item.id);
-                    console.log(item.id);
-                    window.confirm('수정 하시겠습니까?');
-                  }}
-                  src='Vector.png'
-                />
-                <StyledCheckButton
-                  onClick={(event) => {
-                    event.preventDefault();
-                    updateCompleteButtonHandler(item.id);
-                    alert('수정 완료!!');
-                  }}
-                >
-                  ✔️
-                </StyledCheckButton>
-              </StyledDivBox>
-            );
-          })}
+          <StyledDivBox key={profileName.id}>
+            <StyledProfileInput readOnly={readOnly} onChange={onChangeProfile} value={updateNickName} maxLength='8' />
+            {modify ? (
+              <StyledCheckButton
+                onClick={(event) => {
+                  event.preventDefault();
+                  updateCompleteButtonHandler(infoId);
+                  alert('수정 완료!!');
+                }}
+              >
+                v
+              </StyledCheckButton>
+            ) : (
+              ''
+            )}
+            <StyledVector
+              onClick={() => {
+                updateButtonModify(infoId);
+                window.confirm('수정 하시겠습니까?');
+              }}
+              src='Vector.png'
+            />
+          </StyledDivBox>
           <StyledProfileButton disabled={loading || !photo} onClick={handleClick}>
             프로필변경
           </StyledProfileButton>
