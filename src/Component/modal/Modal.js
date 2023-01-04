@@ -3,25 +3,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const StyledProfileButton = styled.button`
   margin-left: 28px;
-  background-color: white;
+  color: #000;
   border: 1px solid #ffc226;
   width: 200px;
   height: 30px;
   border-radius: 30px;
-  margin-top: 10px;
+  margin-top: 15px;
+
   cursor: pointer;
+  &:hover {
+    background-color: #ffc226;
+    color: #fff;
+  }
 `;
 
 export const ProfileImageContainer = styled.div`
   width: 200px;
   height: 200px;
-
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 50%;
   /* object-fit: cover; */
-
   background-color: transparent;
   border: 1px solid transparent;
   overflow: hidden;
@@ -47,7 +50,7 @@ export const CameraContainer = styled.div`
   right: 110px;
 `;
 
-export const CameraImage = styled.img`
+export const CameraIcon = styled(FontAwesomeIcon)`
   width: 20px;
 `;
 
@@ -59,14 +62,29 @@ export const StyledLogoutButton = styled.button`
   border-radius: 30px;
   margin-top: 10px;
   cursor: pointer;
+  transition: all 200ms ease-in-out;
+  &:hover {
+    background-color: #ffc226;
+    color: #fff;
+  }
 `;
 
-export const StyledVector = styled.img`
+export const StyledEditButton = styled(FontAwesomeIcon)`
   margin-right: 10px;
   padding-top: 10px;
   margin-bottom: 10px;
   cursor: pointer;
+  &:hover {
+    color: #808080;
+  }
 `;
+
+// export const StyledVector = styled.img`
+//   margin-right: 10px;
+//   padding-top: 10px;
+//   margin-bottom: 10px;
+//   cursor: pointer;
+// `;
 
 export const Container = styled.div`
   display: flex;
@@ -84,12 +102,12 @@ export const Container = styled.div`
   /* 중앙 배치 */
   position: absolute;
   bottom: -503px;
-  right: 0;
+  right: 20px;
 
   /* 모달창 디자인 */
-  border: 1px solid black;
-  border-radius: 8px;
-  border-top-right-radius: 0px;
+  border: 1px solid #ddd;
+  box-shadow: 3px 3px 10px 3px #eee;
+  border-radius: 10px;
 `;
 
 export const StyledblankProfilesImg = styled.img`
@@ -111,16 +129,24 @@ export const StyledCheckButton = styled(FontAwesomeIcon)`
   position: relative;
   bottom: 1px;
   right: 8px;
+  margin-left: 5px;
+  &:hover {
+    color: #808080;
+  }
 `;
 
 export const StyledProfileForm = styled.form`
   margin-top: 10px;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 `;
 export const StyledProfileInput = styled.input`
+  height: 20px;
+  width: 160px;
+  outline: none;
   border: none;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 20px;
 `;

@@ -43,13 +43,15 @@ export const MonthArrow = styled.p`
 `;
 
 export const CurrentYear = styled.p`
-  font-size: 14px;
-  margin-bottom: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
 `;
 
 export const CurrentMonth = styled.p`
   font-size: 33px;
   font-weight: 600;
+  margin-bottom: 10px;
 `;
 
 export const SevenColGrid = styled.div`
