@@ -195,7 +195,7 @@ const StSGPInputContainer = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: top;
+  /* justify-content: top; */
   background-color: white;
 `;
 
@@ -207,32 +207,36 @@ const StSGPTitleInput = styled.input`
   background-color: #f5f5f5;
   outline: hidden;
   border: none;
+  padding: 0 10px;
 `;
 
 const StSGPPhotoInput = styled.div`
   margin-bottom: 1rem;
-  width: 300px;
+  width: 150px;
   height: 30px;
   background-color: #ffc226;
-  border-radius: 10px;
+  border-radius: 100px;
   display: flex;
   flex-direction: row;
-  align-items: center;
+  justify-content: center;
+  /* align-items: center; */
+  padding: 10px;
 
   .btnStart {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
+    width: 150px;
   }
 
   .submitPic {
-    position: absolute;
-    top: px;
+    /* position: absolute; */
     width: 80px;
     height: 15px;
     font-size: 12px;
     color: white;
-    margin: 10px 0 0px 110px;
+    /* margin: 10px 0 0px 110px; */
   }
 
   img {
@@ -242,8 +246,12 @@ const StSGPPhotoInput = styled.div`
   }
 
   label {
-    width: 300px;
-    height: 40px;
+    /* width: 300px;
+    height: 40px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     cursor: pointer;
   }
 
