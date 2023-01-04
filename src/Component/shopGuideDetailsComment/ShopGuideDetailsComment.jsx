@@ -2,7 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { modifyModeComment, updateComment } from '../../redux/modules/comment';
-import { doc, deleteDoc, updateDoc, getDoc } from 'firebase/firestore';
+import {
+  doc,
+  deleteDoc,
+  updateDoc,
+  query,
+  getDoc,
+  getDocs,
+  collection,
+} from 'firebase/firestore';
 import { db } from '../../firebase';
 import {
   StCommentProfileImage,
@@ -32,7 +40,6 @@ const ShopGuideDetailsComment = ({
   const auth = getAuth();
   // console.log(auth);
   const currentUser = auth.currentUser;
-  // console.log('currentUser');
   // console.log(currentUser);
 
   // console.log(currentUser.uid);
@@ -126,9 +133,39 @@ const ShopGuideDetailsComment = ({
     }
   };
 
+  // 닉네임 불러오기
+
+  const syncUserInfoWithFirestore = () => {
+    const q = query(
+      collection(db, 'users')
+      // where('postingId', '==', CurrentPostingId),
+      // !orderBy('savetime', 'desc')
+    );
+
+    console.log(q);
+
+    // getDocs(q).then((querySnapshot) => {
+    //   const firestoreTodoItemList = [];
+    //   querySnapshot.forEach((doc) => {
+    //     firestoreTodoItemList.push({
+    //       id: doc.id,
+    //       comment: doc.data().comment,
+    //       userId: doc.data().userId,
+    //       savetime: doc.data().savetime,
+    //       modify: doc.data().modify,
+    //       postingId: doc.data().postingId,
+    //       creatorId: doc.data().creatorId,
+    //     });
+    //   });
+    //   setCommentItemList(firestoreTodoItemList);
+    // });
+  };
+
+  // syncUserInfoWithFirestore();
+
   useEffect(() => {
     syncCommentListStateWithFirestore();
-  }, [commentItemtList]);
+  }, []);
 
   // useEffect(() => {
   //   if (!currentUser) return;

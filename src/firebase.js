@@ -12,7 +12,7 @@ import {
 } from 'firebase/auth';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
-// 회수
+// save-duck-project
 // const firebaseConfig = {
 //   apiKey: 'AIzaSyBJAaoGVZAqQ58vnhtT9eTbnx3G6eeOpXM',
 //   authDomain: 'save-duck-project.firebaseapp.com',
@@ -23,7 +23,7 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 //   measurementId: 'G-98XHQ8X10T',
 // };
 
-// 회수 2차
+// save-duck-project-02
 // const firebaseConfig = {
 //   apiKey: 'AIzaSyB8LgkaqTPSWzLf6V9stRdhLIwDBqWJC3U',
 //   authDomain: 'save-duck-project-02.firebaseapp.com',
@@ -33,15 +33,14 @@ import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 //   appId: '1:826960173825:web:f88026b906d29f65621900',
 // };
 
-// 희라
+// save-duck-project-03
 const firebaseConfig = {
-  apiKey: 'AIzaSyBBwKTsiRRd6wLhCDofXPI1EuFBZRSI6WY',
-  authDomain: 'save-duck-75f52.firebaseapp.com',
-  projectId: 'save-duck-75f52',
-  storageBucket: 'save-duck-75f52.appspot.com',
-  messagingSenderId: '358998119914',
-  appId: '1:358998119914:web:2b9da53f7a566702d2ce93',
-  measurementId: 'G-BP46BNP00N',
+  apiKey: 'AIzaSyApfHtpJBMNFt9y8HX7sA8PCKc88AfmmwU',
+  authDomain: 'save-duck-03.firebaseapp.com',
+  projectId: 'save-duck-03',
+  storageBucket: 'save-duck-03.appspot.com',
+  messagingSenderId: '454939921742',
+  appId: '1:454939921742:web:f6c0f21694313658f9621f',
 };
 
 // Initialize Firebase

@@ -6,7 +6,8 @@ import ShopGuideDetailsCommentList from '../Component/shopGuideDetailsCommentLis
 import moment from 'moment';
 import styled from 'styled-components';
 import { db, useAuth } from '../firebase';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, doc, getDoc } from 'firebase/firestore';
+// import storage from '@react-native-firebase/storage';
 
 const ShopGuideDetails = ({ postingId }) => {
   // 댓글 기본 state
@@ -27,6 +28,21 @@ const ShopGuideDetails = ({ postingId }) => {
     }
   };
 
+  // 프로필 이미지 불러오기
+
+  // const getImage = async (key) => {
+  //   let url = '';
+  //   try {
+  //     const imageRef = await storage().ref('photoName.jpg');
+  //     url = await imageRef.getDownloadURL();
+  //     setUrl(url);
+  //     console.log('imageUrl:', url);
+  //     return url;
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+
   //  댓글 등록 하기
 
   // 댓글 등록 기능 - 버튼 클릭시 댓글 리스트에 작성한 댓글 추가
@@ -41,6 +57,7 @@ const ShopGuideDetails = ({ postingId }) => {
         modify: false,
         postingId: postingId,
         creatorId: currentUser.uid,
+        // nickName: currentUser.
       };
       dispatch(addComment(newComment));
       // addItem();

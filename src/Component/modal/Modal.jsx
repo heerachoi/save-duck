@@ -44,6 +44,7 @@ export default function Modal() {
   const [updateNickName, setUpdateNickName] = useState('');
   const [readOnly, setReadOnly] = useState(true);
   const profileName = useSelector((state) => state.profileName);
+  // const [profileName, setProfileName] = useState(currentUser.profileName);
   // const [uploadImage, setUploadImage] = useState();
   // 회수 수정
   const [attachment, setAttachment] = useState();
@@ -51,11 +52,11 @@ export default function Modal() {
   const dispatch = useDispatch(); // 디스패치 함수
   const navigate = useNavigate();
 
-  function handleChange(e) {
-    if (e.target.files[0]) {
-      setPhoto(e.target.files[0]);
-    }
-  }
+  // function handleChange(e) {
+  //   if (e.target.files[0]) {
+  //     setPhoto(e.target.files[0]);
+  //   }
+  // }
 
   function handleClick() {
     console.log('handle');
@@ -114,8 +115,8 @@ export default function Modal() {
 
   const onChangeProfile = (event) => {
     const { value } = event.target;
-    console.log(currentUser);
-    console.log(value);
+    // console.log(currentUser);
+    // console.log(value);
     setUpdateNickName(value);
   };
   // const updateCompleteButtonHandler = (item) => {
@@ -124,10 +125,14 @@ export default function Modal() {
 
   // };
   const updateCompleteButtonHandler = async (id) => {
-    const docRef = doc(db, 'Users', id);
+    console.log(updateProfileInput);
+    console.log(id);
+    const docRef = doc(db, 'users', id);
+    console.log(docRef);
     try {
-      const response = await updateDoc(docRef, {
-        nickname: updateProfileInput,
+      await updateDoc(docRef, {
+        // nickname: updateProfileInput,
+        nickname: id.profile,
       });
     } catch (event) {
       console.log('error');
@@ -187,6 +192,7 @@ export default function Modal() {
           {profileName.map((item) => {
             return (
               <StyledDivBox key={item.id}>
+                {/* {console.log(item)} */}
                 <StyledProfileInput
                   readOnly={readOnly}
                   onChange={onChangeProfile}
