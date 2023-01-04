@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { db } from '../../firebase.js';
-import { collection, addDoc, getDocs, orderBy, query, where } from 'firebase/firestore';
+import { collection, addDoc, getDocs, orderBy, query, where, doc } from 'firebase/firestore';
 
 import { v4 as uuidv4 } from 'uuid';
 import { faPencil, faX, faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -46,26 +46,10 @@ const ShoppingList = ({ year, month, date }) => {
   const [price, setPrice] = useState('');
   const [totalPrice, setTotalPrice] = useState('0');
   const [itemList, setItemList] = useState([]);
-  const [check, setCheck] = useState(false);
-  const [visible, setVisible] = useState(false);
-  // useEffect(() => {}, [itemList, checkedItemList]); // 댓글 등록 버튼 - 클릭시 댓글 리스트에 작성한 댓글 추가
 
   const shoppingListUnchecked = () => {
-    // console.log('current user in shopping list');
-    // console.log(currentUser);
-    const usersCollectionRef = collection(db, dateToString);
+    const q = query(collection(db, 'itemList'), where('userId', '==', currentUser.uid), where('date', '==', dateToString));
 
-    const q = query(
-      usersCollectionRef
-      // where('userId', '==', currentUser.uid)
-    );
-
-    // const q = query(collection(db, dateToString));
-    // const q = query(
-    //   collection(db, dateToString),
-    //   where('userId', currentUser.uid)
-    // );
-    // console.log(q);
     getDocs(q).then((querySnapshop) => {
       const firestoreShoppingItemList = [];
       querySnapshop.forEach((doc) => {
@@ -80,8 +64,6 @@ const ShoppingList = ({ year, month, date }) => {
           userId: doc.data().userId,
         });
       });
-      // console.log('firestoreShoppingItemList');
-      // console.log(firestoreShoppingItemList);
       setItemList(firestoreShoppingItemList);
     });
   };
@@ -90,33 +72,8 @@ const ShoppingList = ({ year, month, date }) => {
     setItem(event.target.value);
   };
 
-  // const shoppingListChecked = () => {
-  //   const q = query(collection(db, dateToString), where('isChecked', '==', true));
-
-  //   getDocs(q).then((querySnapshop) => {
-  //     const firestoreShoppingItemListChecked = [];
-  //     querySnapshop.forEach((doc) => {
-  //       firestoreShoppingItemListChecked.push({
-  //         id: doc.id,
-  //         date: doc.data().date,
-  //         name: doc.data().name,
-  //         isChecked: doc.data().isChecked,
-  //         price: doc.data().price,
-  //       });
-  //     });
-  //     // console.log('firestoreShoppingItemListChecked');
-  //     // console.log(firestoreShoppingItemListChecked);
-  //     setCheckedItemList(firestoreShoppingItemListChecked);
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   calculateTotalPrice();
-  //   shoppingListUnchecked();
-  // }, [dateToString]);
-
-  const addItem = (newShoppingItem) => {
-    const docRef = addDoc(collection(db, dateToString), {
+  const addItem = async (newShoppingItem) => {
+    const docRef = await addDoc(collection(db, 'itemList'), {
       id: uuidv4(),
       date: dateToString,
       name: item,
@@ -145,8 +102,6 @@ const ShoppingList = ({ year, month, date }) => {
 
   // 입력값 cost에 쉼표 넣주기 (number -> string)
   const addCommaToNumber = (cost) => {
-    // console.log('cost');
-    // console.log(cost);
     cost = cost + '';
     cost = cost.replace(/[^0-9]/g, ''); // 입력값이 숫자가 아니면 공백
     cost = cost.replace(/,/g, ''); // ,값 공백처리
@@ -171,16 +126,9 @@ const ShoppingList = ({ year, month, date }) => {
 
   // 아이템 값들의
   const calculateTotalPrice = async () => {
-    // console.log('calculate total price currentuser');
-    // console.log(currentUser);
-    const usersCollectionRef = collection(db, dateToString);
+    const usersCollectionRef = collection(db, 'itemList');
 
-
-    const q = await query(
-      usersCollectionRef
-      // where('userId', '==', currentUser.uid)
-    );
-
+    const q = await query(usersCollectionRef, where('userId', '==', currentUser.uid), where('date', '==', dateToString));
     let total = 0;
     let number = 0;
     getDocs(q).then((querySnapshop) => {
@@ -211,20 +159,11 @@ const ShoppingList = ({ year, month, date }) => {
     });
   };
 
-  const openInputHandler = (e) => {
-    // console.log('visible');
-    // console.log(visible);
-    setVisible(!visible);
-  };
-
   useEffect(() => {
+    if (!currentUser) return;
     calculateTotalPrice();
     shoppingListUnchecked();
-  }, [dateToString]);
-
-  useEffect(() => {
-    calculateTotalPrice();
-  }, [price]);
+  }, [dateToString, currentUser, price]);
 
   return (
     <ShoppingListContainer>
@@ -232,11 +171,10 @@ const ShoppingList = ({ year, month, date }) => {
         {currentYear}.{currentMonth}.{currentDate}
       </DateContainer>
       <DateUnderLine></DateUnderLine>
-      <ShoppingListTitle onClick={openInputHandler}>쇼핑 목록 +</ShoppingListTitle>
+      <ShoppingListTitle>쇼핑 목록</ShoppingListTitle>
       <ScrollBox>
         <UncheckedList>
           {itemList.map((item) => {
-            // console.log('test');
             return <ShoppingItem key={item.id} item={item} shoppingListUnchecked={shoppingListUnchecked} calculateTotalPrice={calculateTotalPrice} dateToString={dateToString} />;
           })}
 
@@ -248,7 +186,7 @@ const ShoppingList = ({ year, month, date }) => {
               </ItemPriceInputContainer>
             </ItemPriceContainerForm>
             <CheckIcon onClick={addItem} icon={faCheck} />
-            <XIcon icon={faX} />
+            <XIcon icon={faX} />{' '}
           </ListItem>
         </UncheckedList>
       </ScrollBox>

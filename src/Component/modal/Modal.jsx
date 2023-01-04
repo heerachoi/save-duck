@@ -31,7 +31,12 @@ export default function Modal() {
   const [updateNickName, setUpdateNickName] = useState('');
   const [modify, setModify] = useState(false);
   const [infoId, setInfoId] = useState('');
+  const [readOnly, setReadOnly] = useState(true);
+  const [uploadImage, setUploadImage] = useState();
 
+  const profileName = useSelector((state) => state.profileName);
+
+  const dispatch = useDispatch(); // 디스패치 함수
   const navigate = useNavigate();
   const auth = getAuth();
   const currentUser = auth.currentUser;
@@ -52,8 +57,6 @@ export default function Modal() {
     }
   }, [currentUser]);
 
-  const [uploadImage, setUploadImage] = useState();
-
   // const theFile = test;
   // onFileChange는 사용자가 인풋에 파일을 업로드 했을때 실행된다.
   // oneFileChange 를 통해 사진이 업로드 되기 전 미리보기 기능을 구현한다.
@@ -69,10 +72,6 @@ export default function Modal() {
       document.getElementById('profileView').src = imgDataUrl;
     };
   };
-
-  const profileName = useSelector((state) => state.profileName);
-  const dispatch = useDispatch(); // 디스패치 함수
-  const [readOnly, setReadOnly] = useState(true);
 
   const modifyProfileButtonHandler = (id) => {
     dispatch(modifyProfile(id));

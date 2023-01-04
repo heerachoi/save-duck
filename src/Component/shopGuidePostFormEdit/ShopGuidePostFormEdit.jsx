@@ -87,7 +87,7 @@ const ShopGuidePostFormEdit = ({ item, syncpostingstatewithfirestore }) => {
         id: uuidv4(),
         title: title,
         description: description,
-        created: moment().format('YYYY-MM-DD'),
+        created: moment().format('YYYY-MM-DD HH:mm:ss'),
       });
       alert('게시글이 성공적으로 저장되었습니다.');
       window.location.href = '/shopGuide';
@@ -97,7 +97,6 @@ const ShopGuidePostFormEdit = ({ item, syncpostingstatewithfirestore }) => {
   };
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const previousPageHanlder = () => {
     navigate(-1, true);
@@ -131,13 +130,13 @@ const ShopGuidePostFormEdit = ({ item, syncpostingstatewithfirestore }) => {
     const theFile = event.target.files[0];
     setUploadImage(theFile);
 
-    console.log("the File : ", theFile);
+    console.log('the File : ', theFile);
     const reader = new FileReader();
     reader.readAsDataURL(theFile);
     reader.onloadend = (finishedEvent) => {
       const imgDataUrl = finishedEvent.currentTarget.result;
-      localStorage.setItem("imgDataUrl", imgDataUrl);
-      document.getElementById("view").src = imgDataUrl;
+      localStorage.setItem('imgDataUrl', imgDataUrl);
+      document.getElementById('view').src = imgDataUrl;
     };
   };
 
@@ -154,7 +153,7 @@ const ShopGuidePostFormEdit = ({ item, syncpostingstatewithfirestore }) => {
       <StSGPPhotoInput onChange={onFileChange}>
         <label htmlFor='ex_file'>
           <div className='btnStart'>
-            <img src={'camera.png'} id="view" alt='' />
+            <img src={'camera.png'} id='view' alt='' />
             <div className='submitPic'>사진 등록</div>
           </div>
         </label>
