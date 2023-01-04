@@ -12,17 +12,7 @@ import {
 } from 'firebase/auth';
 import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
-// save-duck-project-02
-const firebaseConfig = {
-  apiKey: 'AIzaSyB8LgkaqTPSWzLf6V9stRdhLIwDBqWJC3U',
-  authDomain: 'save-duck-project-02.firebaseapp.com',
-  projectId: 'save-duck-project-02',
-  storageBucket: 'save-duck-project-02.appspot.com',
-  messagingSenderId: '826960173825',
-  appId: '1:826960173825:web:f88026b906d29f65621900',
-};
-
-// save-duck-project
+// 회수
 // const firebaseConfig = {
 //   apiKey: 'AIzaSyBJAaoGVZAqQ58vnhtT9eTbnx3G6eeOpXM',
 //   authDomain: 'save-duck-project.firebaseapp.com',
@@ -32,6 +22,16 @@ const firebaseConfig = {
 //   appId: '1:1034061398211:web:8eb7aea9f40421db3ee276',
 //   measurementId: 'G-98XHQ8X10T',
 // };
+
+// 회수 2차
+const firebaseConfig = {
+  apiKey: 'AIzaSyB8LgkaqTPSWzLf6V9stRdhLIwDBqWJC3U',
+  authDomain: 'save-duck-project-02.firebaseapp.com',
+  projectId: 'save-duck-project-02',
+  storageBucket: 'save-duck-project-02.appspot.com',
+  messagingSenderId: '826960173825',
+  appId: '1:826960173825:web:f88026b906d29f65621900',
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
