@@ -40,9 +40,13 @@ const ShopGuideDetailsCommentList = ({
     });
   };
 
+  // useEffect(() => {
+  //   syncCommentListStateWithFirestore();
+  // }, [commentItemtList]);
+
   useEffect(() => {
     syncCommentListStateWithFirestore();
-  }, [commentItemtList]);
+  }, []);
 
   return (
     <StCommentListContainer>
