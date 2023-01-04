@@ -51,9 +51,9 @@ const ShopGuideDetailsComment = ({
 
   const dispatch = useDispatch();
 
-  const auth = getAuth();
+
   // console.log(auth);
-  const currentUser = auth.currentUser;
+
   // console.log(currentUser);
 
   // console.log(currentUser.uid);
