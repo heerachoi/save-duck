@@ -11,8 +11,9 @@ export const HomeContainer = styled.div`
 `;
 
 export const CalendarContainer = styled.div`
-  width: 400px;
+  width: 480px;
   margin: 5px;
+  margin-right: 20px;
 `;
 
 export const CalendarHead = styled.div`
@@ -67,6 +68,10 @@ export const HeadDay = styled.span`
 `;
 
 export const CalendarBody = styled.div`
+  justify-items: center;
+
+  margin-top: 30px;
+  height: 340px;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-template-rows: repeat(${({ fourCol }) => (fourCol ? 4 : 5)}, 1fr);
