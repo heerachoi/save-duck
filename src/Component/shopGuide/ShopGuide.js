@@ -2,22 +2,22 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom'; //페이지 이동을 위한 라우터 임포트
 
 export const StShopGuidePostWrapper = styled.div`
-  width: 70%;
+  width: 900px;
   margin-top: 50px;
-  border-bottom: 1px solid #e5e5e5;
-  justify-content: left;
+  display: flex;
+  justify-content: center;
   text-decoration: none;
-  margin-left: 70px;
-  padding-bottom: 20px;
   cursor: pointer;
+
 `;
 
 export const StShopGuidePostContainer = styled(NavLink)`
+  width: 800px;
   overflow: hidden;
   display: flex;
-  flex-direction: column;
   color: black;
   text-decoration: none;
+  border-bottom: 1px solid #e5e5e5;
 `;
 
 export const StShopGuideTop = styled.div`
@@ -27,12 +27,14 @@ export const StShopGuideTop = styled.div`
 `;
 
 export const StShopGuideBottom = styled.div`
-  margin: 0px 0 20px 25px;
+  margin: 0px 20px 20px 20px;
 `;
 
 export const StShopGuidePostNumbering = styled.div`
   font-size: 15px;
-  margin-right: 20px;
+  text-align: center;
+  float: left;
+  width: 100%;
 `;
 
 export const StShopGuidePostTitle = styled.div`
@@ -55,7 +57,9 @@ export const StShopGuidePostInfo = styled.div`
   }
 `;
 
-export const StShopGuidePostUserPicture = styled.div``;
+export const StShopGuidePostUserPicture = styled.div`
+  margin-right: 10px;
+`;
 
 export const StShopGuidePostUserName = styled.div`
   margin-right: 10px;

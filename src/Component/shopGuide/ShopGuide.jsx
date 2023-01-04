@@ -47,19 +47,30 @@ const List = () => {
       {posting.map((item, i) => {
         return (
           <StShopGuidePostWrapper key={item.id}>
-            <StShopGuidePostContainer item={item} to={`/shopguidearticle/${item.id}`}>
+            <StShopGuidePostContainer
+              item={item}
+              to={`/shopguidearticle/${item.id}`}
+            >
               <StShopGuideTop>
                 <StShopGuidePostNumbering>{i + 1}</StShopGuidePostNumbering>
-                <StShopGuidePostTitle>{item.title}</StShopGuidePostTitle>
               </StShopGuideTop>
+
               <StShopGuideBottom>
+                <StShopGuidePostTitle>{item.title}</StShopGuidePostTitle>
                 <StShopGuidePostInfo>
-                  <label type={'picture'}></label>
-                  <StShopGuidePostUserPicture></StShopGuidePostUserPicture>
-                  <StShopGuidePostUserName>{item.username}</StShopGuidePostUserName>
+                  <label type={"picture"}></label>
+                  <StShopGuidePostUserPicture>
+                    작성자 프로필 사진
+                  </StShopGuidePostUserPicture>
+                  <StShopGuidePostUserName>
+                    {item.username} 작성자 닉네임
+                  </StShopGuidePostUserName>
                   <StShopGuidePostDate>{item.created}</StShopGuidePostDate>
                 </StShopGuidePostInfo>
-                <StShopGuidePostDescription>{item.description}</StShopGuidePostDescription>
+
+                <StShopGuidePostDescription>
+                  {item.description}
+                </StShopGuidePostDescription>
               </StShopGuideBottom>
             </StShopGuidePostContainer>
           </StShopGuidePostWrapper>
