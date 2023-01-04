@@ -1,46 +1,23 @@
-import { Link } from 'react-router-dom';
-import { useEffect, useState, useRef } from 'react';
-import { authService, db } from '../../firebase';
-import { collection, addDoc } from 'firebase/firestore';
-
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  GoogleAuthProvider,
-} from 'firebase/auth';
-
 import React from 'react';
-import {
-  H1,
-  H2,
-  SignupWrap,
-  SignupContaier,
-  SignupTitle,
-  SignUpSubmit,
-  Input,
-  InputTitle,
-  InputWrap,
-  passwordWrp,
-  ContentWrap,
-  EmailWrap,
-  ErrorMessgeWrap,
-  ErrorMessge,
-  PasswordWrap,
-} from './SignUp.js';
+import { useEffect, useState } from 'react';
+import { authService, db } from '../../firebase';
+import { collection, setDoc, doc } from 'firebase/firestore';
+import { v4 as uuidv4 } from 'uuid';
+import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { H1, H2, SignupWrap, SignupContaier, SignupTitle, SignUpSubmit, Input, InputTitle, EmailWrap, ErrorMessgeWrap, ErrorMessge, ContentWrap } from './SignUp.js';
 
 const SignUpComponent = () => {
   // 초기값 세팅 - 아이디, 닉네임, 비밀번호, 비밀번호확인, 이메일, 전화번호, 생년월일
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = React.useState('');
-  const [name, setName] = React.useState('');
+  const [name, setName] = React.useState('닉네임 없음');
   const [error, setError] = useState('');
 
   // 오류메세지 상태 저장
   const [emailMessage, setEmailMessage] = React.useState('');
   const [passwordMessage, setPasswordMessage] = React.useState('');
-  const [passwordConfirmMessage, setPasswordConfirmMessage] =
-    React.useState('');
+  const [passwordConfirmMessage, setPasswordConfirmMessage] = React.useState('');
   const [nameMessage, setNameMessage] = React.useState('');
 
   // 유효성 검사
@@ -53,30 +30,31 @@ const SignUpComponent = () => {
   const [notAllow, setNotAllow] = useState(true);
 
   const auth = getAuth();
-  console.log('auth: ', auth);
 
   //* 회원가입 완료
   const onSubmit = async (e) => {
     e.preventDefault();
-    let data;
+    const generateId = uuidv4();
+    const usersRef = collection(db, 'users');
+
     try {
       await createUserWithEmailAndPassword(authService, email, password);
       alert('SaveDuck 회원이 되신걸 환영합니다.');
-      await addDoc(collection(db, 'users'), {
-        // uid: currentUser.uid,
+      await setDoc(doc(usersRef, generateId), {
+        id: generateId,
+        uid: auth.currentUser.uid,
         email: email,
         username: name,
-        uid: auth.currentUser.uid,
+        modify: false,
       });
       window.location.href = '/home';
     } catch (error) {
       setError(error.message);
+      alert('이미 존재하는 계정 입니다.');
       console.log(error);
     }
   };
-  console.log('email:', email);
-  console.log('passord:', password);
-  console.log('name:', name);
+
   //* 회원가입 버튼 활
   useEffect(() => {
     if (isname && isPassword && isPasswordConfirm && isEmail) {
@@ -85,17 +63,12 @@ const SignUpComponent = () => {
     }
     setNotAllow(true);
   }, [isname, isPassword, isPasswordConfirm, isEmail]);
-  console.log(isEmail, isname, isPassword, isPasswordConfirm);
-
-  // 회원가입 완료 const onClickSummit = () => {   alert("SaveDuck 회원이 되신걸 환영합니다.");
-  // window.location.href = "/"; };
 
   //* 이메일
   const onChangeEmail = (e) => {
     const currentEmail = e.target.value;
     setEmail(currentEmail);
-    const emailRegExp =
-      /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    const emailRegExp = /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
     if (!emailRegExp.test(currentEmail)) {
       setEmailMessage('! 잘못된 이메일 주소입니다.');
       setIsEmail(false);
@@ -109,13 +82,10 @@ const SignUpComponent = () => {
   const onChangePassword = (e) => {
     const currentPassword = e.target.value;
     setPassword(currentPassword);
-    const passwordRegExp =
-      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
+    const passwordRegExp = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
 
     if (!passwordRegExp.test(currentPassword)) {
-      setPasswordMessage(
-        '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!'
-      );
+      setPasswordMessage('숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!');
       setIsPassword(false);
     } else {
       setPasswordMessage('! 사용 가능한 비밀번호에요.');
@@ -131,9 +101,7 @@ const SignUpComponent = () => {
       setPasswordConfirmMessage('! 비밀번호가 일치합니다.');
       setIsPasswordConfirm(true);
     } else {
-      setPasswordConfirmMessage(
-        '! 비밀번호가 일치하지 않아요. 다시 입력해주세요.'
-      );
+      setPasswordConfirmMessage('! 비밀번호가 일치하지 않아요. 다시 입력해주세요.');
       setIsPasswordConfirm(false);
     }
   };
@@ -143,8 +111,8 @@ const SignUpComponent = () => {
     const currentName = e.target.value;
     setName(currentName);
 
-    if (currentName.length < 2 || currentName.length > 8) {
-      setNameMessage('! 2글자 이상, 8글자 미만으로만 사용할 수 있습니다.');
+    if (currentName.length < 2 || currentName.length > 12) {
+      setNameMessage('! 2글자 이상, 12글자 미만으로만 사용할 수 있습니다.');
       setIsName(false);
     } else {
       setNameMessage('! 사용 가능한 닉네임 입니다.');
@@ -162,80 +130,29 @@ const SignUpComponent = () => {
         <SignupContaier>
           <form onSubmit={onSubmit} className='form'>
             <EmailWrap>
-              <InputTitle placeholder='saveduck@saveduck.com'>
-                이메일
-              </InputTitle>
-              <Input
-                type='email'
-                name='name'
-                value={email}
-                onChange={onChangeEmail}
-              />
+              <InputTitle placeholder='saveduck@saveduck.com'>이메일</InputTitle>
+              <Input type='email' name='name' value={email} onChange={onChangeEmail} />
               <ErrorMessgeWrap>
-                <ErrorMessge>
-                  {email.length > 0 && (
-                    <span
-                      className={`message ${isEmail ? 'success' : 'error'}`}
-                    >
-                      {emailMessage}
-                    </span>
-                  )}
-                </ErrorMessge>
+                <ErrorMessge>{email.length > 0 && <span className={`message ${isEmail ? 'success' : 'error'}`}>{emailMessage}</span>}</ErrorMessge>
               </ErrorMessgeWrap>
             </EmailWrap>
 
             <>
               <InputTitle>비밀번호</InputTitle>
-              <Input
-                type='password'
-                name='password'
-                value={password}
-                onChange={onChangePassword}
-              />
+              <Input type='password' name='password' value={password} onChange={onChangePassword} />
               <ErrorMessgeWrap>
-                <ErrorMessge>
-                  {password.length > 0 && (
-                    <span
-                      className={`message ${isPassword ? 'success' : 'error'}`}
-                    >
-                      {passwordMessage}
-                    </span>
-                  )}
-                </ErrorMessge>
+                <ErrorMessge>{password.length > 0 && <span className={`message ${isPassword ? 'success' : 'error'}`}>{passwordMessage}</span>}</ErrorMessge>
               </ErrorMessgeWrap>
               <InputTitle>비밀번호 확인</InputTitle>
-              <Input
-                type='password'
-                name='passwordConfirm'
-                value={passwordConfirm}
-                onChange={onChangePasswordConfirm}
-              />
+              <Input type='password' name='passwordConfirm' value={passwordConfirm} onChange={onChangePasswordConfirm} />
               <ErrorMessgeWrap>
-                <ErrorMessge>
-                  {passwordConfirm.length > 0 && (
-                    <span
-                      className={`message ${
-                        isPasswordConfirm ? 'success' : 'error'
-                      }`}
-                    >
-                      {passwordConfirmMessage}
-                    </span>
-                  )}
-                </ErrorMessge>
+                <ErrorMessge>{passwordConfirm.length > 0 && <span className={`message ${isPasswordConfirm ? 'success' : 'error'}`}>{passwordConfirmMessage}</span>}</ErrorMessge>
               </ErrorMessgeWrap>
             </>
             <InputTitle>닉네임</InputTitle>
             <Input id='name' name='name' value={name} onChange={onChangeName} />
             <ErrorMessgeWrap>
-              <ErrorMessge>
-                {name.length > 0 && (
-                  <span
-                    className={`message ${isPassword ? 'success' : 'error'}`}
-                  >
-                    {nameMessage}
-                  </span>
-                )}
-              </ErrorMessge>
+              <ErrorMessge>{name.length > 0 && <span className={`message ${isPassword ? 'success' : 'error'}`}>{nameMessage}</span>}</ErrorMessge>
             </ErrorMessgeWrap>
             <SignUpSubmit disabled={notAllow}>회원가입</SignUpSubmit>
           </form>

@@ -3,13 +3,39 @@ import { useDispatch } from 'react-redux';
 import moment from 'moment';
 
 import { modifyModeList } from '../../redux/modules/shoppingListActions.js';
-import { doc, deleteDoc, updateDoc, query, collection, getDocs } from 'firebase/firestore';
+import {
+  doc,
+  deleteDoc,
+  updateDoc,
+  query,
+  collection,
+  getDocs,
+} from 'firebase/firestore';
 import { db } from '../../firebase';
 import { faPencil, faX, faCheck } from '@fortawesome/free-solid-svg-icons';
 
-import { ListItem, CheckBox, ItemName, ItemPrice, PencilIcon, XIcon, ItemPriceContainer, ShowItem, UnshowItem, CheckIcon, ItemInput, ItemPriceInput, ItemPriceInputContainer } from './ShoppingItem.js';
+import {
+  ListItem,
+  CheckBox,
+  ItemName,
+  ItemPrice,
+  PencilIcon,
+  XIcon,
+  ItemPriceContainer,
+  ShowItem,
+  UnshowItem,
+  CheckIcon,
+  ItemInput,
+  ItemPriceInput,
+  ItemPriceInputContainer,
+} from './ShoppingItem.js';
 
-const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTotalPrice }) => {
+const ShoppingItem = ({
+  item,
+  shoppingListUnchecked,
+  dateToString,
+  calculateTotalPrice,
+}) => {
   const time = moment().format('YYYY-MM-DD-hh:mm');
   const { id, name, date, price, modify, isChecked, savetime, userId } = item;
   const [readOnly, setReadOnly] = useState(true);
@@ -55,8 +81,8 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
       const response = await updateDoc(docRef, {
         isChecked: !checked,
       });
-    } catch (event) {
-      console.log(event);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -71,7 +97,6 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
       });
     } catch (event) {
     } finally {
-      console.log('수정 완료 end');
       modifyItemButtonHandler(id);
     }
     shoppingListUnchecked();
@@ -79,7 +104,6 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
 
   // 목록 수정 완료하기
   const updateCompleteButtonHandler = async (id) => {
-    console.log('댓글 수정 완료하기');
     const docRef = doc(db, 'itemList', id);
     try {
       const response = await updateDoc(docRef, {
@@ -96,14 +120,6 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
     setReadOnly(true);
     setUpdateItemPrice(updateItemPrice);
     calculateTotalPrice();
-  };
-
-  // 목록 수정 취소하기
-  const editCancelButtonHandler = (id) => {
-    dispatch(modifyModeList(id));
-    setReadOnly(true);
-    setUpdateItemInput(name);
-    setUpdateItemPrice(price);
   };
 
   // 목록 삭제하기
@@ -123,7 +139,6 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
     cost = cost + '';
     cost = cost.replace(/[^0-9]/g, ''); // 입력값이 숫자가 아니면 공백
     cost = cost.replace(/,/g, ''); // ,값 공백처리
-    console.log(cost.replace(/\B(?=(\d{3})+(?!\d))/g, ','));
     return cost.replace(/\B(?=(\d{3})+(?!\d))/g, ','); // 정규식을 이용해서 3자리 마다 , 추가
   };
 
@@ -143,9 +158,22 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
           }}
         />
         <ItemPriceContainer>
-          <ItemInput type='text' name='name' readOnly={readOnly} onChange={onChangeItem} maxLength='25' value={updateItemInput || ''} />
+          <ItemInput
+            type='text'
+            name='name'
+            readOnly={readOnly}
+            onChange={onChangeItem}
+            maxLength='25'
+            value={updateItemInput || ''}
+          />
           <ItemPriceInputContainer>
-            <ItemPriceInput id='itemPrice' onChange={onChangeItemPrice} maxLength='7' value={updateItemPrice || '0'} />원
+            <ItemPriceInput
+              id='itemPrice'
+              onChange={onChangeItemPrice}
+              maxLength='7'
+              value={updateItemPrice || '0'}
+            />
+            ₩
           </ItemPriceInputContainer>
         </ItemPriceContainer>
       </ShowItem>
@@ -168,14 +196,6 @@ const ShoppingItem = ({ item, shoppingListUnchecked, dateToString, calculateTota
         {modify ? (
           ''
         ) : (
-          //   (
-          //   <XIcon
-          //     icon={faX}
-          //     onClick={() => {
-          //       editCancelButtonHandler(id);
-          //     }}
-          //   />
-          // )
           <XIcon
             icon={faX}
             onClick={() => {

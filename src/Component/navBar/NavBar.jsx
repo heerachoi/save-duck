@@ -8,6 +8,7 @@ import {
   Menu,
   MenuItem,
   SignUp,
+  MyProfileMoDal,
 } from './NavBar';
 import { useAuth, upload } from '../../firebase.js';
 import Modal from '../modal/Modal.jsx';
@@ -59,35 +60,33 @@ const Navbar = () => {
       <StyledSaveDuckHome>
         {/* 왼쪽영역 */}
         <LeftSection>
-          <SaveDuckHomeNav to='/'>
-            <span style={{ color: '#ffc226' }}>Save Duck</span>
-            <DuckImageLogo src='ssave.png' alt='Home' />
+          <SaveDuckHomeNav to='/home'>
+            {/* <span style={{ color: '#ffc226' }}>Save Duck</span> */}
+            <DuckImageLogo src='save_duck_logo_h.png' alt='Home' />
           </SaveDuckHomeNav>
         </LeftSection>
 
         {/* 오른쪽영역 */}
         <RightSection>
           <Menu>
-            <MenuItem style={{ color: '#ffc226' }} to='/signin'>
-              Features
-            </MenuItem>
             <MenuItem style={{ color: '#ffc226' }} to='/shopguide'>
               Community
             </MenuItem>
-            <MenuItem style={{ color: '#ffc226' }} to='/shopguidedetails'>
-              Support
-            </MenuItem>
           </Menu>
-
           <SignUp>
-            <NavLink onClick={handleSubmit}>
-              <img
+            <NavLink
+              style={{ color: '#ffc226', textDecoration: 'none' }}
+              onClick={handleSubmit}
+            >
+              <MyProfileMoDal
+                className='myProfileMoDal'
                 ref={profileRef}
                 onClick={() => {
                   setModal(!modal);
                 }}
-                src='blankProfile.png'
-              />
+              >
+                My Profile
+              </MyProfileMoDal>
             </NavLink>
             {modal === true ? (
               <div ref={modalRef}>

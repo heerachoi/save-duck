@@ -29,12 +29,13 @@ const ShopGuide = () => {
 };
 
 const StShopGuideContainer = styled.div`
-  margin-top: 3rem;
+  /* margin-top: 3rem; */
   width: 100%;
   height: 100%;
   background-color: #fff;
-  margin-left: 10%;
   text-decoration: none;
+  margin-left: 10%;
+  margin-top: 100px;
   @media screen and (max-width: 800px) {
     margin-left: 0%;
   }
