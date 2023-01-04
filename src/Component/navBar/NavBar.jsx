@@ -8,6 +8,7 @@ import {
   Menu,
   MenuItem,
   SignUp,
+  MyProfileMoDal,
 } from './NavBar';
 import { useAuth, upload } from '../../firebase.js';
 import Modal from '../modal/Modal.jsx';
@@ -80,14 +81,26 @@ const Navbar = () => {
           </Menu>
 
           <SignUp>
-            <NavLink onClick={handleSubmit}>
-              <img
+            <NavLink
+              style={{ color: '#ffc226', textDecoration: 'none' }}
+              onClick={handleSubmit}
+            >
+              {/* <img
                 ref={profileRef}
                 onClick={() => {
                   setModal(!modal);
                 }}
                 src='blankProfile.png'
-              />
+              /> */}
+              <MyProfileMoDal
+                className='myProfileMoDal'
+                ref={profileRef}
+                onClick={() => {
+                  setModal(!modal);
+                }}
+              >
+                My Profile
+              </MyProfileMoDal>
             </NavLink>
             {modal === true ? (
               <div ref={modalRef}>

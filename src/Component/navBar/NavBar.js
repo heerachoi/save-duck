@@ -24,10 +24,16 @@ export const StyledSaveDuckHome = styled.div`
 `;
 
 export const SaveDuckHomeNav = styled(NavLink)`
-  text-decoration: none;
   /* color: black; */
+  text-decoration: none;
   display: flex;
   align-items: center;
+`;
+
+export const MyProfileMoDal = styled.div`
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
 `;
 
 export const DuckImageLogo = styled.img`
