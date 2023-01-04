@@ -22,12 +22,20 @@ import {
   Container,
   ProfileImageContainer,
   CameraContainer,
-  CameraImage,
   StyledDivBox,
   StyledCheckButton,
   StyledProfileForm,
   StyledProfileInput,
+  StyledEditButton,
+  CameraIcon,
 } from './Modal.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faPen,
+  faTrashCan,
+  faCircleUp,
+  faCamera,
+} from '@fortawesome/free-solid-svg-icons';
 
 export default function Modal() {
   const [photo, setPhoto] = useState(null);
@@ -175,7 +183,8 @@ export default function Modal() {
           </label>
         </ProfileImageContainer>
         <CameraContainer>
-          <CameraImage src='camera.png' alt='' />
+          <CameraIcon icon={faCamera} />
+          {/* <CameraImage src='camera.png' alt='' /> */}
         </CameraContainer>
         <StyledProfileForm onSubmit={onFileChange}>
           <StyledDivBox key={profileName.id}>
@@ -196,11 +205,19 @@ export default function Modal() {
             ) : (
               ''
             )}
-            <StyledVector
+            {/* <StyledVector
               onClick={() => {
                 updateButtonModify(infoId);
               }}
               src='Vector.png'
+            /> */}
+            <StyledEditButton
+              onClick={() => {
+                updateButtonModify(infoId);
+              }}
+              id='articleEditButton'
+              icon={faPen}
+              style={{ cursor: 'pointer' }}
             />
           </StyledDivBox>
           <StyledProfileButton
