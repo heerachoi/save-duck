@@ -10,6 +10,8 @@ export const StCommentListContainer = styled.li`
   align-items: center;
   width: 850px;
   margin-bottom: 20px;
+  margin-top: 10px;
+  gap: 10px;
 `;
 
 export const StCommentCreateInfo = styled.div`
@@ -25,7 +27,8 @@ export const StCommentProfileImage = styled.img`
 `;
 
 export const StCommentUserName = styled.div`
-  font-size: 17px;
+  font-size: 15px;
+  font-weight: 400;
 `;
 
 export const StCommentContentInput = styled.textarea`
@@ -35,8 +38,10 @@ export const StCommentContentInput = styled.textarea`
   min-width: 300px;
   min-height: 80px;
   border: none;
+  border-radius: 5px;
   background-color: #eeeeee;
   resize: none;
+  padding: 10px;
 `;
 
 export const StCommentContentSaveTime = styled.div`
