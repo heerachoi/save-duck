@@ -6,8 +6,24 @@ import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
 
 import ShoppingList from '../shoppingList/ShoppingList.jsx';
 
-import { faChevronLeft, faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { HomeContainer, CalendarContainer, CalendarHead, SevenColGrid, HeadDay, CalendarBody, MonthNavigation, MonthArrow, StyledDay, CurrentMonth, CurrentYear, Dot } from './Calendar.js';
+import {
+  faChevronLeft,
+  faChevronRight,
+} from '@fortawesome/free-solid-svg-icons';
+import {
+  HomeContainer,
+  CalendarContainer,
+  CalendarHead,
+  SevenColGrid,
+  HeadDay,
+  CalendarBody,
+  MonthNavigation,
+  MonthArrow,
+  StyledDay,
+  CurrentMonth,
+  CurrentYear,
+  Dot,
+} from './Calendar.js';
 import { useAuth } from '../../firebase.js';
 
 const Calendar = ({ startingDate }) => {
@@ -16,7 +32,20 @@ const Calendar = ({ startingDate }) => {
 
   // 오늘의 날짜
   const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-  const MONTHS = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  const MONTHS = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+  ];
 
   const date = new Date(); // Thu Dec 22 2022 01:04:56 GMT+0900 (한국 표준시)
   const viewYear = date.getFullYear(); // 2022
@@ -25,7 +54,9 @@ const Calendar = ({ startingDate }) => {
 
   const [currentMonth, setCurrentMonth] = useState(startingDate.getMonth());
   const [currentYear, setCurrentYear] = useState(startingDate.getFullYear());
-  const [currentShoppingList, setShoppingList] = useState(<ShoppingList year={viewYear} month={viewMonth} date={viewDate} />);
+  const [currentShoppingList, setShoppingList] = useState(
+    <ShoppingList year={viewYear} month={viewMonth} date={viewDate} />
+  );
 
   const prevLast = new Date(viewYear, viewMonth, 0); // Wed Nov 30 2022 00:00:00 GMT+0900 (한국 표준시)
   const thisLast = new Date(viewYear, viewMonth, 0); // Sat Dec 31 2022 00:00:00 GMT+0900 (한국 표준시)
@@ -40,7 +71,9 @@ const Calendar = ({ startingDate }) => {
   const nextDays = [];
 
   const ShoppingListTag = (year, month, date) => {
-    return setShoppingList(<ShoppingList year={year} month={month} date={date} />);
+    return setShoppingList(
+      <ShoppingList year={year} month={month} date={date} />
+    );
   };
 
   if (PLDay !== 6) {
@@ -74,7 +107,11 @@ const Calendar = ({ startingDate }) => {
 
   // 오늘 날짜인 곳에 핑크색 배경
   const areDatesTheSame = (first, second) => {
-    return first.getFullYear() === second.getFullYear() && first.getMonth() === second.getMonth() && first.getDate() === second.getDate();
+    return (
+      first.getFullYear() === second.getFullYear() &&
+      first.getMonth() === second.getMonth() &&
+      first.getDate() === second.getDate()
+    );
   };
 
   const nextMonth = () => {
@@ -158,7 +195,11 @@ const Calendar = ({ startingDate }) => {
   const containShoppingList = (year, month, date) => {
     const currentDateToString = '' + year + month + date;
     console.log(currentDateToString);
-    const q = query(collection(db, 'itemList'), where('userId', '==', currentUser.uid), where('date', '==', currentDateToString));
+    const q = query(
+      collection(db, 'itemList'),
+      where('userId', '==', currentUser.uid),
+      where('date', '==', currentDateToString)
+    );
     getDocs(q).then((querySnapshop) => {
       const firestoreShoppingItemList = [];
       querySnapshop.forEach((doc) => {
@@ -200,11 +241,19 @@ const Calendar = ({ startingDate }) => {
         <CalendarHead>
           <CurrentYear>{currentYear}</CurrentYear>
           <MonthNavigation>
-            <MonthArrow icon={faChevronLeft} className='goPrevious' onClick={prevMonth}>
+            <MonthArrow
+              icon={faChevronLeft}
+              className='goPrevious'
+              onClick={prevMonth}
+            >
               &lt;
             </MonthArrow>
             <CurrentMonth>{MONTHS[currentMonth]}</CurrentMonth>
-            <MonthArrow icon={faChevronRight} className='goNext' onClick={nextMonth}>
+            <MonthArrow
+              icon={faChevronRight}
+              className='goNext'
+              onClick={nextMonth}
+            >
               &gt;
             </MonthArrow>
           </MonthNavigation>
@@ -216,7 +265,15 @@ const Calendar = ({ startingDate }) => {
         </SevenColGrid>
         <CalendarBody fourCol={DAYSINAMONTH === 28}>
           {h.map((date) => (
-            <StyledDay onClick={() => ShoppingListTag(currentYear, currentMonth, date)} key={uuidv4()} active={areDatesTheSame(new Date(), getDateObj(date, currentMonth, currentYear))}>
+            <StyledDay
+              onClick={() => ShoppingListTag(currentYear, currentMonth, date)}
+              key={uuidv4()}
+              active={areDatesTheSame(
+                new Date(),
+                getDateObj(date, currentMonth, currentYear)
+              )}
+            >
+              {/* {date} */}
               {date}
               {/*containShoppingList(currentYear, currentMonth, date) > 0 ? <Dot /> : ''*/}
             </StyledDay>

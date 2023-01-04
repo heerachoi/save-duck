@@ -2,7 +2,15 @@ import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { db } from '../../firebase.js';
-import { collection, addDoc, getDocs, orderBy, query, where, doc } from 'firebase/firestore';
+import {
+  collection,
+  addDoc,
+  getDocs,
+  orderBy,
+  query,
+  where,
+  doc,
+} from 'firebase/firestore';
 
 import { v4 as uuidv4 } from 'uuid';
 import { faPencil, faX, faCheck } from '@fortawesome/free-solid-svg-icons';
@@ -48,7 +56,11 @@ const ShoppingList = ({ year, month, date }) => {
   const [itemList, setItemList] = useState([]);
 
   const shoppingListUnchecked = () => {
-    const q = query(collection(db, 'itemList'), where('userId', '==', currentUser.uid), where('date', '==', dateToString));
+    const q = query(
+      collection(db, 'itemList'),
+      where('userId', '==', currentUser.uid),
+      where('date', '==', dateToString)
+    );
 
     getDocs(q).then((querySnapshop) => {
       const firestoreShoppingItemList = [];
@@ -128,7 +140,11 @@ const ShoppingList = ({ year, month, date }) => {
   const calculateTotalPrice = async () => {
     const usersCollectionRef = collection(db, 'itemList');
 
-    const q = await query(usersCollectionRef, where('userId', '==', currentUser.uid), where('date', '==', dateToString));
+    const q = await query(
+      usersCollectionRef,
+      where('userId', '==', currentUser.uid),
+      where('date', '==', dateToString)
+    );
     let total = 0;
     let number = 0;
     getDocs(q).then((querySnapshop) => {
@@ -171,18 +187,40 @@ const ShoppingList = ({ year, month, date }) => {
         {currentYear}.{currentMonth}.{currentDate}
       </DateContainer>
       <DateUnderLine></DateUnderLine>
-      <ShoppingListTitle>쇼핑 목록</ShoppingListTitle>
+      <ShoppingListTitle>Shopping List</ShoppingListTitle>
       <ScrollBox>
         <UncheckedList>
           {itemList.map((item) => {
-            return <ShoppingItem key={item.id} item={item} shoppingListUnchecked={shoppingListUnchecked} calculateTotalPrice={calculateTotalPrice} dateToString={dateToString} />;
+            return (
+              <ShoppingItem
+                key={item.id}
+                item={item}
+                shoppingListUnchecked={shoppingListUnchecked}
+                calculateTotalPrice={calculateTotalPrice}
+                dateToString={dateToString}
+              />
+            );
           })}
 
           <ListItem>
             <ItemPriceContainerForm>
-              <ItemInput key={item.id} type='text' id='item' placeholder='입력해주세요.' onChange={itemChangeHandler} value={item} maxLength='25' />
+              <ItemInput
+                key={item.id}
+                type='text'
+                id='item'
+                placeholder='I need...'
+                onChange={itemChangeHandler}
+                value={item}
+                maxLength='25'
+              />
               <ItemPriceInputContainer>
-                <ItemPriceInput id='itemPrice' placeholder='---,---' onChange={priceChangeHandler} value={price || ''} />원
+                <ItemPriceInput
+                  id='itemPrice'
+                  placeholder='---,---'
+                  onChange={priceChangeHandler}
+                  value={price || ''}
+                />
+                ₩
               </ItemPriceInputContainer>
             </ItemPriceContainerForm>
             <CheckIcon onClick={addItem} icon={faCheck} />
@@ -191,8 +229,8 @@ const ShoppingList = ({ year, month, date }) => {
         </UncheckedList>
       </ScrollBox>
       <TotalPriceContainer>
-        <TotalPriceText>총 합계</TotalPriceText>
-        <TotalPrice>{totalPrice}원</TotalPrice>
+        <TotalPriceText>Total</TotalPriceText>
+        <TotalPrice>{totalPrice}₩</TotalPrice>
       </TotalPriceContainer>
     </ShoppingListContainer>
   );
