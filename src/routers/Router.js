@@ -7,6 +7,7 @@ import SignIn from '../pages/SignIn.jsx';
 import SignUp from '../pages/SignUp.jsx';
 import ShopGuidePosting from '../pages/ShopGuidePosting.jsx';
 import ShopGuideArticle from '../pages/ShopGuideArticle.jsx';
+import ShopGuidePostFormEdit from '../Component/shopGuidePostFormEdit/ShopGuidePostFormEdit.jsx';
 
 // import EditForm from '../Component/shopGuide/ShopGuidePostFormEdit';
 
@@ -28,6 +29,10 @@ const Router = () => {
         </Route>
         <Route path='/' element={<SignIn />} />
         <Route path='/signup' element={<SignUp />} />
+        <Route
+          path='/shopguidepostingEdit/:id'
+          element={<ShopGuidePostFormEdit />}
+        />
       </Routes>
     </BrowserRouter>
   );
