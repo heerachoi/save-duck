@@ -11,7 +11,7 @@ const SignUpComponent = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = React.useState('');
-  const [name, setName] = React.useState('닉네임 없음');
+  const [name, setName] = React.useState('');
   const [error, setError] = useState('');
 
   // 오류메세지 상태 저장

@@ -21,7 +21,17 @@ import {
   StCommentContentSaveTime,
   StCommentContentsEditButton,
   StCommentContentsDeleteButton,
+  StCreateInfo,
+  StButtonContainer,
+  StCommentContainer,
 } from './ShopGuideDetailsComment.js';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faPen,
+  faTrashCan,
+  faX,
+  faCheck,
+} from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../../firebase';
 import { getAuth } from 'firebase/auth';
 import { ref, getDownloadURL, getStorage, listAll } from 'firebase/storage';
@@ -39,7 +49,7 @@ const ShopGuideDetailsComment = ({
   const [readOnly, setReadOnly] = useState(true);
   const [updateCommentInput, setUpdateCommentInput] = useState(comment);
   const dispatch = useDispatch();
-  //! 민성 수정 
+  //! 민성 수정
   const [photoURL, setPhotoURL] = useState(``);
   const [commentList, setCommentList] = useState([]);
   const [users, setUsers] = useState([]);
@@ -182,9 +192,6 @@ const ShopGuideDetailsComment = ({
     getCreatorId();
   }, []);
 
-
-
-
   //! 여기서 민성 수정
   //! storage에 있는 모든 파일을 배열에 담아서 가져오기
   const getPhotoURL = async () => {
@@ -218,7 +225,9 @@ const ShopGuideDetailsComment = ({
     if (currentUser.uid === item.creatorId) {
       setPhotoURL(currentUser.photoURL);
     } else {
-      setPhotoURL('https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png');
+      setPhotoURL(
+        'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+      );
       // https://item.kakaocdn.net/do/493188dee481260d5c89790036be0e66f604e7b0e6900f9ac53a43965300eb9a
     }
   }, [currentUser, item, photoURL]);
@@ -230,7 +239,6 @@ const ShopGuideDetailsComment = ({
   //   console.log(item.creatorId);
   //   console.log(currentUser.photoURL);
   //   console.log(photoURL)
-
 
   //   if (currentUser.uid === item.creatorId) {
   //     setPhotoURL(currentUser.photoURL);
@@ -269,7 +277,7 @@ const ShopGuideDetailsComment = ({
 
   //! 여기까지 민성 수정
 
-  const [profileUrl, setProfileUrl] = useState("");
+  const [profileUrl, setProfileUrl] = useState('');
 
   // const profileImgRef = ref(storage, '/profileImg/' + item.creatorId + '.png');
   // console.log(profileImgRef);
@@ -285,65 +293,69 @@ const ShopGuideDetailsComment = ({
   // const userId = splitDot[0];
   // console.log(userId);
 
-
   return (
-    <div style={{ marginTop: '50px' }}>
+    <StCommentContainer style={{ marginTop: '50px' }}>
       <StCommentListContainer key={id}>
         {/* 작성자 정보 및 댓글 내용 */}
         <StCommentProfileImage src={photoURL} alt='' />
-        <StCommentUserName>사용자 닉네임</StCommentUserName>
-        <StCommentContentInput
-          name='comment'
-          readOnly={readOnly}
-          defaultValue={comment}
-          onChange={onChangeComment}
-        />
-        {/* 버튼 영역 - 수정 & 삭제 VS 완료 & 취소  */}
-        {/* <span>{item.comment}</span> */}
-        <StCommentContentSaveTime>{savetime}</StCommentContentSaveTime>
-
-        {item.creatorId === currentUser.uid ? (
-          modify ? (
-            <>
-              <StCommentContentsEditButton
-                type='button'
-                className='comment-edit-complete-btn'
-                onClick={() => {
-                  updateCompleteButtonHandler(id);
-                }}
-              >
-                완료
-              </StCommentContentsEditButton>
-              <StCommentContentsDeleteButton
-                onClick={() => {
-                  editCancelButtonHandler(id);
-                }}
-              >
-                취소
-              </StCommentContentsDeleteButton>
-            </>
-          ) : (
-            <>
-              <StCommentContentsEditButton
-                className='comment-edit-btn'
-                onClick={() => {
-                  updateCommentModify(id);
-                }}
-              >
-                수정
-              </StCommentContentsEditButton>
-              <StCommentContentsDeleteButton
-                onClick={() => {
-                  deleteCommentButtonHandler(id);
-                }}
-              >
-                삭제
-              </StCommentContentsDeleteButton>
-            </>
-          )
-        ) : null}
+        <div>
+          <StCreateInfo>
+            <StCommentUserName>사용자 닉네임</StCommentUserName>
+            <StCommentContentSaveTime>{savetime}</StCommentContentSaveTime>
+          </StCreateInfo>
+          <StCommentContentInput
+            name='comment'
+            readOnly={readOnly}
+            defaultValue={comment}
+            onChange={onChangeComment}
+          />
+          {/* 버튼 영역 - 수정 & 삭제 VS 완료 & 취소  */}
+          {/* <span>{item.comment}</span> */}
+          <StButtonContainer>
+            {item.creatorId === currentUser.uid ? (
+              modify ? (
+                <>
+                  <StCommentContentsEditButton
+                    type='button'
+                    className='comment-edit-complete-btn'
+                    onClick={() => {
+                      updateCompleteButtonHandler(id);
+                    }}
+                  >
+                    완료
+                  </StCommentContentsEditButton>
+                  <StCommentContentsDeleteButton
+                    onClick={() => {
+                      editCancelButtonHandler(id);
+                    }}
+                  >
+                    취소
+                  </StCommentContentsDeleteButton>
+                </>
+              ) : (
+                <>
+                  <StCommentContentsEditButton
+                    className='comment-edit-btn'
+                    onClick={() => {
+                      updateCommentModify(id);
+                    }}
+                  >
+                    수정
+                  </StCommentContentsEditButton>
+                  <StCommentContentsDeleteButton
+                    onClick={() => {
+                      deleteCommentButtonHandler(id);
+                    }}
+                  >
+                    삭제
+                  </StCommentContentsDeleteButton>
+                </>
+              )
+            ) : null}
+          </StButtonContainer>
+        </div>
       </StCommentListContainer>
-    </div>
+    </StCommentContainer>
   );
 };
 
