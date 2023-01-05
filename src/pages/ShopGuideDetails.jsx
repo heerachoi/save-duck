@@ -18,7 +18,7 @@ import {
   orderBy,
 } from 'firebase/firestore';
 import { useAuth } from '../firebase';
-import { getAuth } from "firebase/auth";
+import { getAuth } from 'firebase/auth';
 
 const ShopGuideDetails = ({ postingId }) => {
   // 댓글 기본 state
@@ -59,8 +59,6 @@ const ShopGuideDetails = ({ postingId }) => {
   //uid 가져오기
   const auth = getAuth();
   const uid = auth.currentUser.uid;
-
-
 
   // 댓글 등록 기능 - 버튼 클릭시 댓글 리스트에 작성한 댓글 추가
   const commentSubmitHandler = (event) => {
@@ -116,7 +114,7 @@ const ShopGuideDetails = ({ postingId }) => {
       <StCommentContainer>
         {/* 댓글 작성란 */}
 
-        <StCommentMyProfileImage src='images/default_profile.webp' alt='' />
+        {/* <StCommentMyProfileImage src='images/default_profile.webp' alt='' /> */}
         <StCommentForm onSubmit={commentSubmitHandler}>
           <StCommentInput
             type='text'
@@ -137,9 +135,9 @@ const ShopGuideDetails = ({ postingId }) => {
             postingId={postingId}
             commentItemtList={commentItemtList}
             setCommentItemList={setCommentItemList}
-          // syncCommentListStateWithFirestore={
-          //   syncCommentListStateWithFirestore
-          // }
+            // syncCommentListStateWithFirestore={
+            //   syncCommentListStateWithFirestore
+            // }
           />
         </ul>
       </div>
