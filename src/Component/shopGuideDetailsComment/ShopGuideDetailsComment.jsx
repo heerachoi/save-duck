@@ -2,16 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { modifyModeComment, updateComment } from '../../redux/modules/comment';
-import {
-  doc,
-  deleteDoc,
-  updateDoc,
-  query,
-  getDoc,
-  getDocs,
-  collection,
-  where,
-} from 'firebase/firestore';
+import { doc, deleteDoc, updateDoc, query, getDoc, getDocs, collection, where } from 'firebase/firestore';
 import { db } from '../../firebase';
 import {
   StCommentProfileImage,
@@ -27,19 +18,13 @@ import { getAuth } from 'firebase/auth';
 import { ref, getDownloadURL, getStorage, listAll } from 'firebase/storage';
 import { storage } from '../../firebase.js';
 
-const ShopGuideDetailsComment = ({
-  item,
-  syncCommentListStateWithFirestore,
-  collectionName,
-  commentItemtList,
-  setCommentItemList,
-}) => {
+const ShopGuideDetailsComment = ({ item, syncCommentListStateWithFirestore, collectionName, commentItemtList, setCommentItemList }) => {
   const time = moment().format('YYYY-MM-DD-hh:mm');
   const { id, comment, savetime, modify } = item;
   const [readOnly, setReadOnly] = useState(true);
   const [updateCommentInput, setUpdateCommentInput] = useState(comment);
   const dispatch = useDispatch();
-  //! 민성 수정 
+  //! 민성 수정
   const [photoURL, setPhotoURL] = useState(``);
   const [commentList, setCommentList] = useState([]);
   const [users, setUsers] = useState([]);
@@ -106,14 +91,11 @@ const ShopGuideDetailsComment = ({
   const editCancelButtonHandler = async (item) => {
     console.log(item);
     const docRef = doc(db, 'commentList', item.id);
-    // console.log(docRef.comment);
-    // console.log(comment);
     try {
       await updateDoc(docRef, {
         modify: false,
         comment: comment,
       });
-      // console.log(response);
     } catch (event) {
       console.log(event);
     } finally {
@@ -122,8 +104,6 @@ const ShopGuideDetailsComment = ({
       alert('수정이 취소되었습니다.');
     }
     setUpdateCommentInput(item.comment);
-    // setUpdateCommentInput(value);
-    // dispatch(modifyModeComment(id));
     syncCommentListStateWithFirestore();
     setReadOnly(true);
   };
@@ -144,11 +124,7 @@ const ShopGuideDetailsComment = ({
   // 닉네임 불러오기
 
   const syncUserInfoWithFirestore = () => {
-    const q = query(
-      collection(db, 'users')
-      // where('postingId', '==', CurrentPostingId),
-      // !orderBy('savetime', 'desc')
-    );
+    const q = query(collection(db, 'users'));
     console.log(q);
   };
 
@@ -156,12 +132,6 @@ const ShopGuideDetailsComment = ({
     syncCommentListStateWithFirestore();
   }, []);
 
-  // useEffect(() => {
-  //   if (!currentUser) return;
-  //   // userdeleteCheck();
-  // }, [currentUser]);
-
-  //! 민성 수정
   //! db에서 'commentList' 컬렉션의 'creatorId' 필드를 가져오기
   const getCreatorId = async (uid, id) => {
     const q = query(collection(db, 'commentList'));
@@ -175,18 +145,13 @@ const ShopGuideDetailsComment = ({
         });
       });
       setCommentList(firestorecommentlist);
-      // console.log(firestorecommentlist);
     });
   };
   useEffect(() => {
     getCreatorId();
   }, []);
 
-
-
-
-  //! 여기서 민성 수정
-  //! storage에 있는 모든 파일을 배열에 담아서 가져오기
+  // storage에 있는 모든 파일을 배열에 담아서 가져오기
   const getPhotoURL = async () => {
     const storageRef = ref(storage, 'images');
     const listRef = listAll(storageRef);
@@ -201,20 +166,8 @@ const ShopGuideDetailsComment = ({
     });
   };
 
-  //! 다 내 사진이 뜸뜸
-  // useEffect(() => {
-  //   if (!currentUser) return;
-  //   setPhotoURL(currentUser.photoURL);
-  // }, [currentUser]);
-
-  //! 나만 프로필 사진 뜨는 거
+  // 나만 프로필 사진 뜨는 거
   useEffect(() => {
-    // console.log(item);
-    // console.log(currentUser);
-    // console.log(item.creatorId);
-    // console.log(currentUser.photoURL);
-    // console.log(photoURL)
-
     if (currentUser.uid === item.creatorId) {
       setPhotoURL(currentUser.photoURL);
     } else {
@@ -223,68 +176,7 @@ const ShopGuideDetailsComment = ({
     }
   }, [currentUser, item, photoURL]);
 
-  //! 나만 프로필 사진 뜨는 거
-  // useEffect(() => {
-  //   console.log(item);
-  //   console.log(currentUser);
-  //   console.log(item.creatorId);
-  //   console.log(currentUser.photoURL);
-  //   console.log(photoURL)
-
-
-  //   if (currentUser.uid === item.creatorId) {
-  //     setPhotoURL(currentUser.photoURL);
-  //   } else {
-  //     setPhotoURL('');
-  //   }
-  // }, [currentUser, item, photoURL]);
-
-  //! 수정중
-  // useEffect(() => {
-  //   setPhotoURL(photoURL);
-  // }, [currentUser, photoURL, item]);
-
-  //! 다 내 사진이 뜸
-  // useEffect(() => {
-  //   setPhotoURL(currentUser?.photoURL);
-  // }, [currentUser, photoURL, item]);
-
-  //! 다 내 사진이 뜸
-  // useEffect(() => {
-  //   if (currentUser.photoURL === item.creatorId) {
-  //     setPhotoURL(currentUser?.photoURL);
-  //   } else {
-  //     setPhotoURL('https://item.kakaocdn.net/do/493188dee481260d5c89790036be0e66f604e7b0e6900f9ac53a43965300eb9a');
-  //   }
-  // }, [currentUser, item]);
-
-  //! 아무도 안뜸뜸
-  // useEffect(() => {
-  //   if (currentUser.photoURL === item.creatorId) {
-  //     setPhotoURL(currentUser.photoURL);
-  //   } else {
-  //     setPhotoURL('');
-  //   }
-  // }, [currentUser, item]);
-
-  //! 여기까지 민성 수정
-
-  const [profileUrl, setProfileUrl] = useState("");
-
-  // const profileImgRef = ref(storage, '/profileImg/' + item.creatorId + '.png');
-  // console.log(profileImgRef);
-
-  // const imgUrl = getDownloadURL(
-  //   ref(storage, profileImgRef))
-  //   .then(url => setProfileUrl(url));
-
-  // const splitDash = profileUrl?.split("/");
-  // if ()
-  // console.log(splitDash)
-  // const splitDot = splitDash[7].split(".");
-  // const userId = splitDot[0];
-  // console.log(userId);
-
+  const [profileUrl, setProfileUrl] = useState('');
 
   return (
     <div style={{ marginTop: '50px' }}>
@@ -292,12 +184,7 @@ const ShopGuideDetailsComment = ({
         {/* 작성자 정보 및 댓글 내용 */}
         <StCommentProfileImage src={photoURL} alt='' />
         <StCommentUserName>사용자 닉네임</StCommentUserName>
-        <StCommentContentInput
-          name='comment'
-          readOnly={readOnly}
-          defaultValue={comment}
-          onChange={onChangeComment}
-        />
+        <StCommentContentInput name='comment' readOnly={readOnly} defaultValue={comment} onChange={onChangeComment} />
         {/* 버튼 영역 - 수정 & 삭제 VS 완료 & 취소  */}
         {/* <span>{item.comment}</span> */}
         <StCommentContentSaveTime>{savetime}</StCommentContentSaveTime>

@@ -1,15 +1,5 @@
 import { Outlet, NavLink } from 'react-router-dom';
-import {
-  StyledSaveDuckHome,
-  LeftSection,
-  SaveDuckHomeNav,
-  DuckImageLogo,
-  RightSection,
-  Menu,
-  MenuItem,
-  SignUp,
-  MyProfileMoDal,
-} from './NavBar';
+import { StyledSaveDuckHome, LeftSection, SaveDuckHomeNav, DuckImageLogo, RightSection, Menu, MenuItem, SignUp, MyProfileMoDal } from './NavBar';
 import { useAuth, upload } from '../../firebase.js';
 import Modal from '../modal/Modal.jsx';
 import { useEffect, useState, useRef } from 'react';
@@ -27,12 +17,7 @@ const Navbar = () => {
 
   useEffect(() => {
     const modalCloseHandler = (e) => {
-      if (
-        modal === true &&
-        modalRef.current.contains(e.target) === false &&
-        profileRef.current.contains(e.target) === false
-      )
-        setModal(false);
+      if (modal === true && modalRef.current.contains(e.target) === false && profileRef.current.contains(e.target) === false) setModal(false);
     };
     window.addEventListener('click', modalCloseHandler);
 
@@ -42,7 +27,6 @@ const Navbar = () => {
   }, [modal]);
 
   const handleSubmit = async (e) => {
-    // console.log(currentUser);
     e.preventDefault();
     try {
       await addDoc(collection(db, currentUser.uid), {
@@ -74,10 +58,7 @@ const Navbar = () => {
             </MenuItem>
           </Menu>
           <SignUp>
-            <NavLink
-              style={{ color: '#ffc226', textDecoration: 'none' }}
-              onClick={handleSubmit}
-            >
+            <NavLink style={{ color: '#ffc226', textDecoration: 'none' }} onClick={handleSubmit}>
               <MyProfileMoDal
                 className='myProfileMoDal'
                 ref={profileRef}
