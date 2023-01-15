@@ -196,6 +196,7 @@ const StShopDetailsEditButtons = styled.div`
 
 const StArticleEditLink = styled(NavLink)`
   color: black;
+  transition: all 200ms ease-in-out;
   &:hover {
     color: #ffc226;
   }
@@ -203,6 +204,7 @@ const StArticleEditLink = styled(NavLink)`
 
 const StArticleDeleteButton = styled(FontAwesomeIcon)`
   color: black;
+  transition: all 200ms ease-in-out;
   &:hover {
     color: #ffc226;
   }

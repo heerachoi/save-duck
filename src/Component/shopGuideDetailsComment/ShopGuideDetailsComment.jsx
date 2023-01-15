@@ -10,6 +10,7 @@ import {
   getDoc,
   getDocs,
   collection,
+  where,
 } from 'firebase/firestore';
 import { db } from '../../firebase';
 import {
@@ -20,12 +21,21 @@ import {
   StCommentContentSaveTime,
   StCommentContentsEditButton,
   StCommentContentsDeleteButton,
+  StCreateInfo,
+  StButtonContainer,
+  StCommentContainer,
 } from './ShopGuideDetailsComment.js';
-
-// 민성 수정 
-import { useParams } from 'react-router-dom';
-import { useAuth } from '../..//firebase';
-import { getAuth } from "firebase/auth";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faPen,
+  faTrashCan,
+  faX,
+  faCheck,
+} from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from '../../firebase';
+import { getAuth } from 'firebase/auth';
+import { ref, getDownloadURL, getStorage, listAll } from 'firebase/storage';
+import { storage } from '../../firebase.js';
 
 const ShopGuideDetailsComment = ({
   item,
@@ -38,25 +48,13 @@ const ShopGuideDetailsComment = ({
   const { id, comment, savetime, modify } = item;
   const [readOnly, setReadOnly] = useState(true);
   const [updateCommentInput, setUpdateCommentInput] = useState(comment);
-
-  // 민성 수정
-  // uid 가져오기
-  const auth = getAuth();
-  const currentUser = auth.currentUser;
-
-  console.log(auth);
-  console.log(currentUser);
-  // 댓글 수정 취소를 위한 state (이전, 이후 댓글 저장)
-  // const [originComment, setNewComment] = useState(comment);
-
   const dispatch = useDispatch();
 
-
-  // console.log(auth);
-
-  // console.log(currentUser);
-
-  // console.log(currentUser.uid);
+  const [photoURL, setPhotoURL] = useState(``);
+  const [commentList, setCommentList] = useState([]);
+  const [users, setUsers] = useState([]);
+  const storage = getStorage();
+  const auth = getAuth();
 
   // 댓글 수정 -> 완료 모드 토글링 state에 반영하기
   const modifyCommentButtonHandler = (id) => {
@@ -167,72 +165,191 @@ const ShopGuideDetailsComment = ({
   //   // userdeleteCheck();
   // }, [currentUser]);
 
+  //! 민성 수정
+  //! db에서 'commentList' 컬렉션의 'creatorId' 필드를 가져오기
+  const getCreatorId = async (uid, id) => {
+    const q = query(collection(db, 'commentList'));
+    getDocs(q).then((querySnapshot) => {
+      const firestorecommentlist = [];
+      querySnapshot.forEach((doc) => {
+        firestorecommentlist.push({
+          id: doc.id,
+          username: doc.data().username,
+          creatorId: doc.data().creatorId,
+        });
+      });
+      setCommentList(firestorecommentlist);
+      // console.log(firestorecommentlist);
+    });
+  };
+  useEffect(() => {
+    getCreatorId();
+  }, []);
+
+  //! 여기서 민성 수정
+  //! storage에 있는 모든 파일을 배열에 담아서 가져오기
+  const getPhotoURL = async () => {
+    const storageRef = ref(storage, 'images');
+    const listRef = listAll(storageRef);
+    listRef.then((res) => {
+      res.items.forEach((itemRef) => {
+        // console.log(itemRef);
+        getDownloadURL(itemRef).then((url) => {
+          // console.log(url);
+          setPhotoURL(url);
+        });
+      });
+    });
+  };
+
+  //! 다 내 사진이 뜸뜸
+  // useEffect(() => {
+  //   if (!currentUser) return;
+  //   setPhotoURL(currentUser.photoURL);
+  // }, [currentUser]);
+
+  //! 나만 프로필 사진 뜨는 거
+  useEffect(() => {
+    // console.log(item);
+    // console.log(currentUser);
+    // console.log(item.creatorId);
+    // console.log(currentUser.photoURL);
+    // console.log(photoURL)
+
+    if (currentUser.uid === item.creatorId) {
+      setPhotoURL(currentUser.photoURL);
+    } else {
+      setPhotoURL(
+        'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+      );
+      // https://item.kakaocdn.net/do/493188dee481260d5c89790036be0e66f604e7b0e6900f9ac53a43965300eb9a
+    }
+  }, [currentUser, item, photoURL]);
+
+  //! 나만 프로필 사진 뜨는 거
+  // useEffect(() => {
+  //   console.log(item);
+  //   console.log(currentUser);
+  //   console.log(item.creatorId);
+  //   console.log(currentUser.photoURL);
+  //   console.log(photoURL)
+
+  //   if (currentUser.uid === item.creatorId) {
+  //     setPhotoURL(currentUser.photoURL);
+  //   } else {
+  //     setPhotoURL('');
+  //   }
+  // }, [currentUser, item, photoURL]);
+
+  //! 수정중
+  // useEffect(() => {
+  //   setPhotoURL(photoURL);
+  // }, [currentUser, photoURL, item]);
+
+  //! 다 내 사진이 뜸
+  // useEffect(() => {
+  //   setPhotoURL(currentUser?.photoURL);
+  // }, [currentUser, photoURL, item]);
+
+  //! 다 내 사진이 뜸
+  // useEffect(() => {
+  //   if (currentUser.photoURL === item.creatorId) {
+  //     setPhotoURL(currentUser?.photoURL);
+  //   } else {
+  //     setPhotoURL('https://item.kakaocdn.net/do/493188dee481260d5c89790036be0e66f604e7b0e6900f9ac53a43965300eb9a');
+  //   }
+  // }, [currentUser, item]);
+
+  //! 아무도 안뜸뜸
+  // useEffect(() => {
+  //   if (currentUser.photoURL === item.creatorId) {
+  //     setPhotoURL(currentUser.photoURL);
+  //   } else {
+  //     setPhotoURL('');
+  //   }
+  // }, [currentUser, item]);
+
+  //! 여기까지 민성 수정
+
+  const [profileUrl, setProfileUrl] = useState('');
+
+  // const profileImgRef = ref(storage, '/profileImg/' + item.creatorId + '.png');
+  // console.log(profileImgRef);
+
+  // const imgUrl = getDownloadURL(
+  //   ref(storage, profileImgRef))
+  //   .then(url => setProfileUrl(url));
+
+  // const splitDash = profileUrl?.split("/");
+  // if ()
+  // console.log(splitDash)
+  // const splitDot = splitDash[7].split(".");
+  // const userId = splitDot[0];
+  // console.log(userId);
+
   return (
-    <div>
+    <StCommentContainer style={{ marginTop: '50px' }}>
       <StCommentListContainer key={id}>
         {/* 작성자 정보 및 댓글 내용 */}
-        <StCommentProfileImage src='image/default_profile.webp' alt='' />
-        <StCommentUserName>사용자 닉네임</StCommentUserName>
-        <StCommentContentInput
-          name='comment'
-          readOnly={readOnly}
-          defaultValue={comment}
-          onChange={onChangeComment}
-        />
-        {/* 버튼 영역 - 수정 & 삭제 VS 완료 & 취소  */}
-        {/* <span>{item.comment}</span> */}
-        <StCommentContentSaveTime>{savetime}</StCommentContentSaveTime>
-        {/* {console.log(item.modify)} */}
-
-
-        {
-          item.commentcreatorid === currentUser.uid ? (
-
-
-            modify ? (
-              <StCommentContentsEditButton
-                type='button'
-                className='comment-edit-complete-btn'
-                onClick={() => {
-                  updateCompleteButtonHandler(id);
-                }}
-              >
-                완료
-              </StCommentContentsEditButton>
-            ) : (
-              <StCommentContentsEditButton
-                className='comment-edit-btn'
-                onClick={() => {
-                  updateCommentModify(id);
-                }}
-              >
-                수정
-              </StCommentContentsEditButton>
-            ),
-            modify ? (
-              <StCommentContentsDeleteButton
-                onClick={() => {
-                  editCancelButtonHandler(id);
-                }}
-              >
-                취소
-              </StCommentContentsDeleteButton>
-            ) : (
-              <StCommentContentsDeleteButton
-                onClick={() => {
-                  deleteCommentButtonHandler(id);
-                }}
-              >
-                삭제
-              </StCommentContentsDeleteButton>
-            )
-
-          ) : (
-            <></>
-          )}
-
+        <StCommentProfileImage src={photoURL} alt='' />
+        <div>
+          <StCreateInfo>
+            <StCommentUserName>사용자 닉네임</StCommentUserName>
+            <StCommentContentSaveTime>{savetime}</StCommentContentSaveTime>
+          </StCreateInfo>
+          <StCommentContentInput
+            name='comment'
+            readOnly={readOnly}
+            defaultValue={comment}
+            onChange={onChangeComment}
+          />
+          {/* 버튼 영역 - 수정 & 삭제 VS 완료 & 취소  */}
+          {/* <span>{item.comment}</span> */}
+          <StButtonContainer>
+            {item.creatorId === currentUser.uid ? (
+              modify ? (
+                <>
+                  <StCommentContentsEditButton
+                    type='button'
+                    className='comment-edit-complete-btn'
+                    onClick={() => {
+                      updateCompleteButtonHandler(id);
+                    }}
+                  >
+                    완료
+                  </StCommentContentsEditButton>
+                  <StCommentContentsDeleteButton
+                    onClick={() => {
+                      editCancelButtonHandler(id);
+                    }}
+                  >
+                    취소
+                  </StCommentContentsDeleteButton>
+                </>
+              ) : (
+                <>
+                  <StCommentContentsEditButton
+                    className='comment-edit-btn'
+                    onClick={() => {
+                      updateCommentModify(id);
+                    }}
+                  >
+                    수정
+                  </StCommentContentsEditButton>
+                  <StCommentContentsDeleteButton
+                    onClick={() => {
+                      deleteCommentButtonHandler(id);
+                    }}
+                  >
+                    삭제
+                  </StCommentContentsDeleteButton>
+                </>
+              )
+            ) : null}
+          </StButtonContainer>
+        </div>
       </StCommentListContainer>
-    </div >
+    </StCommentContainer>
   );
 };
 
